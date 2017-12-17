@@ -31,10 +31,9 @@ and GCE project routing. See RateLimiter and ProjectRouter for more details.
 ## Mocks
 
 Mocks are automatically generated for each type implementing basic logic for
-resource manipulation.  This eliminates much of the boilerplate required to
-mock much of GCE functionality.  Each method will also have a corresponding
-"xxxHook" function generated in the mock structure where unit test code can
-hook the execution of the method.
+resource manipulation. This eliminates the boilerplate required to mock GCE
+functionality. Each method has a corresponding "xxxHook" function generated in
+the mock structure where unit test code can hook the execution of the method.
 
 ## Changing service code generation
 
@@ -46,7 +45,7 @@ service, add an entry to the list "meta.AllServices". An example entry:
    Object:      "InstanceGroup",   // Name of the object type.
    Service:     "InstanceGroups",  // Name of the service.
    version:     meta.VersionAlpha, // API version (one entry per version is needed).
-   keyType:     cache.Zonal,       // What kind of resource this is.
+   keyType:     Zonal,             // What kind of resource this is.
    serviceType: reflect.TypeOf(&alpha.InstanceGroupsService{}), // Associated golang type.
    additionalMethods: []string{    // Additional methods to generate code for.
      "SetNamedPorts",
