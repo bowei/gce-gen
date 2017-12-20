@@ -514,7 +514,7 @@ type MockAddresses struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -738,7 +738,7 @@ type MockAlphaAddresses struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -962,7 +962,7 @@ type MockBetaAddresses struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -1186,7 +1186,7 @@ type MockGlobalAddresses struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -1410,7 +1410,7 @@ type MockBackendServices struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -1683,7 +1683,7 @@ type MockAlphaBackendServices struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -1934,7 +1934,7 @@ type MockAlphaRegionBackendServices struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -2208,7 +2208,7 @@ type MockDisks struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -2432,7 +2432,7 @@ type MockAlphaDisks struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -2656,7 +2656,7 @@ type MockAlphaRegionDisks struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -2881,7 +2881,7 @@ type MockFirewalls struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -3130,7 +3130,7 @@ type MockForwardingRules struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -3354,7 +3354,7 @@ type MockAlphaForwardingRules struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -3579,7 +3579,7 @@ type MockGlobalForwardingRules struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -3829,7 +3829,7 @@ type MockHealthChecks struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -4079,7 +4079,7 @@ type MockAlphaHealthChecks struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -4329,7 +4329,7 @@ type MockHttpHealthChecks struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -4579,7 +4579,7 @@ type MockHttpsHealthChecks struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -4832,7 +4832,7 @@ type MockInstanceGroups struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -5162,7 +5162,7 @@ type MockInstances struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -5442,7 +5442,7 @@ type MockBetaInstances struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -5723,7 +5723,7 @@ type MockAlphaInstances struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -6030,7 +6030,7 @@ type MockAlphaNetworkEndpointGroups struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -6300,7 +6300,7 @@ type MockProjects struct {
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -6342,7 +6342,7 @@ type MockRegions struct {
 	GetError  map[meta.Key]error
 	ListError *error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -6472,7 +6472,7 @@ type MockRoutes struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -6694,7 +6694,7 @@ type MockSslCertificates struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -6917,7 +6917,7 @@ type MockTargetHttpProxies struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -7168,7 +7168,7 @@ type MockTargetHttpsProxies struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -7446,7 +7446,7 @@ type MockTargetPools struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -7725,7 +7725,7 @@ type MockUrlMaps struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
@@ -7968,7 +7968,7 @@ type MockZones struct {
 	GetError  map[meta.Key]error
 	ListError *error
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
