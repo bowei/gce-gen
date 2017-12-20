@@ -1415,7 +1415,6 @@ type BackendServices interface {
 	Insert(ctx context.Context, key meta.Key, obj *ga.BackendService) error
 	Delete(ctx context.Context, key meta.Key) error
 
-	GetHealth(context.Context, meta.Key, *ga.ResourceGroupReference) error
 	Update(context.Context, meta.Key, *ga.BackendService) error
 }
 
@@ -1454,8 +1453,7 @@ type MockBackendServices struct {
 	InsertHook func(m *MockBackendServices, ctx context.Context, key meta.Key, obj *ga.BackendService) (bool, error)
 	DeleteHook func(m *MockBackendServices, ctx context.Context, key meta.Key) (bool, error)
 
-	GetHealthHook func(*MockBackendServices, context.Context, meta.Key, *ga.ResourceGroupReference) error
-	UpdateHook    func(*MockBackendServices, context.Context, meta.Key, *ga.BackendService) error
+	UpdateHook func(*MockBackendServices, context.Context, meta.Key, *ga.BackendService) error
 
 	// X is extra state that can be used as part of the mock. Generated code
 	// will not use this field.
@@ -1558,13 +1556,6 @@ func (m *MockBackendServices) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
-func (m *MockBackendServices) GetHealth(ctx context.Context, key meta.Key, arg0 *ga.ResourceGroupReference) error {
-	if m.GetHealthHook != nil {
-		return m.GetHealthHook(m, ctx, key, arg0)
-	}
-	return nil
-}
-
 func (m *MockBackendServices) Update(ctx context.Context, key meta.Key, arg0 *ga.BackendService) error {
 	if m.UpdateHook != nil {
 		return m.UpdateHook(m, ctx, key, arg0)
@@ -1650,26 +1641,6 @@ func (g *GCEBackendServices) Delete(ctx context.Context, key meta.Key) error {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "BackendServices")
 
 	call := g.s.GA.BackendServices.Delete(projectID, key.Name)
-
-	call.Context(ctx)
-
-	op, err := call.Do()
-	if err != nil {
-		return err
-	}
-	return g.s.WaitForCompletion(ctx, op)
-}
-
-func (g *GCEBackendServices) GetHealth(ctx context.Context, key meta.Key, arg0 *ga.ResourceGroupReference) error {
-	rk := &RateLimitKey{
-		Operation: "GetHealth",
-		Version:   meta.Version("ga"),
-		Target:    "BackendService",
-	}
-	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "BackendServices")
-
-	call := g.s.GA.BackendServices.GetHealth(projectID, key.Name, arg0)
 
 	call.Context(ctx)
 
@@ -1970,7 +1941,6 @@ type AlphaRegionBackendServices interface {
 	Insert(ctx context.Context, key meta.Key, obj *alpha.BackendService) error
 	Delete(ctx context.Context, key meta.Key) error
 
-	GetHealth(context.Context, meta.Key, *alpha.ResourceGroupReference) error
 	Update(context.Context, meta.Key, *alpha.BackendService) error
 }
 
@@ -2009,8 +1979,7 @@ type MockAlphaRegionBackendServices struct {
 	InsertHook func(m *MockAlphaRegionBackendServices, ctx context.Context, key meta.Key, obj *alpha.BackendService) (bool, error)
 	DeleteHook func(m *MockAlphaRegionBackendServices, ctx context.Context, key meta.Key) (bool, error)
 
-	GetHealthHook func(*MockAlphaRegionBackendServices, context.Context, meta.Key, *alpha.ResourceGroupReference) error
-	UpdateHook    func(*MockAlphaRegionBackendServices, context.Context, meta.Key, *alpha.BackendService) error
+	UpdateHook func(*MockAlphaRegionBackendServices, context.Context, meta.Key, *alpha.BackendService) error
 
 	// X is extra state that can be used as part of the mock. Generated code
 	// will not use this field.
@@ -2117,13 +2086,6 @@ func (m *MockAlphaRegionBackendServices) Delete(ctx context.Context, key meta.Ke
 	return nil
 }
 
-func (m *MockAlphaRegionBackendServices) GetHealth(ctx context.Context, key meta.Key, arg0 *alpha.ResourceGroupReference) error {
-	if m.GetHealthHook != nil {
-		return m.GetHealthHook(m, ctx, key, arg0)
-	}
-	return nil
-}
-
 func (m *MockAlphaRegionBackendServices) Update(ctx context.Context, key meta.Key, arg0 *alpha.BackendService) error {
 	if m.UpdateHook != nil {
 		return m.UpdateHook(m, ctx, key, arg0)
@@ -2209,26 +2171,6 @@ func (g *GCEAlphaRegionBackendServices) Delete(ctx context.Context, key meta.Key
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionBackendServices")
 
 	call := g.s.Alpha.RegionBackendServices.Delete(projectID, key.Region, key.Name)
-
-	call.Context(ctx)
-
-	op, err := call.Do()
-	if err != nil {
-		return err
-	}
-	return g.s.WaitForCompletion(ctx, op)
-}
-
-func (g *GCEAlphaRegionBackendServices) GetHealth(ctx context.Context, key meta.Key, arg0 *alpha.ResourceGroupReference) error {
-	rk := &RateLimitKey{
-		Operation: "GetHealth",
-		Version:   meta.Version("alpha"),
-		Target:    "BackendService",
-	}
-	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionBackendServices")
-
-	call := g.s.Alpha.RegionBackendServices.GetHealth(projectID, key.Region, key.Name, arg0)
 
 	call.Context(ctx)
 
@@ -5024,7 +4966,6 @@ type InstanceGroups interface {
 	Insert(ctx context.Context, key meta.Key, obj *ga.InstanceGroup) error
 	Delete(ctx context.Context, key meta.Key) error
 
-	ListInstances(context.Context, meta.Key, *ga.InstanceGroupsListInstancesRequest) error
 	RemoveInstances(context.Context, meta.Key, *ga.InstanceGroupsRemoveInstancesRequest) error
 	SetNamedPorts(context.Context, meta.Key, *ga.InstanceGroupsSetNamedPortsRequest) error
 }
@@ -5064,7 +5005,6 @@ type MockInstanceGroups struct {
 	InsertHook func(m *MockInstanceGroups, ctx context.Context, key meta.Key, obj *ga.InstanceGroup) (bool, error)
 	DeleteHook func(m *MockInstanceGroups, ctx context.Context, key meta.Key) (bool, error)
 
-	ListInstancesHook   func(*MockInstanceGroups, context.Context, meta.Key, *ga.InstanceGroupsListInstancesRequest) error
 	RemoveInstancesHook func(*MockInstanceGroups, context.Context, meta.Key, *ga.InstanceGroupsRemoveInstancesRequest) error
 	SetNamedPortsHook   func(*MockInstanceGroups, context.Context, meta.Key, *ga.InstanceGroupsSetNamedPortsRequest) error
 
@@ -5173,13 +5113,6 @@ func (m *MockInstanceGroups) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
-func (m *MockInstanceGroups) ListInstances(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsListInstancesRequest) error {
-	if m.ListInstancesHook != nil {
-		return m.ListInstancesHook(m, ctx, key, arg0)
-	}
-	return nil
-}
-
 func (m *MockInstanceGroups) RemoveInstances(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsRemoveInstancesRequest) error {
 	if m.RemoveInstancesHook != nil {
 		return m.RemoveInstancesHook(m, ctx, key, arg0)
@@ -5272,26 +5205,6 @@ func (g *GCEInstanceGroups) Delete(ctx context.Context, key meta.Key) error {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
 
 	call := g.s.GA.InstanceGroups.Delete(projectID, key.Zone, key.Name)
-
-	call.Context(ctx)
-
-	op, err := call.Do()
-	if err != nil {
-		return err
-	}
-	return g.s.WaitForCompletion(ctx, op)
-}
-
-func (g *GCEInstanceGroups) ListInstances(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsListInstancesRequest) error {
-	rk := &RateLimitKey{
-		Operation: "ListInstances",
-		Version:   meta.Version("ga"),
-		Target:    "InstanceGroup",
-	}
-	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
-
-	call := g.s.GA.InstanceGroups.ListInstances(projectID, key.Zone, key.Name, arg0)
 
 	call.Context(ctx)
 

@@ -158,7 +158,7 @@ func (mr *method) sanityCheck() {
 		panic(fmt.Errorf("method %q.%q: return type %q does not have a Do() method",
 			mr.Service, mr.Name(), returnTypeName))
 	}
-	// Do() method either returns (error) or (*T, error).
+	// Do() method must return (*T, error).
 	switch doMethod.Func.Type().NumOut() {
 	case 2:
 		glog.Infof("Method %q.%q: return type %q of Do() = %v, %v",
@@ -169,7 +169,7 @@ func (mr *method) sanityCheck() {
 				mr.Service, mr.Name(), returnTypeName, out0))
 		}
 		if out0.Elem().Name() == "Operation" {
-			glog.Infof("Method %q.%q is an Operation", mr.Service, mr.Name())
+			glog.Infof("Method %q.%q is an *Operation", mr.Service, mr.Name())
 		} else {
 			glog.Infof("Method %q.%q returns %v", mr.Service, mr.Name(), out0)
 			panic(fmt.Errorf("method %q.%q: return type %q of Do() = S, _; S must be an *Operation",
