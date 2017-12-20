@@ -37,30 +37,33 @@ import (
 type Cloud interface {
 	Addresses() Addresses
 	AlphaAddresses() AlphaAddresses
+	BetaAddresses() BetaAddresses
 	GlobalAddresses() GlobalAddresses
 	BackendServices() BackendServices
 	AlphaBackendServices() AlphaBackendServices
 	AlphaRegionBackendServices() AlphaRegionBackendServices
 	Disks() Disks
+	AlphaDisks() AlphaDisks
 	AlphaRegionDisks() AlphaRegionDisks
 	Firewalls() Firewalls
 	ForwardingRules() ForwardingRules
+	AlphaForwardingRules() AlphaForwardingRules
 	GlobalForwardingRules() GlobalForwardingRules
-	HttpHealthChecks() HttpHealthChecks
-	HttpsHealthChecks() HttpsHealthChecks
 	HealthChecks() HealthChecks
 	AlphaHealthChecks() AlphaHealthChecks
-	Images() Images
+	HttpHealthChecks() HttpHealthChecks
+	HttpsHealthChecks() HttpsHealthChecks
 	InstanceGroups() InstanceGroups
 	Instances() Instances
 	BetaInstances() BetaInstances
+	AlphaInstances() AlphaInstances
 	AlphaNetworkEndpointGroups() AlphaNetworkEndpointGroups
 	Regions() Regions
 	Routes() Routes
 	SslCertificates() SslCertificates
-	TargetPools() TargetPools
 	TargetHttpProxies() TargetHttpProxies
 	TargetHttpsProxies() TargetHttpsProxies
+	TargetPools() TargetPools
 	UrlMaps() UrlMaps
 	Zones() Zones
 }
@@ -70,30 +73,33 @@ func NewMockGCE() *MockGCE {
 	mock := &MockGCE{
 		MockAddresses:                  NewMockAddresses(),
 		MockAlphaAddresses:             NewMockAlphaAddresses(),
+		MockBetaAddresses:              NewMockBetaAddresses(),
 		MockGlobalAddresses:            NewMockGlobalAddresses(),
 		MockBackendServices:            NewMockBackendServices(),
 		MockAlphaBackendServices:       NewMockAlphaBackendServices(),
 		MockAlphaRegionBackendServices: NewMockAlphaRegionBackendServices(),
 		MockDisks:                      NewMockDisks(),
+		MockAlphaDisks:                 NewMockAlphaDisks(),
 		MockAlphaRegionDisks:           NewMockAlphaRegionDisks(),
 		MockFirewalls:                  NewMockFirewalls(),
 		MockForwardingRules:            NewMockForwardingRules(),
+		MockAlphaForwardingRules:       NewMockAlphaForwardingRules(),
 		MockGlobalForwardingRules:      NewMockGlobalForwardingRules(),
-		MockHttpHealthChecks:           NewMockHttpHealthChecks(),
-		MockHttpsHealthChecks:          NewMockHttpsHealthChecks(),
 		MockHealthChecks:               NewMockHealthChecks(),
 		MockAlphaHealthChecks:          NewMockAlphaHealthChecks(),
-		MockImages:                     NewMockImages(),
+		MockHttpHealthChecks:           NewMockHttpHealthChecks(),
+		MockHttpsHealthChecks:          NewMockHttpsHealthChecks(),
 		MockInstanceGroups:             NewMockInstanceGroups(),
 		MockInstances:                  NewMockInstances(),
 		MockBetaInstances:              NewMockBetaInstances(),
+		MockAlphaInstances:             NewMockAlphaInstances(),
 		MockAlphaNetworkEndpointGroups: NewMockAlphaNetworkEndpointGroups(),
 		MockRegions:                    NewMockRegions(),
 		MockRoutes:                     NewMockRoutes(),
 		MockSslCertificates:            NewMockSslCertificates(),
-		MockTargetPools:                NewMockTargetPools(),
 		MockTargetHttpProxies:          NewMockTargetHttpProxies(),
 		MockTargetHttpsProxies:         NewMockTargetHttpsProxies(),
+		MockTargetPools:                NewMockTargetPools(),
 		MockUrlMaps:                    NewMockUrlMaps(),
 		MockZones:                      NewMockZones(),
 	}
@@ -107,30 +113,33 @@ var _ Cloud = (*MockGCE)(nil)
 type MockGCE struct {
 	MockAddresses                  *MockAddresses
 	MockAlphaAddresses             *MockAlphaAddresses
+	MockBetaAddresses              *MockBetaAddresses
 	MockGlobalAddresses            *MockGlobalAddresses
 	MockBackendServices            *MockBackendServices
 	MockAlphaBackendServices       *MockAlphaBackendServices
 	MockAlphaRegionBackendServices *MockAlphaRegionBackendServices
 	MockDisks                      *MockDisks
+	MockAlphaDisks                 *MockAlphaDisks
 	MockAlphaRegionDisks           *MockAlphaRegionDisks
 	MockFirewalls                  *MockFirewalls
 	MockForwardingRules            *MockForwardingRules
+	MockAlphaForwardingRules       *MockAlphaForwardingRules
 	MockGlobalForwardingRules      *MockGlobalForwardingRules
-	MockHttpHealthChecks           *MockHttpHealthChecks
-	MockHttpsHealthChecks          *MockHttpsHealthChecks
 	MockHealthChecks               *MockHealthChecks
 	MockAlphaHealthChecks          *MockAlphaHealthChecks
-	MockImages                     *MockImages
+	MockHttpHealthChecks           *MockHttpHealthChecks
+	MockHttpsHealthChecks          *MockHttpsHealthChecks
 	MockInstanceGroups             *MockInstanceGroups
 	MockInstances                  *MockInstances
 	MockBetaInstances              *MockBetaInstances
+	MockAlphaInstances             *MockAlphaInstances
 	MockAlphaNetworkEndpointGroups *MockAlphaNetworkEndpointGroups
 	MockRegions                    *MockRegions
 	MockRoutes                     *MockRoutes
 	MockSslCertificates            *MockSslCertificates
-	MockTargetPools                *MockTargetPools
 	MockTargetHttpProxies          *MockTargetHttpProxies
 	MockTargetHttpsProxies         *MockTargetHttpsProxies
+	MockTargetPools                *MockTargetPools
 	MockUrlMaps                    *MockUrlMaps
 	MockZones                      *MockZones
 }
@@ -141,6 +150,10 @@ func (mock *MockGCE) Addresses() Addresses {
 
 func (mock *MockGCE) AlphaAddresses() AlphaAddresses {
 	return mock.MockAlphaAddresses
+}
+
+func (mock *MockGCE) BetaAddresses() BetaAddresses {
+	return mock.MockBetaAddresses
 }
 
 func (mock *MockGCE) GlobalAddresses() GlobalAddresses {
@@ -163,6 +176,10 @@ func (mock *MockGCE) Disks() Disks {
 	return mock.MockDisks
 }
 
+func (mock *MockGCE) AlphaDisks() AlphaDisks {
+	return mock.MockAlphaDisks
+}
+
 func (mock *MockGCE) AlphaRegionDisks() AlphaRegionDisks {
 	return mock.MockAlphaRegionDisks
 }
@@ -175,16 +192,12 @@ func (mock *MockGCE) ForwardingRules() ForwardingRules {
 	return mock.MockForwardingRules
 }
 
+func (mock *MockGCE) AlphaForwardingRules() AlphaForwardingRules {
+	return mock.MockAlphaForwardingRules
+}
+
 func (mock *MockGCE) GlobalForwardingRules() GlobalForwardingRules {
 	return mock.MockGlobalForwardingRules
-}
-
-func (mock *MockGCE) HttpHealthChecks() HttpHealthChecks {
-	return mock.MockHttpHealthChecks
-}
-
-func (mock *MockGCE) HttpsHealthChecks() HttpsHealthChecks {
-	return mock.MockHttpsHealthChecks
 }
 
 func (mock *MockGCE) HealthChecks() HealthChecks {
@@ -195,8 +208,12 @@ func (mock *MockGCE) AlphaHealthChecks() AlphaHealthChecks {
 	return mock.MockAlphaHealthChecks
 }
 
-func (mock *MockGCE) Images() Images {
-	return mock.MockImages
+func (mock *MockGCE) HttpHealthChecks() HttpHealthChecks {
+	return mock.MockHttpHealthChecks
+}
+
+func (mock *MockGCE) HttpsHealthChecks() HttpsHealthChecks {
+	return mock.MockHttpsHealthChecks
 }
 
 func (mock *MockGCE) InstanceGroups() InstanceGroups {
@@ -209,6 +226,10 @@ func (mock *MockGCE) Instances() Instances {
 
 func (mock *MockGCE) BetaInstances() BetaInstances {
 	return mock.MockBetaInstances
+}
+
+func (mock *MockGCE) AlphaInstances() AlphaInstances {
+	return mock.MockAlphaInstances
 }
 
 func (mock *MockGCE) AlphaNetworkEndpointGroups() AlphaNetworkEndpointGroups {
@@ -227,16 +248,16 @@ func (mock *MockGCE) SslCertificates() SslCertificates {
 	return mock.MockSslCertificates
 }
 
-func (mock *MockGCE) TargetPools() TargetPools {
-	return mock.MockTargetPools
-}
-
 func (mock *MockGCE) TargetHttpProxies() TargetHttpProxies {
 	return mock.MockTargetHttpProxies
 }
 
 func (mock *MockGCE) TargetHttpsProxies() TargetHttpsProxies {
 	return mock.MockTargetHttpsProxies
+}
+
+func (mock *MockGCE) TargetPools() TargetPools {
+	return mock.MockTargetPools
 }
 
 func (mock *MockGCE) UrlMaps() UrlMaps {
@@ -252,30 +273,33 @@ func NewGCE(s *Service) *GCE {
 	g := &GCE{
 		gceAddresses:                  &GCEAddresses{s},
 		gceAlphaAddresses:             &GCEAlphaAddresses{s},
+		gceBetaAddresses:              &GCEBetaAddresses{s},
 		gceGlobalAddresses:            &GCEGlobalAddresses{s},
 		gceBackendServices:            &GCEBackendServices{s},
 		gceAlphaBackendServices:       &GCEAlphaBackendServices{s},
 		gceAlphaRegionBackendServices: &GCEAlphaRegionBackendServices{s},
 		gceDisks:                      &GCEDisks{s},
+		gceAlphaDisks:                 &GCEAlphaDisks{s},
 		gceAlphaRegionDisks:           &GCEAlphaRegionDisks{s},
 		gceFirewalls:                  &GCEFirewalls{s},
 		gceForwardingRules:            &GCEForwardingRules{s},
+		gceAlphaForwardingRules:       &GCEAlphaForwardingRules{s},
 		gceGlobalForwardingRules:      &GCEGlobalForwardingRules{s},
-		gceHttpHealthChecks:           &GCEHttpHealthChecks{s},
-		gceHttpsHealthChecks:          &GCEHttpsHealthChecks{s},
 		gceHealthChecks:               &GCEHealthChecks{s},
 		gceAlphaHealthChecks:          &GCEAlphaHealthChecks{s},
-		gceImages:                     &GCEImages{s},
+		gceHttpHealthChecks:           &GCEHttpHealthChecks{s},
+		gceHttpsHealthChecks:          &GCEHttpsHealthChecks{s},
 		gceInstanceGroups:             &GCEInstanceGroups{s},
 		gceInstances:                  &GCEInstances{s},
 		gceBetaInstances:              &GCEBetaInstances{s},
+		gceAlphaInstances:             &GCEAlphaInstances{s},
 		gceAlphaNetworkEndpointGroups: &GCEAlphaNetworkEndpointGroups{s},
 		gceRegions:                    &GCERegions{s},
 		gceRoutes:                     &GCERoutes{s},
 		gceSslCertificates:            &GCESslCertificates{s},
-		gceTargetPools:                &GCETargetPools{s},
 		gceTargetHttpProxies:          &GCETargetHttpProxies{s},
 		gceTargetHttpsProxies:         &GCETargetHttpsProxies{s},
+		gceTargetPools:                &GCETargetPools{s},
 		gceUrlMaps:                    &GCEUrlMaps{s},
 		gceZones:                      &GCEZones{s},
 	}
@@ -289,30 +313,33 @@ var _ Cloud = (*GCE)(nil)
 type GCE struct {
 	gceAddresses                  *GCEAddresses
 	gceAlphaAddresses             *GCEAlphaAddresses
+	gceBetaAddresses              *GCEBetaAddresses
 	gceGlobalAddresses            *GCEGlobalAddresses
 	gceBackendServices            *GCEBackendServices
 	gceAlphaBackendServices       *GCEAlphaBackendServices
 	gceAlphaRegionBackendServices *GCEAlphaRegionBackendServices
 	gceDisks                      *GCEDisks
+	gceAlphaDisks                 *GCEAlphaDisks
 	gceAlphaRegionDisks           *GCEAlphaRegionDisks
 	gceFirewalls                  *GCEFirewalls
 	gceForwardingRules            *GCEForwardingRules
+	gceAlphaForwardingRules       *GCEAlphaForwardingRules
 	gceGlobalForwardingRules      *GCEGlobalForwardingRules
-	gceHttpHealthChecks           *GCEHttpHealthChecks
-	gceHttpsHealthChecks          *GCEHttpsHealthChecks
 	gceHealthChecks               *GCEHealthChecks
 	gceAlphaHealthChecks          *GCEAlphaHealthChecks
-	gceImages                     *GCEImages
+	gceHttpHealthChecks           *GCEHttpHealthChecks
+	gceHttpsHealthChecks          *GCEHttpsHealthChecks
 	gceInstanceGroups             *GCEInstanceGroups
 	gceInstances                  *GCEInstances
 	gceBetaInstances              *GCEBetaInstances
+	gceAlphaInstances             *GCEAlphaInstances
 	gceAlphaNetworkEndpointGroups *GCEAlphaNetworkEndpointGroups
 	gceRegions                    *GCERegions
 	gceRoutes                     *GCERoutes
 	gceSslCertificates            *GCESslCertificates
-	gceTargetPools                *GCETargetPools
 	gceTargetHttpProxies          *GCETargetHttpProxies
 	gceTargetHttpsProxies         *GCETargetHttpsProxies
+	gceTargetPools                *GCETargetPools
 	gceUrlMaps                    *GCEUrlMaps
 	gceZones                      *GCEZones
 }
@@ -323,6 +350,10 @@ func (gce *GCE) Addresses() Addresses {
 
 func (gce *GCE) AlphaAddresses() AlphaAddresses {
 	return gce.gceAlphaAddresses
+}
+
+func (gce *GCE) BetaAddresses() BetaAddresses {
+	return gce.gceBetaAddresses
 }
 
 func (gce *GCE) GlobalAddresses() GlobalAddresses {
@@ -345,6 +376,10 @@ func (gce *GCE) Disks() Disks {
 	return gce.gceDisks
 }
 
+func (gce *GCE) AlphaDisks() AlphaDisks {
+	return gce.gceAlphaDisks
+}
+
 func (gce *GCE) AlphaRegionDisks() AlphaRegionDisks {
 	return gce.gceAlphaRegionDisks
 }
@@ -357,16 +392,12 @@ func (gce *GCE) ForwardingRules() ForwardingRules {
 	return gce.gceForwardingRules
 }
 
+func (gce *GCE) AlphaForwardingRules() AlphaForwardingRules {
+	return gce.gceAlphaForwardingRules
+}
+
 func (gce *GCE) GlobalForwardingRules() GlobalForwardingRules {
 	return gce.gceGlobalForwardingRules
-}
-
-func (gce *GCE) HttpHealthChecks() HttpHealthChecks {
-	return gce.gceHttpHealthChecks
-}
-
-func (gce *GCE) HttpsHealthChecks() HttpsHealthChecks {
-	return gce.gceHttpsHealthChecks
 }
 
 func (gce *GCE) HealthChecks() HealthChecks {
@@ -377,8 +408,12 @@ func (gce *GCE) AlphaHealthChecks() AlphaHealthChecks {
 	return gce.gceAlphaHealthChecks
 }
 
-func (gce *GCE) Images() Images {
-	return gce.gceImages
+func (gce *GCE) HttpHealthChecks() HttpHealthChecks {
+	return gce.gceHttpHealthChecks
+}
+
+func (gce *GCE) HttpsHealthChecks() HttpsHealthChecks {
+	return gce.gceHttpsHealthChecks
 }
 
 func (gce *GCE) InstanceGroups() InstanceGroups {
@@ -391,6 +426,10 @@ func (gce *GCE) Instances() Instances {
 
 func (gce *GCE) BetaInstances() BetaInstances {
 	return gce.gceBetaInstances
+}
+
+func (gce *GCE) AlphaInstances() AlphaInstances {
+	return gce.gceAlphaInstances
 }
 
 func (gce *GCE) AlphaNetworkEndpointGroups() AlphaNetworkEndpointGroups {
@@ -409,16 +448,16 @@ func (gce *GCE) SslCertificates() SslCertificates {
 	return gce.gceSslCertificates
 }
 
-func (gce *GCE) TargetPools() TargetPools {
-	return gce.gceTargetPools
-}
-
 func (gce *GCE) TargetHttpProxies() TargetHttpProxies {
 	return gce.gceTargetHttpProxies
 }
 
 func (gce *GCE) TargetHttpsProxies() TargetHttpsProxies {
 	return gce.gceTargetHttpsProxies
+}
+
+func (gce *GCE) TargetPools() TargetPools {
+	return gce.gceTargetPools
 }
 
 func (gce *GCE) UrlMaps() UrlMaps {
@@ -901,6 +940,242 @@ func (g *GCEAlphaAddresses) Delete(ctx context.Context, key meta.Key) error {
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+// BetaAddresses is an interface that allows for mocking of Addresses.
+type BetaAddresses interface {
+	Get(ctx context.Context, key meta.Key) (*beta.Address, error)
+	List(ctx context.Context, region string) ([]*beta.Address, error)
+	Insert(ctx context.Context, key meta.Key, obj *beta.Address) error
+	Delete(ctx context.Context, key meta.Key) error
+}
+
+// NewMockBetaAddresses returns a new mock for Addresses.
+func NewMockBetaAddresses() *MockBetaAddresses {
+	mock := &MockBetaAddresses{
+		Objects:     map[meta.Key]*beta.Address{},
+		GetError:    map[meta.Key]error{},
+		InsertError: map[meta.Key]error{},
+		DeleteError: map[meta.Key]error{},
+	}
+	return mock
+}
+
+// MockBetaAddresses is the mock for Addresses.
+type MockBetaAddresses struct {
+	Lock sync.Mutex
+
+	// Objects maintained by the mock.
+	Objects map[meta.Key]*beta.Address
+
+	// If an entry exists for the given key and operation, then the error
+	// will be returned instead of the operation.
+	GetError    map[meta.Key]error
+	ListError   *error
+	InsertError map[meta.Key]error
+	DeleteError map[meta.Key]error
+
+	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
+	// standard processing of the mock in order to add your own logic.
+	// Return (true, _, _) to prevent the normal execution flow of the
+	// mock. Return (false, nil, nil) to continue with normal mock behavior
+	// after the hook function executes.
+	GetHook    func(m *MockBetaAddresses, ctx context.Context, key meta.Key) (bool, *beta.Address, error)
+	ListHook   func(m *MockBetaAddresses, ctx context.Context) (bool, []*beta.Address, error)
+	InsertHook func(m *MockBetaAddresses, ctx context.Context, key meta.Key, obj *beta.Address) (bool, error)
+	DeleteHook func(m *MockBetaAddresses, ctx context.Context, key meta.Key) (bool, error)
+
+	// X is extra state that can be used as part of the mock. Generated code
+	// will not use this field.
+	X interface{}
+}
+
+// Get returns the object from the mock.
+func (m *MockBetaAddresses) Get(ctx context.Context, key meta.Key) (*beta.Address, error) {
+	if m.GetHook != nil {
+		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			return obj, err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if err, ok := m.GetError[key]; ok {
+		return nil, err
+	}
+	if obj, ok := m.Objects[key]; ok {
+		return obj, nil
+	}
+	return nil, &googleapi.Error{
+		Code:    http.StatusNotFound,
+		Message: fmt.Sprintf("MockBetaAddresses %v not found", key),
+	}
+}
+
+// List all of the objects in the mock in the given region.
+func (m *MockBetaAddresses) List(ctx context.Context, region string) ([]*beta.Address, error) {
+	if m.ListHook != nil {
+		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+			return objs, err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if m.ListError != nil {
+		return nil, *m.ListError
+	}
+
+	var objs []*beta.Address
+	for key, obj := range m.Objects {
+		if key.Region != region {
+			continue
+		}
+
+		objs = append(objs, obj)
+	}
+
+	return objs, nil
+}
+
+// Insert is a mock for inserting/creating a new object.
+func (m *MockBetaAddresses) Insert(ctx context.Context, key meta.Key, obj *beta.Address) error {
+	if m.InsertHook != nil {
+		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			return err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if err, ok := m.InsertError[key]; ok {
+		return err
+	}
+	if _, ok := m.Objects[key]; ok {
+		return &googleapi.Error{
+			Code:    http.StatusConflict,
+			Message: fmt.Sprintf("MockBetaAddresses %v exists", key),
+		}
+	}
+
+	m.Objects[key] = obj
+	return nil
+}
+
+// Delete is a mock for deleting the object.
+func (m *MockBetaAddresses) Delete(ctx context.Context, key meta.Key) error {
+	if m.DeleteHook != nil {
+		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			return err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if err, ok := m.DeleteError[key]; ok {
+		return err
+	}
+	if _, ok := m.Objects[key]; !ok {
+		return &googleapi.Error{
+			Code:    http.StatusNotFound,
+			Message: fmt.Sprintf("MockBetaAddresses %v not found", key),
+		}
+	}
+
+	delete(m.Objects, key)
+	return nil
+}
+
+// GCEBetaAddresses is a simplifying adapter for the GCE Addresses.
+type GCEBetaAddresses struct {
+	s *Service
+}
+
+// Get the Address named by key.
+func (g *GCEBetaAddresses) Get(ctx context.Context, key meta.Key) (*beta.Address, error) {
+	rk := &RateLimitKey{
+		Operation: "Get",
+		Version:   meta.Version("beta"),
+		Target:    "Address",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Addresses")
+
+	call := g.s.Beta.Addresses.Get(projectID, key.Region, key.Name)
+
+	call.Context(ctx)
+
+	return call.Do()
+}
+
+// List all Address objects.
+func (g *GCEBetaAddresses) List(ctx context.Context, region string) ([]*beta.Address, error) {
+	rk := &RateLimitKey{
+		Operation: "List",
+		Version:   meta.Version("beta"),
+		Target:    "Address",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Addresses")
+
+	call := g.s.Beta.Addresses.List(projectID, region)
+
+	var all []*beta.Address
+	f := func(l *beta.AddressList) error {
+		all = append(all, l.Items...)
+		return nil
+	}
+	if err := call.Pages(ctx, f); err != nil {
+		return nil, err
+	}
+	return all, nil
+}
+
+// Insert Address with key of value obj.
+func (g *GCEBetaAddresses) Insert(ctx context.Context, key meta.Key, obj *beta.Address) error {
+	rk := &RateLimitKey{
+		Operation: "Insert",
+		Version:   meta.Version("beta"),
+		Target:    "Address",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Addresses")
+	obj.Name = key.Name
+
+	call := g.s.Beta.Addresses.Insert(projectID, key.Region, obj)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+// Delete the Address referenced by key.
+func (g *GCEBetaAddresses) Delete(ctx context.Context, key meta.Key) error {
+	rk := &RateLimitKey{
+		Operation: "Delete",
+		Version:   meta.Version("beta"),
+		Target:    "Address",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Addresses")
+
+	call := g.s.Beta.Addresses.Delete(projectID, key.Region, key.Name)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
 // GlobalAddresses is an interface that allows for mocking of GlobalAddresses.
 type GlobalAddresses interface {
 	Get(ctx context.Context, key meta.Key) (*ga.Address, error)
@@ -1139,6 +1414,9 @@ type BackendServices interface {
 	List(ctx context.Context) ([]*ga.BackendService, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.BackendService) error
 	Delete(ctx context.Context, key meta.Key) error
+
+	GetHealth(context.Context, meta.Key, *ga.ResourceGroupReference) error
+	Update(context.Context, meta.Key, *ga.BackendService) error
 }
 
 // NewMockBackendServices returns a new mock for BackendServices.
@@ -1175,6 +1453,9 @@ type MockBackendServices struct {
 	ListHook   func(m *MockBackendServices, ctx context.Context) (bool, []*ga.BackendService, error)
 	InsertHook func(m *MockBackendServices, ctx context.Context, key meta.Key, obj *ga.BackendService) (bool, error)
 	DeleteHook func(m *MockBackendServices, ctx context.Context, key meta.Key) (bool, error)
+
+	GetHealthHook func(*MockBackendServices, context.Context, meta.Key, *ga.ResourceGroupReference) error
+	UpdateHook    func(*MockBackendServices, context.Context, meta.Key, *ga.BackendService) error
 
 	// X is extra state that can be used as part of the mock. Generated code
 	// will not use this field.
@@ -1277,6 +1558,20 @@ func (m *MockBackendServices) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+func (m *MockBackendServices) GetHealth(ctx context.Context, key meta.Key, arg0 *ga.ResourceGroupReference) error {
+	if m.GetHealthHook != nil {
+		return m.GetHealthHook(m, ctx, key, arg0)
+	}
+	return nil
+}
+
+func (m *MockBackendServices) Update(ctx context.Context, key meta.Key, arg0 *ga.BackendService) error {
+	if m.UpdateHook != nil {
+		return m.UpdateHook(m, ctx, key, arg0)
+	}
+	return nil
+}
+
 // GCEBackendServices is a simplifying adapter for the GCE BackendServices.
 type GCEBackendServices struct {
 	s *Service
@@ -1365,12 +1660,54 @@ func (g *GCEBackendServices) Delete(ctx context.Context, key meta.Key) error {
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+func (g *GCEBackendServices) GetHealth(ctx context.Context, key meta.Key, arg0 *ga.ResourceGroupReference) error {
+	rk := &RateLimitKey{
+		Operation: "GetHealth",
+		Version:   meta.Version("ga"),
+		Target:    "BackendService",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "BackendServices")
+
+	call := g.s.GA.BackendServices.GetHealth(projectID, key.Name, arg0)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+func (g *GCEBackendServices) Update(ctx context.Context, key meta.Key, arg0 *ga.BackendService) error {
+	rk := &RateLimitKey{
+		Operation: "Update",
+		Version:   meta.Version("ga"),
+		Target:    "BackendService",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "BackendServices")
+
+	call := g.s.GA.BackendServices.Update(projectID, key.Name, arg0)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
 // AlphaBackendServices is an interface that allows for mocking of BackendServices.
 type AlphaBackendServices interface {
 	Get(ctx context.Context, key meta.Key) (*alpha.BackendService, error)
 	List(ctx context.Context) ([]*alpha.BackendService, error)
 	Insert(ctx context.Context, key meta.Key, obj *alpha.BackendService) error
 	Delete(ctx context.Context, key meta.Key) error
+
+	Update(context.Context, meta.Key, *alpha.BackendService) error
 }
 
 // NewMockAlphaBackendServices returns a new mock for BackendServices.
@@ -1407,6 +1744,8 @@ type MockAlphaBackendServices struct {
 	ListHook   func(m *MockAlphaBackendServices, ctx context.Context) (bool, []*alpha.BackendService, error)
 	InsertHook func(m *MockAlphaBackendServices, ctx context.Context, key meta.Key, obj *alpha.BackendService) (bool, error)
 	DeleteHook func(m *MockAlphaBackendServices, ctx context.Context, key meta.Key) (bool, error)
+
+	UpdateHook func(*MockAlphaBackendServices, context.Context, meta.Key, *alpha.BackendService) error
 
 	// X is extra state that can be used as part of the mock. Generated code
 	// will not use this field.
@@ -1509,6 +1848,13 @@ func (m *MockAlphaBackendServices) Delete(ctx context.Context, key meta.Key) err
 	return nil
 }
 
+func (m *MockAlphaBackendServices) Update(ctx context.Context, key meta.Key, arg0 *alpha.BackendService) error {
+	if m.UpdateHook != nil {
+		return m.UpdateHook(m, ctx, key, arg0)
+	}
+	return nil
+}
+
 // GCEAlphaBackendServices is a simplifying adapter for the GCE BackendServices.
 type GCEAlphaBackendServices struct {
 	s *Service
@@ -1597,12 +1943,35 @@ func (g *GCEAlphaBackendServices) Delete(ctx context.Context, key meta.Key) erro
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+func (g *GCEAlphaBackendServices) Update(ctx context.Context, key meta.Key, arg0 *alpha.BackendService) error {
+	rk := &RateLimitKey{
+		Operation: "Update",
+		Version:   meta.Version("alpha"),
+		Target:    "BackendService",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "BackendServices")
+
+	call := g.s.Alpha.BackendServices.Update(projectID, key.Name, arg0)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
 // AlphaRegionBackendServices is an interface that allows for mocking of RegionBackendServices.
 type AlphaRegionBackendServices interface {
 	Get(ctx context.Context, key meta.Key) (*alpha.BackendService, error)
 	List(ctx context.Context, region string) ([]*alpha.BackendService, error)
 	Insert(ctx context.Context, key meta.Key, obj *alpha.BackendService) error
 	Delete(ctx context.Context, key meta.Key) error
+
+	GetHealth(context.Context, meta.Key, *alpha.ResourceGroupReference) error
+	Update(context.Context, meta.Key, *alpha.BackendService) error
 }
 
 // NewMockAlphaRegionBackendServices returns a new mock for RegionBackendServices.
@@ -1639,6 +2008,9 @@ type MockAlphaRegionBackendServices struct {
 	ListHook   func(m *MockAlphaRegionBackendServices, ctx context.Context) (bool, []*alpha.BackendService, error)
 	InsertHook func(m *MockAlphaRegionBackendServices, ctx context.Context, key meta.Key, obj *alpha.BackendService) (bool, error)
 	DeleteHook func(m *MockAlphaRegionBackendServices, ctx context.Context, key meta.Key) (bool, error)
+
+	GetHealthHook func(*MockAlphaRegionBackendServices, context.Context, meta.Key, *alpha.ResourceGroupReference) error
+	UpdateHook    func(*MockAlphaRegionBackendServices, context.Context, meta.Key, *alpha.BackendService) error
 
 	// X is extra state that can be used as part of the mock. Generated code
 	// will not use this field.
@@ -1745,6 +2117,20 @@ func (m *MockAlphaRegionBackendServices) Delete(ctx context.Context, key meta.Ke
 	return nil
 }
 
+func (m *MockAlphaRegionBackendServices) GetHealth(ctx context.Context, key meta.Key, arg0 *alpha.ResourceGroupReference) error {
+	if m.GetHealthHook != nil {
+		return m.GetHealthHook(m, ctx, key, arg0)
+	}
+	return nil
+}
+
+func (m *MockAlphaRegionBackendServices) Update(ctx context.Context, key meta.Key, arg0 *alpha.BackendService) error {
+	if m.UpdateHook != nil {
+		return m.UpdateHook(m, ctx, key, arg0)
+	}
+	return nil
+}
+
 // GCEAlphaRegionBackendServices is a simplifying adapter for the GCE RegionBackendServices.
 type GCEAlphaRegionBackendServices struct {
 	s *Service
@@ -1823,6 +2209,46 @@ func (g *GCEAlphaRegionBackendServices) Delete(ctx context.Context, key meta.Key
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionBackendServices")
 
 	call := g.s.Alpha.RegionBackendServices.Delete(projectID, key.Region, key.Name)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+func (g *GCEAlphaRegionBackendServices) GetHealth(ctx context.Context, key meta.Key, arg0 *alpha.ResourceGroupReference) error {
+	rk := &RateLimitKey{
+		Operation: "GetHealth",
+		Version:   meta.Version("alpha"),
+		Target:    "BackendService",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionBackendServices")
+
+	call := g.s.Alpha.RegionBackendServices.GetHealth(projectID, key.Region, key.Name, arg0)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+func (g *GCEAlphaRegionBackendServices) Update(ctx context.Context, key meta.Key, arg0 *alpha.BackendService) error {
+	rk := &RateLimitKey{
+		Operation: "Update",
+		Version:   meta.Version("alpha"),
+		Target:    "BackendService",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionBackendServices")
+
+	call := g.s.Alpha.RegionBackendServices.Update(projectID, key.Region, key.Name, arg0)
 
 	call.Context(ctx)
 
@@ -2059,6 +2485,242 @@ func (g *GCEDisks) Delete(ctx context.Context, key meta.Key) error {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Disks")
 
 	call := g.s.GA.Disks.Delete(projectID, key.Zone, key.Name)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+// AlphaDisks is an interface that allows for mocking of Disks.
+type AlphaDisks interface {
+	Get(ctx context.Context, key meta.Key) (*alpha.Disk, error)
+	List(ctx context.Context, zone string) ([]*alpha.Disk, error)
+	Insert(ctx context.Context, key meta.Key, obj *alpha.Disk) error
+	Delete(ctx context.Context, key meta.Key) error
+}
+
+// NewMockAlphaDisks returns a new mock for Disks.
+func NewMockAlphaDisks() *MockAlphaDisks {
+	mock := &MockAlphaDisks{
+		Objects:     map[meta.Key]*alpha.Disk{},
+		GetError:    map[meta.Key]error{},
+		InsertError: map[meta.Key]error{},
+		DeleteError: map[meta.Key]error{},
+	}
+	return mock
+}
+
+// MockAlphaDisks is the mock for Disks.
+type MockAlphaDisks struct {
+	Lock sync.Mutex
+
+	// Objects maintained by the mock.
+	Objects map[meta.Key]*alpha.Disk
+
+	// If an entry exists for the given key and operation, then the error
+	// will be returned instead of the operation.
+	GetError    map[meta.Key]error
+	ListError   *error
+	InsertError map[meta.Key]error
+	DeleteError map[meta.Key]error
+
+	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
+	// standard processing of the mock in order to add your own logic.
+	// Return (true, _, _) to prevent the normal execution flow of the
+	// mock. Return (false, nil, nil) to continue with normal mock behavior
+	// after the hook function executes.
+	GetHook    func(m *MockAlphaDisks, ctx context.Context, key meta.Key) (bool, *alpha.Disk, error)
+	ListHook   func(m *MockAlphaDisks, ctx context.Context) (bool, []*alpha.Disk, error)
+	InsertHook func(m *MockAlphaDisks, ctx context.Context, key meta.Key, obj *alpha.Disk) (bool, error)
+	DeleteHook func(m *MockAlphaDisks, ctx context.Context, key meta.Key) (bool, error)
+
+	// X is extra state that can be used as part of the mock. Generated code
+	// will not use this field.
+	X interface{}
+}
+
+// Get returns the object from the mock.
+func (m *MockAlphaDisks) Get(ctx context.Context, key meta.Key) (*alpha.Disk, error) {
+	if m.GetHook != nil {
+		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			return obj, err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if err, ok := m.GetError[key]; ok {
+		return nil, err
+	}
+	if obj, ok := m.Objects[key]; ok {
+		return obj, nil
+	}
+	return nil, &googleapi.Error{
+		Code:    http.StatusNotFound,
+		Message: fmt.Sprintf("MockAlphaDisks %v not found", key),
+	}
+}
+
+// List all of the objects in the mock in the given zone.
+func (m *MockAlphaDisks) List(ctx context.Context, zone string) ([]*alpha.Disk, error) {
+	if m.ListHook != nil {
+		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+			return objs, err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if m.ListError != nil {
+		return nil, *m.ListError
+	}
+
+	var objs []*alpha.Disk
+	for key, obj := range m.Objects {
+		if key.Zone != zone {
+			continue
+		}
+
+		objs = append(objs, obj)
+	}
+
+	return objs, nil
+}
+
+// Insert is a mock for inserting/creating a new object.
+func (m *MockAlphaDisks) Insert(ctx context.Context, key meta.Key, obj *alpha.Disk) error {
+	if m.InsertHook != nil {
+		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			return err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if err, ok := m.InsertError[key]; ok {
+		return err
+	}
+	if _, ok := m.Objects[key]; ok {
+		return &googleapi.Error{
+			Code:    http.StatusConflict,
+			Message: fmt.Sprintf("MockAlphaDisks %v exists", key),
+		}
+	}
+
+	m.Objects[key] = obj
+	return nil
+}
+
+// Delete is a mock for deleting the object.
+func (m *MockAlphaDisks) Delete(ctx context.Context, key meta.Key) error {
+	if m.DeleteHook != nil {
+		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			return err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if err, ok := m.DeleteError[key]; ok {
+		return err
+	}
+	if _, ok := m.Objects[key]; !ok {
+		return &googleapi.Error{
+			Code:    http.StatusNotFound,
+			Message: fmt.Sprintf("MockAlphaDisks %v not found", key),
+		}
+	}
+
+	delete(m.Objects, key)
+	return nil
+}
+
+// GCEAlphaDisks is a simplifying adapter for the GCE Disks.
+type GCEAlphaDisks struct {
+	s *Service
+}
+
+// Get the Disk named by key.
+func (g *GCEAlphaDisks) Get(ctx context.Context, key meta.Key) (*alpha.Disk, error) {
+	rk := &RateLimitKey{
+		Operation: "Get",
+		Version:   meta.Version("alpha"),
+		Target:    "Disk",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Disks")
+
+	call := g.s.Alpha.Disks.Get(projectID, key.Zone, key.Name)
+
+	call.Context(ctx)
+
+	return call.Do()
+}
+
+// List all Disk objects.
+func (g *GCEAlphaDisks) List(ctx context.Context, zone string) ([]*alpha.Disk, error) {
+	rk := &RateLimitKey{
+		Operation: "List",
+		Version:   meta.Version("alpha"),
+		Target:    "Disk",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Disks")
+
+	call := g.s.Alpha.Disks.List(projectID, zone)
+
+	var all []*alpha.Disk
+	f := func(l *alpha.DiskList) error {
+		all = append(all, l.Items...)
+		return nil
+	}
+	if err := call.Pages(ctx, f); err != nil {
+		return nil, err
+	}
+	return all, nil
+}
+
+// Insert Disk with key of value obj.
+func (g *GCEAlphaDisks) Insert(ctx context.Context, key meta.Key, obj *alpha.Disk) error {
+	rk := &RateLimitKey{
+		Operation: "Insert",
+		Version:   meta.Version("alpha"),
+		Target:    "Disk",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Disks")
+	obj.Name = key.Name
+
+	call := g.s.Alpha.Disks.Insert(projectID, key.Zone, obj)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+// Delete the Disk referenced by key.
+func (g *GCEAlphaDisks) Delete(ctx context.Context, key meta.Key) error {
+	rk := &RateLimitKey{
+		Operation: "Delete",
+		Version:   meta.Version("alpha"),
+		Target:    "Disk",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Disks")
+
+	call := g.s.Alpha.Disks.Delete(projectID, key.Zone, key.Name)
 
 	call.Context(ctx)
 
@@ -2311,6 +2973,8 @@ type Firewalls interface {
 	List(ctx context.Context) ([]*ga.Firewall, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.Firewall) error
 	Delete(ctx context.Context, key meta.Key) error
+
+	Update(context.Context, meta.Key, *ga.Firewall) error
 }
 
 // NewMockFirewalls returns a new mock for Firewalls.
@@ -2347,6 +3011,8 @@ type MockFirewalls struct {
 	ListHook   func(m *MockFirewalls, ctx context.Context) (bool, []*ga.Firewall, error)
 	InsertHook func(m *MockFirewalls, ctx context.Context, key meta.Key, obj *ga.Firewall) (bool, error)
 	DeleteHook func(m *MockFirewalls, ctx context.Context, key meta.Key) (bool, error)
+
+	UpdateHook func(*MockFirewalls, context.Context, meta.Key, *ga.Firewall) error
 
 	// X is extra state that can be used as part of the mock. Generated code
 	// will not use this field.
@@ -2449,6 +3115,13 @@ func (m *MockFirewalls) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+func (m *MockFirewalls) Update(ctx context.Context, key meta.Key, arg0 *ga.Firewall) error {
+	if m.UpdateHook != nil {
+		return m.UpdateHook(m, ctx, key, arg0)
+	}
+	return nil
+}
+
 // GCEFirewalls is a simplifying adapter for the GCE Firewalls.
 type GCEFirewalls struct {
 	s *Service
@@ -2527,6 +3200,26 @@ func (g *GCEFirewalls) Delete(ctx context.Context, key meta.Key) error {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Firewalls")
 
 	call := g.s.GA.Firewalls.Delete(projectID, key.Name)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+func (g *GCEFirewalls) Update(ctx context.Context, key meta.Key, arg0 *ga.Firewall) error {
+	rk := &RateLimitKey{
+		Operation: "Update",
+		Version:   meta.Version("ga"),
+		Target:    "Firewall",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Firewalls")
+
+	call := g.s.GA.Firewalls.Update(projectID, key.Name, arg0)
 
 	call.Context(ctx)
 
@@ -2773,12 +3466,250 @@ func (g *GCEForwardingRules) Delete(ctx context.Context, key meta.Key) error {
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+// AlphaForwardingRules is an interface that allows for mocking of ForwardingRules.
+type AlphaForwardingRules interface {
+	Get(ctx context.Context, key meta.Key) (*alpha.ForwardingRule, error)
+	List(ctx context.Context, region string) ([]*alpha.ForwardingRule, error)
+	Insert(ctx context.Context, key meta.Key, obj *alpha.ForwardingRule) error
+	Delete(ctx context.Context, key meta.Key) error
+}
+
+// NewMockAlphaForwardingRules returns a new mock for ForwardingRules.
+func NewMockAlphaForwardingRules() *MockAlphaForwardingRules {
+	mock := &MockAlphaForwardingRules{
+		Objects:     map[meta.Key]*alpha.ForwardingRule{},
+		GetError:    map[meta.Key]error{},
+		InsertError: map[meta.Key]error{},
+		DeleteError: map[meta.Key]error{},
+	}
+	return mock
+}
+
+// MockAlphaForwardingRules is the mock for ForwardingRules.
+type MockAlphaForwardingRules struct {
+	Lock sync.Mutex
+
+	// Objects maintained by the mock.
+	Objects map[meta.Key]*alpha.ForwardingRule
+
+	// If an entry exists for the given key and operation, then the error
+	// will be returned instead of the operation.
+	GetError    map[meta.Key]error
+	ListError   *error
+	InsertError map[meta.Key]error
+	DeleteError map[meta.Key]error
+
+	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
+	// standard processing of the mock in order to add your own logic.
+	// Return (true, _, _) to prevent the normal execution flow of the
+	// mock. Return (false, nil, nil) to continue with normal mock behavior
+	// after the hook function executes.
+	GetHook    func(m *MockAlphaForwardingRules, ctx context.Context, key meta.Key) (bool, *alpha.ForwardingRule, error)
+	ListHook   func(m *MockAlphaForwardingRules, ctx context.Context) (bool, []*alpha.ForwardingRule, error)
+	InsertHook func(m *MockAlphaForwardingRules, ctx context.Context, key meta.Key, obj *alpha.ForwardingRule) (bool, error)
+	DeleteHook func(m *MockAlphaForwardingRules, ctx context.Context, key meta.Key) (bool, error)
+
+	// X is extra state that can be used as part of the mock. Generated code
+	// will not use this field.
+	X interface{}
+}
+
+// Get returns the object from the mock.
+func (m *MockAlphaForwardingRules) Get(ctx context.Context, key meta.Key) (*alpha.ForwardingRule, error) {
+	if m.GetHook != nil {
+		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			return obj, err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if err, ok := m.GetError[key]; ok {
+		return nil, err
+	}
+	if obj, ok := m.Objects[key]; ok {
+		return obj, nil
+	}
+	return nil, &googleapi.Error{
+		Code:    http.StatusNotFound,
+		Message: fmt.Sprintf("MockAlphaForwardingRules %v not found", key),
+	}
+}
+
+// List all of the objects in the mock in the given region.
+func (m *MockAlphaForwardingRules) List(ctx context.Context, region string) ([]*alpha.ForwardingRule, error) {
+	if m.ListHook != nil {
+		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+			return objs, err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if m.ListError != nil {
+		return nil, *m.ListError
+	}
+
+	var objs []*alpha.ForwardingRule
+	for key, obj := range m.Objects {
+		if key.Region != region {
+			continue
+		}
+
+		objs = append(objs, obj)
+	}
+
+	return objs, nil
+}
+
+// Insert is a mock for inserting/creating a new object.
+func (m *MockAlphaForwardingRules) Insert(ctx context.Context, key meta.Key, obj *alpha.ForwardingRule) error {
+	if m.InsertHook != nil {
+		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			return err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if err, ok := m.InsertError[key]; ok {
+		return err
+	}
+	if _, ok := m.Objects[key]; ok {
+		return &googleapi.Error{
+			Code:    http.StatusConflict,
+			Message: fmt.Sprintf("MockAlphaForwardingRules %v exists", key),
+		}
+	}
+
+	m.Objects[key] = obj
+	return nil
+}
+
+// Delete is a mock for deleting the object.
+func (m *MockAlphaForwardingRules) Delete(ctx context.Context, key meta.Key) error {
+	if m.DeleteHook != nil {
+		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			return err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if err, ok := m.DeleteError[key]; ok {
+		return err
+	}
+	if _, ok := m.Objects[key]; !ok {
+		return &googleapi.Error{
+			Code:    http.StatusNotFound,
+			Message: fmt.Sprintf("MockAlphaForwardingRules %v not found", key),
+		}
+	}
+
+	delete(m.Objects, key)
+	return nil
+}
+
+// GCEAlphaForwardingRules is a simplifying adapter for the GCE ForwardingRules.
+type GCEAlphaForwardingRules struct {
+	s *Service
+}
+
+// Get the ForwardingRule named by key.
+func (g *GCEAlphaForwardingRules) Get(ctx context.Context, key meta.Key) (*alpha.ForwardingRule, error) {
+	rk := &RateLimitKey{
+		Operation: "Get",
+		Version:   meta.Version("alpha"),
+		Target:    "ForwardingRule",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "ForwardingRules")
+
+	call := g.s.Alpha.ForwardingRules.Get(projectID, key.Region, key.Name)
+
+	call.Context(ctx)
+
+	return call.Do()
+}
+
+// List all ForwardingRule objects.
+func (g *GCEAlphaForwardingRules) List(ctx context.Context, region string) ([]*alpha.ForwardingRule, error) {
+	rk := &RateLimitKey{
+		Operation: "List",
+		Version:   meta.Version("alpha"),
+		Target:    "ForwardingRule",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "ForwardingRules")
+
+	call := g.s.Alpha.ForwardingRules.List(projectID, region)
+
+	var all []*alpha.ForwardingRule
+	f := func(l *alpha.ForwardingRuleList) error {
+		all = append(all, l.Items...)
+		return nil
+	}
+	if err := call.Pages(ctx, f); err != nil {
+		return nil, err
+	}
+	return all, nil
+}
+
+// Insert ForwardingRule with key of value obj.
+func (g *GCEAlphaForwardingRules) Insert(ctx context.Context, key meta.Key, obj *alpha.ForwardingRule) error {
+	rk := &RateLimitKey{
+		Operation: "Insert",
+		Version:   meta.Version("alpha"),
+		Target:    "ForwardingRule",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "ForwardingRules")
+	obj.Name = key.Name
+
+	call := g.s.Alpha.ForwardingRules.Insert(projectID, key.Region, obj)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+// Delete the ForwardingRule referenced by key.
+func (g *GCEAlphaForwardingRules) Delete(ctx context.Context, key meta.Key) error {
+	rk := &RateLimitKey{
+		Operation: "Delete",
+		Version:   meta.Version("alpha"),
+		Target:    "ForwardingRule",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "ForwardingRules")
+
+	call := g.s.Alpha.ForwardingRules.Delete(projectID, key.Region, key.Name)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
 // GlobalForwardingRules is an interface that allows for mocking of GlobalForwardingRules.
 type GlobalForwardingRules interface {
 	Get(ctx context.Context, key meta.Key) (*ga.ForwardingRule, error)
 	List(ctx context.Context) ([]*ga.ForwardingRule, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.ForwardingRule) error
 	Delete(ctx context.Context, key meta.Key) error
+
+	SetTarget(context.Context, meta.Key, *ga.TargetReference) error
 }
 
 // NewMockGlobalForwardingRules returns a new mock for GlobalForwardingRules.
@@ -2815,6 +3746,8 @@ type MockGlobalForwardingRules struct {
 	ListHook   func(m *MockGlobalForwardingRules, ctx context.Context) (bool, []*ga.ForwardingRule, error)
 	InsertHook func(m *MockGlobalForwardingRules, ctx context.Context, key meta.Key, obj *ga.ForwardingRule) (bool, error)
 	DeleteHook func(m *MockGlobalForwardingRules, ctx context.Context, key meta.Key) (bool, error)
+
+	SetTargetHook func(*MockGlobalForwardingRules, context.Context, meta.Key, *ga.TargetReference) error
 
 	// X is extra state that can be used as part of the mock. Generated code
 	// will not use this field.
@@ -2917,6 +3850,13 @@ func (m *MockGlobalForwardingRules) Delete(ctx context.Context, key meta.Key) er
 	return nil
 }
 
+func (m *MockGlobalForwardingRules) SetTarget(ctx context.Context, key meta.Key, arg0 *ga.TargetReference) error {
+	if m.SetTargetHook != nil {
+		return m.SetTargetHook(m, ctx, key, arg0)
+	}
+	return nil
+}
+
 // GCEGlobalForwardingRules is a simplifying adapter for the GCE GlobalForwardingRules.
 type GCEGlobalForwardingRules struct {
 	s *Service
@@ -3005,460 +3945,16 @@ func (g *GCEGlobalForwardingRules) Delete(ctx context.Context, key meta.Key) err
 	return g.s.WaitForCompletion(ctx, op)
 }
 
-// HttpHealthChecks is an interface that allows for mocking of HttpHealthChecks.
-type HttpHealthChecks interface {
-	Get(ctx context.Context, key meta.Key) (*ga.HttpHealthCheck, error)
-	List(ctx context.Context) ([]*ga.HttpHealthCheck, error)
-	Insert(ctx context.Context, key meta.Key, obj *ga.HttpHealthCheck) error
-	Delete(ctx context.Context, key meta.Key) error
-}
-
-// NewMockHttpHealthChecks returns a new mock for HttpHealthChecks.
-func NewMockHttpHealthChecks() *MockHttpHealthChecks {
-	mock := &MockHttpHealthChecks{
-		Objects:     map[meta.Key]*ga.HttpHealthCheck{},
-		GetError:    map[meta.Key]error{},
-		InsertError: map[meta.Key]error{},
-		DeleteError: map[meta.Key]error{},
-	}
-	return mock
-}
-
-// MockHttpHealthChecks is the mock for HttpHealthChecks.
-type MockHttpHealthChecks struct {
-	Lock sync.Mutex
-
-	// Objects maintained by the mock.
-	Objects map[meta.Key]*ga.HttpHealthCheck
-
-	// If an entry exists for the given key and operation, then the error
-	// will be returned instead of the operation.
-	GetError    map[meta.Key]error
-	ListError   *error
-	InsertError map[meta.Key]error
-	DeleteError map[meta.Key]error
-
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
-	GetHook    func(m *MockHttpHealthChecks, ctx context.Context, key meta.Key) (bool, *ga.HttpHealthCheck, error)
-	ListHook   func(m *MockHttpHealthChecks, ctx context.Context) (bool, []*ga.HttpHealthCheck, error)
-	InsertHook func(m *MockHttpHealthChecks, ctx context.Context, key meta.Key, obj *ga.HttpHealthCheck) (bool, error)
-	DeleteHook func(m *MockHttpHealthChecks, ctx context.Context, key meta.Key) (bool, error)
-
-	// X is extra state that can be used as part of the mock. Generated code
-	// will not use this field.
-	X interface{}
-}
-
-// Get returns the object from the mock.
-func (m *MockHttpHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HttpHealthCheck, error) {
-	if m.GetHook != nil {
-		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			return obj, err
-		}
-	}
-
-	m.Lock.Lock()
-	defer m.Lock.Unlock()
-
-	if err, ok := m.GetError[key]; ok {
-		return nil, err
-	}
-	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
-	}
-	return nil, &googleapi.Error{
-		Code:    http.StatusNotFound,
-		Message: fmt.Sprintf("MockHttpHealthChecks %v not found", key),
-	}
-}
-
-// List all of the objects in the mock.
-func (m *MockHttpHealthChecks) List(ctx context.Context) ([]*ga.HttpHealthCheck, error) {
-	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
-			return objs, err
-		}
-	}
-
-	m.Lock.Lock()
-	defer m.Lock.Unlock()
-
-	if m.ListError != nil {
-		return nil, *m.ListError
-	}
-
-	var objs []*ga.HttpHealthCheck
-	for _, obj := range m.Objects {
-		objs = append(objs, obj)
-	}
-
-	return objs, nil
-}
-
-// Insert is a mock for inserting/creating a new object.
-func (m *MockHttpHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.HttpHealthCheck) error {
-	if m.InsertHook != nil {
-		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			return err
-		}
-	}
-
-	m.Lock.Lock()
-	defer m.Lock.Unlock()
-
-	if err, ok := m.InsertError[key]; ok {
-		return err
-	}
-	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
-			Code:    http.StatusConflict,
-			Message: fmt.Sprintf("MockHttpHealthChecks %v exists", key),
-		}
-	}
-
-	m.Objects[key] = obj
-	return nil
-}
-
-// Delete is a mock for deleting the object.
-func (m *MockHttpHealthChecks) Delete(ctx context.Context, key meta.Key) error {
-	if m.DeleteHook != nil {
-		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
-			return err
-		}
-	}
-
-	m.Lock.Lock()
-	defer m.Lock.Unlock()
-
-	if err, ok := m.DeleteError[key]; ok {
-		return err
-	}
-	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
-			Code:    http.StatusNotFound,
-			Message: fmt.Sprintf("MockHttpHealthChecks %v not found", key),
-		}
-	}
-
-	delete(m.Objects, key)
-	return nil
-}
-
-// GCEHttpHealthChecks is a simplifying adapter for the GCE HttpHealthChecks.
-type GCEHttpHealthChecks struct {
-	s *Service
-}
-
-// Get the HttpHealthCheck named by key.
-func (g *GCEHttpHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HttpHealthCheck, error) {
+func (g *GCEGlobalForwardingRules) SetTarget(ctx context.Context, key meta.Key, arg0 *ga.TargetReference) error {
 	rk := &RateLimitKey{
-		Operation: "Get",
+		Operation: "SetTarget",
 		Version:   meta.Version("ga"),
-		Target:    "HttpHealthCheck",
+		Target:    "ForwardingRule",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpHealthChecks")
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalForwardingRules")
 
-	call := g.s.GA.HttpHealthChecks.Get(projectID, key.Name)
-
-	call.Context(ctx)
-
-	return call.Do()
-}
-
-// List all HttpHealthCheck objects.
-func (g *GCEHttpHealthChecks) List(ctx context.Context) ([]*ga.HttpHealthCheck, error) {
-	rk := &RateLimitKey{
-		Operation: "List",
-		Version:   meta.Version("ga"),
-		Target:    "HttpHealthCheck",
-	}
-	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpHealthChecks")
-
-	call := g.s.GA.HttpHealthChecks.List(projectID)
-
-	var all []*ga.HttpHealthCheck
-	f := func(l *ga.HttpHealthCheckList) error {
-		all = append(all, l.Items...)
-		return nil
-	}
-	if err := call.Pages(ctx, f); err != nil {
-		return nil, err
-	}
-	return all, nil
-}
-
-// Insert HttpHealthCheck with key of value obj.
-func (g *GCEHttpHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.HttpHealthCheck) error {
-	rk := &RateLimitKey{
-		Operation: "Insert",
-		Version:   meta.Version("ga"),
-		Target:    "HttpHealthCheck",
-	}
-	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpHealthChecks")
-	obj.Name = key.Name
-
-	call := g.s.GA.HttpHealthChecks.Insert(projectID, obj)
-
-	call.Context(ctx)
-
-	op, err := call.Do()
-	if err != nil {
-		return err
-	}
-	return g.s.WaitForCompletion(ctx, op)
-}
-
-// Delete the HttpHealthCheck referenced by key.
-func (g *GCEHttpHealthChecks) Delete(ctx context.Context, key meta.Key) error {
-	rk := &RateLimitKey{
-		Operation: "Delete",
-		Version:   meta.Version("ga"),
-		Target:    "HttpHealthCheck",
-	}
-	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpHealthChecks")
-
-	call := g.s.GA.HttpHealthChecks.Delete(projectID, key.Name)
-
-	call.Context(ctx)
-
-	op, err := call.Do()
-	if err != nil {
-		return err
-	}
-	return g.s.WaitForCompletion(ctx, op)
-}
-
-// HttpsHealthChecks is an interface that allows for mocking of HttpsHealthChecks.
-type HttpsHealthChecks interface {
-	Get(ctx context.Context, key meta.Key) (*ga.HttpsHealthCheck, error)
-	List(ctx context.Context) ([]*ga.HttpsHealthCheck, error)
-	Insert(ctx context.Context, key meta.Key, obj *ga.HttpsHealthCheck) error
-	Delete(ctx context.Context, key meta.Key) error
-}
-
-// NewMockHttpsHealthChecks returns a new mock for HttpsHealthChecks.
-func NewMockHttpsHealthChecks() *MockHttpsHealthChecks {
-	mock := &MockHttpsHealthChecks{
-		Objects:     map[meta.Key]*ga.HttpsHealthCheck{},
-		GetError:    map[meta.Key]error{},
-		InsertError: map[meta.Key]error{},
-		DeleteError: map[meta.Key]error{},
-	}
-	return mock
-}
-
-// MockHttpsHealthChecks is the mock for HttpsHealthChecks.
-type MockHttpsHealthChecks struct {
-	Lock sync.Mutex
-
-	// Objects maintained by the mock.
-	Objects map[meta.Key]*ga.HttpsHealthCheck
-
-	// If an entry exists for the given key and operation, then the error
-	// will be returned instead of the operation.
-	GetError    map[meta.Key]error
-	ListError   *error
-	InsertError map[meta.Key]error
-	DeleteError map[meta.Key]error
-
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
-	GetHook    func(m *MockHttpsHealthChecks, ctx context.Context, key meta.Key) (bool, *ga.HttpsHealthCheck, error)
-	ListHook   func(m *MockHttpsHealthChecks, ctx context.Context) (bool, []*ga.HttpsHealthCheck, error)
-	InsertHook func(m *MockHttpsHealthChecks, ctx context.Context, key meta.Key, obj *ga.HttpsHealthCheck) (bool, error)
-	DeleteHook func(m *MockHttpsHealthChecks, ctx context.Context, key meta.Key) (bool, error)
-
-	// X is extra state that can be used as part of the mock. Generated code
-	// will not use this field.
-	X interface{}
-}
-
-// Get returns the object from the mock.
-func (m *MockHttpsHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HttpsHealthCheck, error) {
-	if m.GetHook != nil {
-		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			return obj, err
-		}
-	}
-
-	m.Lock.Lock()
-	defer m.Lock.Unlock()
-
-	if err, ok := m.GetError[key]; ok {
-		return nil, err
-	}
-	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
-	}
-	return nil, &googleapi.Error{
-		Code:    http.StatusNotFound,
-		Message: fmt.Sprintf("MockHttpsHealthChecks %v not found", key),
-	}
-}
-
-// List all of the objects in the mock.
-func (m *MockHttpsHealthChecks) List(ctx context.Context) ([]*ga.HttpsHealthCheck, error) {
-	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
-			return objs, err
-		}
-	}
-
-	m.Lock.Lock()
-	defer m.Lock.Unlock()
-
-	if m.ListError != nil {
-		return nil, *m.ListError
-	}
-
-	var objs []*ga.HttpsHealthCheck
-	for _, obj := range m.Objects {
-		objs = append(objs, obj)
-	}
-
-	return objs, nil
-}
-
-// Insert is a mock for inserting/creating a new object.
-func (m *MockHttpsHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.HttpsHealthCheck) error {
-	if m.InsertHook != nil {
-		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			return err
-		}
-	}
-
-	m.Lock.Lock()
-	defer m.Lock.Unlock()
-
-	if err, ok := m.InsertError[key]; ok {
-		return err
-	}
-	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
-			Code:    http.StatusConflict,
-			Message: fmt.Sprintf("MockHttpsHealthChecks %v exists", key),
-		}
-	}
-
-	m.Objects[key] = obj
-	return nil
-}
-
-// Delete is a mock for deleting the object.
-func (m *MockHttpsHealthChecks) Delete(ctx context.Context, key meta.Key) error {
-	if m.DeleteHook != nil {
-		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
-			return err
-		}
-	}
-
-	m.Lock.Lock()
-	defer m.Lock.Unlock()
-
-	if err, ok := m.DeleteError[key]; ok {
-		return err
-	}
-	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
-			Code:    http.StatusNotFound,
-			Message: fmt.Sprintf("MockHttpsHealthChecks %v not found", key),
-		}
-	}
-
-	delete(m.Objects, key)
-	return nil
-}
-
-// GCEHttpsHealthChecks is a simplifying adapter for the GCE HttpsHealthChecks.
-type GCEHttpsHealthChecks struct {
-	s *Service
-}
-
-// Get the HttpsHealthCheck named by key.
-func (g *GCEHttpsHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HttpsHealthCheck, error) {
-	rk := &RateLimitKey{
-		Operation: "Get",
-		Version:   meta.Version("ga"),
-		Target:    "HttpsHealthCheck",
-	}
-	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpsHealthChecks")
-
-	call := g.s.GA.HttpsHealthChecks.Get(projectID, key.Name)
-
-	call.Context(ctx)
-
-	return call.Do()
-}
-
-// List all HttpsHealthCheck objects.
-func (g *GCEHttpsHealthChecks) List(ctx context.Context) ([]*ga.HttpsHealthCheck, error) {
-	rk := &RateLimitKey{
-		Operation: "List",
-		Version:   meta.Version("ga"),
-		Target:    "HttpsHealthCheck",
-	}
-	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpsHealthChecks")
-
-	call := g.s.GA.HttpsHealthChecks.List(projectID)
-
-	var all []*ga.HttpsHealthCheck
-	f := func(l *ga.HttpsHealthCheckList) error {
-		all = append(all, l.Items...)
-		return nil
-	}
-	if err := call.Pages(ctx, f); err != nil {
-		return nil, err
-	}
-	return all, nil
-}
-
-// Insert HttpsHealthCheck with key of value obj.
-func (g *GCEHttpsHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.HttpsHealthCheck) error {
-	rk := &RateLimitKey{
-		Operation: "Insert",
-		Version:   meta.Version("ga"),
-		Target:    "HttpsHealthCheck",
-	}
-	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpsHealthChecks")
-	obj.Name = key.Name
-
-	call := g.s.GA.HttpsHealthChecks.Insert(projectID, obj)
-
-	call.Context(ctx)
-
-	op, err := call.Do()
-	if err != nil {
-		return err
-	}
-	return g.s.WaitForCompletion(ctx, op)
-}
-
-// Delete the HttpsHealthCheck referenced by key.
-func (g *GCEHttpsHealthChecks) Delete(ctx context.Context, key meta.Key) error {
-	rk := &RateLimitKey{
-		Operation: "Delete",
-		Version:   meta.Version("ga"),
-		Target:    "HttpsHealthCheck",
-	}
-	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpsHealthChecks")
-
-	call := g.s.GA.HttpsHealthChecks.Delete(projectID, key.Name)
+	call := g.s.GA.GlobalForwardingRules.SetTarget(projectID, key.Name, arg0)
 
 	call.Context(ctx)
 
@@ -3475,6 +3971,8 @@ type HealthChecks interface {
 	List(ctx context.Context) ([]*ga.HealthCheck, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.HealthCheck) error
 	Delete(ctx context.Context, key meta.Key) error
+
+	Update(context.Context, meta.Key, *ga.HealthCheck) error
 }
 
 // NewMockHealthChecks returns a new mock for HealthChecks.
@@ -3511,6 +4009,8 @@ type MockHealthChecks struct {
 	ListHook   func(m *MockHealthChecks, ctx context.Context) (bool, []*ga.HealthCheck, error)
 	InsertHook func(m *MockHealthChecks, ctx context.Context, key meta.Key, obj *ga.HealthCheck) (bool, error)
 	DeleteHook func(m *MockHealthChecks, ctx context.Context, key meta.Key) (bool, error)
+
+	UpdateHook func(*MockHealthChecks, context.Context, meta.Key, *ga.HealthCheck) error
 
 	// X is extra state that can be used as part of the mock. Generated code
 	// will not use this field.
@@ -3613,6 +4113,13 @@ func (m *MockHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+func (m *MockHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga.HealthCheck) error {
+	if m.UpdateHook != nil {
+		return m.UpdateHook(m, ctx, key, arg0)
+	}
+	return nil
+}
+
 // GCEHealthChecks is a simplifying adapter for the GCE HealthChecks.
 type GCEHealthChecks struct {
 	s *Service
@@ -3701,12 +4208,34 @@ func (g *GCEHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+func (g *GCEHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga.HealthCheck) error {
+	rk := &RateLimitKey{
+		Operation: "Update",
+		Version:   meta.Version("ga"),
+		Target:    "HealthCheck",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HealthChecks")
+
+	call := g.s.GA.HealthChecks.Update(projectID, key.Name, arg0)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
 // AlphaHealthChecks is an interface that allows for mocking of HealthChecks.
 type AlphaHealthChecks interface {
 	Get(ctx context.Context, key meta.Key) (*alpha.HealthCheck, error)
 	List(ctx context.Context) ([]*alpha.HealthCheck, error)
 	Insert(ctx context.Context, key meta.Key, obj *alpha.HealthCheck) error
 	Delete(ctx context.Context, key meta.Key) error
+
+	Update(context.Context, meta.Key, *alpha.HealthCheck) error
 }
 
 // NewMockAlphaHealthChecks returns a new mock for HealthChecks.
@@ -3743,6 +4272,8 @@ type MockAlphaHealthChecks struct {
 	ListHook   func(m *MockAlphaHealthChecks, ctx context.Context) (bool, []*alpha.HealthCheck, error)
 	InsertHook func(m *MockAlphaHealthChecks, ctx context.Context, key meta.Key, obj *alpha.HealthCheck) (bool, error)
 	DeleteHook func(m *MockAlphaHealthChecks, ctx context.Context, key meta.Key) (bool, error)
+
+	UpdateHook func(*MockAlphaHealthChecks, context.Context, meta.Key, *alpha.HealthCheck) error
 
 	// X is extra state that can be used as part of the mock. Generated code
 	// will not use this field.
@@ -3845,6 +4376,13 @@ func (m *MockAlphaHealthChecks) Delete(ctx context.Context, key meta.Key) error 
 	return nil
 }
 
+func (m *MockAlphaHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *alpha.HealthCheck) error {
+	if m.UpdateHook != nil {
+		return m.UpdateHook(m, ctx, key, arg0)
+	}
+	return nil
+}
+
 // GCEAlphaHealthChecks is a simplifying adapter for the GCE HealthChecks.
 type GCEAlphaHealthChecks struct {
 	s *Service
@@ -3933,18 +4471,40 @@ func (g *GCEAlphaHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 	return g.s.WaitForCompletion(ctx, op)
 }
 
-// Images is an interface that allows for mocking of Images.
-type Images interface {
-	Get(ctx context.Context, key meta.Key) (*ga.Image, error)
-	List(ctx context.Context) ([]*ga.Image, error)
-	Insert(ctx context.Context, key meta.Key, obj *ga.Image) error
-	Delete(ctx context.Context, key meta.Key) error
+func (g *GCEAlphaHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *alpha.HealthCheck) error {
+	rk := &RateLimitKey{
+		Operation: "Update",
+		Version:   meta.Version("alpha"),
+		Target:    "HealthCheck",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "HealthChecks")
+
+	call := g.s.Alpha.HealthChecks.Update(projectID, key.Name, arg0)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
 }
 
-// NewMockImages returns a new mock for Images.
-func NewMockImages() *MockImages {
-	mock := &MockImages{
-		Objects:     map[meta.Key]*ga.Image{},
+// HttpHealthChecks is an interface that allows for mocking of HttpHealthChecks.
+type HttpHealthChecks interface {
+	Get(ctx context.Context, key meta.Key) (*ga.HttpHealthCheck, error)
+	List(ctx context.Context) ([]*ga.HttpHealthCheck, error)
+	Insert(ctx context.Context, key meta.Key, obj *ga.HttpHealthCheck) error
+	Delete(ctx context.Context, key meta.Key) error
+
+	Update(context.Context, meta.Key, *ga.HttpHealthCheck) error
+}
+
+// NewMockHttpHealthChecks returns a new mock for HttpHealthChecks.
+func NewMockHttpHealthChecks() *MockHttpHealthChecks {
+	mock := &MockHttpHealthChecks{
+		Objects:     map[meta.Key]*ga.HttpHealthCheck{},
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -3952,12 +4512,12 @@ func NewMockImages() *MockImages {
 	return mock
 }
 
-// MockImages is the mock for Images.
-type MockImages struct {
+// MockHttpHealthChecks is the mock for HttpHealthChecks.
+type MockHttpHealthChecks struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*ga.Image
+	Objects map[meta.Key]*ga.HttpHealthCheck
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -3971,10 +4531,12 @@ type MockImages struct {
 	// Return (true, _, _) to prevent the normal execution flow of the
 	// mock. Return (false, nil, nil) to continue with normal mock behavior
 	// after the hook function executes.
-	GetHook    func(m *MockImages, ctx context.Context, key meta.Key) (bool, *ga.Image, error)
-	ListHook   func(m *MockImages, ctx context.Context) (bool, []*ga.Image, error)
-	InsertHook func(m *MockImages, ctx context.Context, key meta.Key, obj *ga.Image) (bool, error)
-	DeleteHook func(m *MockImages, ctx context.Context, key meta.Key) (bool, error)
+	GetHook    func(m *MockHttpHealthChecks, ctx context.Context, key meta.Key) (bool, *ga.HttpHealthCheck, error)
+	ListHook   func(m *MockHttpHealthChecks, ctx context.Context) (bool, []*ga.HttpHealthCheck, error)
+	InsertHook func(m *MockHttpHealthChecks, ctx context.Context, key meta.Key, obj *ga.HttpHealthCheck) (bool, error)
+	DeleteHook func(m *MockHttpHealthChecks, ctx context.Context, key meta.Key) (bool, error)
+
+	UpdateHook func(*MockHttpHealthChecks, context.Context, meta.Key, *ga.HttpHealthCheck) error
 
 	// X is extra state that can be used as part of the mock. Generated code
 	// will not use this field.
@@ -3982,7 +4544,7 @@ type MockImages struct {
 }
 
 // Get returns the object from the mock.
-func (m *MockImages) Get(ctx context.Context, key meta.Key) (*ga.Image, error) {
+func (m *MockHttpHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HttpHealthCheck, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
 			return obj, err
@@ -4000,12 +4562,12 @@ func (m *MockImages) Get(ctx context.Context, key meta.Key) (*ga.Image, error) {
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
-		Message: fmt.Sprintf("MockImages %v not found", key),
+		Message: fmt.Sprintf("MockHttpHealthChecks %v not found", key),
 	}
 }
 
 // List all of the objects in the mock.
-func (m *MockImages) List(ctx context.Context) ([]*ga.Image, error) {
+func (m *MockHttpHealthChecks) List(ctx context.Context) ([]*ga.HttpHealthCheck, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -4019,7 +4581,7 @@ func (m *MockImages) List(ctx context.Context) ([]*ga.Image, error) {
 		return nil, *m.ListError
 	}
 
-	var objs []*ga.Image
+	var objs []*ga.HttpHealthCheck
 	for _, obj := range m.Objects {
 		objs = append(objs, obj)
 	}
@@ -4028,7 +4590,7 @@ func (m *MockImages) List(ctx context.Context) ([]*ga.Image, error) {
 }
 
 // Insert is a mock for inserting/creating a new object.
-func (m *MockImages) Insert(ctx context.Context, key meta.Key, obj *ga.Image) error {
+func (m *MockHttpHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.HttpHealthCheck) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
 			return err
@@ -4044,7 +4606,7 @@ func (m *MockImages) Insert(ctx context.Context, key meta.Key, obj *ga.Image) er
 	if _, ok := m.Objects[key]; ok {
 		return &googleapi.Error{
 			Code:    http.StatusConflict,
-			Message: fmt.Sprintf("MockImages %v exists", key),
+			Message: fmt.Sprintf("MockHttpHealthChecks %v exists", key),
 		}
 	}
 
@@ -4053,7 +4615,7 @@ func (m *MockImages) Insert(ctx context.Context, key meta.Key, obj *ga.Image) er
 }
 
 // Delete is a mock for deleting the object.
-func (m *MockImages) Delete(ctx context.Context, key meta.Key) error {
+func (m *MockHttpHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
 			return err
@@ -4069,7 +4631,7 @@ func (m *MockImages) Delete(ctx context.Context, key meta.Key) error {
 	if _, ok := m.Objects[key]; !ok {
 		return &googleapi.Error{
 			Code:    http.StatusNotFound,
-			Message: fmt.Sprintf("MockImages %v not found", key),
+			Message: fmt.Sprintf("MockHttpHealthChecks %v not found", key),
 		}
 	}
 
@@ -4077,42 +4639,49 @@ func (m *MockImages) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
-// GCEImages is a simplifying adapter for the GCE Images.
-type GCEImages struct {
+func (m *MockHttpHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga.HttpHealthCheck) error {
+	if m.UpdateHook != nil {
+		return m.UpdateHook(m, ctx, key, arg0)
+	}
+	return nil
+}
+
+// GCEHttpHealthChecks is a simplifying adapter for the GCE HttpHealthChecks.
+type GCEHttpHealthChecks struct {
 	s *Service
 }
 
-// Get the Image named by key.
-func (g *GCEImages) Get(ctx context.Context, key meta.Key) (*ga.Image, error) {
+// Get the HttpHealthCheck named by key.
+func (g *GCEHttpHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HttpHealthCheck, error) {
 	rk := &RateLimitKey{
 		Operation: "Get",
 		Version:   meta.Version("ga"),
-		Target:    "Image",
+		Target:    "HttpHealthCheck",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Images")
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpHealthChecks")
 
-	call := g.s.GA.Images.Get(projectID, key.Name)
+	call := g.s.GA.HttpHealthChecks.Get(projectID, key.Name)
 
 	call.Context(ctx)
 
 	return call.Do()
 }
 
-// List all Image objects.
-func (g *GCEImages) List(ctx context.Context) ([]*ga.Image, error) {
+// List all HttpHealthCheck objects.
+func (g *GCEHttpHealthChecks) List(ctx context.Context) ([]*ga.HttpHealthCheck, error) {
 	rk := &RateLimitKey{
 		Operation: "List",
 		Version:   meta.Version("ga"),
-		Target:    "Image",
+		Target:    "HttpHealthCheck",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Images")
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpHealthChecks")
 
-	call := g.s.GA.Images.List(projectID)
+	call := g.s.GA.HttpHealthChecks.List(projectID)
 
-	var all []*ga.Image
-	f := func(l *ga.ImageList) error {
+	var all []*ga.HttpHealthCheck
+	f := func(l *ga.HttpHealthCheckList) error {
 		all = append(all, l.Items...)
 		return nil
 	}
@@ -4122,18 +4691,18 @@ func (g *GCEImages) List(ctx context.Context) ([]*ga.Image, error) {
 	return all, nil
 }
 
-// Insert Image with key of value obj.
-func (g *GCEImages) Insert(ctx context.Context, key meta.Key, obj *ga.Image) error {
+// Insert HttpHealthCheck with key of value obj.
+func (g *GCEHttpHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.HttpHealthCheck) error {
 	rk := &RateLimitKey{
 		Operation: "Insert",
 		Version:   meta.Version("ga"),
-		Target:    "Image",
+		Target:    "HttpHealthCheck",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Images")
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpHealthChecks")
 	obj.Name = key.Name
 
-	call := g.s.GA.Images.Insert(projectID, obj)
+	call := g.s.GA.HttpHealthChecks.Insert(projectID, obj)
 
 	call.Context(ctx)
 
@@ -4144,17 +4713,300 @@ func (g *GCEImages) Insert(ctx context.Context, key meta.Key, obj *ga.Image) err
 	return g.s.WaitForCompletion(ctx, op)
 }
 
-// Delete the Image referenced by key.
-func (g *GCEImages) Delete(ctx context.Context, key meta.Key) error {
+// Delete the HttpHealthCheck referenced by key.
+func (g *GCEHttpHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 	rk := &RateLimitKey{
 		Operation: "Delete",
 		Version:   meta.Version("ga"),
-		Target:    "Image",
+		Target:    "HttpHealthCheck",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Images")
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpHealthChecks")
 
-	call := g.s.GA.Images.Delete(projectID, key.Name)
+	call := g.s.GA.HttpHealthChecks.Delete(projectID, key.Name)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+func (g *GCEHttpHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga.HttpHealthCheck) error {
+	rk := &RateLimitKey{
+		Operation: "Update",
+		Version:   meta.Version("ga"),
+		Target:    "HttpHealthCheck",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpHealthChecks")
+
+	call := g.s.GA.HttpHealthChecks.Update(projectID, key.Name, arg0)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+// HttpsHealthChecks is an interface that allows for mocking of HttpsHealthChecks.
+type HttpsHealthChecks interface {
+	Get(ctx context.Context, key meta.Key) (*ga.HttpsHealthCheck, error)
+	List(ctx context.Context) ([]*ga.HttpsHealthCheck, error)
+	Insert(ctx context.Context, key meta.Key, obj *ga.HttpsHealthCheck) error
+	Delete(ctx context.Context, key meta.Key) error
+
+	Update(context.Context, meta.Key, *ga.HttpsHealthCheck) error
+}
+
+// NewMockHttpsHealthChecks returns a new mock for HttpsHealthChecks.
+func NewMockHttpsHealthChecks() *MockHttpsHealthChecks {
+	mock := &MockHttpsHealthChecks{
+		Objects:     map[meta.Key]*ga.HttpsHealthCheck{},
+		GetError:    map[meta.Key]error{},
+		InsertError: map[meta.Key]error{},
+		DeleteError: map[meta.Key]error{},
+	}
+	return mock
+}
+
+// MockHttpsHealthChecks is the mock for HttpsHealthChecks.
+type MockHttpsHealthChecks struct {
+	Lock sync.Mutex
+
+	// Objects maintained by the mock.
+	Objects map[meta.Key]*ga.HttpsHealthCheck
+
+	// If an entry exists for the given key and operation, then the error
+	// will be returned instead of the operation.
+	GetError    map[meta.Key]error
+	ListError   *error
+	InsertError map[meta.Key]error
+	DeleteError map[meta.Key]error
+
+	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
+	// standard processing of the mock in order to add your own logic.
+	// Return (true, _, _) to prevent the normal execution flow of the
+	// mock. Return (false, nil, nil) to continue with normal mock behavior
+	// after the hook function executes.
+	GetHook    func(m *MockHttpsHealthChecks, ctx context.Context, key meta.Key) (bool, *ga.HttpsHealthCheck, error)
+	ListHook   func(m *MockHttpsHealthChecks, ctx context.Context) (bool, []*ga.HttpsHealthCheck, error)
+	InsertHook func(m *MockHttpsHealthChecks, ctx context.Context, key meta.Key, obj *ga.HttpsHealthCheck) (bool, error)
+	DeleteHook func(m *MockHttpsHealthChecks, ctx context.Context, key meta.Key) (bool, error)
+
+	UpdateHook func(*MockHttpsHealthChecks, context.Context, meta.Key, *ga.HttpsHealthCheck) error
+
+	// X is extra state that can be used as part of the mock. Generated code
+	// will not use this field.
+	X interface{}
+}
+
+// Get returns the object from the mock.
+func (m *MockHttpsHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HttpsHealthCheck, error) {
+	if m.GetHook != nil {
+		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			return obj, err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if err, ok := m.GetError[key]; ok {
+		return nil, err
+	}
+	if obj, ok := m.Objects[key]; ok {
+		return obj, nil
+	}
+	return nil, &googleapi.Error{
+		Code:    http.StatusNotFound,
+		Message: fmt.Sprintf("MockHttpsHealthChecks %v not found", key),
+	}
+}
+
+// List all of the objects in the mock.
+func (m *MockHttpsHealthChecks) List(ctx context.Context) ([]*ga.HttpsHealthCheck, error) {
+	if m.ListHook != nil {
+		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+			return objs, err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if m.ListError != nil {
+		return nil, *m.ListError
+	}
+
+	var objs []*ga.HttpsHealthCheck
+	for _, obj := range m.Objects {
+		objs = append(objs, obj)
+	}
+
+	return objs, nil
+}
+
+// Insert is a mock for inserting/creating a new object.
+func (m *MockHttpsHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.HttpsHealthCheck) error {
+	if m.InsertHook != nil {
+		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			return err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if err, ok := m.InsertError[key]; ok {
+		return err
+	}
+	if _, ok := m.Objects[key]; ok {
+		return &googleapi.Error{
+			Code:    http.StatusConflict,
+			Message: fmt.Sprintf("MockHttpsHealthChecks %v exists", key),
+		}
+	}
+
+	m.Objects[key] = obj
+	return nil
+}
+
+// Delete is a mock for deleting the object.
+func (m *MockHttpsHealthChecks) Delete(ctx context.Context, key meta.Key) error {
+	if m.DeleteHook != nil {
+		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			return err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if err, ok := m.DeleteError[key]; ok {
+		return err
+	}
+	if _, ok := m.Objects[key]; !ok {
+		return &googleapi.Error{
+			Code:    http.StatusNotFound,
+			Message: fmt.Sprintf("MockHttpsHealthChecks %v not found", key),
+		}
+	}
+
+	delete(m.Objects, key)
+	return nil
+}
+
+func (m *MockHttpsHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga.HttpsHealthCheck) error {
+	if m.UpdateHook != nil {
+		return m.UpdateHook(m, ctx, key, arg0)
+	}
+	return nil
+}
+
+// GCEHttpsHealthChecks is a simplifying adapter for the GCE HttpsHealthChecks.
+type GCEHttpsHealthChecks struct {
+	s *Service
+}
+
+// Get the HttpsHealthCheck named by key.
+func (g *GCEHttpsHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HttpsHealthCheck, error) {
+	rk := &RateLimitKey{
+		Operation: "Get",
+		Version:   meta.Version("ga"),
+		Target:    "HttpsHealthCheck",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpsHealthChecks")
+
+	call := g.s.GA.HttpsHealthChecks.Get(projectID, key.Name)
+
+	call.Context(ctx)
+
+	return call.Do()
+}
+
+// List all HttpsHealthCheck objects.
+func (g *GCEHttpsHealthChecks) List(ctx context.Context) ([]*ga.HttpsHealthCheck, error) {
+	rk := &RateLimitKey{
+		Operation: "List",
+		Version:   meta.Version("ga"),
+		Target:    "HttpsHealthCheck",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpsHealthChecks")
+
+	call := g.s.GA.HttpsHealthChecks.List(projectID)
+
+	var all []*ga.HttpsHealthCheck
+	f := func(l *ga.HttpsHealthCheckList) error {
+		all = append(all, l.Items...)
+		return nil
+	}
+	if err := call.Pages(ctx, f); err != nil {
+		return nil, err
+	}
+	return all, nil
+}
+
+// Insert HttpsHealthCheck with key of value obj.
+func (g *GCEHttpsHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.HttpsHealthCheck) error {
+	rk := &RateLimitKey{
+		Operation: "Insert",
+		Version:   meta.Version("ga"),
+		Target:    "HttpsHealthCheck",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpsHealthChecks")
+	obj.Name = key.Name
+
+	call := g.s.GA.HttpsHealthChecks.Insert(projectID, obj)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+// Delete the HttpsHealthCheck referenced by key.
+func (g *GCEHttpsHealthChecks) Delete(ctx context.Context, key meta.Key) error {
+	rk := &RateLimitKey{
+		Operation: "Delete",
+		Version:   meta.Version("ga"),
+		Target:    "HttpsHealthCheck",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpsHealthChecks")
+
+	call := g.s.GA.HttpsHealthChecks.Delete(projectID, key.Name)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+func (g *GCEHttpsHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga.HttpsHealthCheck) error {
+	rk := &RateLimitKey{
+		Operation: "Update",
+		Version:   meta.Version("ga"),
+		Target:    "HttpsHealthCheck",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpsHealthChecks")
+
+	call := g.s.GA.HttpsHealthChecks.Update(projectID, key.Name, arg0)
 
 	call.Context(ctx)
 
@@ -4172,6 +5024,8 @@ type InstanceGroups interface {
 	Insert(ctx context.Context, key meta.Key, obj *ga.InstanceGroup) error
 	Delete(ctx context.Context, key meta.Key) error
 
+	ListInstances(context.Context, meta.Key, *ga.InstanceGroupsListInstancesRequest) error
+	RemoveInstances(context.Context, meta.Key, *ga.InstanceGroupsRemoveInstancesRequest) error
 	SetNamedPorts(context.Context, meta.Key, *ga.InstanceGroupsSetNamedPortsRequest) error
 }
 
@@ -4210,7 +5064,9 @@ type MockInstanceGroups struct {
 	InsertHook func(m *MockInstanceGroups, ctx context.Context, key meta.Key, obj *ga.InstanceGroup) (bool, error)
 	DeleteHook func(m *MockInstanceGroups, ctx context.Context, key meta.Key) (bool, error)
 
-	SetNamedPortsHook func(*MockInstanceGroups, context.Context, meta.Key, *ga.InstanceGroupsSetNamedPortsRequest) error
+	ListInstancesHook   func(*MockInstanceGroups, context.Context, meta.Key, *ga.InstanceGroupsListInstancesRequest) error
+	RemoveInstancesHook func(*MockInstanceGroups, context.Context, meta.Key, *ga.InstanceGroupsRemoveInstancesRequest) error
+	SetNamedPortsHook   func(*MockInstanceGroups, context.Context, meta.Key, *ga.InstanceGroupsSetNamedPortsRequest) error
 
 	// X is extra state that can be used as part of the mock. Generated code
 	// will not use this field.
@@ -4317,6 +5173,20 @@ func (m *MockInstanceGroups) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+func (m *MockInstanceGroups) ListInstances(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsListInstancesRequest) error {
+	if m.ListInstancesHook != nil {
+		return m.ListInstancesHook(m, ctx, key, arg0)
+	}
+	return nil
+}
+
+func (m *MockInstanceGroups) RemoveInstances(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsRemoveInstancesRequest) error {
+	if m.RemoveInstancesHook != nil {
+		return m.RemoveInstancesHook(m, ctx, key, arg0)
+	}
+	return nil
+}
+
 func (m *MockInstanceGroups) SetNamedPorts(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsSetNamedPortsRequest) error {
 	if m.SetNamedPortsHook != nil {
 		return m.SetNamedPortsHook(m, ctx, key, arg0)
@@ -4402,6 +5272,46 @@ func (g *GCEInstanceGroups) Delete(ctx context.Context, key meta.Key) error {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
 
 	call := g.s.GA.InstanceGroups.Delete(projectID, key.Zone, key.Name)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+func (g *GCEInstanceGroups) ListInstances(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsListInstancesRequest) error {
+	rk := &RateLimitKey{
+		Operation: "ListInstances",
+		Version:   meta.Version("ga"),
+		Target:    "InstanceGroup",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
+
+	call := g.s.GA.InstanceGroups.ListInstances(projectID, key.Zone, key.Name, arg0)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+func (g *GCEInstanceGroups) RemoveInstances(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsRemoveInstancesRequest) error {
+	rk := &RateLimitKey{
+		Operation: "RemoveInstances",
+		Version:   meta.Version("ga"),
+		Target:    "InstanceGroup",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
+
+	call := g.s.GA.InstanceGroups.RemoveInstances(projectID, key.Zone, key.Name, arg0)
 
 	call.Context(ctx)
 
@@ -5014,6 +5924,331 @@ func (g *GCEBetaInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 st
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Instances")
 
 	call := g.s.Beta.Instances.DetachDisk(projectID, key.Zone, key.Name, arg0)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+// AlphaInstances is an interface that allows for mocking of Instances.
+type AlphaInstances interface {
+	Get(ctx context.Context, key meta.Key) (*alpha.Instance, error)
+	List(ctx context.Context, zone string) ([]*alpha.Instance, error)
+	Insert(ctx context.Context, key meta.Key, obj *alpha.Instance) error
+	Delete(ctx context.Context, key meta.Key) error
+
+	AttachDisk(context.Context, meta.Key, *alpha.AttachedDisk) error
+	DetachDisk(context.Context, meta.Key, string) error
+	UpdateNetworkInterface(context.Context, meta.Key, string, *alpha.NetworkInterface) error
+}
+
+// NewMockAlphaInstances returns a new mock for Instances.
+func NewMockAlphaInstances() *MockAlphaInstances {
+	mock := &MockAlphaInstances{
+		Objects:     map[meta.Key]*alpha.Instance{},
+		GetError:    map[meta.Key]error{},
+		InsertError: map[meta.Key]error{},
+		DeleteError: map[meta.Key]error{},
+	}
+	return mock
+}
+
+// MockAlphaInstances is the mock for Instances.
+type MockAlphaInstances struct {
+	Lock sync.Mutex
+
+	// Objects maintained by the mock.
+	Objects map[meta.Key]*alpha.Instance
+
+	// If an entry exists for the given key and operation, then the error
+	// will be returned instead of the operation.
+	GetError    map[meta.Key]error
+	ListError   *error
+	InsertError map[meta.Key]error
+	DeleteError map[meta.Key]error
+
+	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
+	// standard processing of the mock in order to add your own logic.
+	// Return (true, _, _) to prevent the normal execution flow of the
+	// mock. Return (false, nil, nil) to continue with normal mock behavior
+	// after the hook function executes.
+	GetHook    func(m *MockAlphaInstances, ctx context.Context, key meta.Key) (bool, *alpha.Instance, error)
+	ListHook   func(m *MockAlphaInstances, ctx context.Context) (bool, []*alpha.Instance, error)
+	InsertHook func(m *MockAlphaInstances, ctx context.Context, key meta.Key, obj *alpha.Instance) (bool, error)
+	DeleteHook func(m *MockAlphaInstances, ctx context.Context, key meta.Key) (bool, error)
+
+	AttachDiskHook             func(*MockAlphaInstances, context.Context, meta.Key, *alpha.AttachedDisk) error
+	DetachDiskHook             func(*MockAlphaInstances, context.Context, meta.Key, string) error
+	UpdateNetworkInterfaceHook func(*MockAlphaInstances, context.Context, meta.Key, string, *alpha.NetworkInterface) error
+
+	// X is extra state that can be used as part of the mock. Generated code
+	// will not use this field.
+	X interface{}
+}
+
+// Get returns the object from the mock.
+func (m *MockAlphaInstances) Get(ctx context.Context, key meta.Key) (*alpha.Instance, error) {
+	if m.GetHook != nil {
+		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			return obj, err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if err, ok := m.GetError[key]; ok {
+		return nil, err
+	}
+	if obj, ok := m.Objects[key]; ok {
+		return obj, nil
+	}
+	return nil, &googleapi.Error{
+		Code:    http.StatusNotFound,
+		Message: fmt.Sprintf("MockAlphaInstances %v not found", key),
+	}
+}
+
+// List all of the objects in the mock in the given zone.
+func (m *MockAlphaInstances) List(ctx context.Context, zone string) ([]*alpha.Instance, error) {
+	if m.ListHook != nil {
+		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+			return objs, err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if m.ListError != nil {
+		return nil, *m.ListError
+	}
+
+	var objs []*alpha.Instance
+	for key, obj := range m.Objects {
+		if key.Zone != zone {
+			continue
+		}
+
+		objs = append(objs, obj)
+	}
+
+	return objs, nil
+}
+
+// Insert is a mock for inserting/creating a new object.
+func (m *MockAlphaInstances) Insert(ctx context.Context, key meta.Key, obj *alpha.Instance) error {
+	if m.InsertHook != nil {
+		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			return err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if err, ok := m.InsertError[key]; ok {
+		return err
+	}
+	if _, ok := m.Objects[key]; ok {
+		return &googleapi.Error{
+			Code:    http.StatusConflict,
+			Message: fmt.Sprintf("MockAlphaInstances %v exists", key),
+		}
+	}
+
+	m.Objects[key] = obj
+	return nil
+}
+
+// Delete is a mock for deleting the object.
+func (m *MockAlphaInstances) Delete(ctx context.Context, key meta.Key) error {
+	if m.DeleteHook != nil {
+		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			return err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if err, ok := m.DeleteError[key]; ok {
+		return err
+	}
+	if _, ok := m.Objects[key]; !ok {
+		return &googleapi.Error{
+			Code:    http.StatusNotFound,
+			Message: fmt.Sprintf("MockAlphaInstances %v not found", key),
+		}
+	}
+
+	delete(m.Objects, key)
+	return nil
+}
+
+func (m *MockAlphaInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *alpha.AttachedDisk) error {
+	if m.AttachDiskHook != nil {
+		return m.AttachDiskHook(m, ctx, key, arg0)
+	}
+	return nil
+}
+
+func (m *MockAlphaInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 string) error {
+	if m.DetachDiskHook != nil {
+		return m.DetachDiskHook(m, ctx, key, arg0)
+	}
+	return nil
+}
+
+func (m *MockAlphaInstances) UpdateNetworkInterface(ctx context.Context, key meta.Key, arg0 string, arg1 *alpha.NetworkInterface) error {
+	if m.UpdateNetworkInterfaceHook != nil {
+		return m.UpdateNetworkInterfaceHook(m, ctx, key, arg0, arg1)
+	}
+	return nil
+}
+
+// GCEAlphaInstances is a simplifying adapter for the GCE Instances.
+type GCEAlphaInstances struct {
+	s *Service
+}
+
+// Get the Instance named by key.
+func (g *GCEAlphaInstances) Get(ctx context.Context, key meta.Key) (*alpha.Instance, error) {
+	rk := &RateLimitKey{
+		Operation: "Get",
+		Version:   meta.Version("alpha"),
+		Target:    "Instance",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
+
+	call := g.s.Alpha.Instances.Get(projectID, key.Zone, key.Name)
+
+	call.Context(ctx)
+
+	return call.Do()
+}
+
+// List all Instance objects.
+func (g *GCEAlphaInstances) List(ctx context.Context, zone string) ([]*alpha.Instance, error) {
+	rk := &RateLimitKey{
+		Operation: "List",
+		Version:   meta.Version("alpha"),
+		Target:    "Instance",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
+
+	call := g.s.Alpha.Instances.List(projectID, zone)
+
+	var all []*alpha.Instance
+	f := func(l *alpha.InstanceList) error {
+		all = append(all, l.Items...)
+		return nil
+	}
+	if err := call.Pages(ctx, f); err != nil {
+		return nil, err
+	}
+	return all, nil
+}
+
+// Insert Instance with key of value obj.
+func (g *GCEAlphaInstances) Insert(ctx context.Context, key meta.Key, obj *alpha.Instance) error {
+	rk := &RateLimitKey{
+		Operation: "Insert",
+		Version:   meta.Version("alpha"),
+		Target:    "Instance",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
+	obj.Name = key.Name
+
+	call := g.s.Alpha.Instances.Insert(projectID, key.Zone, obj)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+// Delete the Instance referenced by key.
+func (g *GCEAlphaInstances) Delete(ctx context.Context, key meta.Key) error {
+	rk := &RateLimitKey{
+		Operation: "Delete",
+		Version:   meta.Version("alpha"),
+		Target:    "Instance",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
+
+	call := g.s.Alpha.Instances.Delete(projectID, key.Zone, key.Name)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+func (g *GCEAlphaInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *alpha.AttachedDisk) error {
+	rk := &RateLimitKey{
+		Operation: "AttachDisk",
+		Version:   meta.Version("alpha"),
+		Target:    "Instance",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
+
+	call := g.s.Alpha.Instances.AttachDisk(projectID, key.Zone, key.Name, arg0)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+func (g *GCEAlphaInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 string) error {
+	rk := &RateLimitKey{
+		Operation: "DetachDisk",
+		Version:   meta.Version("alpha"),
+		Target:    "Instance",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
+
+	call := g.s.Alpha.Instances.DetachDisk(projectID, key.Zone, key.Name, arg0)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+func (g *GCEAlphaInstances) UpdateNetworkInterface(ctx context.Context, key meta.Key, arg0 string, arg1 *alpha.NetworkInterface) error {
+	rk := &RateLimitKey{
+		Operation: "UpdateNetworkInterface",
+		Version:   meta.Version("alpha"),
+		Target:    "Instance",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
+
+	call := g.s.Alpha.Instances.UpdateNetworkInterface(projectID, key.Zone, key.Name, arg0, arg1)
 
 	call.Context(ctx)
 
@@ -5921,12 +7156,570 @@ func (g *GCESslCertificates) Delete(ctx context.Context, key meta.Key) error {
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+// TargetHttpProxies is an interface that allows for mocking of TargetHttpProxies.
+type TargetHttpProxies interface {
+	Get(ctx context.Context, key meta.Key) (*ga.TargetHttpProxy, error)
+	List(ctx context.Context) ([]*ga.TargetHttpProxy, error)
+	Insert(ctx context.Context, key meta.Key, obj *ga.TargetHttpProxy) error
+	Delete(ctx context.Context, key meta.Key) error
+
+	SetUrlMap(context.Context, meta.Key, *ga.UrlMapReference) error
+}
+
+// NewMockTargetHttpProxies returns a new mock for TargetHttpProxies.
+func NewMockTargetHttpProxies() *MockTargetHttpProxies {
+	mock := &MockTargetHttpProxies{
+		Objects:     map[meta.Key]*ga.TargetHttpProxy{},
+		GetError:    map[meta.Key]error{},
+		InsertError: map[meta.Key]error{},
+		DeleteError: map[meta.Key]error{},
+	}
+	return mock
+}
+
+// MockTargetHttpProxies is the mock for TargetHttpProxies.
+type MockTargetHttpProxies struct {
+	Lock sync.Mutex
+
+	// Objects maintained by the mock.
+	Objects map[meta.Key]*ga.TargetHttpProxy
+
+	// If an entry exists for the given key and operation, then the error
+	// will be returned instead of the operation.
+	GetError    map[meta.Key]error
+	ListError   *error
+	InsertError map[meta.Key]error
+	DeleteError map[meta.Key]error
+
+	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
+	// standard processing of the mock in order to add your own logic.
+	// Return (true, _, _) to prevent the normal execution flow of the
+	// mock. Return (false, nil, nil) to continue with normal mock behavior
+	// after the hook function executes.
+	GetHook    func(m *MockTargetHttpProxies, ctx context.Context, key meta.Key) (bool, *ga.TargetHttpProxy, error)
+	ListHook   func(m *MockTargetHttpProxies, ctx context.Context) (bool, []*ga.TargetHttpProxy, error)
+	InsertHook func(m *MockTargetHttpProxies, ctx context.Context, key meta.Key, obj *ga.TargetHttpProxy) (bool, error)
+	DeleteHook func(m *MockTargetHttpProxies, ctx context.Context, key meta.Key) (bool, error)
+
+	SetUrlMapHook func(*MockTargetHttpProxies, context.Context, meta.Key, *ga.UrlMapReference) error
+
+	// X is extra state that can be used as part of the mock. Generated code
+	// will not use this field.
+	X interface{}
+}
+
+// Get returns the object from the mock.
+func (m *MockTargetHttpProxies) Get(ctx context.Context, key meta.Key) (*ga.TargetHttpProxy, error) {
+	if m.GetHook != nil {
+		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			return obj, err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if err, ok := m.GetError[key]; ok {
+		return nil, err
+	}
+	if obj, ok := m.Objects[key]; ok {
+		return obj, nil
+	}
+	return nil, &googleapi.Error{
+		Code:    http.StatusNotFound,
+		Message: fmt.Sprintf("MockTargetHttpProxies %v not found", key),
+	}
+}
+
+// List all of the objects in the mock.
+func (m *MockTargetHttpProxies) List(ctx context.Context) ([]*ga.TargetHttpProxy, error) {
+	if m.ListHook != nil {
+		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+			return objs, err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if m.ListError != nil {
+		return nil, *m.ListError
+	}
+
+	var objs []*ga.TargetHttpProxy
+	for _, obj := range m.Objects {
+		objs = append(objs, obj)
+	}
+
+	return objs, nil
+}
+
+// Insert is a mock for inserting/creating a new object.
+func (m *MockTargetHttpProxies) Insert(ctx context.Context, key meta.Key, obj *ga.TargetHttpProxy) error {
+	if m.InsertHook != nil {
+		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			return err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if err, ok := m.InsertError[key]; ok {
+		return err
+	}
+	if _, ok := m.Objects[key]; ok {
+		return &googleapi.Error{
+			Code:    http.StatusConflict,
+			Message: fmt.Sprintf("MockTargetHttpProxies %v exists", key),
+		}
+	}
+
+	m.Objects[key] = obj
+	return nil
+}
+
+// Delete is a mock for deleting the object.
+func (m *MockTargetHttpProxies) Delete(ctx context.Context, key meta.Key) error {
+	if m.DeleteHook != nil {
+		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			return err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if err, ok := m.DeleteError[key]; ok {
+		return err
+	}
+	if _, ok := m.Objects[key]; !ok {
+		return &googleapi.Error{
+			Code:    http.StatusNotFound,
+			Message: fmt.Sprintf("MockTargetHttpProxies %v not found", key),
+		}
+	}
+
+	delete(m.Objects, key)
+	return nil
+}
+
+func (m *MockTargetHttpProxies) SetUrlMap(ctx context.Context, key meta.Key, arg0 *ga.UrlMapReference) error {
+	if m.SetUrlMapHook != nil {
+		return m.SetUrlMapHook(m, ctx, key, arg0)
+	}
+	return nil
+}
+
+// GCETargetHttpProxies is a simplifying adapter for the GCE TargetHttpProxies.
+type GCETargetHttpProxies struct {
+	s *Service
+}
+
+// Get the TargetHttpProxy named by key.
+func (g *GCETargetHttpProxies) Get(ctx context.Context, key meta.Key) (*ga.TargetHttpProxy, error) {
+	rk := &RateLimitKey{
+		Operation: "Get",
+		Version:   meta.Version("ga"),
+		Target:    "TargetHttpProxy",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpProxies")
+
+	call := g.s.GA.TargetHttpProxies.Get(projectID, key.Name)
+
+	call.Context(ctx)
+
+	return call.Do()
+}
+
+// List all TargetHttpProxy objects.
+func (g *GCETargetHttpProxies) List(ctx context.Context) ([]*ga.TargetHttpProxy, error) {
+	rk := &RateLimitKey{
+		Operation: "List",
+		Version:   meta.Version("ga"),
+		Target:    "TargetHttpProxy",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpProxies")
+
+	call := g.s.GA.TargetHttpProxies.List(projectID)
+
+	var all []*ga.TargetHttpProxy
+	f := func(l *ga.TargetHttpProxyList) error {
+		all = append(all, l.Items...)
+		return nil
+	}
+	if err := call.Pages(ctx, f); err != nil {
+		return nil, err
+	}
+	return all, nil
+}
+
+// Insert TargetHttpProxy with key of value obj.
+func (g *GCETargetHttpProxies) Insert(ctx context.Context, key meta.Key, obj *ga.TargetHttpProxy) error {
+	rk := &RateLimitKey{
+		Operation: "Insert",
+		Version:   meta.Version("ga"),
+		Target:    "TargetHttpProxy",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpProxies")
+	obj.Name = key.Name
+
+	call := g.s.GA.TargetHttpProxies.Insert(projectID, obj)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+// Delete the TargetHttpProxy referenced by key.
+func (g *GCETargetHttpProxies) Delete(ctx context.Context, key meta.Key) error {
+	rk := &RateLimitKey{
+		Operation: "Delete",
+		Version:   meta.Version("ga"),
+		Target:    "TargetHttpProxy",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpProxies")
+
+	call := g.s.GA.TargetHttpProxies.Delete(projectID, key.Name)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+func (g *GCETargetHttpProxies) SetUrlMap(ctx context.Context, key meta.Key, arg0 *ga.UrlMapReference) error {
+	rk := &RateLimitKey{
+		Operation: "SetUrlMap",
+		Version:   meta.Version("ga"),
+		Target:    "TargetHttpProxy",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpProxies")
+
+	call := g.s.GA.TargetHttpProxies.SetUrlMap(projectID, key.Name, arg0)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+// TargetHttpsProxies is an interface that allows for mocking of TargetHttpsProxies.
+type TargetHttpsProxies interface {
+	Get(ctx context.Context, key meta.Key) (*ga.TargetHttpsProxy, error)
+	List(ctx context.Context) ([]*ga.TargetHttpsProxy, error)
+	Insert(ctx context.Context, key meta.Key, obj *ga.TargetHttpsProxy) error
+	Delete(ctx context.Context, key meta.Key) error
+
+	SetSslCertificates(context.Context, meta.Key, *ga.TargetHttpsProxiesSetSslCertificatesRequest) error
+	SetUrlMap(context.Context, meta.Key, *ga.UrlMapReference) error
+}
+
+// NewMockTargetHttpsProxies returns a new mock for TargetHttpsProxies.
+func NewMockTargetHttpsProxies() *MockTargetHttpsProxies {
+	mock := &MockTargetHttpsProxies{
+		Objects:     map[meta.Key]*ga.TargetHttpsProxy{},
+		GetError:    map[meta.Key]error{},
+		InsertError: map[meta.Key]error{},
+		DeleteError: map[meta.Key]error{},
+	}
+	return mock
+}
+
+// MockTargetHttpsProxies is the mock for TargetHttpsProxies.
+type MockTargetHttpsProxies struct {
+	Lock sync.Mutex
+
+	// Objects maintained by the mock.
+	Objects map[meta.Key]*ga.TargetHttpsProxy
+
+	// If an entry exists for the given key and operation, then the error
+	// will be returned instead of the operation.
+	GetError    map[meta.Key]error
+	ListError   *error
+	InsertError map[meta.Key]error
+	DeleteError map[meta.Key]error
+
+	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
+	// standard processing of the mock in order to add your own logic.
+	// Return (true, _, _) to prevent the normal execution flow of the
+	// mock. Return (false, nil, nil) to continue with normal mock behavior
+	// after the hook function executes.
+	GetHook    func(m *MockTargetHttpsProxies, ctx context.Context, key meta.Key) (bool, *ga.TargetHttpsProxy, error)
+	ListHook   func(m *MockTargetHttpsProxies, ctx context.Context) (bool, []*ga.TargetHttpsProxy, error)
+	InsertHook func(m *MockTargetHttpsProxies, ctx context.Context, key meta.Key, obj *ga.TargetHttpsProxy) (bool, error)
+	DeleteHook func(m *MockTargetHttpsProxies, ctx context.Context, key meta.Key) (bool, error)
+
+	SetSslCertificatesHook func(*MockTargetHttpsProxies, context.Context, meta.Key, *ga.TargetHttpsProxiesSetSslCertificatesRequest) error
+	SetUrlMapHook          func(*MockTargetHttpsProxies, context.Context, meta.Key, *ga.UrlMapReference) error
+
+	// X is extra state that can be used as part of the mock. Generated code
+	// will not use this field.
+	X interface{}
+}
+
+// Get returns the object from the mock.
+func (m *MockTargetHttpsProxies) Get(ctx context.Context, key meta.Key) (*ga.TargetHttpsProxy, error) {
+	if m.GetHook != nil {
+		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			return obj, err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if err, ok := m.GetError[key]; ok {
+		return nil, err
+	}
+	if obj, ok := m.Objects[key]; ok {
+		return obj, nil
+	}
+	return nil, &googleapi.Error{
+		Code:    http.StatusNotFound,
+		Message: fmt.Sprintf("MockTargetHttpsProxies %v not found", key),
+	}
+}
+
+// List all of the objects in the mock.
+func (m *MockTargetHttpsProxies) List(ctx context.Context) ([]*ga.TargetHttpsProxy, error) {
+	if m.ListHook != nil {
+		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+			return objs, err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if m.ListError != nil {
+		return nil, *m.ListError
+	}
+
+	var objs []*ga.TargetHttpsProxy
+	for _, obj := range m.Objects {
+		objs = append(objs, obj)
+	}
+
+	return objs, nil
+}
+
+// Insert is a mock for inserting/creating a new object.
+func (m *MockTargetHttpsProxies) Insert(ctx context.Context, key meta.Key, obj *ga.TargetHttpsProxy) error {
+	if m.InsertHook != nil {
+		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			return err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if err, ok := m.InsertError[key]; ok {
+		return err
+	}
+	if _, ok := m.Objects[key]; ok {
+		return &googleapi.Error{
+			Code:    http.StatusConflict,
+			Message: fmt.Sprintf("MockTargetHttpsProxies %v exists", key),
+		}
+	}
+
+	m.Objects[key] = obj
+	return nil
+}
+
+// Delete is a mock for deleting the object.
+func (m *MockTargetHttpsProxies) Delete(ctx context.Context, key meta.Key) error {
+	if m.DeleteHook != nil {
+		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			return err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if err, ok := m.DeleteError[key]; ok {
+		return err
+	}
+	if _, ok := m.Objects[key]; !ok {
+		return &googleapi.Error{
+			Code:    http.StatusNotFound,
+			Message: fmt.Sprintf("MockTargetHttpsProxies %v not found", key),
+		}
+	}
+
+	delete(m.Objects, key)
+	return nil
+}
+
+func (m *MockTargetHttpsProxies) SetSslCertificates(ctx context.Context, key meta.Key, arg0 *ga.TargetHttpsProxiesSetSslCertificatesRequest) error {
+	if m.SetSslCertificatesHook != nil {
+		return m.SetSslCertificatesHook(m, ctx, key, arg0)
+	}
+	return nil
+}
+
+func (m *MockTargetHttpsProxies) SetUrlMap(ctx context.Context, key meta.Key, arg0 *ga.UrlMapReference) error {
+	if m.SetUrlMapHook != nil {
+		return m.SetUrlMapHook(m, ctx, key, arg0)
+	}
+	return nil
+}
+
+// GCETargetHttpsProxies is a simplifying adapter for the GCE TargetHttpsProxies.
+type GCETargetHttpsProxies struct {
+	s *Service
+}
+
+// Get the TargetHttpsProxy named by key.
+func (g *GCETargetHttpsProxies) Get(ctx context.Context, key meta.Key) (*ga.TargetHttpsProxy, error) {
+	rk := &RateLimitKey{
+		Operation: "Get",
+		Version:   meta.Version("ga"),
+		Target:    "TargetHttpsProxy",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
+
+	call := g.s.GA.TargetHttpsProxies.Get(projectID, key.Name)
+
+	call.Context(ctx)
+
+	return call.Do()
+}
+
+// List all TargetHttpsProxy objects.
+func (g *GCETargetHttpsProxies) List(ctx context.Context) ([]*ga.TargetHttpsProxy, error) {
+	rk := &RateLimitKey{
+		Operation: "List",
+		Version:   meta.Version("ga"),
+		Target:    "TargetHttpsProxy",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
+
+	call := g.s.GA.TargetHttpsProxies.List(projectID)
+
+	var all []*ga.TargetHttpsProxy
+	f := func(l *ga.TargetHttpsProxyList) error {
+		all = append(all, l.Items...)
+		return nil
+	}
+	if err := call.Pages(ctx, f); err != nil {
+		return nil, err
+	}
+	return all, nil
+}
+
+// Insert TargetHttpsProxy with key of value obj.
+func (g *GCETargetHttpsProxies) Insert(ctx context.Context, key meta.Key, obj *ga.TargetHttpsProxy) error {
+	rk := &RateLimitKey{
+		Operation: "Insert",
+		Version:   meta.Version("ga"),
+		Target:    "TargetHttpsProxy",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
+	obj.Name = key.Name
+
+	call := g.s.GA.TargetHttpsProxies.Insert(projectID, obj)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+// Delete the TargetHttpsProxy referenced by key.
+func (g *GCETargetHttpsProxies) Delete(ctx context.Context, key meta.Key) error {
+	rk := &RateLimitKey{
+		Operation: "Delete",
+		Version:   meta.Version("ga"),
+		Target:    "TargetHttpsProxy",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
+
+	call := g.s.GA.TargetHttpsProxies.Delete(projectID, key.Name)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+func (g *GCETargetHttpsProxies) SetSslCertificates(ctx context.Context, key meta.Key, arg0 *ga.TargetHttpsProxiesSetSslCertificatesRequest) error {
+	rk := &RateLimitKey{
+		Operation: "SetSslCertificates",
+		Version:   meta.Version("ga"),
+		Target:    "TargetHttpsProxy",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
+
+	call := g.s.GA.TargetHttpsProxies.SetSslCertificates(projectID, key.Name, arg0)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+func (g *GCETargetHttpsProxies) SetUrlMap(ctx context.Context, key meta.Key, arg0 *ga.UrlMapReference) error {
+	rk := &RateLimitKey{
+		Operation: "SetUrlMap",
+		Version:   meta.Version("ga"),
+		Target:    "TargetHttpsProxy",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
+
+	call := g.s.GA.TargetHttpsProxies.SetUrlMap(projectID, key.Name, arg0)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
 // TargetPools is an interface that allows for mocking of TargetPools.
 type TargetPools interface {
 	Get(ctx context.Context, key meta.Key) (*ga.TargetPool, error)
 	List(ctx context.Context, region string) ([]*ga.TargetPool, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.TargetPool) error
 	Delete(ctx context.Context, key meta.Key) error
+
+	AddInstance(context.Context, meta.Key, *ga.TargetPoolsAddInstanceRequest) error
+	RemoveInstance(context.Context, meta.Key, *ga.TargetPoolsRemoveInstanceRequest) error
 }
 
 // NewMockTargetPools returns a new mock for TargetPools.
@@ -5963,6 +7756,9 @@ type MockTargetPools struct {
 	ListHook   func(m *MockTargetPools, ctx context.Context) (bool, []*ga.TargetPool, error)
 	InsertHook func(m *MockTargetPools, ctx context.Context, key meta.Key, obj *ga.TargetPool) (bool, error)
 	DeleteHook func(m *MockTargetPools, ctx context.Context, key meta.Key) (bool, error)
+
+	AddInstanceHook    func(*MockTargetPools, context.Context, meta.Key, *ga.TargetPoolsAddInstanceRequest) error
+	RemoveInstanceHook func(*MockTargetPools, context.Context, meta.Key, *ga.TargetPoolsRemoveInstanceRequest) error
 
 	// X is extra state that can be used as part of the mock. Generated code
 	// will not use this field.
@@ -6069,6 +7865,20 @@ func (m *MockTargetPools) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+func (m *MockTargetPools) AddInstance(ctx context.Context, key meta.Key, arg0 *ga.TargetPoolsAddInstanceRequest) error {
+	if m.AddInstanceHook != nil {
+		return m.AddInstanceHook(m, ctx, key, arg0)
+	}
+	return nil
+}
+
+func (m *MockTargetPools) RemoveInstance(ctx context.Context, key meta.Key, arg0 *ga.TargetPoolsRemoveInstanceRequest) error {
+	if m.RemoveInstanceHook != nil {
+		return m.RemoveInstanceHook(m, ctx, key, arg0)
+	}
+	return nil
+}
+
 // GCETargetPools is a simplifying adapter for the GCE TargetPools.
 type GCETargetPools struct {
 	s *Service
@@ -6157,207 +7967,16 @@ func (g *GCETargetPools) Delete(ctx context.Context, key meta.Key) error {
 	return g.s.WaitForCompletion(ctx, op)
 }
 
-// TargetHttpProxies is an interface that allows for mocking of TargetHttpProxies.
-type TargetHttpProxies interface {
-	Get(ctx context.Context, key meta.Key) (*ga.TargetHttpProxy, error)
-	List(ctx context.Context) ([]*ga.TargetHttpProxy, error)
-	Insert(ctx context.Context, key meta.Key, obj *ga.TargetHttpProxy) error
-	Delete(ctx context.Context, key meta.Key) error
-}
-
-// NewMockTargetHttpProxies returns a new mock for TargetHttpProxies.
-func NewMockTargetHttpProxies() *MockTargetHttpProxies {
-	mock := &MockTargetHttpProxies{
-		Objects:     map[meta.Key]*ga.TargetHttpProxy{},
-		GetError:    map[meta.Key]error{},
-		InsertError: map[meta.Key]error{},
-		DeleteError: map[meta.Key]error{},
-	}
-	return mock
-}
-
-// MockTargetHttpProxies is the mock for TargetHttpProxies.
-type MockTargetHttpProxies struct {
-	Lock sync.Mutex
-
-	// Objects maintained by the mock.
-	Objects map[meta.Key]*ga.TargetHttpProxy
-
-	// If an entry exists for the given key and operation, then the error
-	// will be returned instead of the operation.
-	GetError    map[meta.Key]error
-	ListError   *error
-	InsertError map[meta.Key]error
-	DeleteError map[meta.Key]error
-
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
-	GetHook    func(m *MockTargetHttpProxies, ctx context.Context, key meta.Key) (bool, *ga.TargetHttpProxy, error)
-	ListHook   func(m *MockTargetHttpProxies, ctx context.Context) (bool, []*ga.TargetHttpProxy, error)
-	InsertHook func(m *MockTargetHttpProxies, ctx context.Context, key meta.Key, obj *ga.TargetHttpProxy) (bool, error)
-	DeleteHook func(m *MockTargetHttpProxies, ctx context.Context, key meta.Key) (bool, error)
-
-	// X is extra state that can be used as part of the mock. Generated code
-	// will not use this field.
-	X interface{}
-}
-
-// Get returns the object from the mock.
-func (m *MockTargetHttpProxies) Get(ctx context.Context, key meta.Key) (*ga.TargetHttpProxy, error) {
-	if m.GetHook != nil {
-		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			return obj, err
-		}
-	}
-
-	m.Lock.Lock()
-	defer m.Lock.Unlock()
-
-	if err, ok := m.GetError[key]; ok {
-		return nil, err
-	}
-	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
-	}
-	return nil, &googleapi.Error{
-		Code:    http.StatusNotFound,
-		Message: fmt.Sprintf("MockTargetHttpProxies %v not found", key),
-	}
-}
-
-// List all of the objects in the mock.
-func (m *MockTargetHttpProxies) List(ctx context.Context) ([]*ga.TargetHttpProxy, error) {
-	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
-			return objs, err
-		}
-	}
-
-	m.Lock.Lock()
-	defer m.Lock.Unlock()
-
-	if m.ListError != nil {
-		return nil, *m.ListError
-	}
-
-	var objs []*ga.TargetHttpProxy
-	for _, obj := range m.Objects {
-		objs = append(objs, obj)
-	}
-
-	return objs, nil
-}
-
-// Insert is a mock for inserting/creating a new object.
-func (m *MockTargetHttpProxies) Insert(ctx context.Context, key meta.Key, obj *ga.TargetHttpProxy) error {
-	if m.InsertHook != nil {
-		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			return err
-		}
-	}
-
-	m.Lock.Lock()
-	defer m.Lock.Unlock()
-
-	if err, ok := m.InsertError[key]; ok {
-		return err
-	}
-	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
-			Code:    http.StatusConflict,
-			Message: fmt.Sprintf("MockTargetHttpProxies %v exists", key),
-		}
-	}
-
-	m.Objects[key] = obj
-	return nil
-}
-
-// Delete is a mock for deleting the object.
-func (m *MockTargetHttpProxies) Delete(ctx context.Context, key meta.Key) error {
-	if m.DeleteHook != nil {
-		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
-			return err
-		}
-	}
-
-	m.Lock.Lock()
-	defer m.Lock.Unlock()
-
-	if err, ok := m.DeleteError[key]; ok {
-		return err
-	}
-	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
-			Code:    http.StatusNotFound,
-			Message: fmt.Sprintf("MockTargetHttpProxies %v not found", key),
-		}
-	}
-
-	delete(m.Objects, key)
-	return nil
-}
-
-// GCETargetHttpProxies is a simplifying adapter for the GCE TargetHttpProxies.
-type GCETargetHttpProxies struct {
-	s *Service
-}
-
-// Get the TargetHttpProxy named by key.
-func (g *GCETargetHttpProxies) Get(ctx context.Context, key meta.Key) (*ga.TargetHttpProxy, error) {
+func (g *GCETargetPools) AddInstance(ctx context.Context, key meta.Key, arg0 *ga.TargetPoolsAddInstanceRequest) error {
 	rk := &RateLimitKey{
-		Operation: "Get",
+		Operation: "AddInstance",
 		Version:   meta.Version("ga"),
-		Target:    "TargetHttpProxy",
+		Target:    "TargetPool",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpProxies")
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetPools")
 
-	call := g.s.GA.TargetHttpProxies.Get(projectID, key.Name)
-
-	call.Context(ctx)
-
-	return call.Do()
-}
-
-// List all TargetHttpProxy objects.
-func (g *GCETargetHttpProxies) List(ctx context.Context) ([]*ga.TargetHttpProxy, error) {
-	rk := &RateLimitKey{
-		Operation: "List",
-		Version:   meta.Version("ga"),
-		Target:    "TargetHttpProxy",
-	}
-	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpProxies")
-
-	call := g.s.GA.TargetHttpProxies.List(projectID)
-
-	var all []*ga.TargetHttpProxy
-	f := func(l *ga.TargetHttpProxyList) error {
-		all = append(all, l.Items...)
-		return nil
-	}
-	if err := call.Pages(ctx, f); err != nil {
-		return nil, err
-	}
-	return all, nil
-}
-
-// Insert TargetHttpProxy with key of value obj.
-func (g *GCETargetHttpProxies) Insert(ctx context.Context, key meta.Key, obj *ga.TargetHttpProxy) error {
-	rk := &RateLimitKey{
-		Operation: "Insert",
-		Version:   meta.Version("ga"),
-		Target:    "TargetHttpProxy",
-	}
-	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpProxies")
-	obj.Name = key.Name
-
-	call := g.s.GA.TargetHttpProxies.Insert(projectID, obj)
+	call := g.s.GA.TargetPools.AddInstance(projectID, key.Region, key.Name, arg0)
 
 	call.Context(ctx)
 
@@ -6368,249 +7987,16 @@ func (g *GCETargetHttpProxies) Insert(ctx context.Context, key meta.Key, obj *ga
 	return g.s.WaitForCompletion(ctx, op)
 }
 
-// Delete the TargetHttpProxy referenced by key.
-func (g *GCETargetHttpProxies) Delete(ctx context.Context, key meta.Key) error {
+func (g *GCETargetPools) RemoveInstance(ctx context.Context, key meta.Key, arg0 *ga.TargetPoolsRemoveInstanceRequest) error {
 	rk := &RateLimitKey{
-		Operation: "Delete",
+		Operation: "RemoveInstance",
 		Version:   meta.Version("ga"),
-		Target:    "TargetHttpProxy",
+		Target:    "TargetPool",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpProxies")
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetPools")
 
-	call := g.s.GA.TargetHttpProxies.Delete(projectID, key.Name)
-
-	call.Context(ctx)
-
-	op, err := call.Do()
-	if err != nil {
-		return err
-	}
-	return g.s.WaitForCompletion(ctx, op)
-}
-
-// TargetHttpsProxies is an interface that allows for mocking of TargetHttpsProxies.
-type TargetHttpsProxies interface {
-	Get(ctx context.Context, key meta.Key) (*ga.TargetHttpsProxy, error)
-	List(ctx context.Context) ([]*ga.TargetHttpsProxy, error)
-	Insert(ctx context.Context, key meta.Key, obj *ga.TargetHttpsProxy) error
-	Delete(ctx context.Context, key meta.Key) error
-}
-
-// NewMockTargetHttpsProxies returns a new mock for TargetHttpsProxies.
-func NewMockTargetHttpsProxies() *MockTargetHttpsProxies {
-	mock := &MockTargetHttpsProxies{
-		Objects:     map[meta.Key]*ga.TargetHttpsProxy{},
-		GetError:    map[meta.Key]error{},
-		InsertError: map[meta.Key]error{},
-		DeleteError: map[meta.Key]error{},
-	}
-	return mock
-}
-
-// MockTargetHttpsProxies is the mock for TargetHttpsProxies.
-type MockTargetHttpsProxies struct {
-	Lock sync.Mutex
-
-	// Objects maintained by the mock.
-	Objects map[meta.Key]*ga.TargetHttpsProxy
-
-	// If an entry exists for the given key and operation, then the error
-	// will be returned instead of the operation.
-	GetError    map[meta.Key]error
-	ListError   *error
-	InsertError map[meta.Key]error
-	DeleteError map[meta.Key]error
-
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
-	GetHook    func(m *MockTargetHttpsProxies, ctx context.Context, key meta.Key) (bool, *ga.TargetHttpsProxy, error)
-	ListHook   func(m *MockTargetHttpsProxies, ctx context.Context) (bool, []*ga.TargetHttpsProxy, error)
-	InsertHook func(m *MockTargetHttpsProxies, ctx context.Context, key meta.Key, obj *ga.TargetHttpsProxy) (bool, error)
-	DeleteHook func(m *MockTargetHttpsProxies, ctx context.Context, key meta.Key) (bool, error)
-
-	// X is extra state that can be used as part of the mock. Generated code
-	// will not use this field.
-	X interface{}
-}
-
-// Get returns the object from the mock.
-func (m *MockTargetHttpsProxies) Get(ctx context.Context, key meta.Key) (*ga.TargetHttpsProxy, error) {
-	if m.GetHook != nil {
-		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			return obj, err
-		}
-	}
-
-	m.Lock.Lock()
-	defer m.Lock.Unlock()
-
-	if err, ok := m.GetError[key]; ok {
-		return nil, err
-	}
-	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
-	}
-	return nil, &googleapi.Error{
-		Code:    http.StatusNotFound,
-		Message: fmt.Sprintf("MockTargetHttpsProxies %v not found", key),
-	}
-}
-
-// List all of the objects in the mock.
-func (m *MockTargetHttpsProxies) List(ctx context.Context) ([]*ga.TargetHttpsProxy, error) {
-	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
-			return objs, err
-		}
-	}
-
-	m.Lock.Lock()
-	defer m.Lock.Unlock()
-
-	if m.ListError != nil {
-		return nil, *m.ListError
-	}
-
-	var objs []*ga.TargetHttpsProxy
-	for _, obj := range m.Objects {
-		objs = append(objs, obj)
-	}
-
-	return objs, nil
-}
-
-// Insert is a mock for inserting/creating a new object.
-func (m *MockTargetHttpsProxies) Insert(ctx context.Context, key meta.Key, obj *ga.TargetHttpsProxy) error {
-	if m.InsertHook != nil {
-		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			return err
-		}
-	}
-
-	m.Lock.Lock()
-	defer m.Lock.Unlock()
-
-	if err, ok := m.InsertError[key]; ok {
-		return err
-	}
-	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
-			Code:    http.StatusConflict,
-			Message: fmt.Sprintf("MockTargetHttpsProxies %v exists", key),
-		}
-	}
-
-	m.Objects[key] = obj
-	return nil
-}
-
-// Delete is a mock for deleting the object.
-func (m *MockTargetHttpsProxies) Delete(ctx context.Context, key meta.Key) error {
-	if m.DeleteHook != nil {
-		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
-			return err
-		}
-	}
-
-	m.Lock.Lock()
-	defer m.Lock.Unlock()
-
-	if err, ok := m.DeleteError[key]; ok {
-		return err
-	}
-	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
-			Code:    http.StatusNotFound,
-			Message: fmt.Sprintf("MockTargetHttpsProxies %v not found", key),
-		}
-	}
-
-	delete(m.Objects, key)
-	return nil
-}
-
-// GCETargetHttpsProxies is a simplifying adapter for the GCE TargetHttpsProxies.
-type GCETargetHttpsProxies struct {
-	s *Service
-}
-
-// Get the TargetHttpsProxy named by key.
-func (g *GCETargetHttpsProxies) Get(ctx context.Context, key meta.Key) (*ga.TargetHttpsProxy, error) {
-	rk := &RateLimitKey{
-		Operation: "Get",
-		Version:   meta.Version("ga"),
-		Target:    "TargetHttpsProxy",
-	}
-	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
-
-	call := g.s.GA.TargetHttpsProxies.Get(projectID, key.Name)
-
-	call.Context(ctx)
-
-	return call.Do()
-}
-
-// List all TargetHttpsProxy objects.
-func (g *GCETargetHttpsProxies) List(ctx context.Context) ([]*ga.TargetHttpsProxy, error) {
-	rk := &RateLimitKey{
-		Operation: "List",
-		Version:   meta.Version("ga"),
-		Target:    "TargetHttpsProxy",
-	}
-	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
-
-	call := g.s.GA.TargetHttpsProxies.List(projectID)
-
-	var all []*ga.TargetHttpsProxy
-	f := func(l *ga.TargetHttpsProxyList) error {
-		all = append(all, l.Items...)
-		return nil
-	}
-	if err := call.Pages(ctx, f); err != nil {
-		return nil, err
-	}
-	return all, nil
-}
-
-// Insert TargetHttpsProxy with key of value obj.
-func (g *GCETargetHttpsProxies) Insert(ctx context.Context, key meta.Key, obj *ga.TargetHttpsProxy) error {
-	rk := &RateLimitKey{
-		Operation: "Insert",
-		Version:   meta.Version("ga"),
-		Target:    "TargetHttpsProxy",
-	}
-	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
-	obj.Name = key.Name
-
-	call := g.s.GA.TargetHttpsProxies.Insert(projectID, obj)
-
-	call.Context(ctx)
-
-	op, err := call.Do()
-	if err != nil {
-		return err
-	}
-	return g.s.WaitForCompletion(ctx, op)
-}
-
-// Delete the TargetHttpsProxy referenced by key.
-func (g *GCETargetHttpsProxies) Delete(ctx context.Context, key meta.Key) error {
-	rk := &RateLimitKey{
-		Operation: "Delete",
-		Version:   meta.Version("ga"),
-		Target:    "TargetHttpsProxy",
-	}
-	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
-
-	call := g.s.GA.TargetHttpsProxies.Delete(projectID, key.Name)
+	call := g.s.GA.TargetPools.RemoveInstance(projectID, key.Region, key.Name, arg0)
 
 	call.Context(ctx)
 
@@ -6627,6 +8013,8 @@ type UrlMaps interface {
 	List(ctx context.Context) ([]*ga.UrlMap, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.UrlMap) error
 	Delete(ctx context.Context, key meta.Key) error
+
+	Update(context.Context, meta.Key, *ga.UrlMap) error
 }
 
 // NewMockUrlMaps returns a new mock for UrlMaps.
@@ -6663,6 +8051,8 @@ type MockUrlMaps struct {
 	ListHook   func(m *MockUrlMaps, ctx context.Context) (bool, []*ga.UrlMap, error)
 	InsertHook func(m *MockUrlMaps, ctx context.Context, key meta.Key, obj *ga.UrlMap) (bool, error)
 	DeleteHook func(m *MockUrlMaps, ctx context.Context, key meta.Key) (bool, error)
+
+	UpdateHook func(*MockUrlMaps, context.Context, meta.Key, *ga.UrlMap) error
 
 	// X is extra state that can be used as part of the mock. Generated code
 	// will not use this field.
@@ -6765,6 +8155,13 @@ func (m *MockUrlMaps) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+func (m *MockUrlMaps) Update(ctx context.Context, key meta.Key, arg0 *ga.UrlMap) error {
+	if m.UpdateHook != nil {
+		return m.UpdateHook(m, ctx, key, arg0)
+	}
+	return nil
+}
+
 // GCEUrlMaps is a simplifying adapter for the GCE UrlMaps.
 type GCEUrlMaps struct {
 	s *Service
@@ -6843,6 +8240,26 @@ func (g *GCEUrlMaps) Delete(ctx context.Context, key meta.Key) error {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "UrlMaps")
 
 	call := g.s.GA.UrlMaps.Delete(projectID, key.Name)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+func (g *GCEUrlMaps) Update(ctx context.Context, key meta.Key, arg0 *ga.UrlMap) error {
+	rk := &RateLimitKey{
+		Operation: "Update",
+		Version:   meta.Version("ga"),
+		Target:    "UrlMap",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "UrlMaps")
+
+	call := g.s.GA.UrlMaps.Update(projectID, key.Name, arg0)
 
 	call.Context(ctx)
 

@@ -19,8 +19,6 @@ package meta
 import (
 	"fmt"
 	"reflect"
-
-	"github.com/golang/glog"
 )
 
 // ServiceInfo defines the entry for a Service that code will be generated for.
@@ -114,12 +112,10 @@ func (i *ServiceInfo) Methods() []*method {
 	var ret []*method
 	for j := 0; j < i.serviceType.NumMethod(); j++ {
 		m := i.serviceType.Method(j)
-		glog.Errorf("method %+v", m)
-
 		if _, ok := methods[m.Name]; !ok {
 			continue
 		}
-		sm := &method{i, m}
+		sm := newMethod(i, m)
 		sm.sanityCheck()
 		ret = append(ret, sm)
 		methods[m.Name] = false

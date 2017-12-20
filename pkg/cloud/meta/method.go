@@ -20,10 +20,14 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
+
+	"github.com/golang/glog"
 )
 
 func newArg(t reflect.Type) *arg {
 	ret := &arg{}
+
+	// Dereference the pointer types to get at the underlying concrete type.
 Loop:
 	for {
 		switch t.Kind() {
@@ -49,7 +53,7 @@ func (a *arg) normalizedPkg() string {
 		return ""
 	}
 
-	// XXX/bowei -- this is hugely ugly
+	// Strip the repo.../vendor/ prefix from the package path if present.
 	parts := strings.Split(a.pkg, "/")
 	// Remove vendor prefix.
 	for i := 0; i < len(parts); i++ {
@@ -80,10 +84,16 @@ func (a *arg) String() string {
 	return ret
 }
 
+// newMethod returns a newly initialized method.
+func newMethod(s *ServiceInfo, m reflect.Method) *method {
+	return &method{s, m, ""}
+}
+
 // method is used to generate the calling code non-standard methods.
 type method struct {
 	*ServiceInfo
-	m reflect.Method
+	m          reflect.Method
+	returnType string
 }
 
 // argsSkip is the number of arguments to skip when generating the
@@ -125,9 +135,55 @@ func (mr *method) args(skip int, nameArgs bool, prefix []string) []string {
 func (mr *method) sanityCheck() {
 	fType := mr.m.Func.Type()
 	if fType.NumIn() < mr.argsSkip() {
-		panic(fmt.Errorf("method %q in service %q, arity = %d which is less than required for auto-generation", mr.Name(), mr.Service, fType.NumIn()))
+		err := fmt.Errorf("method %q.%q, arity = %d which is less than required (< %d)",
+			mr.Service, mr.Name(), fType.NumIn(), mr.argsSkip())
+		panic(err)
 	}
-	for i := 0; i < fType.NumIn(); i++ {
+	// Skipped args should all be string (they will be projectID, zone, region etc).
+	for i := 1; i < mr.argsSkip(); i++ {
+		if fType.In(i).Kind() != reflect.String {
+			panic(fmt.Errorf("method %q.%q: skipped args can only be strings", mr.Service, mr.Name()))
+		}
+	}
+	// Return of the method must return a single value of type *xxxCall.
+	if fType.NumOut() != 1 || fType.Out(0).Kind() != reflect.Ptr || !strings.HasSuffix(fType.Out(0).Elem().Name(), "Call") {
+		panic(fmt.Errorf("method %q.%q: generator only supports methods returning an *xxxCall object",
+			mr.Service, mr.Name()))
+	}
+	returnType := fType.Out(0)
+	returnTypeName := fType.Out(0).Elem().Name()
+	// xxxCall must have a Do() method.
+	doMethod, ok := returnType.MethodByName("Do")
+	if !ok {
+		panic(fmt.Errorf("method %q.%q: return type %q does not have a Do() method",
+			mr.Service, mr.Name(), returnTypeName))
+	}
+	// Do() method either returns (error) or (*T, error).
+	switch doMethod.Func.Type().NumOut() {
+	case 2:
+		glog.Infof("Method %q.%q: return type %q of Do() = %v, %v",
+			mr.Service, mr.Name(), returnTypeName, doMethod.Func.Type().Out(0), doMethod.Func.Type().Out(1))
+		out0 := doMethod.Func.Type().Out(0)
+		if out0.Kind() != reflect.Ptr {
+			panic(fmt.Errorf("method %q.%q: return type %q of Do() = S, _; S must be pointer type (%v)",
+				mr.Service, mr.Name(), returnTypeName, out0))
+		}
+		if out0.Elem().Name() == "Operation" {
+			glog.Infof("Method %q.%q is an Operation", mr.Service, mr.Name())
+		} else {
+			glog.Infof("Method %q.%q returns %v", mr.Service, mr.Name(), out0)
+			panic(fmt.Errorf("method %q.%q: return type %q of Do() = S, _; S must be an *Operation",
+				mr.Service, mr.Name(), returnTypeName))
+		}
+		// Second argument must be error.
+		if doMethod.Func.Type().Out(1).Name() != "error" {
+			panic(fmt.Errorf("method %q.%q: return type %q of Do() = S, T; T must be 'error'",
+				mr.Service, mr.Name(), returnTypeName))
+		}
+		break
+	default:
+		panic(fmt.Errorf("method %q.%q: %q Do() return type is not handled by the generator",
+			mr.Service, mr.Name(), returnTypeName))
 	}
 }
 
