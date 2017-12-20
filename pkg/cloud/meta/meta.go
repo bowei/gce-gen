@@ -202,6 +202,7 @@ var AllServices = []*ServiceInfo{
 		keyType:     Zonal,
 		serviceType: reflect.TypeOf(&ga.InstanceGroupsService{}),
 		additionalMethods: []string{
+			"AddInstances",
 			"ListInstances",
 			"RemoveInstances",
 			"SetNamedPorts",

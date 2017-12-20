@@ -4806,6 +4806,7 @@ type InstanceGroups interface {
 	List(ctx context.Context, zone string) ([]*ga.InstanceGroup, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.InstanceGroup) error
 	Delete(ctx context.Context, key meta.Key) error
+	AddInstances(context.Context, meta.Key, *ga.InstanceGroupsAddInstancesRequest) error
 	ListInstances(context.Context, meta.Key, *ga.InstanceGroupsListInstancesRequest) (*ga.InstanceGroupsListInstances, error)
 	RemoveInstances(context.Context, meta.Key, *ga.InstanceGroupsRemoveInstancesRequest) error
 	SetNamedPorts(context.Context, meta.Key, *ga.InstanceGroupsSetNamedPortsRequest) error
@@ -4845,6 +4846,7 @@ type MockInstanceGroups struct {
 	ListHook            func(m *MockInstanceGroups, ctx context.Context) (bool, []*ga.InstanceGroup, error)
 	InsertHook          func(m *MockInstanceGroups, ctx context.Context, key meta.Key, obj *ga.InstanceGroup) (bool, error)
 	DeleteHook          func(m *MockInstanceGroups, ctx context.Context, key meta.Key) (bool, error)
+	AddInstancesHook    func(*MockInstanceGroups, context.Context, meta.Key, *ga.InstanceGroupsAddInstancesRequest) error
 	ListInstancesHook   func(*MockInstanceGroups, context.Context, meta.Key, *ga.InstanceGroupsListInstancesRequest) (*ga.InstanceGroupsListInstances, error)
 	RemoveInstancesHook func(*MockInstanceGroups, context.Context, meta.Key, *ga.InstanceGroupsRemoveInstancesRequest) error
 	SetNamedPortsHook   func(*MockInstanceGroups, context.Context, meta.Key, *ga.InstanceGroupsSetNamedPortsRequest) error
@@ -4952,6 +4954,14 @@ func (m *MockInstanceGroups) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+// AddInstances is a mock for the corresponding method.
+func (m *MockInstanceGroups) AddInstances(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsAddInstancesRequest) error {
+	if m.AddInstancesHook != nil {
+		return m.AddInstancesHook(m, ctx, key, arg0)
+	}
+	return nil
+}
+
 // ListInstances is a mock for the corresponding method.
 func (m *MockInstanceGroups) ListInstances(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsListInstancesRequest) (*ga.InstanceGroupsListInstances, error) {
 	if m.ListInstancesHook != nil {
@@ -5048,6 +5058,24 @@ func (g *GCEInstanceGroups) Delete(ctx context.Context, key meta.Key) error {
 	call := g.s.GA.InstanceGroups.Delete(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+}
+
+// AddInstances is a method on GCEInstanceGroups.
+func (g *GCEInstanceGroups) AddInstances(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsAddInstancesRequest) error {
+	rk := &RateLimitKey{
+		Operation: "AddInstances",
+		Version:   meta.Version("ga"),
+		Target:    "InstanceGroup",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
+	call := g.s.GA.InstanceGroups.AddInstances(projectID, key.Zone, key.Name, arg0)
+	call.Context(ctx)
 	op, err := call.Do()
 	if err != nil {
 		return err
