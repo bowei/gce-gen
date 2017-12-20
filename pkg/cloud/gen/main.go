@@ -263,7 +263,7 @@ type {{.MockWrapType}} struct {
 	DeleteError map[meta.Key]error
 	{{- end}}
 
-	// xxxHook allow you to intercept thestandard processing of the mock in
+	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
