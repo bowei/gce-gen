@@ -5034,6 +5034,7 @@ type InstanceGroups interface {
 	Insert(ctx context.Context, key meta.Key, obj *ga.InstanceGroup) error
 	Delete(ctx context.Context, key meta.Key) error
 
+	AddInstances(context.Context, meta.Key, *ga.InstanceGroupsAddInstancesRequest) error
 	ListInstances(context.Context, meta.Key, *ga.InstanceGroupsListInstancesRequest) (*ga.InstanceGroupsListInstances, error)
 	RemoveInstances(context.Context, meta.Key, *ga.InstanceGroupsRemoveInstancesRequest) error
 	SetNamedPorts(context.Context, meta.Key, *ga.InstanceGroupsSetNamedPortsRequest) error
@@ -5074,6 +5075,7 @@ type MockInstanceGroups struct {
 	InsertHook func(m *MockInstanceGroups, ctx context.Context, key meta.Key, obj *ga.InstanceGroup) (bool, error)
 	DeleteHook func(m *MockInstanceGroups, ctx context.Context, key meta.Key) (bool, error)
 
+	AddInstancesHook    func(*MockInstanceGroups, context.Context, meta.Key, *ga.InstanceGroupsAddInstancesRequest) error
 	ListInstancesHook   func(*MockInstanceGroups, context.Context, meta.Key, *ga.InstanceGroupsListInstancesRequest) (*ga.InstanceGroupsListInstances, error)
 	RemoveInstancesHook func(*MockInstanceGroups, context.Context, meta.Key, *ga.InstanceGroupsRemoveInstancesRequest) error
 	SetNamedPortsHook   func(*MockInstanceGroups, context.Context, meta.Key, *ga.InstanceGroupsSetNamedPortsRequest) error
@@ -5180,6 +5182,14 @@ func (m *MockInstanceGroups) Delete(ctx context.Context, key meta.Key) error {
 	}
 
 	delete(m.Objects, key)
+	return nil
+}
+
+func (m *MockInstanceGroups) AddInstances(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsAddInstancesRequest) error {
+
+	if m.AddInstancesHook != nil {
+		return m.AddInstancesHook(m, ctx, key, arg0)
+	}
 	return nil
 }
 
@@ -5293,6 +5303,27 @@ func (g *GCEInstanceGroups) Delete(ctx context.Context, key meta.Key) error {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+}
+
+func (g *GCEInstanceGroups) AddInstances(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsAddInstancesRequest) error {
+	rk := &RateLimitKey{
+		Operation: "AddInstances",
+		Version:   meta.Version("ga"),
+		Target:    "InstanceGroup",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
+
+	call := g.s.GA.InstanceGroups.AddInstances(projectID, key.Zone, key.Name, arg0)
+
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 func (g *GCEInstanceGroups) ListInstances(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsListInstancesRequest) (*ga.InstanceGroupsListInstances, error) {
