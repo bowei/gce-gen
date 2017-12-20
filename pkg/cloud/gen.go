@@ -559,10 +559,8 @@ func (m *MockAddresses) List(ctx context.Context, region string) ([]*ga.Address,
 		if key.Region != region {
 			continue
 		}
-
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -630,11 +628,8 @@ func (g *GCEAddresses) Get(ctx context.Context, key meta.Key) (*ga.Address, erro
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Addresses")
-
 	call := g.s.GA.Addresses.Get(projectID, key.Region, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -647,9 +642,7 @@ func (g *GCEAddresses) List(ctx context.Context, region string) ([]*ga.Address, 
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Addresses")
-
 	call := g.s.GA.Addresses.List(projectID, region)
-
 	var all []*ga.Address
 	f := func(l *ga.AddressList) error {
 		all = append(all, l.Items...)
@@ -671,9 +664,7 @@ func (g *GCEAddresses) Insert(ctx context.Context, key meta.Key, obj *ga.Address
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Addresses")
 	obj.Name = key.Name
-
 	call := g.s.GA.Addresses.Insert(projectID, key.Region, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -692,9 +683,7 @@ func (g *GCEAddresses) Delete(ctx context.Context, key meta.Key) error {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Addresses")
-
 	call := g.s.GA.Addresses.Delete(projectID, key.Region, key.Name)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -795,10 +784,8 @@ func (m *MockAlphaAddresses) List(ctx context.Context, region string) ([]*alpha.
 		if key.Region != region {
 			continue
 		}
-
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -866,11 +853,8 @@ func (g *GCEAlphaAddresses) Get(ctx context.Context, key meta.Key) (*alpha.Addre
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Addresses")
-
 	call := g.s.Alpha.Addresses.Get(projectID, key.Region, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -883,9 +867,7 @@ func (g *GCEAlphaAddresses) List(ctx context.Context, region string) ([]*alpha.A
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Addresses")
-
 	call := g.s.Alpha.Addresses.List(projectID, region)
-
 	var all []*alpha.Address
 	f := func(l *alpha.AddressList) error {
 		all = append(all, l.Items...)
@@ -907,9 +889,7 @@ func (g *GCEAlphaAddresses) Insert(ctx context.Context, key meta.Key, obj *alpha
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Addresses")
 	obj.Name = key.Name
-
 	call := g.s.Alpha.Addresses.Insert(projectID, key.Region, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -928,9 +908,7 @@ func (g *GCEAlphaAddresses) Delete(ctx context.Context, key meta.Key) error {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Addresses")
-
 	call := g.s.Alpha.Addresses.Delete(projectID, key.Region, key.Name)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -1031,10 +1009,8 @@ func (m *MockBetaAddresses) List(ctx context.Context, region string) ([]*beta.Ad
 		if key.Region != region {
 			continue
 		}
-
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -1102,11 +1078,8 @@ func (g *GCEBetaAddresses) Get(ctx context.Context, key meta.Key) (*beta.Address
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Addresses")
-
 	call := g.s.Beta.Addresses.Get(projectID, key.Region, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -1119,9 +1092,7 @@ func (g *GCEBetaAddresses) List(ctx context.Context, region string) ([]*beta.Add
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Addresses")
-
 	call := g.s.Beta.Addresses.List(projectID, region)
-
 	var all []*beta.Address
 	f := func(l *beta.AddressList) error {
 		all = append(all, l.Items...)
@@ -1143,9 +1114,7 @@ func (g *GCEBetaAddresses) Insert(ctx context.Context, key meta.Key, obj *beta.A
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Addresses")
 	obj.Name = key.Name
-
 	call := g.s.Beta.Addresses.Insert(projectID, key.Region, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -1164,9 +1133,7 @@ func (g *GCEBetaAddresses) Delete(ctx context.Context, key meta.Key) error {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Addresses")
-
 	call := g.s.Beta.Addresses.Delete(projectID, key.Region, key.Name)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -1266,7 +1233,6 @@ func (m *MockGlobalAddresses) List(ctx context.Context) ([]*ga.Address, error) {
 	for _, obj := range m.Objects {
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -1334,11 +1300,8 @@ func (g *GCEGlobalAddresses) Get(ctx context.Context, key meta.Key) (*ga.Address
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalAddresses")
-
 	call := g.s.GA.GlobalAddresses.Get(projectID, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -1351,9 +1314,7 @@ func (g *GCEGlobalAddresses) List(ctx context.Context) ([]*ga.Address, error) {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalAddresses")
-
 	call := g.s.GA.GlobalAddresses.List(projectID)
-
 	var all []*ga.Address
 	f := func(l *ga.AddressList) error {
 		all = append(all, l.Items...)
@@ -1375,9 +1336,7 @@ func (g *GCEGlobalAddresses) Insert(ctx context.Context, key meta.Key, obj *ga.A
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalAddresses")
 	obj.Name = key.Name
-
 	call := g.s.GA.GlobalAddresses.Insert(projectID, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -1396,7 +1355,6 @@ func (g *GCEGlobalAddresses) Delete(ctx context.Context, key meta.Key) error {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalAddresses")
-
 	call := g.s.GA.GlobalAddresses.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -1414,7 +1372,6 @@ type BackendServices interface {
 	List(ctx context.Context) ([]*ga.BackendService, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.BackendService) error
 	Delete(ctx context.Context, key meta.Key) error
-
 	GetHealth(context.Context, meta.Key, *ga.ResourceGroupReference) (*ga.BackendServiceGroupHealth, error)
 	Update(context.Context, meta.Key, *ga.BackendService) error
 }
@@ -1449,11 +1406,10 @@ type MockBackendServices struct {
 	// Return (true, _, _) to prevent the normal execution flow of the
 	// mock. Return (false, nil, nil) to continue with normal mock behavior
 	// after the hook function executes.
-	GetHook    func(m *MockBackendServices, ctx context.Context, key meta.Key) (bool, *ga.BackendService, error)
-	ListHook   func(m *MockBackendServices, ctx context.Context) (bool, []*ga.BackendService, error)
-	InsertHook func(m *MockBackendServices, ctx context.Context, key meta.Key, obj *ga.BackendService) (bool, error)
-	DeleteHook func(m *MockBackendServices, ctx context.Context, key meta.Key) (bool, error)
-
+	GetHook       func(m *MockBackendServices, ctx context.Context, key meta.Key) (bool, *ga.BackendService, error)
+	ListHook      func(m *MockBackendServices, ctx context.Context) (bool, []*ga.BackendService, error)
+	InsertHook    func(m *MockBackendServices, ctx context.Context, key meta.Key, obj *ga.BackendService) (bool, error)
+	DeleteHook    func(m *MockBackendServices, ctx context.Context, key meta.Key) (bool, error)
 	GetHealthHook func(*MockBackendServices, context.Context, meta.Key, *ga.ResourceGroupReference) (*ga.BackendServiceGroupHealth, error)
 	UpdateHook    func(*MockBackendServices, context.Context, meta.Key, *ga.BackendService) error
 
@@ -1504,7 +1460,6 @@ func (m *MockBackendServices) List(ctx context.Context) ([]*ga.BackendService, e
 	for _, obj := range m.Objects {
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -1558,16 +1513,16 @@ func (m *MockBackendServices) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+// GetHealth is a mock for the corresponding method.
 func (m *MockBackendServices) GetHealth(ctx context.Context, key meta.Key, arg0 *ga.ResourceGroupReference) (*ga.BackendServiceGroupHealth, error) {
-
 	if m.GetHealthHook != nil {
 		return m.GetHealthHook(m, ctx, key, arg0)
 	}
 	return nil, fmt.Errorf("GetHealthHook must be set")
 }
 
+// Update is a mock for the corresponding method.
 func (m *MockBackendServices) Update(ctx context.Context, key meta.Key, arg0 *ga.BackendService) error {
-
 	if m.UpdateHook != nil {
 		return m.UpdateHook(m, ctx, key, arg0)
 	}
@@ -1588,11 +1543,8 @@ func (g *GCEBackendServices) Get(ctx context.Context, key meta.Key) (*ga.Backend
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "BackendServices")
-
 	call := g.s.GA.BackendServices.Get(projectID, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -1605,9 +1557,7 @@ func (g *GCEBackendServices) List(ctx context.Context) ([]*ga.BackendService, er
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "BackendServices")
-
 	call := g.s.GA.BackendServices.List(projectID)
-
 	var all []*ga.BackendService
 	f := func(l *ga.BackendServiceList) error {
 		all = append(all, l.Items...)
@@ -1629,9 +1579,7 @@ func (g *GCEBackendServices) Insert(ctx context.Context, key meta.Key, obj *ga.B
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "BackendServices")
 	obj.Name = key.Name
-
 	call := g.s.GA.BackendServices.Insert(projectID, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -1650,7 +1598,6 @@ func (g *GCEBackendServices) Delete(ctx context.Context, key meta.Key) error {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "BackendServices")
-
 	call := g.s.GA.BackendServices.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -1662,6 +1609,7 @@ func (g *GCEBackendServices) Delete(ctx context.Context, key meta.Key) error {
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+// GetHealth is a method on GCEBackendServices.
 func (g *GCEBackendServices) GetHealth(ctx context.Context, key meta.Key, arg0 *ga.ResourceGroupReference) (*ga.BackendServiceGroupHealth, error) {
 	rk := &RateLimitKey{
 		Operation: "GetHealth",
@@ -1670,13 +1618,12 @@ func (g *GCEBackendServices) GetHealth(ctx context.Context, key meta.Key, arg0 *
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "BackendServices")
-
 	call := g.s.GA.BackendServices.GetHealth(projectID, key.Name, arg0)
-
 	call.Context(ctx)
 	return call.Do()
 }
 
+// Update is a method on GCEBackendServices.
 func (g *GCEBackendServices) Update(ctx context.Context, key meta.Key, arg0 *ga.BackendService) error {
 	rk := &RateLimitKey{
 		Operation: "Update",
@@ -1685,17 +1632,13 @@ func (g *GCEBackendServices) Update(ctx context.Context, key meta.Key, arg0 *ga.
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "BackendServices")
-
 	call := g.s.GA.BackendServices.Update(projectID, key.Name, arg0)
-
 	call.Context(ctx)
-
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
-
 }
 
 // AlphaBackendServices is an interface that allows for mocking of BackendServices.
@@ -1704,7 +1647,6 @@ type AlphaBackendServices interface {
 	List(ctx context.Context) ([]*alpha.BackendService, error)
 	Insert(ctx context.Context, key meta.Key, obj *alpha.BackendService) error
 	Delete(ctx context.Context, key meta.Key) error
-
 	Update(context.Context, meta.Key, *alpha.BackendService) error
 }
 
@@ -1742,7 +1684,6 @@ type MockAlphaBackendServices struct {
 	ListHook   func(m *MockAlphaBackendServices, ctx context.Context) (bool, []*alpha.BackendService, error)
 	InsertHook func(m *MockAlphaBackendServices, ctx context.Context, key meta.Key, obj *alpha.BackendService) (bool, error)
 	DeleteHook func(m *MockAlphaBackendServices, ctx context.Context, key meta.Key) (bool, error)
-
 	UpdateHook func(*MockAlphaBackendServices, context.Context, meta.Key, *alpha.BackendService) error
 
 	// X is extra state that can be used as part of the mock. Generated code
@@ -1792,7 +1733,6 @@ func (m *MockAlphaBackendServices) List(ctx context.Context) ([]*alpha.BackendSe
 	for _, obj := range m.Objects {
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -1846,8 +1786,8 @@ func (m *MockAlphaBackendServices) Delete(ctx context.Context, key meta.Key) err
 	return nil
 }
 
+// Update is a mock for the corresponding method.
 func (m *MockAlphaBackendServices) Update(ctx context.Context, key meta.Key, arg0 *alpha.BackendService) error {
-
 	if m.UpdateHook != nil {
 		return m.UpdateHook(m, ctx, key, arg0)
 	}
@@ -1868,11 +1808,8 @@ func (g *GCEAlphaBackendServices) Get(ctx context.Context, key meta.Key) (*alpha
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "BackendServices")
-
 	call := g.s.Alpha.BackendServices.Get(projectID, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -1885,9 +1822,7 @@ func (g *GCEAlphaBackendServices) List(ctx context.Context) ([]*alpha.BackendSer
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "BackendServices")
-
 	call := g.s.Alpha.BackendServices.List(projectID)
-
 	var all []*alpha.BackendService
 	f := func(l *alpha.BackendServiceList) error {
 		all = append(all, l.Items...)
@@ -1909,9 +1844,7 @@ func (g *GCEAlphaBackendServices) Insert(ctx context.Context, key meta.Key, obj 
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "BackendServices")
 	obj.Name = key.Name
-
 	call := g.s.Alpha.BackendServices.Insert(projectID, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -1930,7 +1863,6 @@ func (g *GCEAlphaBackendServices) Delete(ctx context.Context, key meta.Key) erro
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "BackendServices")
-
 	call := g.s.Alpha.BackendServices.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -1942,6 +1874,7 @@ func (g *GCEAlphaBackendServices) Delete(ctx context.Context, key meta.Key) erro
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+// Update is a method on GCEAlphaBackendServices.
 func (g *GCEAlphaBackendServices) Update(ctx context.Context, key meta.Key, arg0 *alpha.BackendService) error {
 	rk := &RateLimitKey{
 		Operation: "Update",
@@ -1950,17 +1883,13 @@ func (g *GCEAlphaBackendServices) Update(ctx context.Context, key meta.Key, arg0
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "BackendServices")
-
 	call := g.s.Alpha.BackendServices.Update(projectID, key.Name, arg0)
-
 	call.Context(ctx)
-
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
-
 }
 
 // AlphaRegionBackendServices is an interface that allows for mocking of RegionBackendServices.
@@ -1969,7 +1898,6 @@ type AlphaRegionBackendServices interface {
 	List(ctx context.Context, region string) ([]*alpha.BackendService, error)
 	Insert(ctx context.Context, key meta.Key, obj *alpha.BackendService) error
 	Delete(ctx context.Context, key meta.Key) error
-
 	GetHealth(context.Context, meta.Key, *alpha.ResourceGroupReference) (*alpha.BackendServiceGroupHealth, error)
 	Update(context.Context, meta.Key, *alpha.BackendService) error
 }
@@ -2004,11 +1932,10 @@ type MockAlphaRegionBackendServices struct {
 	// Return (true, _, _) to prevent the normal execution flow of the
 	// mock. Return (false, nil, nil) to continue with normal mock behavior
 	// after the hook function executes.
-	GetHook    func(m *MockAlphaRegionBackendServices, ctx context.Context, key meta.Key) (bool, *alpha.BackendService, error)
-	ListHook   func(m *MockAlphaRegionBackendServices, ctx context.Context) (bool, []*alpha.BackendService, error)
-	InsertHook func(m *MockAlphaRegionBackendServices, ctx context.Context, key meta.Key, obj *alpha.BackendService) (bool, error)
-	DeleteHook func(m *MockAlphaRegionBackendServices, ctx context.Context, key meta.Key) (bool, error)
-
+	GetHook       func(m *MockAlphaRegionBackendServices, ctx context.Context, key meta.Key) (bool, *alpha.BackendService, error)
+	ListHook      func(m *MockAlphaRegionBackendServices, ctx context.Context) (bool, []*alpha.BackendService, error)
+	InsertHook    func(m *MockAlphaRegionBackendServices, ctx context.Context, key meta.Key, obj *alpha.BackendService) (bool, error)
+	DeleteHook    func(m *MockAlphaRegionBackendServices, ctx context.Context, key meta.Key) (bool, error)
 	GetHealthHook func(*MockAlphaRegionBackendServices, context.Context, meta.Key, *alpha.ResourceGroupReference) (*alpha.BackendServiceGroupHealth, error)
 	UpdateHook    func(*MockAlphaRegionBackendServices, context.Context, meta.Key, *alpha.BackendService) error
 
@@ -2060,10 +1987,8 @@ func (m *MockAlphaRegionBackendServices) List(ctx context.Context, region string
 		if key.Region != region {
 			continue
 		}
-
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -2117,16 +2042,16 @@ func (m *MockAlphaRegionBackendServices) Delete(ctx context.Context, key meta.Ke
 	return nil
 }
 
+// GetHealth is a mock for the corresponding method.
 func (m *MockAlphaRegionBackendServices) GetHealth(ctx context.Context, key meta.Key, arg0 *alpha.ResourceGroupReference) (*alpha.BackendServiceGroupHealth, error) {
-
 	if m.GetHealthHook != nil {
 		return m.GetHealthHook(m, ctx, key, arg0)
 	}
 	return nil, fmt.Errorf("GetHealthHook must be set")
 }
 
+// Update is a mock for the corresponding method.
 func (m *MockAlphaRegionBackendServices) Update(ctx context.Context, key meta.Key, arg0 *alpha.BackendService) error {
-
 	if m.UpdateHook != nil {
 		return m.UpdateHook(m, ctx, key, arg0)
 	}
@@ -2147,11 +2072,8 @@ func (g *GCEAlphaRegionBackendServices) Get(ctx context.Context, key meta.Key) (
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionBackendServices")
-
 	call := g.s.Alpha.RegionBackendServices.Get(projectID, key.Region, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -2164,9 +2086,7 @@ func (g *GCEAlphaRegionBackendServices) List(ctx context.Context, region string)
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionBackendServices")
-
 	call := g.s.Alpha.RegionBackendServices.List(projectID, region)
-
 	var all []*alpha.BackendService
 	f := func(l *alpha.BackendServiceList) error {
 		all = append(all, l.Items...)
@@ -2188,9 +2108,7 @@ func (g *GCEAlphaRegionBackendServices) Insert(ctx context.Context, key meta.Key
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionBackendServices")
 	obj.Name = key.Name
-
 	call := g.s.Alpha.RegionBackendServices.Insert(projectID, key.Region, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -2209,9 +2127,7 @@ func (g *GCEAlphaRegionBackendServices) Delete(ctx context.Context, key meta.Key
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionBackendServices")
-
 	call := g.s.Alpha.RegionBackendServices.Delete(projectID, key.Region, key.Name)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -2221,6 +2137,7 @@ func (g *GCEAlphaRegionBackendServices) Delete(ctx context.Context, key meta.Key
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+// GetHealth is a method on GCEAlphaRegionBackendServices.
 func (g *GCEAlphaRegionBackendServices) GetHealth(ctx context.Context, key meta.Key, arg0 *alpha.ResourceGroupReference) (*alpha.BackendServiceGroupHealth, error) {
 	rk := &RateLimitKey{
 		Operation: "GetHealth",
@@ -2229,13 +2146,12 @@ func (g *GCEAlphaRegionBackendServices) GetHealth(ctx context.Context, key meta.
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionBackendServices")
-
 	call := g.s.Alpha.RegionBackendServices.GetHealth(projectID, key.Region, key.Name, arg0)
-
 	call.Context(ctx)
 	return call.Do()
 }
 
+// Update is a method on GCEAlphaRegionBackendServices.
 func (g *GCEAlphaRegionBackendServices) Update(ctx context.Context, key meta.Key, arg0 *alpha.BackendService) error {
 	rk := &RateLimitKey{
 		Operation: "Update",
@@ -2244,17 +2160,13 @@ func (g *GCEAlphaRegionBackendServices) Update(ctx context.Context, key meta.Key
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionBackendServices")
-
 	call := g.s.Alpha.RegionBackendServices.Update(projectID, key.Region, key.Name, arg0)
-
 	call.Context(ctx)
-
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
-
 }
 
 // Disks is an interface that allows for mocking of Disks.
@@ -2348,10 +2260,8 @@ func (m *MockDisks) List(ctx context.Context, zone string) ([]*ga.Disk, error) {
 		if key.Zone != zone {
 			continue
 		}
-
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -2419,11 +2329,8 @@ func (g *GCEDisks) Get(ctx context.Context, key meta.Key) (*ga.Disk, error) {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Disks")
-
 	call := g.s.GA.Disks.Get(projectID, key.Zone, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -2436,9 +2343,7 @@ func (g *GCEDisks) List(ctx context.Context, zone string) ([]*ga.Disk, error) {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Disks")
-
 	call := g.s.GA.Disks.List(projectID, zone)
-
 	var all []*ga.Disk
 	f := func(l *ga.DiskList) error {
 		all = append(all, l.Items...)
@@ -2460,9 +2365,7 @@ func (g *GCEDisks) Insert(ctx context.Context, key meta.Key, obj *ga.Disk) error
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Disks")
 	obj.Name = key.Name
-
 	call := g.s.GA.Disks.Insert(projectID, key.Zone, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -2481,9 +2384,7 @@ func (g *GCEDisks) Delete(ctx context.Context, key meta.Key) error {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Disks")
-
 	call := g.s.GA.Disks.Delete(projectID, key.Zone, key.Name)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -2584,10 +2485,8 @@ func (m *MockAlphaDisks) List(ctx context.Context, zone string) ([]*alpha.Disk, 
 		if key.Zone != zone {
 			continue
 		}
-
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -2655,11 +2554,8 @@ func (g *GCEAlphaDisks) Get(ctx context.Context, key meta.Key) (*alpha.Disk, err
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Disks")
-
 	call := g.s.Alpha.Disks.Get(projectID, key.Zone, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -2672,9 +2568,7 @@ func (g *GCEAlphaDisks) List(ctx context.Context, zone string) ([]*alpha.Disk, e
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Disks")
-
 	call := g.s.Alpha.Disks.List(projectID, zone)
-
 	var all []*alpha.Disk
 	f := func(l *alpha.DiskList) error {
 		all = append(all, l.Items...)
@@ -2696,9 +2590,7 @@ func (g *GCEAlphaDisks) Insert(ctx context.Context, key meta.Key, obj *alpha.Dis
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Disks")
 	obj.Name = key.Name
-
 	call := g.s.Alpha.Disks.Insert(projectID, key.Zone, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -2717,9 +2609,7 @@ func (g *GCEAlphaDisks) Delete(ctx context.Context, key meta.Key) error {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Disks")
-
 	call := g.s.Alpha.Disks.Delete(projectID, key.Zone, key.Name)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -2820,10 +2710,8 @@ func (m *MockAlphaRegionDisks) List(ctx context.Context, region string) ([]*alph
 		if key.Region != region {
 			continue
 		}
-
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -2891,11 +2779,8 @@ func (g *GCEAlphaRegionDisks) Get(ctx context.Context, key meta.Key) (*alpha.Dis
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionDisks")
-
 	call := g.s.Alpha.RegionDisks.Get(projectID, key.Region, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -2908,9 +2793,7 @@ func (g *GCEAlphaRegionDisks) List(ctx context.Context, region string) ([]*alpha
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionDisks")
-
 	call := g.s.Alpha.RegionDisks.List(projectID, region)
-
 	var all []*alpha.Disk
 	f := func(l *alpha.DiskList) error {
 		all = append(all, l.Items...)
@@ -2932,9 +2815,7 @@ func (g *GCEAlphaRegionDisks) Insert(ctx context.Context, key meta.Key, obj *alp
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionDisks")
 	obj.Name = key.Name
-
 	call := g.s.Alpha.RegionDisks.Insert(projectID, key.Region, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -2953,9 +2834,7 @@ func (g *GCEAlphaRegionDisks) Delete(ctx context.Context, key meta.Key) error {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionDisks")
-
 	call := g.s.Alpha.RegionDisks.Delete(projectID, key.Region, key.Name)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -2971,7 +2850,6 @@ type Firewalls interface {
 	List(ctx context.Context) ([]*ga.Firewall, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.Firewall) error
 	Delete(ctx context.Context, key meta.Key) error
-
 	Update(context.Context, meta.Key, *ga.Firewall) error
 }
 
@@ -3009,7 +2887,6 @@ type MockFirewalls struct {
 	ListHook   func(m *MockFirewalls, ctx context.Context) (bool, []*ga.Firewall, error)
 	InsertHook func(m *MockFirewalls, ctx context.Context, key meta.Key, obj *ga.Firewall) (bool, error)
 	DeleteHook func(m *MockFirewalls, ctx context.Context, key meta.Key) (bool, error)
-
 	UpdateHook func(*MockFirewalls, context.Context, meta.Key, *ga.Firewall) error
 
 	// X is extra state that can be used as part of the mock. Generated code
@@ -3059,7 +2936,6 @@ func (m *MockFirewalls) List(ctx context.Context) ([]*ga.Firewall, error) {
 	for _, obj := range m.Objects {
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -3113,8 +2989,8 @@ func (m *MockFirewalls) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+// Update is a mock for the corresponding method.
 func (m *MockFirewalls) Update(ctx context.Context, key meta.Key, arg0 *ga.Firewall) error {
-
 	if m.UpdateHook != nil {
 		return m.UpdateHook(m, ctx, key, arg0)
 	}
@@ -3135,11 +3011,8 @@ func (g *GCEFirewalls) Get(ctx context.Context, key meta.Key) (*ga.Firewall, err
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Firewalls")
-
 	call := g.s.GA.Firewalls.Get(projectID, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -3152,9 +3025,7 @@ func (g *GCEFirewalls) List(ctx context.Context) ([]*ga.Firewall, error) {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Firewalls")
-
 	call := g.s.GA.Firewalls.List(projectID)
-
 	var all []*ga.Firewall
 	f := func(l *ga.FirewallList) error {
 		all = append(all, l.Items...)
@@ -3176,9 +3047,7 @@ func (g *GCEFirewalls) Insert(ctx context.Context, key meta.Key, obj *ga.Firewal
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Firewalls")
 	obj.Name = key.Name
-
 	call := g.s.GA.Firewalls.Insert(projectID, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -3197,7 +3066,6 @@ func (g *GCEFirewalls) Delete(ctx context.Context, key meta.Key) error {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Firewalls")
-
 	call := g.s.GA.Firewalls.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -3209,6 +3077,7 @@ func (g *GCEFirewalls) Delete(ctx context.Context, key meta.Key) error {
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+// Update is a method on GCEFirewalls.
 func (g *GCEFirewalls) Update(ctx context.Context, key meta.Key, arg0 *ga.Firewall) error {
 	rk := &RateLimitKey{
 		Operation: "Update",
@@ -3217,17 +3086,13 @@ func (g *GCEFirewalls) Update(ctx context.Context, key meta.Key, arg0 *ga.Firewa
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Firewalls")
-
 	call := g.s.GA.Firewalls.Update(projectID, key.Name, arg0)
-
 	call.Context(ctx)
-
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
-
 }
 
 // ForwardingRules is an interface that allows for mocking of ForwardingRules.
@@ -3321,10 +3186,8 @@ func (m *MockForwardingRules) List(ctx context.Context, region string) ([]*ga.Fo
 		if key.Region != region {
 			continue
 		}
-
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -3392,11 +3255,8 @@ func (g *GCEForwardingRules) Get(ctx context.Context, key meta.Key) (*ga.Forward
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "ForwardingRules")
-
 	call := g.s.GA.ForwardingRules.Get(projectID, key.Region, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -3409,9 +3269,7 @@ func (g *GCEForwardingRules) List(ctx context.Context, region string) ([]*ga.For
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "ForwardingRules")
-
 	call := g.s.GA.ForwardingRules.List(projectID, region)
-
 	var all []*ga.ForwardingRule
 	f := func(l *ga.ForwardingRuleList) error {
 		all = append(all, l.Items...)
@@ -3433,9 +3291,7 @@ func (g *GCEForwardingRules) Insert(ctx context.Context, key meta.Key, obj *ga.F
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "ForwardingRules")
 	obj.Name = key.Name
-
 	call := g.s.GA.ForwardingRules.Insert(projectID, key.Region, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -3454,9 +3310,7 @@ func (g *GCEForwardingRules) Delete(ctx context.Context, key meta.Key) error {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "ForwardingRules")
-
 	call := g.s.GA.ForwardingRules.Delete(projectID, key.Region, key.Name)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -3557,10 +3411,8 @@ func (m *MockAlphaForwardingRules) List(ctx context.Context, region string) ([]*
 		if key.Region != region {
 			continue
 		}
-
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -3628,11 +3480,8 @@ func (g *GCEAlphaForwardingRules) Get(ctx context.Context, key meta.Key) (*alpha
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "ForwardingRules")
-
 	call := g.s.Alpha.ForwardingRules.Get(projectID, key.Region, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -3645,9 +3494,7 @@ func (g *GCEAlphaForwardingRules) List(ctx context.Context, region string) ([]*a
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "ForwardingRules")
-
 	call := g.s.Alpha.ForwardingRules.List(projectID, region)
-
 	var all []*alpha.ForwardingRule
 	f := func(l *alpha.ForwardingRuleList) error {
 		all = append(all, l.Items...)
@@ -3669,9 +3516,7 @@ func (g *GCEAlphaForwardingRules) Insert(ctx context.Context, key meta.Key, obj 
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "ForwardingRules")
 	obj.Name = key.Name
-
 	call := g.s.Alpha.ForwardingRules.Insert(projectID, key.Region, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -3690,9 +3535,7 @@ func (g *GCEAlphaForwardingRules) Delete(ctx context.Context, key meta.Key) erro
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "ForwardingRules")
-
 	call := g.s.Alpha.ForwardingRules.Delete(projectID, key.Region, key.Name)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -3708,7 +3551,6 @@ type GlobalForwardingRules interface {
 	List(ctx context.Context) ([]*ga.ForwardingRule, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.ForwardingRule) error
 	Delete(ctx context.Context, key meta.Key) error
-
 	SetTarget(context.Context, meta.Key, *ga.TargetReference) error
 }
 
@@ -3742,11 +3584,10 @@ type MockGlobalForwardingRules struct {
 	// Return (true, _, _) to prevent the normal execution flow of the
 	// mock. Return (false, nil, nil) to continue with normal mock behavior
 	// after the hook function executes.
-	GetHook    func(m *MockGlobalForwardingRules, ctx context.Context, key meta.Key) (bool, *ga.ForwardingRule, error)
-	ListHook   func(m *MockGlobalForwardingRules, ctx context.Context) (bool, []*ga.ForwardingRule, error)
-	InsertHook func(m *MockGlobalForwardingRules, ctx context.Context, key meta.Key, obj *ga.ForwardingRule) (bool, error)
-	DeleteHook func(m *MockGlobalForwardingRules, ctx context.Context, key meta.Key) (bool, error)
-
+	GetHook       func(m *MockGlobalForwardingRules, ctx context.Context, key meta.Key) (bool, *ga.ForwardingRule, error)
+	ListHook      func(m *MockGlobalForwardingRules, ctx context.Context) (bool, []*ga.ForwardingRule, error)
+	InsertHook    func(m *MockGlobalForwardingRules, ctx context.Context, key meta.Key, obj *ga.ForwardingRule) (bool, error)
+	DeleteHook    func(m *MockGlobalForwardingRules, ctx context.Context, key meta.Key) (bool, error)
 	SetTargetHook func(*MockGlobalForwardingRules, context.Context, meta.Key, *ga.TargetReference) error
 
 	// X is extra state that can be used as part of the mock. Generated code
@@ -3796,7 +3637,6 @@ func (m *MockGlobalForwardingRules) List(ctx context.Context) ([]*ga.ForwardingR
 	for _, obj := range m.Objects {
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -3850,8 +3690,8 @@ func (m *MockGlobalForwardingRules) Delete(ctx context.Context, key meta.Key) er
 	return nil
 }
 
+// SetTarget is a mock for the corresponding method.
 func (m *MockGlobalForwardingRules) SetTarget(ctx context.Context, key meta.Key, arg0 *ga.TargetReference) error {
-
 	if m.SetTargetHook != nil {
 		return m.SetTargetHook(m, ctx, key, arg0)
 	}
@@ -3872,11 +3712,8 @@ func (g *GCEGlobalForwardingRules) Get(ctx context.Context, key meta.Key) (*ga.F
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalForwardingRules")
-
 	call := g.s.GA.GlobalForwardingRules.Get(projectID, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -3889,9 +3726,7 @@ func (g *GCEGlobalForwardingRules) List(ctx context.Context) ([]*ga.ForwardingRu
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalForwardingRules")
-
 	call := g.s.GA.GlobalForwardingRules.List(projectID)
-
 	var all []*ga.ForwardingRule
 	f := func(l *ga.ForwardingRuleList) error {
 		all = append(all, l.Items...)
@@ -3913,9 +3748,7 @@ func (g *GCEGlobalForwardingRules) Insert(ctx context.Context, key meta.Key, obj
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalForwardingRules")
 	obj.Name = key.Name
-
 	call := g.s.GA.GlobalForwardingRules.Insert(projectID, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -3934,7 +3767,6 @@ func (g *GCEGlobalForwardingRules) Delete(ctx context.Context, key meta.Key) err
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalForwardingRules")
-
 	call := g.s.GA.GlobalForwardingRules.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -3946,6 +3778,7 @@ func (g *GCEGlobalForwardingRules) Delete(ctx context.Context, key meta.Key) err
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+// SetTarget is a method on GCEGlobalForwardingRules.
 func (g *GCEGlobalForwardingRules) SetTarget(ctx context.Context, key meta.Key, arg0 *ga.TargetReference) error {
 	rk := &RateLimitKey{
 		Operation: "SetTarget",
@@ -3954,17 +3787,13 @@ func (g *GCEGlobalForwardingRules) SetTarget(ctx context.Context, key meta.Key, 
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalForwardingRules")
-
 	call := g.s.GA.GlobalForwardingRules.SetTarget(projectID, key.Name, arg0)
-
 	call.Context(ctx)
-
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
-
 }
 
 // HealthChecks is an interface that allows for mocking of HealthChecks.
@@ -3973,7 +3802,6 @@ type HealthChecks interface {
 	List(ctx context.Context) ([]*ga.HealthCheck, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.HealthCheck) error
 	Delete(ctx context.Context, key meta.Key) error
-
 	Update(context.Context, meta.Key, *ga.HealthCheck) error
 }
 
@@ -4011,7 +3839,6 @@ type MockHealthChecks struct {
 	ListHook   func(m *MockHealthChecks, ctx context.Context) (bool, []*ga.HealthCheck, error)
 	InsertHook func(m *MockHealthChecks, ctx context.Context, key meta.Key, obj *ga.HealthCheck) (bool, error)
 	DeleteHook func(m *MockHealthChecks, ctx context.Context, key meta.Key) (bool, error)
-
 	UpdateHook func(*MockHealthChecks, context.Context, meta.Key, *ga.HealthCheck) error
 
 	// X is extra state that can be used as part of the mock. Generated code
@@ -4061,7 +3888,6 @@ func (m *MockHealthChecks) List(ctx context.Context) ([]*ga.HealthCheck, error) 
 	for _, obj := range m.Objects {
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -4115,8 +3941,8 @@ func (m *MockHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+// Update is a mock for the corresponding method.
 func (m *MockHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga.HealthCheck) error {
-
 	if m.UpdateHook != nil {
 		return m.UpdateHook(m, ctx, key, arg0)
 	}
@@ -4137,11 +3963,8 @@ func (g *GCEHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HealthChec
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HealthChecks")
-
 	call := g.s.GA.HealthChecks.Get(projectID, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -4154,9 +3977,7 @@ func (g *GCEHealthChecks) List(ctx context.Context) ([]*ga.HealthCheck, error) {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HealthChecks")
-
 	call := g.s.GA.HealthChecks.List(projectID)
-
 	var all []*ga.HealthCheck
 	f := func(l *ga.HealthCheckList) error {
 		all = append(all, l.Items...)
@@ -4178,9 +3999,7 @@ func (g *GCEHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.Heal
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HealthChecks")
 	obj.Name = key.Name
-
 	call := g.s.GA.HealthChecks.Insert(projectID, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -4199,7 +4018,6 @@ func (g *GCEHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HealthChecks")
-
 	call := g.s.GA.HealthChecks.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -4211,6 +4029,7 @@ func (g *GCEHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+// Update is a method on GCEHealthChecks.
 func (g *GCEHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga.HealthCheck) error {
 	rk := &RateLimitKey{
 		Operation: "Update",
@@ -4219,17 +4038,13 @@ func (g *GCEHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga.Hea
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HealthChecks")
-
 	call := g.s.GA.HealthChecks.Update(projectID, key.Name, arg0)
-
 	call.Context(ctx)
-
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
-
 }
 
 // AlphaHealthChecks is an interface that allows for mocking of HealthChecks.
@@ -4238,7 +4053,6 @@ type AlphaHealthChecks interface {
 	List(ctx context.Context) ([]*alpha.HealthCheck, error)
 	Insert(ctx context.Context, key meta.Key, obj *alpha.HealthCheck) error
 	Delete(ctx context.Context, key meta.Key) error
-
 	Update(context.Context, meta.Key, *alpha.HealthCheck) error
 }
 
@@ -4276,7 +4090,6 @@ type MockAlphaHealthChecks struct {
 	ListHook   func(m *MockAlphaHealthChecks, ctx context.Context) (bool, []*alpha.HealthCheck, error)
 	InsertHook func(m *MockAlphaHealthChecks, ctx context.Context, key meta.Key, obj *alpha.HealthCheck) (bool, error)
 	DeleteHook func(m *MockAlphaHealthChecks, ctx context.Context, key meta.Key) (bool, error)
-
 	UpdateHook func(*MockAlphaHealthChecks, context.Context, meta.Key, *alpha.HealthCheck) error
 
 	// X is extra state that can be used as part of the mock. Generated code
@@ -4326,7 +4139,6 @@ func (m *MockAlphaHealthChecks) List(ctx context.Context) ([]*alpha.HealthCheck,
 	for _, obj := range m.Objects {
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -4380,8 +4192,8 @@ func (m *MockAlphaHealthChecks) Delete(ctx context.Context, key meta.Key) error 
 	return nil
 }
 
+// Update is a mock for the corresponding method.
 func (m *MockAlphaHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *alpha.HealthCheck) error {
-
 	if m.UpdateHook != nil {
 		return m.UpdateHook(m, ctx, key, arg0)
 	}
@@ -4402,11 +4214,8 @@ func (g *GCEAlphaHealthChecks) Get(ctx context.Context, key meta.Key) (*alpha.He
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "HealthChecks")
-
 	call := g.s.Alpha.HealthChecks.Get(projectID, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -4419,9 +4228,7 @@ func (g *GCEAlphaHealthChecks) List(ctx context.Context) ([]*alpha.HealthCheck, 
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "HealthChecks")
-
 	call := g.s.Alpha.HealthChecks.List(projectID)
-
 	var all []*alpha.HealthCheck
 	f := func(l *alpha.HealthCheckList) error {
 		all = append(all, l.Items...)
@@ -4443,9 +4250,7 @@ func (g *GCEAlphaHealthChecks) Insert(ctx context.Context, key meta.Key, obj *al
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "HealthChecks")
 	obj.Name = key.Name
-
 	call := g.s.Alpha.HealthChecks.Insert(projectID, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -4464,7 +4269,6 @@ func (g *GCEAlphaHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "HealthChecks")
-
 	call := g.s.Alpha.HealthChecks.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -4476,6 +4280,7 @@ func (g *GCEAlphaHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+// Update is a method on GCEAlphaHealthChecks.
 func (g *GCEAlphaHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *alpha.HealthCheck) error {
 	rk := &RateLimitKey{
 		Operation: "Update",
@@ -4484,17 +4289,13 @@ func (g *GCEAlphaHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *a
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "HealthChecks")
-
 	call := g.s.Alpha.HealthChecks.Update(projectID, key.Name, arg0)
-
 	call.Context(ctx)
-
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
-
 }
 
 // HttpHealthChecks is an interface that allows for mocking of HttpHealthChecks.
@@ -4503,7 +4304,6 @@ type HttpHealthChecks interface {
 	List(ctx context.Context) ([]*ga.HttpHealthCheck, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.HttpHealthCheck) error
 	Delete(ctx context.Context, key meta.Key) error
-
 	Update(context.Context, meta.Key, *ga.HttpHealthCheck) error
 }
 
@@ -4541,7 +4341,6 @@ type MockHttpHealthChecks struct {
 	ListHook   func(m *MockHttpHealthChecks, ctx context.Context) (bool, []*ga.HttpHealthCheck, error)
 	InsertHook func(m *MockHttpHealthChecks, ctx context.Context, key meta.Key, obj *ga.HttpHealthCheck) (bool, error)
 	DeleteHook func(m *MockHttpHealthChecks, ctx context.Context, key meta.Key) (bool, error)
-
 	UpdateHook func(*MockHttpHealthChecks, context.Context, meta.Key, *ga.HttpHealthCheck) error
 
 	// X is extra state that can be used as part of the mock. Generated code
@@ -4591,7 +4390,6 @@ func (m *MockHttpHealthChecks) List(ctx context.Context) ([]*ga.HttpHealthCheck,
 	for _, obj := range m.Objects {
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -4645,8 +4443,8 @@ func (m *MockHttpHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+// Update is a mock for the corresponding method.
 func (m *MockHttpHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga.HttpHealthCheck) error {
-
 	if m.UpdateHook != nil {
 		return m.UpdateHook(m, ctx, key, arg0)
 	}
@@ -4667,11 +4465,8 @@ func (g *GCEHttpHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HttpHe
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpHealthChecks")
-
 	call := g.s.GA.HttpHealthChecks.Get(projectID, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -4684,9 +4479,7 @@ func (g *GCEHttpHealthChecks) List(ctx context.Context) ([]*ga.HttpHealthCheck, 
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpHealthChecks")
-
 	call := g.s.GA.HttpHealthChecks.List(projectID)
-
 	var all []*ga.HttpHealthCheck
 	f := func(l *ga.HttpHealthCheckList) error {
 		all = append(all, l.Items...)
@@ -4708,9 +4501,7 @@ func (g *GCEHttpHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpHealthChecks")
 	obj.Name = key.Name
-
 	call := g.s.GA.HttpHealthChecks.Insert(projectID, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -4729,7 +4520,6 @@ func (g *GCEHttpHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpHealthChecks")
-
 	call := g.s.GA.HttpHealthChecks.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -4741,6 +4531,7 @@ func (g *GCEHttpHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+// Update is a method on GCEHttpHealthChecks.
 func (g *GCEHttpHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga.HttpHealthCheck) error {
 	rk := &RateLimitKey{
 		Operation: "Update",
@@ -4749,17 +4540,13 @@ func (g *GCEHttpHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpHealthChecks")
-
 	call := g.s.GA.HttpHealthChecks.Update(projectID, key.Name, arg0)
-
 	call.Context(ctx)
-
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
-
 }
 
 // HttpsHealthChecks is an interface that allows for mocking of HttpsHealthChecks.
@@ -4768,7 +4555,6 @@ type HttpsHealthChecks interface {
 	List(ctx context.Context) ([]*ga.HttpsHealthCheck, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.HttpsHealthCheck) error
 	Delete(ctx context.Context, key meta.Key) error
-
 	Update(context.Context, meta.Key, *ga.HttpsHealthCheck) error
 }
 
@@ -4806,7 +4592,6 @@ type MockHttpsHealthChecks struct {
 	ListHook   func(m *MockHttpsHealthChecks, ctx context.Context) (bool, []*ga.HttpsHealthCheck, error)
 	InsertHook func(m *MockHttpsHealthChecks, ctx context.Context, key meta.Key, obj *ga.HttpsHealthCheck) (bool, error)
 	DeleteHook func(m *MockHttpsHealthChecks, ctx context.Context, key meta.Key) (bool, error)
-
 	UpdateHook func(*MockHttpsHealthChecks, context.Context, meta.Key, *ga.HttpsHealthCheck) error
 
 	// X is extra state that can be used as part of the mock. Generated code
@@ -4856,7 +4641,6 @@ func (m *MockHttpsHealthChecks) List(ctx context.Context) ([]*ga.HttpsHealthChec
 	for _, obj := range m.Objects {
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -4910,8 +4694,8 @@ func (m *MockHttpsHealthChecks) Delete(ctx context.Context, key meta.Key) error 
 	return nil
 }
 
+// Update is a mock for the corresponding method.
 func (m *MockHttpsHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga.HttpsHealthCheck) error {
-
 	if m.UpdateHook != nil {
 		return m.UpdateHook(m, ctx, key, arg0)
 	}
@@ -4932,11 +4716,8 @@ func (g *GCEHttpsHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.Https
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpsHealthChecks")
-
 	call := g.s.GA.HttpsHealthChecks.Get(projectID, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -4949,9 +4730,7 @@ func (g *GCEHttpsHealthChecks) List(ctx context.Context) ([]*ga.HttpsHealthCheck
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpsHealthChecks")
-
 	call := g.s.GA.HttpsHealthChecks.List(projectID)
-
 	var all []*ga.HttpsHealthCheck
 	f := func(l *ga.HttpsHealthCheckList) error {
 		all = append(all, l.Items...)
@@ -4973,9 +4752,7 @@ func (g *GCEHttpsHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpsHealthChecks")
 	obj.Name = key.Name
-
 	call := g.s.GA.HttpsHealthChecks.Insert(projectID, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -4994,7 +4771,6 @@ func (g *GCEHttpsHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpsHealthChecks")
-
 	call := g.s.GA.HttpsHealthChecks.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -5006,6 +4782,7 @@ func (g *GCEHttpsHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+// Update is a method on GCEHttpsHealthChecks.
 func (g *GCEHttpsHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga.HttpsHealthCheck) error {
 	rk := &RateLimitKey{
 		Operation: "Update",
@@ -5014,17 +4791,13 @@ func (g *GCEHttpsHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *g
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpsHealthChecks")
-
 	call := g.s.GA.HttpsHealthChecks.Update(projectID, key.Name, arg0)
-
 	call.Context(ctx)
-
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
-
 }
 
 // InstanceGroups is an interface that allows for mocking of InstanceGroups.
@@ -5033,7 +4806,6 @@ type InstanceGroups interface {
 	List(ctx context.Context, zone string) ([]*ga.InstanceGroup, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.InstanceGroup) error
 	Delete(ctx context.Context, key meta.Key) error
-
 	ListInstances(context.Context, meta.Key, *ga.InstanceGroupsListInstancesRequest) (*ga.InstanceGroupsListInstances, error)
 	RemoveInstances(context.Context, meta.Key, *ga.InstanceGroupsRemoveInstancesRequest) error
 	SetNamedPorts(context.Context, meta.Key, *ga.InstanceGroupsSetNamedPortsRequest) error
@@ -5069,11 +4841,10 @@ type MockInstanceGroups struct {
 	// Return (true, _, _) to prevent the normal execution flow of the
 	// mock. Return (false, nil, nil) to continue with normal mock behavior
 	// after the hook function executes.
-	GetHook    func(m *MockInstanceGroups, ctx context.Context, key meta.Key) (bool, *ga.InstanceGroup, error)
-	ListHook   func(m *MockInstanceGroups, ctx context.Context) (bool, []*ga.InstanceGroup, error)
-	InsertHook func(m *MockInstanceGroups, ctx context.Context, key meta.Key, obj *ga.InstanceGroup) (bool, error)
-	DeleteHook func(m *MockInstanceGroups, ctx context.Context, key meta.Key) (bool, error)
-
+	GetHook             func(m *MockInstanceGroups, ctx context.Context, key meta.Key) (bool, *ga.InstanceGroup, error)
+	ListHook            func(m *MockInstanceGroups, ctx context.Context) (bool, []*ga.InstanceGroup, error)
+	InsertHook          func(m *MockInstanceGroups, ctx context.Context, key meta.Key, obj *ga.InstanceGroup) (bool, error)
+	DeleteHook          func(m *MockInstanceGroups, ctx context.Context, key meta.Key) (bool, error)
 	ListInstancesHook   func(*MockInstanceGroups, context.Context, meta.Key, *ga.InstanceGroupsListInstancesRequest) (*ga.InstanceGroupsListInstances, error)
 	RemoveInstancesHook func(*MockInstanceGroups, context.Context, meta.Key, *ga.InstanceGroupsRemoveInstancesRequest) error
 	SetNamedPortsHook   func(*MockInstanceGroups, context.Context, meta.Key, *ga.InstanceGroupsSetNamedPortsRequest) error
@@ -5126,10 +4897,8 @@ func (m *MockInstanceGroups) List(ctx context.Context, zone string) ([]*ga.Insta
 		if key.Zone != zone {
 			continue
 		}
-
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -5183,24 +4952,24 @@ func (m *MockInstanceGroups) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+// ListInstances is a mock for the corresponding method.
 func (m *MockInstanceGroups) ListInstances(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsListInstancesRequest) (*ga.InstanceGroupsListInstances, error) {
-
 	if m.ListInstancesHook != nil {
 		return m.ListInstancesHook(m, ctx, key, arg0)
 	}
 	return nil, fmt.Errorf("ListInstancesHook must be set")
 }
 
+// RemoveInstances is a mock for the corresponding method.
 func (m *MockInstanceGroups) RemoveInstances(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsRemoveInstancesRequest) error {
-
 	if m.RemoveInstancesHook != nil {
 		return m.RemoveInstancesHook(m, ctx, key, arg0)
 	}
 	return nil
 }
 
+// SetNamedPorts is a mock for the corresponding method.
 func (m *MockInstanceGroups) SetNamedPorts(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsSetNamedPortsRequest) error {
-
 	if m.SetNamedPortsHook != nil {
 		return m.SetNamedPortsHook(m, ctx, key, arg0)
 	}
@@ -5221,11 +4990,8 @@ func (g *GCEInstanceGroups) Get(ctx context.Context, key meta.Key) (*ga.Instance
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
-
 	call := g.s.GA.InstanceGroups.Get(projectID, key.Zone, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -5238,9 +5004,7 @@ func (g *GCEInstanceGroups) List(ctx context.Context, zone string) ([]*ga.Instan
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
-
 	call := g.s.GA.InstanceGroups.List(projectID, zone)
-
 	var all []*ga.InstanceGroup
 	f := func(l *ga.InstanceGroupList) error {
 		all = append(all, l.Items...)
@@ -5262,9 +5026,7 @@ func (g *GCEInstanceGroups) Insert(ctx context.Context, key meta.Key, obj *ga.In
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
 	obj.Name = key.Name
-
 	call := g.s.GA.InstanceGroups.Insert(projectID, key.Zone, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -5283,9 +5045,7 @@ func (g *GCEInstanceGroups) Delete(ctx context.Context, key meta.Key) error {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
-
 	call := g.s.GA.InstanceGroups.Delete(projectID, key.Zone, key.Name)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -5295,6 +5055,7 @@ func (g *GCEInstanceGroups) Delete(ctx context.Context, key meta.Key) error {
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+// ListInstances is a method on GCEInstanceGroups.
 func (g *GCEInstanceGroups) ListInstances(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsListInstancesRequest) (*ga.InstanceGroupsListInstances, error) {
 	rk := &RateLimitKey{
 		Operation: "ListInstances",
@@ -5303,13 +5064,12 @@ func (g *GCEInstanceGroups) ListInstances(ctx context.Context, key meta.Key, arg
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
-
 	call := g.s.GA.InstanceGroups.ListInstances(projectID, key.Zone, key.Name, arg0)
-
 	call.Context(ctx)
 	return call.Do()
 }
 
+// RemoveInstances is a method on GCEInstanceGroups.
 func (g *GCEInstanceGroups) RemoveInstances(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsRemoveInstancesRequest) error {
 	rk := &RateLimitKey{
 		Operation: "RemoveInstances",
@@ -5318,19 +5078,16 @@ func (g *GCEInstanceGroups) RemoveInstances(ctx context.Context, key meta.Key, a
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
-
 	call := g.s.GA.InstanceGroups.RemoveInstances(projectID, key.Zone, key.Name, arg0)
-
 	call.Context(ctx)
-
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
-
 }
 
+// SetNamedPorts is a method on GCEInstanceGroups.
 func (g *GCEInstanceGroups) SetNamedPorts(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsSetNamedPortsRequest) error {
 	rk := &RateLimitKey{
 		Operation: "SetNamedPorts",
@@ -5339,17 +5096,13 @@ func (g *GCEInstanceGroups) SetNamedPorts(ctx context.Context, key meta.Key, arg
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
-
 	call := g.s.GA.InstanceGroups.SetNamedPorts(projectID, key.Zone, key.Name, arg0)
-
 	call.Context(ctx)
-
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
-
 }
 
 // Instances is an interface that allows for mocking of Instances.
@@ -5358,7 +5111,6 @@ type Instances interface {
 	List(ctx context.Context, zone string) ([]*ga.Instance, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.Instance) error
 	Delete(ctx context.Context, key meta.Key) error
-
 	AttachDisk(context.Context, meta.Key, *ga.AttachedDisk) error
 	DetachDisk(context.Context, meta.Key, string) error
 }
@@ -5393,11 +5145,10 @@ type MockInstances struct {
 	// Return (true, _, _) to prevent the normal execution flow of the
 	// mock. Return (false, nil, nil) to continue with normal mock behavior
 	// after the hook function executes.
-	GetHook    func(m *MockInstances, ctx context.Context, key meta.Key) (bool, *ga.Instance, error)
-	ListHook   func(m *MockInstances, ctx context.Context) (bool, []*ga.Instance, error)
-	InsertHook func(m *MockInstances, ctx context.Context, key meta.Key, obj *ga.Instance) (bool, error)
-	DeleteHook func(m *MockInstances, ctx context.Context, key meta.Key) (bool, error)
-
+	GetHook        func(m *MockInstances, ctx context.Context, key meta.Key) (bool, *ga.Instance, error)
+	ListHook       func(m *MockInstances, ctx context.Context) (bool, []*ga.Instance, error)
+	InsertHook     func(m *MockInstances, ctx context.Context, key meta.Key, obj *ga.Instance) (bool, error)
+	DeleteHook     func(m *MockInstances, ctx context.Context, key meta.Key) (bool, error)
 	AttachDiskHook func(*MockInstances, context.Context, meta.Key, *ga.AttachedDisk) error
 	DetachDiskHook func(*MockInstances, context.Context, meta.Key, string) error
 
@@ -5449,10 +5200,8 @@ func (m *MockInstances) List(ctx context.Context, zone string) ([]*ga.Instance, 
 		if key.Zone != zone {
 			continue
 		}
-
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -5506,16 +5255,16 @@ func (m *MockInstances) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+// AttachDisk is a mock for the corresponding method.
 func (m *MockInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *ga.AttachedDisk) error {
-
 	if m.AttachDiskHook != nil {
 		return m.AttachDiskHook(m, ctx, key, arg0)
 	}
 	return nil
 }
 
+// DetachDisk is a mock for the corresponding method.
 func (m *MockInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 string) error {
-
 	if m.DetachDiskHook != nil {
 		return m.DetachDiskHook(m, ctx, key, arg0)
 	}
@@ -5536,11 +5285,8 @@ func (g *GCEInstances) Get(ctx context.Context, key meta.Key) (*ga.Instance, err
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Instances")
-
 	call := g.s.GA.Instances.Get(projectID, key.Zone, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -5553,9 +5299,7 @@ func (g *GCEInstances) List(ctx context.Context, zone string) ([]*ga.Instance, e
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Instances")
-
 	call := g.s.GA.Instances.List(projectID, zone)
-
 	var all []*ga.Instance
 	f := func(l *ga.InstanceList) error {
 		all = append(all, l.Items...)
@@ -5577,9 +5321,7 @@ func (g *GCEInstances) Insert(ctx context.Context, key meta.Key, obj *ga.Instanc
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Instances")
 	obj.Name = key.Name
-
 	call := g.s.GA.Instances.Insert(projectID, key.Zone, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -5598,9 +5340,7 @@ func (g *GCEInstances) Delete(ctx context.Context, key meta.Key) error {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Instances")
-
 	call := g.s.GA.Instances.Delete(projectID, key.Zone, key.Name)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -5610,6 +5350,7 @@ func (g *GCEInstances) Delete(ctx context.Context, key meta.Key) error {
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+// AttachDisk is a method on GCEInstances.
 func (g *GCEInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *ga.AttachedDisk) error {
 	rk := &RateLimitKey{
 		Operation: "AttachDisk",
@@ -5618,19 +5359,16 @@ func (g *GCEInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *ga.At
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Instances")
-
 	call := g.s.GA.Instances.AttachDisk(projectID, key.Zone, key.Name, arg0)
-
 	call.Context(ctx)
-
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
-
 }
 
+// DetachDisk is a method on GCEInstances.
 func (g *GCEInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 string) error {
 	rk := &RateLimitKey{
 		Operation: "DetachDisk",
@@ -5639,17 +5377,13 @@ func (g *GCEInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 string
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Instances")
-
 	call := g.s.GA.Instances.DetachDisk(projectID, key.Zone, key.Name, arg0)
-
 	call.Context(ctx)
-
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
-
 }
 
 // BetaInstances is an interface that allows for mocking of Instances.
@@ -5658,7 +5392,6 @@ type BetaInstances interface {
 	List(ctx context.Context, zone string) ([]*beta.Instance, error)
 	Insert(ctx context.Context, key meta.Key, obj *beta.Instance) error
 	Delete(ctx context.Context, key meta.Key) error
-
 	AttachDisk(context.Context, meta.Key, *beta.AttachedDisk) error
 	DetachDisk(context.Context, meta.Key, string) error
 }
@@ -5693,11 +5426,10 @@ type MockBetaInstances struct {
 	// Return (true, _, _) to prevent the normal execution flow of the
 	// mock. Return (false, nil, nil) to continue with normal mock behavior
 	// after the hook function executes.
-	GetHook    func(m *MockBetaInstances, ctx context.Context, key meta.Key) (bool, *beta.Instance, error)
-	ListHook   func(m *MockBetaInstances, ctx context.Context) (bool, []*beta.Instance, error)
-	InsertHook func(m *MockBetaInstances, ctx context.Context, key meta.Key, obj *beta.Instance) (bool, error)
-	DeleteHook func(m *MockBetaInstances, ctx context.Context, key meta.Key) (bool, error)
-
+	GetHook        func(m *MockBetaInstances, ctx context.Context, key meta.Key) (bool, *beta.Instance, error)
+	ListHook       func(m *MockBetaInstances, ctx context.Context) (bool, []*beta.Instance, error)
+	InsertHook     func(m *MockBetaInstances, ctx context.Context, key meta.Key, obj *beta.Instance) (bool, error)
+	DeleteHook     func(m *MockBetaInstances, ctx context.Context, key meta.Key) (bool, error)
 	AttachDiskHook func(*MockBetaInstances, context.Context, meta.Key, *beta.AttachedDisk) error
 	DetachDiskHook func(*MockBetaInstances, context.Context, meta.Key, string) error
 
@@ -5749,10 +5481,8 @@ func (m *MockBetaInstances) List(ctx context.Context, zone string) ([]*beta.Inst
 		if key.Zone != zone {
 			continue
 		}
-
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -5806,16 +5536,16 @@ func (m *MockBetaInstances) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+// AttachDisk is a mock for the corresponding method.
 func (m *MockBetaInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *beta.AttachedDisk) error {
-
 	if m.AttachDiskHook != nil {
 		return m.AttachDiskHook(m, ctx, key, arg0)
 	}
 	return nil
 }
 
+// DetachDisk is a mock for the corresponding method.
 func (m *MockBetaInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 string) error {
-
 	if m.DetachDiskHook != nil {
 		return m.DetachDiskHook(m, ctx, key, arg0)
 	}
@@ -5836,11 +5566,8 @@ func (g *GCEBetaInstances) Get(ctx context.Context, key meta.Key) (*beta.Instanc
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Instances")
-
 	call := g.s.Beta.Instances.Get(projectID, key.Zone, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -5853,9 +5580,7 @@ func (g *GCEBetaInstances) List(ctx context.Context, zone string) ([]*beta.Insta
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Instances")
-
 	call := g.s.Beta.Instances.List(projectID, zone)
-
 	var all []*beta.Instance
 	f := func(l *beta.InstanceList) error {
 		all = append(all, l.Items...)
@@ -5877,9 +5602,7 @@ func (g *GCEBetaInstances) Insert(ctx context.Context, key meta.Key, obj *beta.I
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Instances")
 	obj.Name = key.Name
-
 	call := g.s.Beta.Instances.Insert(projectID, key.Zone, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -5898,9 +5621,7 @@ func (g *GCEBetaInstances) Delete(ctx context.Context, key meta.Key) error {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Instances")
-
 	call := g.s.Beta.Instances.Delete(projectID, key.Zone, key.Name)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -5910,6 +5631,7 @@ func (g *GCEBetaInstances) Delete(ctx context.Context, key meta.Key) error {
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+// AttachDisk is a method on GCEBetaInstances.
 func (g *GCEBetaInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *beta.AttachedDisk) error {
 	rk := &RateLimitKey{
 		Operation: "AttachDisk",
@@ -5918,19 +5640,16 @@ func (g *GCEBetaInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *b
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Instances")
-
 	call := g.s.Beta.Instances.AttachDisk(projectID, key.Zone, key.Name, arg0)
-
 	call.Context(ctx)
-
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
-
 }
 
+// DetachDisk is a method on GCEBetaInstances.
 func (g *GCEBetaInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 string) error {
 	rk := &RateLimitKey{
 		Operation: "DetachDisk",
@@ -5939,17 +5658,13 @@ func (g *GCEBetaInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 st
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Instances")
-
 	call := g.s.Beta.Instances.DetachDisk(projectID, key.Zone, key.Name, arg0)
-
 	call.Context(ctx)
-
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
-
 }
 
 // AlphaInstances is an interface that allows for mocking of Instances.
@@ -5958,7 +5673,6 @@ type AlphaInstances interface {
 	List(ctx context.Context, zone string) ([]*alpha.Instance, error)
 	Insert(ctx context.Context, key meta.Key, obj *alpha.Instance) error
 	Delete(ctx context.Context, key meta.Key) error
-
 	AttachDisk(context.Context, meta.Key, *alpha.AttachedDisk) error
 	DetachDisk(context.Context, meta.Key, string) error
 	UpdateNetworkInterface(context.Context, meta.Key, string, *alpha.NetworkInterface) error
@@ -5994,11 +5708,10 @@ type MockAlphaInstances struct {
 	// Return (true, _, _) to prevent the normal execution flow of the
 	// mock. Return (false, nil, nil) to continue with normal mock behavior
 	// after the hook function executes.
-	GetHook    func(m *MockAlphaInstances, ctx context.Context, key meta.Key) (bool, *alpha.Instance, error)
-	ListHook   func(m *MockAlphaInstances, ctx context.Context) (bool, []*alpha.Instance, error)
-	InsertHook func(m *MockAlphaInstances, ctx context.Context, key meta.Key, obj *alpha.Instance) (bool, error)
-	DeleteHook func(m *MockAlphaInstances, ctx context.Context, key meta.Key) (bool, error)
-
+	GetHook                    func(m *MockAlphaInstances, ctx context.Context, key meta.Key) (bool, *alpha.Instance, error)
+	ListHook                   func(m *MockAlphaInstances, ctx context.Context) (bool, []*alpha.Instance, error)
+	InsertHook                 func(m *MockAlphaInstances, ctx context.Context, key meta.Key, obj *alpha.Instance) (bool, error)
+	DeleteHook                 func(m *MockAlphaInstances, ctx context.Context, key meta.Key) (bool, error)
 	AttachDiskHook             func(*MockAlphaInstances, context.Context, meta.Key, *alpha.AttachedDisk) error
 	DetachDiskHook             func(*MockAlphaInstances, context.Context, meta.Key, string) error
 	UpdateNetworkInterfaceHook func(*MockAlphaInstances, context.Context, meta.Key, string, *alpha.NetworkInterface) error
@@ -6051,10 +5764,8 @@ func (m *MockAlphaInstances) List(ctx context.Context, zone string) ([]*alpha.In
 		if key.Zone != zone {
 			continue
 		}
-
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -6108,24 +5819,24 @@ func (m *MockAlphaInstances) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+// AttachDisk is a mock for the corresponding method.
 func (m *MockAlphaInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *alpha.AttachedDisk) error {
-
 	if m.AttachDiskHook != nil {
 		return m.AttachDiskHook(m, ctx, key, arg0)
 	}
 	return nil
 }
 
+// DetachDisk is a mock for the corresponding method.
 func (m *MockAlphaInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 string) error {
-
 	if m.DetachDiskHook != nil {
 		return m.DetachDiskHook(m, ctx, key, arg0)
 	}
 	return nil
 }
 
+// UpdateNetworkInterface is a mock for the corresponding method.
 func (m *MockAlphaInstances) UpdateNetworkInterface(ctx context.Context, key meta.Key, arg0 string, arg1 *alpha.NetworkInterface) error {
-
 	if m.UpdateNetworkInterfaceHook != nil {
 		return m.UpdateNetworkInterfaceHook(m, ctx, key, arg0, arg1)
 	}
@@ -6146,11 +5857,8 @@ func (g *GCEAlphaInstances) Get(ctx context.Context, key meta.Key) (*alpha.Insta
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
-
 	call := g.s.Alpha.Instances.Get(projectID, key.Zone, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -6163,9 +5871,7 @@ func (g *GCEAlphaInstances) List(ctx context.Context, zone string) ([]*alpha.Ins
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
-
 	call := g.s.Alpha.Instances.List(projectID, zone)
-
 	var all []*alpha.Instance
 	f := func(l *alpha.InstanceList) error {
 		all = append(all, l.Items...)
@@ -6187,9 +5893,7 @@ func (g *GCEAlphaInstances) Insert(ctx context.Context, key meta.Key, obj *alpha
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
 	obj.Name = key.Name
-
 	call := g.s.Alpha.Instances.Insert(projectID, key.Zone, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -6208,9 +5912,7 @@ func (g *GCEAlphaInstances) Delete(ctx context.Context, key meta.Key) error {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
-
 	call := g.s.Alpha.Instances.Delete(projectID, key.Zone, key.Name)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -6220,6 +5922,7 @@ func (g *GCEAlphaInstances) Delete(ctx context.Context, key meta.Key) error {
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+// AttachDisk is a method on GCEAlphaInstances.
 func (g *GCEAlphaInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *alpha.AttachedDisk) error {
 	rk := &RateLimitKey{
 		Operation: "AttachDisk",
@@ -6228,19 +5931,16 @@ func (g *GCEAlphaInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
-
 	call := g.s.Alpha.Instances.AttachDisk(projectID, key.Zone, key.Name, arg0)
-
 	call.Context(ctx)
-
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
-
 }
 
+// DetachDisk is a method on GCEAlphaInstances.
 func (g *GCEAlphaInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 string) error {
 	rk := &RateLimitKey{
 		Operation: "DetachDisk",
@@ -6249,19 +5949,16 @@ func (g *GCEAlphaInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 s
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
-
 	call := g.s.Alpha.Instances.DetachDisk(projectID, key.Zone, key.Name, arg0)
-
 	call.Context(ctx)
-
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
-
 }
 
+// UpdateNetworkInterface is a method on GCEAlphaInstances.
 func (g *GCEAlphaInstances) UpdateNetworkInterface(ctx context.Context, key meta.Key, arg0 string, arg1 *alpha.NetworkInterface) error {
 	rk := &RateLimitKey{
 		Operation: "UpdateNetworkInterface",
@@ -6270,17 +5967,13 @@ func (g *GCEAlphaInstances) UpdateNetworkInterface(ctx context.Context, key meta
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
-
 	call := g.s.Alpha.Instances.UpdateNetworkInterface(projectID, key.Zone, key.Name, arg0, arg1)
-
 	call.Context(ctx)
-
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
-
 }
 
 // AlphaNetworkEndpointGroups is an interface that allows for mocking of NetworkEndpointGroups.
@@ -6289,7 +5982,6 @@ type AlphaNetworkEndpointGroups interface {
 	List(ctx context.Context, zone string) ([]*alpha.NetworkEndpointGroup, error)
 	Insert(ctx context.Context, key meta.Key, obj *alpha.NetworkEndpointGroup) error
 	Delete(ctx context.Context, key meta.Key) error
-
 	AttachNetworkEndpoints(context.Context, meta.Key, *alpha.NetworkEndpointGroupsAttachEndpointsRequest) error
 	DetachNetworkEndpoints(context.Context, meta.Key, *alpha.NetworkEndpointGroupsDetachEndpointsRequest) error
 }
@@ -6324,11 +6016,10 @@ type MockAlphaNetworkEndpointGroups struct {
 	// Return (true, _, _) to prevent the normal execution flow of the
 	// mock. Return (false, nil, nil) to continue with normal mock behavior
 	// after the hook function executes.
-	GetHook    func(m *MockAlphaNetworkEndpointGroups, ctx context.Context, key meta.Key) (bool, *alpha.NetworkEndpointGroup, error)
-	ListHook   func(m *MockAlphaNetworkEndpointGroups, ctx context.Context) (bool, []*alpha.NetworkEndpointGroup, error)
-	InsertHook func(m *MockAlphaNetworkEndpointGroups, ctx context.Context, key meta.Key, obj *alpha.NetworkEndpointGroup) (bool, error)
-	DeleteHook func(m *MockAlphaNetworkEndpointGroups, ctx context.Context, key meta.Key) (bool, error)
-
+	GetHook                    func(m *MockAlphaNetworkEndpointGroups, ctx context.Context, key meta.Key) (bool, *alpha.NetworkEndpointGroup, error)
+	ListHook                   func(m *MockAlphaNetworkEndpointGroups, ctx context.Context) (bool, []*alpha.NetworkEndpointGroup, error)
+	InsertHook                 func(m *MockAlphaNetworkEndpointGroups, ctx context.Context, key meta.Key, obj *alpha.NetworkEndpointGroup) (bool, error)
+	DeleteHook                 func(m *MockAlphaNetworkEndpointGroups, ctx context.Context, key meta.Key) (bool, error)
 	AttachNetworkEndpointsHook func(*MockAlphaNetworkEndpointGroups, context.Context, meta.Key, *alpha.NetworkEndpointGroupsAttachEndpointsRequest) error
 	DetachNetworkEndpointsHook func(*MockAlphaNetworkEndpointGroups, context.Context, meta.Key, *alpha.NetworkEndpointGroupsDetachEndpointsRequest) error
 
@@ -6380,10 +6071,8 @@ func (m *MockAlphaNetworkEndpointGroups) List(ctx context.Context, zone string) 
 		if key.Zone != zone {
 			continue
 		}
-
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -6437,16 +6126,16 @@ func (m *MockAlphaNetworkEndpointGroups) Delete(ctx context.Context, key meta.Ke
 	return nil
 }
 
+// AttachNetworkEndpoints is a mock for the corresponding method.
 func (m *MockAlphaNetworkEndpointGroups) AttachNetworkEndpoints(ctx context.Context, key meta.Key, arg0 *alpha.NetworkEndpointGroupsAttachEndpointsRequest) error {
-
 	if m.AttachNetworkEndpointsHook != nil {
 		return m.AttachNetworkEndpointsHook(m, ctx, key, arg0)
 	}
 	return nil
 }
 
+// DetachNetworkEndpoints is a mock for the corresponding method.
 func (m *MockAlphaNetworkEndpointGroups) DetachNetworkEndpoints(ctx context.Context, key meta.Key, arg0 *alpha.NetworkEndpointGroupsDetachEndpointsRequest) error {
-
 	if m.DetachNetworkEndpointsHook != nil {
 		return m.DetachNetworkEndpointsHook(m, ctx, key, arg0)
 	}
@@ -6467,11 +6156,8 @@ func (g *GCEAlphaNetworkEndpointGroups) Get(ctx context.Context, key meta.Key) (
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "NetworkEndpointGroups")
-
 	call := g.s.Alpha.NetworkEndpointGroups.Get(projectID, key.Zone, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -6484,9 +6170,7 @@ func (g *GCEAlphaNetworkEndpointGroups) List(ctx context.Context, zone string) (
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "NetworkEndpointGroups")
-
 	call := g.s.Alpha.NetworkEndpointGroups.List(projectID, zone)
-
 	var all []*alpha.NetworkEndpointGroup
 	f := func(l *alpha.NetworkEndpointGroupList) error {
 		all = append(all, l.Items...)
@@ -6508,9 +6192,7 @@ func (g *GCEAlphaNetworkEndpointGroups) Insert(ctx context.Context, key meta.Key
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "NetworkEndpointGroups")
 	obj.Name = key.Name
-
 	call := g.s.Alpha.NetworkEndpointGroups.Insert(projectID, key.Zone, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -6529,9 +6211,7 @@ func (g *GCEAlphaNetworkEndpointGroups) Delete(ctx context.Context, key meta.Key
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "NetworkEndpointGroups")
-
 	call := g.s.Alpha.NetworkEndpointGroups.Delete(projectID, key.Zone, key.Name)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -6541,6 +6221,7 @@ func (g *GCEAlphaNetworkEndpointGroups) Delete(ctx context.Context, key meta.Key
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+// AttachNetworkEndpoints is a method on GCEAlphaNetworkEndpointGroups.
 func (g *GCEAlphaNetworkEndpointGroups) AttachNetworkEndpoints(ctx context.Context, key meta.Key, arg0 *alpha.NetworkEndpointGroupsAttachEndpointsRequest) error {
 	rk := &RateLimitKey{
 		Operation: "AttachNetworkEndpoints",
@@ -6549,19 +6230,16 @@ func (g *GCEAlphaNetworkEndpointGroups) AttachNetworkEndpoints(ctx context.Conte
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "NetworkEndpointGroups")
-
 	call := g.s.Alpha.NetworkEndpointGroups.AttachNetworkEndpoints(projectID, key.Zone, key.Name, arg0)
-
 	call.Context(ctx)
-
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
-
 }
 
+// DetachNetworkEndpoints is a method on GCEAlphaNetworkEndpointGroups.
 func (g *GCEAlphaNetworkEndpointGroups) DetachNetworkEndpoints(ctx context.Context, key meta.Key, arg0 *alpha.NetworkEndpointGroupsDetachEndpointsRequest) error {
 	rk := &RateLimitKey{
 		Operation: "DetachNetworkEndpoints",
@@ -6570,17 +6248,13 @@ func (g *GCEAlphaNetworkEndpointGroups) DetachNetworkEndpoints(ctx context.Conte
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "NetworkEndpointGroups")
-
 	call := g.s.Alpha.NetworkEndpointGroups.DetachNetworkEndpoints(projectID, key.Zone, key.Name, arg0)
-
 	call.Context(ctx)
-
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
-
 }
 
 // Regions is an interface that allows for mocking of Regions.
@@ -6671,7 +6345,6 @@ func (m *MockRegions) List(ctx context.Context) ([]*ga.Region, error) {
 	for _, obj := range m.Objects {
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -6689,11 +6362,8 @@ func (g *GCERegions) Get(ctx context.Context, key meta.Key) (*ga.Region, error) 
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Regions")
-
 	call := g.s.GA.Regions.Get(projectID, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -6706,9 +6376,7 @@ func (g *GCERegions) List(ctx context.Context) ([]*ga.Region, error) {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Regions")
-
 	call := g.s.GA.Regions.List(projectID)
-
 	var all []*ga.Region
 	f := func(l *ga.RegionList) error {
 		all = append(all, l.Items...)
@@ -6810,7 +6478,6 @@ func (m *MockRoutes) List(ctx context.Context) ([]*ga.Route, error) {
 	for _, obj := range m.Objects {
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -6878,11 +6545,8 @@ func (g *GCERoutes) Get(ctx context.Context, key meta.Key) (*ga.Route, error) {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Routes")
-
 	call := g.s.GA.Routes.Get(projectID, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -6895,9 +6559,7 @@ func (g *GCERoutes) List(ctx context.Context) ([]*ga.Route, error) {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Routes")
-
 	call := g.s.GA.Routes.List(projectID)
-
 	var all []*ga.Route
 	f := func(l *ga.RouteList) error {
 		all = append(all, l.Items...)
@@ -6919,9 +6581,7 @@ func (g *GCERoutes) Insert(ctx context.Context, key meta.Key, obj *ga.Route) err
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Routes")
 	obj.Name = key.Name
-
 	call := g.s.GA.Routes.Insert(projectID, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -6940,7 +6600,6 @@ func (g *GCERoutes) Delete(ctx context.Context, key meta.Key) error {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Routes")
-
 	call := g.s.GA.Routes.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -7042,7 +6701,6 @@ func (m *MockSslCertificates) List(ctx context.Context) ([]*ga.SslCertificate, e
 	for _, obj := range m.Objects {
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -7110,11 +6768,8 @@ func (g *GCESslCertificates) Get(ctx context.Context, key meta.Key) (*ga.SslCert
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "SslCertificates")
-
 	call := g.s.GA.SslCertificates.Get(projectID, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -7127,9 +6782,7 @@ func (g *GCESslCertificates) List(ctx context.Context) ([]*ga.SslCertificate, er
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "SslCertificates")
-
 	call := g.s.GA.SslCertificates.List(projectID)
-
 	var all []*ga.SslCertificate
 	f := func(l *ga.SslCertificateList) error {
 		all = append(all, l.Items...)
@@ -7151,9 +6804,7 @@ func (g *GCESslCertificates) Insert(ctx context.Context, key meta.Key, obj *ga.S
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "SslCertificates")
 	obj.Name = key.Name
-
 	call := g.s.GA.SslCertificates.Insert(projectID, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -7172,7 +6823,6 @@ func (g *GCESslCertificates) Delete(ctx context.Context, key meta.Key) error {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "SslCertificates")
-
 	call := g.s.GA.SslCertificates.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -7190,7 +6840,6 @@ type TargetHttpProxies interface {
 	List(ctx context.Context) ([]*ga.TargetHttpProxy, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.TargetHttpProxy) error
 	Delete(ctx context.Context, key meta.Key) error
-
 	SetUrlMap(context.Context, meta.Key, *ga.UrlMapReference) error
 }
 
@@ -7224,11 +6873,10 @@ type MockTargetHttpProxies struct {
 	// Return (true, _, _) to prevent the normal execution flow of the
 	// mock. Return (false, nil, nil) to continue with normal mock behavior
 	// after the hook function executes.
-	GetHook    func(m *MockTargetHttpProxies, ctx context.Context, key meta.Key) (bool, *ga.TargetHttpProxy, error)
-	ListHook   func(m *MockTargetHttpProxies, ctx context.Context) (bool, []*ga.TargetHttpProxy, error)
-	InsertHook func(m *MockTargetHttpProxies, ctx context.Context, key meta.Key, obj *ga.TargetHttpProxy) (bool, error)
-	DeleteHook func(m *MockTargetHttpProxies, ctx context.Context, key meta.Key) (bool, error)
-
+	GetHook       func(m *MockTargetHttpProxies, ctx context.Context, key meta.Key) (bool, *ga.TargetHttpProxy, error)
+	ListHook      func(m *MockTargetHttpProxies, ctx context.Context) (bool, []*ga.TargetHttpProxy, error)
+	InsertHook    func(m *MockTargetHttpProxies, ctx context.Context, key meta.Key, obj *ga.TargetHttpProxy) (bool, error)
+	DeleteHook    func(m *MockTargetHttpProxies, ctx context.Context, key meta.Key) (bool, error)
 	SetUrlMapHook func(*MockTargetHttpProxies, context.Context, meta.Key, *ga.UrlMapReference) error
 
 	// X is extra state that can be used as part of the mock. Generated code
@@ -7278,7 +6926,6 @@ func (m *MockTargetHttpProxies) List(ctx context.Context) ([]*ga.TargetHttpProxy
 	for _, obj := range m.Objects {
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -7332,8 +6979,8 @@ func (m *MockTargetHttpProxies) Delete(ctx context.Context, key meta.Key) error 
 	return nil
 }
 
+// SetUrlMap is a mock for the corresponding method.
 func (m *MockTargetHttpProxies) SetUrlMap(ctx context.Context, key meta.Key, arg0 *ga.UrlMapReference) error {
-
 	if m.SetUrlMapHook != nil {
 		return m.SetUrlMapHook(m, ctx, key, arg0)
 	}
@@ -7354,11 +7001,8 @@ func (g *GCETargetHttpProxies) Get(ctx context.Context, key meta.Key) (*ga.Targe
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpProxies")
-
 	call := g.s.GA.TargetHttpProxies.Get(projectID, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -7371,9 +7015,7 @@ func (g *GCETargetHttpProxies) List(ctx context.Context) ([]*ga.TargetHttpProxy,
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpProxies")
-
 	call := g.s.GA.TargetHttpProxies.List(projectID)
-
 	var all []*ga.TargetHttpProxy
 	f := func(l *ga.TargetHttpProxyList) error {
 		all = append(all, l.Items...)
@@ -7395,9 +7037,7 @@ func (g *GCETargetHttpProxies) Insert(ctx context.Context, key meta.Key, obj *ga
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpProxies")
 	obj.Name = key.Name
-
 	call := g.s.GA.TargetHttpProxies.Insert(projectID, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -7416,7 +7056,6 @@ func (g *GCETargetHttpProxies) Delete(ctx context.Context, key meta.Key) error {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpProxies")
-
 	call := g.s.GA.TargetHttpProxies.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -7428,6 +7067,7 @@ func (g *GCETargetHttpProxies) Delete(ctx context.Context, key meta.Key) error {
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+// SetUrlMap is a method on GCETargetHttpProxies.
 func (g *GCETargetHttpProxies) SetUrlMap(ctx context.Context, key meta.Key, arg0 *ga.UrlMapReference) error {
 	rk := &RateLimitKey{
 		Operation: "SetUrlMap",
@@ -7436,17 +7076,13 @@ func (g *GCETargetHttpProxies) SetUrlMap(ctx context.Context, key meta.Key, arg0
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpProxies")
-
 	call := g.s.GA.TargetHttpProxies.SetUrlMap(projectID, key.Name, arg0)
-
 	call.Context(ctx)
-
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
-
 }
 
 // TargetHttpsProxies is an interface that allows for mocking of TargetHttpsProxies.
@@ -7455,7 +7091,6 @@ type TargetHttpsProxies interface {
 	List(ctx context.Context) ([]*ga.TargetHttpsProxy, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.TargetHttpsProxy) error
 	Delete(ctx context.Context, key meta.Key) error
-
 	SetSslCertificates(context.Context, meta.Key, *ga.TargetHttpsProxiesSetSslCertificatesRequest) error
 	SetUrlMap(context.Context, meta.Key, *ga.UrlMapReference) error
 }
@@ -7490,11 +7125,10 @@ type MockTargetHttpsProxies struct {
 	// Return (true, _, _) to prevent the normal execution flow of the
 	// mock. Return (false, nil, nil) to continue with normal mock behavior
 	// after the hook function executes.
-	GetHook    func(m *MockTargetHttpsProxies, ctx context.Context, key meta.Key) (bool, *ga.TargetHttpsProxy, error)
-	ListHook   func(m *MockTargetHttpsProxies, ctx context.Context) (bool, []*ga.TargetHttpsProxy, error)
-	InsertHook func(m *MockTargetHttpsProxies, ctx context.Context, key meta.Key, obj *ga.TargetHttpsProxy) (bool, error)
-	DeleteHook func(m *MockTargetHttpsProxies, ctx context.Context, key meta.Key) (bool, error)
-
+	GetHook                func(m *MockTargetHttpsProxies, ctx context.Context, key meta.Key) (bool, *ga.TargetHttpsProxy, error)
+	ListHook               func(m *MockTargetHttpsProxies, ctx context.Context) (bool, []*ga.TargetHttpsProxy, error)
+	InsertHook             func(m *MockTargetHttpsProxies, ctx context.Context, key meta.Key, obj *ga.TargetHttpsProxy) (bool, error)
+	DeleteHook             func(m *MockTargetHttpsProxies, ctx context.Context, key meta.Key) (bool, error)
 	SetSslCertificatesHook func(*MockTargetHttpsProxies, context.Context, meta.Key, *ga.TargetHttpsProxiesSetSslCertificatesRequest) error
 	SetUrlMapHook          func(*MockTargetHttpsProxies, context.Context, meta.Key, *ga.UrlMapReference) error
 
@@ -7545,7 +7179,6 @@ func (m *MockTargetHttpsProxies) List(ctx context.Context) ([]*ga.TargetHttpsPro
 	for _, obj := range m.Objects {
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -7599,16 +7232,16 @@ func (m *MockTargetHttpsProxies) Delete(ctx context.Context, key meta.Key) error
 	return nil
 }
 
+// SetSslCertificates is a mock for the corresponding method.
 func (m *MockTargetHttpsProxies) SetSslCertificates(ctx context.Context, key meta.Key, arg0 *ga.TargetHttpsProxiesSetSslCertificatesRequest) error {
-
 	if m.SetSslCertificatesHook != nil {
 		return m.SetSslCertificatesHook(m, ctx, key, arg0)
 	}
 	return nil
 }
 
+// SetUrlMap is a mock for the corresponding method.
 func (m *MockTargetHttpsProxies) SetUrlMap(ctx context.Context, key meta.Key, arg0 *ga.UrlMapReference) error {
-
 	if m.SetUrlMapHook != nil {
 		return m.SetUrlMapHook(m, ctx, key, arg0)
 	}
@@ -7629,11 +7262,8 @@ func (g *GCETargetHttpsProxies) Get(ctx context.Context, key meta.Key) (*ga.Targ
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
-
 	call := g.s.GA.TargetHttpsProxies.Get(projectID, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -7646,9 +7276,7 @@ func (g *GCETargetHttpsProxies) List(ctx context.Context) ([]*ga.TargetHttpsProx
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
-
 	call := g.s.GA.TargetHttpsProxies.List(projectID)
-
 	var all []*ga.TargetHttpsProxy
 	f := func(l *ga.TargetHttpsProxyList) error {
 		all = append(all, l.Items...)
@@ -7670,9 +7298,7 @@ func (g *GCETargetHttpsProxies) Insert(ctx context.Context, key meta.Key, obj *g
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
 	obj.Name = key.Name
-
 	call := g.s.GA.TargetHttpsProxies.Insert(projectID, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -7691,7 +7317,6 @@ func (g *GCETargetHttpsProxies) Delete(ctx context.Context, key meta.Key) error 
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
-
 	call := g.s.GA.TargetHttpsProxies.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -7703,6 +7328,7 @@ func (g *GCETargetHttpsProxies) Delete(ctx context.Context, key meta.Key) error 
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+// SetSslCertificates is a method on GCETargetHttpsProxies.
 func (g *GCETargetHttpsProxies) SetSslCertificates(ctx context.Context, key meta.Key, arg0 *ga.TargetHttpsProxiesSetSslCertificatesRequest) error {
 	rk := &RateLimitKey{
 		Operation: "SetSslCertificates",
@@ -7711,19 +7337,16 @@ func (g *GCETargetHttpsProxies) SetSslCertificates(ctx context.Context, key meta
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
-
 	call := g.s.GA.TargetHttpsProxies.SetSslCertificates(projectID, key.Name, arg0)
-
 	call.Context(ctx)
-
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
-
 }
 
+// SetUrlMap is a method on GCETargetHttpsProxies.
 func (g *GCETargetHttpsProxies) SetUrlMap(ctx context.Context, key meta.Key, arg0 *ga.UrlMapReference) error {
 	rk := &RateLimitKey{
 		Operation: "SetUrlMap",
@@ -7732,17 +7355,13 @@ func (g *GCETargetHttpsProxies) SetUrlMap(ctx context.Context, key meta.Key, arg
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
-
 	call := g.s.GA.TargetHttpsProxies.SetUrlMap(projectID, key.Name, arg0)
-
 	call.Context(ctx)
-
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
-
 }
 
 // TargetPools is an interface that allows for mocking of TargetPools.
@@ -7751,7 +7370,6 @@ type TargetPools interface {
 	List(ctx context.Context, region string) ([]*ga.TargetPool, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.TargetPool) error
 	Delete(ctx context.Context, key meta.Key) error
-
 	AddInstance(context.Context, meta.Key, *ga.TargetPoolsAddInstanceRequest) error
 	RemoveInstance(context.Context, meta.Key, *ga.TargetPoolsRemoveInstanceRequest) error
 }
@@ -7786,11 +7404,10 @@ type MockTargetPools struct {
 	// Return (true, _, _) to prevent the normal execution flow of the
 	// mock. Return (false, nil, nil) to continue with normal mock behavior
 	// after the hook function executes.
-	GetHook    func(m *MockTargetPools, ctx context.Context, key meta.Key) (bool, *ga.TargetPool, error)
-	ListHook   func(m *MockTargetPools, ctx context.Context) (bool, []*ga.TargetPool, error)
-	InsertHook func(m *MockTargetPools, ctx context.Context, key meta.Key, obj *ga.TargetPool) (bool, error)
-	DeleteHook func(m *MockTargetPools, ctx context.Context, key meta.Key) (bool, error)
-
+	GetHook            func(m *MockTargetPools, ctx context.Context, key meta.Key) (bool, *ga.TargetPool, error)
+	ListHook           func(m *MockTargetPools, ctx context.Context) (bool, []*ga.TargetPool, error)
+	InsertHook         func(m *MockTargetPools, ctx context.Context, key meta.Key, obj *ga.TargetPool) (bool, error)
+	DeleteHook         func(m *MockTargetPools, ctx context.Context, key meta.Key) (bool, error)
 	AddInstanceHook    func(*MockTargetPools, context.Context, meta.Key, *ga.TargetPoolsAddInstanceRequest) error
 	RemoveInstanceHook func(*MockTargetPools, context.Context, meta.Key, *ga.TargetPoolsRemoveInstanceRequest) error
 
@@ -7842,10 +7459,8 @@ func (m *MockTargetPools) List(ctx context.Context, region string) ([]*ga.Target
 		if key.Region != region {
 			continue
 		}
-
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -7899,16 +7514,16 @@ func (m *MockTargetPools) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+// AddInstance is a mock for the corresponding method.
 func (m *MockTargetPools) AddInstance(ctx context.Context, key meta.Key, arg0 *ga.TargetPoolsAddInstanceRequest) error {
-
 	if m.AddInstanceHook != nil {
 		return m.AddInstanceHook(m, ctx, key, arg0)
 	}
 	return nil
 }
 
+// RemoveInstance is a mock for the corresponding method.
 func (m *MockTargetPools) RemoveInstance(ctx context.Context, key meta.Key, arg0 *ga.TargetPoolsRemoveInstanceRequest) error {
-
 	if m.RemoveInstanceHook != nil {
 		return m.RemoveInstanceHook(m, ctx, key, arg0)
 	}
@@ -7929,11 +7544,8 @@ func (g *GCETargetPools) Get(ctx context.Context, key meta.Key) (*ga.TargetPool,
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetPools")
-
 	call := g.s.GA.TargetPools.Get(projectID, key.Region, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -7946,9 +7558,7 @@ func (g *GCETargetPools) List(ctx context.Context, region string) ([]*ga.TargetP
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetPools")
-
 	call := g.s.GA.TargetPools.List(projectID, region)
-
 	var all []*ga.TargetPool
 	f := func(l *ga.TargetPoolList) error {
 		all = append(all, l.Items...)
@@ -7970,9 +7580,7 @@ func (g *GCETargetPools) Insert(ctx context.Context, key meta.Key, obj *ga.Targe
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetPools")
 	obj.Name = key.Name
-
 	call := g.s.GA.TargetPools.Insert(projectID, key.Region, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -7991,9 +7599,7 @@ func (g *GCETargetPools) Delete(ctx context.Context, key meta.Key) error {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetPools")
-
 	call := g.s.GA.TargetPools.Delete(projectID, key.Region, key.Name)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -8003,6 +7609,7 @@ func (g *GCETargetPools) Delete(ctx context.Context, key meta.Key) error {
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+// AddInstance is a method on GCETargetPools.
 func (g *GCETargetPools) AddInstance(ctx context.Context, key meta.Key, arg0 *ga.TargetPoolsAddInstanceRequest) error {
 	rk := &RateLimitKey{
 		Operation: "AddInstance",
@@ -8011,19 +7618,16 @@ func (g *GCETargetPools) AddInstance(ctx context.Context, key meta.Key, arg0 *ga
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetPools")
-
 	call := g.s.GA.TargetPools.AddInstance(projectID, key.Region, key.Name, arg0)
-
 	call.Context(ctx)
-
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
-
 }
 
+// RemoveInstance is a method on GCETargetPools.
 func (g *GCETargetPools) RemoveInstance(ctx context.Context, key meta.Key, arg0 *ga.TargetPoolsRemoveInstanceRequest) error {
 	rk := &RateLimitKey{
 		Operation: "RemoveInstance",
@@ -8032,17 +7636,13 @@ func (g *GCETargetPools) RemoveInstance(ctx context.Context, key meta.Key, arg0 
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetPools")
-
 	call := g.s.GA.TargetPools.RemoveInstance(projectID, key.Region, key.Name, arg0)
-
 	call.Context(ctx)
-
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
-
 }
 
 // UrlMaps is an interface that allows for mocking of UrlMaps.
@@ -8051,7 +7651,6 @@ type UrlMaps interface {
 	List(ctx context.Context) ([]*ga.UrlMap, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.UrlMap) error
 	Delete(ctx context.Context, key meta.Key) error
-
 	Update(context.Context, meta.Key, *ga.UrlMap) error
 }
 
@@ -8089,7 +7688,6 @@ type MockUrlMaps struct {
 	ListHook   func(m *MockUrlMaps, ctx context.Context) (bool, []*ga.UrlMap, error)
 	InsertHook func(m *MockUrlMaps, ctx context.Context, key meta.Key, obj *ga.UrlMap) (bool, error)
 	DeleteHook func(m *MockUrlMaps, ctx context.Context, key meta.Key) (bool, error)
-
 	UpdateHook func(*MockUrlMaps, context.Context, meta.Key, *ga.UrlMap) error
 
 	// X is extra state that can be used as part of the mock. Generated code
@@ -8139,7 +7737,6 @@ func (m *MockUrlMaps) List(ctx context.Context) ([]*ga.UrlMap, error) {
 	for _, obj := range m.Objects {
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -8193,8 +7790,8 @@ func (m *MockUrlMaps) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+// Update is a mock for the corresponding method.
 func (m *MockUrlMaps) Update(ctx context.Context, key meta.Key, arg0 *ga.UrlMap) error {
-
 	if m.UpdateHook != nil {
 		return m.UpdateHook(m, ctx, key, arg0)
 	}
@@ -8215,11 +7812,8 @@ func (g *GCEUrlMaps) Get(ctx context.Context, key meta.Key) (*ga.UrlMap, error) 
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "UrlMaps")
-
 	call := g.s.GA.UrlMaps.Get(projectID, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -8232,9 +7826,7 @@ func (g *GCEUrlMaps) List(ctx context.Context) ([]*ga.UrlMap, error) {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "UrlMaps")
-
 	call := g.s.GA.UrlMaps.List(projectID)
-
 	var all []*ga.UrlMap
 	f := func(l *ga.UrlMapList) error {
 		all = append(all, l.Items...)
@@ -8256,9 +7848,7 @@ func (g *GCEUrlMaps) Insert(ctx context.Context, key meta.Key, obj *ga.UrlMap) e
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "UrlMaps")
 	obj.Name = key.Name
-
 	call := g.s.GA.UrlMaps.Insert(projectID, obj)
-
 	call.Context(ctx)
 
 	op, err := call.Do()
@@ -8277,7 +7867,6 @@ func (g *GCEUrlMaps) Delete(ctx context.Context, key meta.Key) error {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "UrlMaps")
-
 	call := g.s.GA.UrlMaps.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -8289,6 +7878,7 @@ func (g *GCEUrlMaps) Delete(ctx context.Context, key meta.Key) error {
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+// Update is a method on GCEUrlMaps.
 func (g *GCEUrlMaps) Update(ctx context.Context, key meta.Key, arg0 *ga.UrlMap) error {
 	rk := &RateLimitKey{
 		Operation: "Update",
@@ -8297,17 +7887,13 @@ func (g *GCEUrlMaps) Update(ctx context.Context, key meta.Key, arg0 *ga.UrlMap) 
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "UrlMaps")
-
 	call := g.s.GA.UrlMaps.Update(projectID, key.Name, arg0)
-
 	call.Context(ctx)
-
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
-
 }
 
 // Zones is an interface that allows for mocking of Zones.
@@ -8398,7 +7984,6 @@ func (m *MockZones) List(ctx context.Context) ([]*ga.Zone, error) {
 	for _, obj := range m.Objects {
 		objs = append(objs, obj)
 	}
-
 	return objs, nil
 }
 
@@ -8416,11 +8001,8 @@ func (g *GCEZones) Get(ctx context.Context, key meta.Key) (*ga.Zone, error) {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Zones")
-
 	call := g.s.GA.Zones.Get(projectID, key.Name)
-
 	call.Context(ctx)
-
 	return call.Do()
 }
 
@@ -8433,9 +8015,7 @@ func (g *GCEZones) List(ctx context.Context) ([]*ga.Zone, error) {
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Zones")
-
 	call := g.s.GA.Zones.List(projectID)
-
 	var all []*ga.Zone
 	f := func(l *ga.ZoneList) error {
 		all = append(all, l.Items...)
