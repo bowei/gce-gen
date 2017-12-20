@@ -144,10 +144,20 @@ func (i *ServiceInfo) KeyIsZonal() bool {
 	return i.keyType == Zonal
 }
 
-// GenerateMutations is true if we should generate mutations for the object,
-// i.e. insert() and delete().
-func (i *ServiceInfo) GenerateMutations() bool {
-	return i.options&ReadOnly == 0
+func (i *ServiceInfo) GenerateGet() bool {
+	return i.options&NoGet == 0
+}
+
+func (i *ServiceInfo) GenerateList() bool {
+	return i.options&NoList == 0
+}
+
+func (i *ServiceInfo) GenerateDelete() bool {
+	return i.options&NoDelete == 0
+}
+
+func (i *ServiceInfo) GenerateInsert() bool {
+	return i.options&NoInsert == 0
 }
 
 // GenerateCustomOps is true if we should generated a xxxOps interface for

@@ -58,6 +58,7 @@ type Cloud interface {
 	BetaInstances() BetaInstances
 	AlphaInstances() AlphaInstances
 	AlphaNetworkEndpointGroups() AlphaNetworkEndpointGroups
+	Projects() Projects
 	Regions() Regions
 	Routes() Routes
 	SslCertificates() SslCertificates
@@ -94,6 +95,7 @@ func NewMockGCE() *MockGCE {
 		MockBetaInstances:              NewMockBetaInstances(),
 		MockAlphaInstances:             NewMockAlphaInstances(),
 		MockAlphaNetworkEndpointGroups: NewMockAlphaNetworkEndpointGroups(),
+		MockProjects:                   NewMockProjects(),
 		MockRegions:                    NewMockRegions(),
 		MockRoutes:                     NewMockRoutes(),
 		MockSslCertificates:            NewMockSslCertificates(),
@@ -134,6 +136,7 @@ type MockGCE struct {
 	MockBetaInstances              *MockBetaInstances
 	MockAlphaInstances             *MockAlphaInstances
 	MockAlphaNetworkEndpointGroups *MockAlphaNetworkEndpointGroups
+	MockProjects                   *MockProjects
 	MockRegions                    *MockRegions
 	MockRoutes                     *MockRoutes
 	MockSslCertificates            *MockSslCertificates
@@ -236,6 +239,10 @@ func (mock *MockGCE) AlphaNetworkEndpointGroups() AlphaNetworkEndpointGroups {
 	return mock.MockAlphaNetworkEndpointGroups
 }
 
+func (mock *MockGCE) Projects() Projects {
+	return mock.MockProjects
+}
+
 func (mock *MockGCE) Regions() Regions {
 	return mock.MockRegions
 }
@@ -294,6 +301,7 @@ func NewGCE(s *Service) *GCE {
 		gceBetaInstances:              &GCEBetaInstances{s},
 		gceAlphaInstances:             &GCEAlphaInstances{s},
 		gceAlphaNetworkEndpointGroups: &GCEAlphaNetworkEndpointGroups{s},
+		gceProjects:                   &GCEProjects{s},
 		gceRegions:                    &GCERegions{s},
 		gceRoutes:                     &GCERoutes{s},
 		gceSslCertificates:            &GCESslCertificates{s},
@@ -334,6 +342,7 @@ type GCE struct {
 	gceBetaInstances              *GCEBetaInstances
 	gceAlphaInstances             *GCEAlphaInstances
 	gceAlphaNetworkEndpointGroups *GCEAlphaNetworkEndpointGroups
+	gceProjects                   *GCEProjects
 	gceRegions                    *GCERegions
 	gceRoutes                     *GCERoutes
 	gceSslCertificates            *GCESslCertificates
@@ -436,6 +445,10 @@ func (gce *GCE) AlphaNetworkEndpointGroups() AlphaNetworkEndpointGroups {
 	return gce.gceAlphaNetworkEndpointGroups
 }
 
+func (gce *GCE) Projects() Projects {
+	return gce.gceProjects
+}
+
 func (gce *GCE) Regions() Regions {
 	return gce.gceRegions
 }
@@ -501,11 +514,10 @@ type MockAddresses struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockAddresses, ctx context.Context, key meta.Key) (bool, *ga.Address, error)
 	ListHook   func(m *MockAddresses, ctx context.Context) (bool, []*ga.Address, error)
 	InsertHook func(m *MockAddresses, ctx context.Context, key meta.Key, obj *ga.Address) (bool, error)
@@ -726,11 +738,10 @@ type MockAlphaAddresses struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockAlphaAddresses, ctx context.Context, key meta.Key) (bool, *alpha.Address, error)
 	ListHook   func(m *MockAlphaAddresses, ctx context.Context) (bool, []*alpha.Address, error)
 	InsertHook func(m *MockAlphaAddresses, ctx context.Context, key meta.Key, obj *alpha.Address) (bool, error)
@@ -951,11 +962,10 @@ type MockBetaAddresses struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockBetaAddresses, ctx context.Context, key meta.Key) (bool, *beta.Address, error)
 	ListHook   func(m *MockBetaAddresses, ctx context.Context) (bool, []*beta.Address, error)
 	InsertHook func(m *MockBetaAddresses, ctx context.Context, key meta.Key, obj *beta.Address) (bool, error)
@@ -1176,11 +1186,10 @@ type MockGlobalAddresses struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockGlobalAddresses, ctx context.Context, key meta.Key) (bool, *ga.Address, error)
 	ListHook   func(m *MockGlobalAddresses, ctx context.Context) (bool, []*ga.Address, error)
 	InsertHook func(m *MockGlobalAddresses, ctx context.Context, key meta.Key, obj *ga.Address) (bool, error)
@@ -1401,11 +1410,10 @@ type MockBackendServices struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook       func(m *MockBackendServices, ctx context.Context, key meta.Key) (bool, *ga.BackendService, error)
 	ListHook      func(m *MockBackendServices, ctx context.Context) (bool, []*ga.BackendService, error)
 	InsertHook    func(m *MockBackendServices, ctx context.Context, key meta.Key, obj *ga.BackendService) (bool, error)
@@ -1675,11 +1683,10 @@ type MockAlphaBackendServices struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockAlphaBackendServices, ctx context.Context, key meta.Key) (bool, *alpha.BackendService, error)
 	ListHook   func(m *MockAlphaBackendServices, ctx context.Context) (bool, []*alpha.BackendService, error)
 	InsertHook func(m *MockAlphaBackendServices, ctx context.Context, key meta.Key, obj *alpha.BackendService) (bool, error)
@@ -1927,11 +1934,10 @@ type MockAlphaRegionBackendServices struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook       func(m *MockAlphaRegionBackendServices, ctx context.Context, key meta.Key) (bool, *alpha.BackendService, error)
 	ListHook      func(m *MockAlphaRegionBackendServices, ctx context.Context) (bool, []*alpha.BackendService, error)
 	InsertHook    func(m *MockAlphaRegionBackendServices, ctx context.Context, key meta.Key, obj *alpha.BackendService) (bool, error)
@@ -2202,11 +2208,10 @@ type MockDisks struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockDisks, ctx context.Context, key meta.Key) (bool, *ga.Disk, error)
 	ListHook   func(m *MockDisks, ctx context.Context) (bool, []*ga.Disk, error)
 	InsertHook func(m *MockDisks, ctx context.Context, key meta.Key, obj *ga.Disk) (bool, error)
@@ -2427,11 +2432,10 @@ type MockAlphaDisks struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockAlphaDisks, ctx context.Context, key meta.Key) (bool, *alpha.Disk, error)
 	ListHook   func(m *MockAlphaDisks, ctx context.Context) (bool, []*alpha.Disk, error)
 	InsertHook func(m *MockAlphaDisks, ctx context.Context, key meta.Key, obj *alpha.Disk) (bool, error)
@@ -2652,11 +2656,10 @@ type MockAlphaRegionDisks struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockAlphaRegionDisks, ctx context.Context, key meta.Key) (bool, *alpha.Disk, error)
 	ListHook   func(m *MockAlphaRegionDisks, ctx context.Context) (bool, []*alpha.Disk, error)
 	InsertHook func(m *MockAlphaRegionDisks, ctx context.Context, key meta.Key, obj *alpha.Disk) (bool, error)
@@ -2878,11 +2881,10 @@ type MockFirewalls struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockFirewalls, ctx context.Context, key meta.Key) (bool, *ga.Firewall, error)
 	ListHook   func(m *MockFirewalls, ctx context.Context) (bool, []*ga.Firewall, error)
 	InsertHook func(m *MockFirewalls, ctx context.Context, key meta.Key, obj *ga.Firewall) (bool, error)
@@ -3128,11 +3130,10 @@ type MockForwardingRules struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockForwardingRules, ctx context.Context, key meta.Key) (bool, *ga.ForwardingRule, error)
 	ListHook   func(m *MockForwardingRules, ctx context.Context) (bool, []*ga.ForwardingRule, error)
 	InsertHook func(m *MockForwardingRules, ctx context.Context, key meta.Key, obj *ga.ForwardingRule) (bool, error)
@@ -3353,11 +3354,10 @@ type MockAlphaForwardingRules struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockAlphaForwardingRules, ctx context.Context, key meta.Key) (bool, *alpha.ForwardingRule, error)
 	ListHook   func(m *MockAlphaForwardingRules, ctx context.Context) (bool, []*alpha.ForwardingRule, error)
 	InsertHook func(m *MockAlphaForwardingRules, ctx context.Context, key meta.Key, obj *alpha.ForwardingRule) (bool, error)
@@ -3579,11 +3579,10 @@ type MockGlobalForwardingRules struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook       func(m *MockGlobalForwardingRules, ctx context.Context, key meta.Key) (bool, *ga.ForwardingRule, error)
 	ListHook      func(m *MockGlobalForwardingRules, ctx context.Context) (bool, []*ga.ForwardingRule, error)
 	InsertHook    func(m *MockGlobalForwardingRules, ctx context.Context, key meta.Key, obj *ga.ForwardingRule) (bool, error)
@@ -3830,11 +3829,10 @@ type MockHealthChecks struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockHealthChecks, ctx context.Context, key meta.Key) (bool, *ga.HealthCheck, error)
 	ListHook   func(m *MockHealthChecks, ctx context.Context) (bool, []*ga.HealthCheck, error)
 	InsertHook func(m *MockHealthChecks, ctx context.Context, key meta.Key, obj *ga.HealthCheck) (bool, error)
@@ -4081,11 +4079,10 @@ type MockAlphaHealthChecks struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockAlphaHealthChecks, ctx context.Context, key meta.Key) (bool, *alpha.HealthCheck, error)
 	ListHook   func(m *MockAlphaHealthChecks, ctx context.Context) (bool, []*alpha.HealthCheck, error)
 	InsertHook func(m *MockAlphaHealthChecks, ctx context.Context, key meta.Key, obj *alpha.HealthCheck) (bool, error)
@@ -4332,11 +4329,10 @@ type MockHttpHealthChecks struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockHttpHealthChecks, ctx context.Context, key meta.Key) (bool, *ga.HttpHealthCheck, error)
 	ListHook   func(m *MockHttpHealthChecks, ctx context.Context) (bool, []*ga.HttpHealthCheck, error)
 	InsertHook func(m *MockHttpHealthChecks, ctx context.Context, key meta.Key, obj *ga.HttpHealthCheck) (bool, error)
@@ -4583,11 +4579,10 @@ type MockHttpsHealthChecks struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockHttpsHealthChecks, ctx context.Context, key meta.Key) (bool, *ga.HttpsHealthCheck, error)
 	ListHook   func(m *MockHttpsHealthChecks, ctx context.Context) (bool, []*ga.HttpsHealthCheck, error)
 	InsertHook func(m *MockHttpsHealthChecks, ctx context.Context, key meta.Key, obj *ga.HttpsHealthCheck) (bool, error)
@@ -4837,11 +4832,10 @@ type MockInstanceGroups struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook             func(m *MockInstanceGroups, ctx context.Context, key meta.Key) (bool, *ga.InstanceGroup, error)
 	ListHook            func(m *MockInstanceGroups, ctx context.Context) (bool, []*ga.InstanceGroup, error)
 	InsertHook          func(m *MockInstanceGroups, ctx context.Context, key meta.Key, obj *ga.InstanceGroup) (bool, error)
@@ -5168,11 +5162,10 @@ type MockInstances struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook        func(m *MockInstances, ctx context.Context, key meta.Key) (bool, *ga.Instance, error)
 	ListHook       func(m *MockInstances, ctx context.Context) (bool, []*ga.Instance, error)
 	InsertHook     func(m *MockInstances, ctx context.Context, key meta.Key, obj *ga.Instance) (bool, error)
@@ -5449,11 +5442,10 @@ type MockBetaInstances struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook        func(m *MockBetaInstances, ctx context.Context, key meta.Key) (bool, *beta.Instance, error)
 	ListHook       func(m *MockBetaInstances, ctx context.Context) (bool, []*beta.Instance, error)
 	InsertHook     func(m *MockBetaInstances, ctx context.Context, key meta.Key, obj *beta.Instance) (bool, error)
@@ -5731,11 +5723,10 @@ type MockAlphaInstances struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook                    func(m *MockAlphaInstances, ctx context.Context, key meta.Key) (bool, *alpha.Instance, error)
 	ListHook                   func(m *MockAlphaInstances, ctx context.Context) (bool, []*alpha.Instance, error)
 	InsertHook                 func(m *MockAlphaInstances, ctx context.Context, key meta.Key, obj *alpha.Instance) (bool, error)
@@ -6039,11 +6030,10 @@ type MockAlphaNetworkEndpointGroups struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook                    func(m *MockAlphaNetworkEndpointGroups, ctx context.Context, key meta.Key) (bool, *alpha.NetworkEndpointGroup, error)
 	ListHook                   func(m *MockAlphaNetworkEndpointGroups, ctx context.Context) (bool, []*alpha.NetworkEndpointGroup, error)
 	InsertHook                 func(m *MockAlphaNetworkEndpointGroups, ctx context.Context, key meta.Key, obj *alpha.NetworkEndpointGroup) (bool, error)
@@ -6285,6 +6275,46 @@ func (g *GCEAlphaNetworkEndpointGroups) DetachNetworkEndpoints(ctx context.Conte
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+// Projects is an interface that allows for mocking of Projects.
+type Projects interface {
+	// ProjectsOps is an interface with additional non-CRUD type methods.
+	// This interface is expected to be implemented by hand (non-autogenerated).
+	ProjectsOps
+}
+
+// NewMockProjects returns a new mock for Projects.
+func NewMockProjects() *MockProjects {
+	mock := &MockProjects{
+		Objects: map[meta.Key]*ga.Project{},
+	}
+	return mock
+}
+
+// MockProjects is the mock for Projects.
+type MockProjects struct {
+	Lock sync.Mutex
+
+	// Objects maintained by the mock.
+	Objects map[meta.Key]*ga.Project
+
+	// If an entry exists for the given key and operation, then the error
+	// will be returned instead of the operation.
+
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
+
+	// X is extra state that can be used as part of the mock. Generated code
+	// will not use this field.
+	X interface{}
+}
+
+// GCEProjects is a simplifying adapter for the GCE Projects.
+type GCEProjects struct {
+	s *Service
+}
+
 // Regions is an interface that allows for mocking of Regions.
 type Regions interface {
 	Get(ctx context.Context, key meta.Key) (*ga.Region, error)
@@ -6294,10 +6324,8 @@ type Regions interface {
 // NewMockRegions returns a new mock for Regions.
 func NewMockRegions() *MockRegions {
 	mock := &MockRegions{
-		Objects:     map[meta.Key]*ga.Region{},
-		GetError:    map[meta.Key]error{},
-		InsertError: map[meta.Key]error{},
-		DeleteError: map[meta.Key]error{},
+		Objects:  map[meta.Key]*ga.Region{},
+		GetError: map[meta.Key]error{},
 	}
 	return mock
 }
@@ -6311,20 +6339,15 @@ type MockRegions struct {
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
-	GetError    map[meta.Key]error
-	ListError   *error
-	InsertError map[meta.Key]error
-	DeleteError map[meta.Key]error
+	GetError  map[meta.Key]error
+	ListError *error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
-	GetHook    func(m *MockRegions, ctx context.Context, key meta.Key) (bool, *ga.Region, error)
-	ListHook   func(m *MockRegions, ctx context.Context) (bool, []*ga.Region, error)
-	InsertHook func(m *MockRegions, ctx context.Context, key meta.Key, obj *ga.Region) (bool, error)
-	DeleteHook func(m *MockRegions, ctx context.Context, key meta.Key) (bool, error)
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
+	GetHook  func(m *MockRegions, ctx context.Context, key meta.Key) (bool, *ga.Region, error)
+	ListHook func(m *MockRegions, ctx context.Context) (bool, []*ga.Region, error)
 
 	// X is extra state that can be used as part of the mock. Generated code
 	// will not use this field.
@@ -6449,11 +6472,10 @@ type MockRoutes struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockRoutes, ctx context.Context, key meta.Key) (bool, *ga.Route, error)
 	ListHook   func(m *MockRoutes, ctx context.Context) (bool, []*ga.Route, error)
 	InsertHook func(m *MockRoutes, ctx context.Context, key meta.Key, obj *ga.Route) (bool, error)
@@ -6672,11 +6694,10 @@ type MockSslCertificates struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockSslCertificates, ctx context.Context, key meta.Key) (bool, *ga.SslCertificate, error)
 	ListHook   func(m *MockSslCertificates, ctx context.Context) (bool, []*ga.SslCertificate, error)
 	InsertHook func(m *MockSslCertificates, ctx context.Context, key meta.Key, obj *ga.SslCertificate) (bool, error)
@@ -6896,11 +6917,10 @@ type MockTargetHttpProxies struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook       func(m *MockTargetHttpProxies, ctx context.Context, key meta.Key) (bool, *ga.TargetHttpProxy, error)
 	ListHook      func(m *MockTargetHttpProxies, ctx context.Context) (bool, []*ga.TargetHttpProxy, error)
 	InsertHook    func(m *MockTargetHttpProxies, ctx context.Context, key meta.Key, obj *ga.TargetHttpProxy) (bool, error)
@@ -7148,11 +7168,10 @@ type MockTargetHttpsProxies struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook                func(m *MockTargetHttpsProxies, ctx context.Context, key meta.Key) (bool, *ga.TargetHttpsProxy, error)
 	ListHook               func(m *MockTargetHttpsProxies, ctx context.Context) (bool, []*ga.TargetHttpsProxy, error)
 	InsertHook             func(m *MockTargetHttpsProxies, ctx context.Context, key meta.Key, obj *ga.TargetHttpsProxy) (bool, error)
@@ -7427,11 +7446,10 @@ type MockTargetPools struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook            func(m *MockTargetPools, ctx context.Context, key meta.Key) (bool, *ga.TargetPool, error)
 	ListHook           func(m *MockTargetPools, ctx context.Context) (bool, []*ga.TargetPool, error)
 	InsertHook         func(m *MockTargetPools, ctx context.Context, key meta.Key, obj *ga.TargetPool) (bool, error)
@@ -7707,11 +7725,10 @@ type MockUrlMaps struct {
 	InsertError map[meta.Key]error
 	DeleteError map[meta.Key]error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockUrlMaps, ctx context.Context, key meta.Key) (bool, *ga.UrlMap, error)
 	ListHook   func(m *MockUrlMaps, ctx context.Context) (bool, []*ga.UrlMap, error)
 	InsertHook func(m *MockUrlMaps, ctx context.Context, key meta.Key, obj *ga.UrlMap) (bool, error)
@@ -7933,10 +7950,8 @@ type Zones interface {
 // NewMockZones returns a new mock for Zones.
 func NewMockZones() *MockZones {
 	mock := &MockZones{
-		Objects:     map[meta.Key]*ga.Zone{},
-		GetError:    map[meta.Key]error{},
-		InsertError: map[meta.Key]error{},
-		DeleteError: map[meta.Key]error{},
+		Objects:  map[meta.Key]*ga.Zone{},
+		GetError: map[meta.Key]error{},
 	}
 	return mock
 }
@@ -7950,20 +7965,15 @@ type MockZones struct {
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
-	GetError    map[meta.Key]error
-	ListError   *error
-	InsertError map[meta.Key]error
-	DeleteError map[meta.Key]error
+	GetError  map[meta.Key]error
+	ListError *error
 
-	// GetHook, ListHook, InsertHook, DeleteHook allow you to intercept the
-	// standard processing of the mock in order to add your own logic.
-	// Return (true, _, _) to prevent the normal execution flow of the
-	// mock. Return (false, nil, nil) to continue with normal mock behavior
-	// after the hook function executes.
-	GetHook    func(m *MockZones, ctx context.Context, key meta.Key) (bool, *ga.Zone, error)
-	ListHook   func(m *MockZones, ctx context.Context) (bool, []*ga.Zone, error)
-	InsertHook func(m *MockZones, ctx context.Context, key meta.Key, obj *ga.Zone) (bool, error)
-	DeleteHook func(m *MockZones, ctx context.Context, key meta.Key) (bool, error)
+	// xxxHook allow you to intercept thestandard processing of the mock in
+	// order to add your own logic. Return (true, _, _) to prevent the normal
+	// execution flow of the mock. Return (false, nil, nil) to continue with
+	// normal mock behavior/ after the hook function executes.
+	GetHook  func(m *MockZones, ctx context.Context, key meta.Key) (bool, *ga.Zone, error)
+	ListHook func(m *MockZones, ctx context.Context) (bool, []*ga.Zone, error)
 
 	// X is extra state that can be used as part of the mock. Generated code
 	// will not use this field.

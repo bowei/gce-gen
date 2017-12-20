@@ -24,16 +24,26 @@ import (
 	ga "google.golang.org/api/compute/v1"
 )
 
+// Version of the API (ga, alpha, beta).
 type Version string
 
 const (
-	// ReadOnly specifies that the given resource is read-only and should not
-	// have insert() or delete() methods generated for the wrapper.
-	ReadOnly = 1 << iota
+	// NoGet prevents the Get() method from being generated.
+	NoGet = 1 << iota
+	// NoList prevents the List() method from being generated.
+	NoList = 1 << iota
+	// NoDelete prevents the Delete() method from being generated.
+	NoDelete = 1 << iota
+	// NoInsert prevents the Insert() method from being generated.
+	NoInsert = 1 << iota
 	// CustomOps specifies that an empty interface xxxOps will be generated to
 	// enable custom method calls to be attached to the generated service
 	// interface.
 	CustomOps = 1 << iota
+
+	// ReadOnly specifies that the given resource is read-only and should not
+	// have insert() or delete() methods generated for the wrapper.
+	ReadOnly = NoDelete | NoInsert
 
 	// VersionGA is the API version in compute.v1.
 	VersionGA Version = "ga"
@@ -251,6 +261,14 @@ var AllServices = []*ServiceInfo{
 			"AttachNetworkEndpoints",
 			"DetachNetworkEndpoints",
 		},
+	},
+	&ServiceInfo{
+		Object:  "Project",
+		Service: "Projects",
+		keyType: Global,
+		// Generate only the stub with no methods.
+		options:     NoGet | NoList | NoInsert | NoDelete | CustomOps,
+		serviceType: reflect.TypeOf(&ga.ProjectsService{}),
 	},
 	&ServiceInfo{
 		Object:      "Region",
