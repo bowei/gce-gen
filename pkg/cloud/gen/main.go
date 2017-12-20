@@ -349,12 +349,18 @@ func (m *{{.MockWrapType}}) Delete(ctx context.Context, key meta.Key) error {
 }
 {{end}}
 {{with .Methods}}{{range .}}
-func (m *{{.MockWrapType}}) {{.MockFcnArgs}} {
+func (m *{{.MockWrapType}}) {{.FcnArgs}} {
+{{if eq .ReturnType "Operation"}}
 	if m.{{.MockHookName}} != nil {
 		return m.{{.MockHookName}}(m, ctx, key {{.CallArgs}})
 	}
 	return nil
-}
+{{else}}
+	if m.{{.MockHookName}} != nil {
+		return m.{{.MockHookName}}(m, ctx, key {{.CallArgs}})
+	}
+	return nil, fmt.Errorf("{{.MockHookName}} must be set")
+{{end}} }
 {{end}}{{end}}
 // {{.GCEWrapType}} is a simplifying adapter for the GCE {{.Service}}.
 type {{.GCEWrapType}} struct {
@@ -364,8 +370,8 @@ type {{.GCEWrapType}} struct {
 // Get the {{.Object}} named by key.
 func (g *{{.GCEWrapType}}) Get(ctx context.Context, key meta.Key) (*{{.FQObjectType}}, error) {
 	rk := &RateLimitKey{
-		Operation: "Get", 
-		Version: meta.Version("{{.Version}}"), 
+		Operation: "Get",
+		Version: meta.Version("{{.Version}}"),
 		Target: "{{.Object}}",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
@@ -387,8 +393,8 @@ func (g *{{.GCEWrapType}}) List(ctx context.Context) ([]*{{.FQObjectType}}, erro
 func (g *{{.GCEWrapType}}) List(ctx context.Context, region string) ([]*{{.FQObjectType}}, error) { {{end}}{{if .KeyIsZonal}}
 func (g *{{.GCEWrapType}}) List(ctx context.Context, zone string) ([]*{{.FQObjectType}}, error) { {{end}}
 	rk := &RateLimitKey{
-		Operation: "List", 
-		Version: meta.Version("{{.Version}}"), 
+		Operation: "List",
+		Version: meta.Version("{{.Version}}"),
 		Target: "{{.Object}}",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
@@ -414,8 +420,8 @@ func (g *{{.GCEWrapType}}) List(ctx context.Context, zone string) ([]*{{.FQObjec
 // Insert {{.Object}} with key of value obj.
 func (g *{{.GCEWrapType}}) Insert(ctx context.Context, key meta.Key, obj *{{.FQObjectType}}) error {
 	rk := &RateLimitKey{
-		Operation: "Insert", 
-		Version: meta.Version("{{.Version}}"), 
+		Operation: "Insert",
+		Version: meta.Version("{{.Version}}"),
 		Target: "{{.Object}}",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
@@ -440,8 +446,8 @@ func (g *{{.GCEWrapType}}) Insert(ctx context.Context, key meta.Key, obj *{{.FQO
 // Delete the {{.Object}} referenced by key.
 func (g *{{.GCEWrapType}}) Delete(ctx context.Context, key meta.Key) error {
 	rk := &RateLimitKey{
-		Operation: "Delete", 
-		Version: meta.Version("{{.Version}}"), 
+		Operation: "Delete",
+		Version: meta.Version("{{.Version}}"),
 		Target: "{{.Object}}",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
@@ -463,10 +469,10 @@ func (g *{{.GCEWrapType}}) Delete(ctx context.Context, key meta.Key) error {
 }
 {{end}}
 {{with .Methods}}{{range .}}
-func (g *{{.GCEWrapType}}) {{.MockFcnArgs}} {
+func (g *{{.GCEWrapType}}) {{.FcnArgs}} {
 	rk := &RateLimitKey{
-		Operation: "{{.Name}}", 
-		Version: meta.Version("{{.Version}}"), 
+		Operation: "{{.Name}}",
+		Version: meta.Version("{{.Version}}"),
 		Target: "{{.Object}}",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
@@ -479,12 +485,13 @@ func (g *{{.GCEWrapType}}) {{.MockFcnArgs}} {
 	call := g.s.{{.VersionField}}.{{.Service}}.{{.Name}}(projectID, key.Zone, key.Name {{.CallArgs}})
 {{end}}
 	call.Context(ctx)
-
+{{if eq .ReturnType "Operation"}}
 	op, err := call.Do()
 	if err != nil {
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+{{else}} return call.Do() {{end}}
 }
 {{end}}{{end}}
 `

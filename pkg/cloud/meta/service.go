@@ -103,21 +103,20 @@ func (i *ServiceInfo) Field() string {
 	return "gce" + i.WrapType()
 }
 
-func (i *ServiceInfo) Methods() []*method {
+// Methods returns a list of additional methods to generate code for.
+func (i *ServiceInfo) Methods() []*Method {
 	methods := map[string]bool{}
 	for _, m := range i.additionalMethods {
 		methods[m] = true
 	}
 
-	var ret []*method
+	var ret []*Method
 	for j := 0; j < i.serviceType.NumMethod(); j++ {
 		m := i.serviceType.Method(j)
 		if _, ok := methods[m.Name]; !ok {
 			continue
 		}
-		sm := newMethod(i, m)
-		sm.sanityCheck()
-		ret = append(ret, sm)
+		ret = append(ret, newMethod(i, m))
 		methods[m.Name] = false
 	}
 

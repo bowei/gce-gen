@@ -1415,6 +1415,7 @@ type BackendServices interface {
 	Insert(ctx context.Context, key meta.Key, obj *ga.BackendService) error
 	Delete(ctx context.Context, key meta.Key) error
 
+	GetHealth(context.Context, meta.Key, *ga.ResourceGroupReference) (*ga.BackendServiceGroupHealth, error)
 	Update(context.Context, meta.Key, *ga.BackendService) error
 }
 
@@ -1453,7 +1454,8 @@ type MockBackendServices struct {
 	InsertHook func(m *MockBackendServices, ctx context.Context, key meta.Key, obj *ga.BackendService) (bool, error)
 	DeleteHook func(m *MockBackendServices, ctx context.Context, key meta.Key) (bool, error)
 
-	UpdateHook func(*MockBackendServices, context.Context, meta.Key, *ga.BackendService) error
+	GetHealthHook func(*MockBackendServices, context.Context, meta.Key, *ga.ResourceGroupReference) (*ga.BackendServiceGroupHealth, error)
+	UpdateHook    func(*MockBackendServices, context.Context, meta.Key, *ga.BackendService) error
 
 	// X is extra state that can be used as part of the mock. Generated code
 	// will not use this field.
@@ -1556,7 +1558,16 @@ func (m *MockBackendServices) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+func (m *MockBackendServices) GetHealth(ctx context.Context, key meta.Key, arg0 *ga.ResourceGroupReference) (*ga.BackendServiceGroupHealth, error) {
+
+	if m.GetHealthHook != nil {
+		return m.GetHealthHook(m, ctx, key, arg0)
+	}
+	return nil, fmt.Errorf("GetHealthHook must be set")
+}
+
 func (m *MockBackendServices) Update(ctx context.Context, key meta.Key, arg0 *ga.BackendService) error {
+
 	if m.UpdateHook != nil {
 		return m.UpdateHook(m, ctx, key, arg0)
 	}
@@ -1651,6 +1662,21 @@ func (g *GCEBackendServices) Delete(ctx context.Context, key meta.Key) error {
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+func (g *GCEBackendServices) GetHealth(ctx context.Context, key meta.Key, arg0 *ga.ResourceGroupReference) (*ga.BackendServiceGroupHealth, error) {
+	rk := &RateLimitKey{
+		Operation: "GetHealth",
+		Version:   meta.Version("ga"),
+		Target:    "BackendService",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "BackendServices")
+
+	call := g.s.GA.BackendServices.GetHealth(projectID, key.Name, arg0)
+
+	call.Context(ctx)
+	return call.Do()
+}
+
 func (g *GCEBackendServices) Update(ctx context.Context, key meta.Key, arg0 *ga.BackendService) error {
 	rk := &RateLimitKey{
 		Operation: "Update",
@@ -1669,6 +1695,7 @@ func (g *GCEBackendServices) Update(ctx context.Context, key meta.Key, arg0 *ga.
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 // AlphaBackendServices is an interface that allows for mocking of BackendServices.
@@ -1820,6 +1847,7 @@ func (m *MockAlphaBackendServices) Delete(ctx context.Context, key meta.Key) err
 }
 
 func (m *MockAlphaBackendServices) Update(ctx context.Context, key meta.Key, arg0 *alpha.BackendService) error {
+
 	if m.UpdateHook != nil {
 		return m.UpdateHook(m, ctx, key, arg0)
 	}
@@ -1932,6 +1960,7 @@ func (g *GCEAlphaBackendServices) Update(ctx context.Context, key meta.Key, arg0
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 // AlphaRegionBackendServices is an interface that allows for mocking of RegionBackendServices.
@@ -1941,6 +1970,7 @@ type AlphaRegionBackendServices interface {
 	Insert(ctx context.Context, key meta.Key, obj *alpha.BackendService) error
 	Delete(ctx context.Context, key meta.Key) error
 
+	GetHealth(context.Context, meta.Key, *alpha.ResourceGroupReference) (*alpha.BackendServiceGroupHealth, error)
 	Update(context.Context, meta.Key, *alpha.BackendService) error
 }
 
@@ -1979,7 +2009,8 @@ type MockAlphaRegionBackendServices struct {
 	InsertHook func(m *MockAlphaRegionBackendServices, ctx context.Context, key meta.Key, obj *alpha.BackendService) (bool, error)
 	DeleteHook func(m *MockAlphaRegionBackendServices, ctx context.Context, key meta.Key) (bool, error)
 
-	UpdateHook func(*MockAlphaRegionBackendServices, context.Context, meta.Key, *alpha.BackendService) error
+	GetHealthHook func(*MockAlphaRegionBackendServices, context.Context, meta.Key, *alpha.ResourceGroupReference) (*alpha.BackendServiceGroupHealth, error)
+	UpdateHook    func(*MockAlphaRegionBackendServices, context.Context, meta.Key, *alpha.BackendService) error
 
 	// X is extra state that can be used as part of the mock. Generated code
 	// will not use this field.
@@ -2086,7 +2117,16 @@ func (m *MockAlphaRegionBackendServices) Delete(ctx context.Context, key meta.Ke
 	return nil
 }
 
+func (m *MockAlphaRegionBackendServices) GetHealth(ctx context.Context, key meta.Key, arg0 *alpha.ResourceGroupReference) (*alpha.BackendServiceGroupHealth, error) {
+
+	if m.GetHealthHook != nil {
+		return m.GetHealthHook(m, ctx, key, arg0)
+	}
+	return nil, fmt.Errorf("GetHealthHook must be set")
+}
+
 func (m *MockAlphaRegionBackendServices) Update(ctx context.Context, key meta.Key, arg0 *alpha.BackendService) error {
+
 	if m.UpdateHook != nil {
 		return m.UpdateHook(m, ctx, key, arg0)
 	}
@@ -2181,6 +2221,21 @@ func (g *GCEAlphaRegionBackendServices) Delete(ctx context.Context, key meta.Key
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+func (g *GCEAlphaRegionBackendServices) GetHealth(ctx context.Context, key meta.Key, arg0 *alpha.ResourceGroupReference) (*alpha.BackendServiceGroupHealth, error) {
+	rk := &RateLimitKey{
+		Operation: "GetHealth",
+		Version:   meta.Version("alpha"),
+		Target:    "BackendService",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionBackendServices")
+
+	call := g.s.Alpha.RegionBackendServices.GetHealth(projectID, key.Region, key.Name, arg0)
+
+	call.Context(ctx)
+	return call.Do()
+}
+
 func (g *GCEAlphaRegionBackendServices) Update(ctx context.Context, key meta.Key, arg0 *alpha.BackendService) error {
 	rk := &RateLimitKey{
 		Operation: "Update",
@@ -2199,6 +2254,7 @@ func (g *GCEAlphaRegionBackendServices) Update(ctx context.Context, key meta.Key
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 // Disks is an interface that allows for mocking of Disks.
@@ -3058,6 +3114,7 @@ func (m *MockFirewalls) Delete(ctx context.Context, key meta.Key) error {
 }
 
 func (m *MockFirewalls) Update(ctx context.Context, key meta.Key, arg0 *ga.Firewall) error {
+
 	if m.UpdateHook != nil {
 		return m.UpdateHook(m, ctx, key, arg0)
 	}
@@ -3170,6 +3227,7 @@ func (g *GCEFirewalls) Update(ctx context.Context, key meta.Key, arg0 *ga.Firewa
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 // ForwardingRules is an interface that allows for mocking of ForwardingRules.
@@ -3793,6 +3851,7 @@ func (m *MockGlobalForwardingRules) Delete(ctx context.Context, key meta.Key) er
 }
 
 func (m *MockGlobalForwardingRules) SetTarget(ctx context.Context, key meta.Key, arg0 *ga.TargetReference) error {
+
 	if m.SetTargetHook != nil {
 		return m.SetTargetHook(m, ctx, key, arg0)
 	}
@@ -3905,6 +3964,7 @@ func (g *GCEGlobalForwardingRules) SetTarget(ctx context.Context, key meta.Key, 
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 // HealthChecks is an interface that allows for mocking of HealthChecks.
@@ -4056,6 +4116,7 @@ func (m *MockHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 }
 
 func (m *MockHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga.HealthCheck) error {
+
 	if m.UpdateHook != nil {
 		return m.UpdateHook(m, ctx, key, arg0)
 	}
@@ -4168,6 +4229,7 @@ func (g *GCEHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga.Hea
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 // AlphaHealthChecks is an interface that allows for mocking of HealthChecks.
@@ -4319,6 +4381,7 @@ func (m *MockAlphaHealthChecks) Delete(ctx context.Context, key meta.Key) error 
 }
 
 func (m *MockAlphaHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *alpha.HealthCheck) error {
+
 	if m.UpdateHook != nil {
 		return m.UpdateHook(m, ctx, key, arg0)
 	}
@@ -4431,6 +4494,7 @@ func (g *GCEAlphaHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *a
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 // HttpHealthChecks is an interface that allows for mocking of HttpHealthChecks.
@@ -4582,6 +4646,7 @@ func (m *MockHttpHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 }
 
 func (m *MockHttpHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga.HttpHealthCheck) error {
+
 	if m.UpdateHook != nil {
 		return m.UpdateHook(m, ctx, key, arg0)
 	}
@@ -4694,6 +4759,7 @@ func (g *GCEHttpHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 // HttpsHealthChecks is an interface that allows for mocking of HttpsHealthChecks.
@@ -4845,6 +4911,7 @@ func (m *MockHttpsHealthChecks) Delete(ctx context.Context, key meta.Key) error 
 }
 
 func (m *MockHttpsHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga.HttpsHealthCheck) error {
+
 	if m.UpdateHook != nil {
 		return m.UpdateHook(m, ctx, key, arg0)
 	}
@@ -4957,6 +5024,7 @@ func (g *GCEHttpsHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *g
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 // InstanceGroups is an interface that allows for mocking of InstanceGroups.
@@ -4966,6 +5034,7 @@ type InstanceGroups interface {
 	Insert(ctx context.Context, key meta.Key, obj *ga.InstanceGroup) error
 	Delete(ctx context.Context, key meta.Key) error
 
+	ListInstances(context.Context, meta.Key, *ga.InstanceGroupsListInstancesRequest) (*ga.InstanceGroupsListInstances, error)
 	RemoveInstances(context.Context, meta.Key, *ga.InstanceGroupsRemoveInstancesRequest) error
 	SetNamedPorts(context.Context, meta.Key, *ga.InstanceGroupsSetNamedPortsRequest) error
 }
@@ -5005,6 +5074,7 @@ type MockInstanceGroups struct {
 	InsertHook func(m *MockInstanceGroups, ctx context.Context, key meta.Key, obj *ga.InstanceGroup) (bool, error)
 	DeleteHook func(m *MockInstanceGroups, ctx context.Context, key meta.Key) (bool, error)
 
+	ListInstancesHook   func(*MockInstanceGroups, context.Context, meta.Key, *ga.InstanceGroupsListInstancesRequest) (*ga.InstanceGroupsListInstances, error)
 	RemoveInstancesHook func(*MockInstanceGroups, context.Context, meta.Key, *ga.InstanceGroupsRemoveInstancesRequest) error
 	SetNamedPortsHook   func(*MockInstanceGroups, context.Context, meta.Key, *ga.InstanceGroupsSetNamedPortsRequest) error
 
@@ -5113,7 +5183,16 @@ func (m *MockInstanceGroups) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+func (m *MockInstanceGroups) ListInstances(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsListInstancesRequest) (*ga.InstanceGroupsListInstances, error) {
+
+	if m.ListInstancesHook != nil {
+		return m.ListInstancesHook(m, ctx, key, arg0)
+	}
+	return nil, fmt.Errorf("ListInstancesHook must be set")
+}
+
 func (m *MockInstanceGroups) RemoveInstances(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsRemoveInstancesRequest) error {
+
 	if m.RemoveInstancesHook != nil {
 		return m.RemoveInstancesHook(m, ctx, key, arg0)
 	}
@@ -5121,6 +5200,7 @@ func (m *MockInstanceGroups) RemoveInstances(ctx context.Context, key meta.Key, 
 }
 
 func (m *MockInstanceGroups) SetNamedPorts(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsSetNamedPortsRequest) error {
+
 	if m.SetNamedPortsHook != nil {
 		return m.SetNamedPortsHook(m, ctx, key, arg0)
 	}
@@ -5215,6 +5295,21 @@ func (g *GCEInstanceGroups) Delete(ctx context.Context, key meta.Key) error {
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+func (g *GCEInstanceGroups) ListInstances(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsListInstancesRequest) (*ga.InstanceGroupsListInstances, error) {
+	rk := &RateLimitKey{
+		Operation: "ListInstances",
+		Version:   meta.Version("ga"),
+		Target:    "InstanceGroup",
+	}
+	g.s.RateLimiter.Accept(ctx, rk)
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
+
+	call := g.s.GA.InstanceGroups.ListInstances(projectID, key.Zone, key.Name, arg0)
+
+	call.Context(ctx)
+	return call.Do()
+}
+
 func (g *GCEInstanceGroups) RemoveInstances(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsRemoveInstancesRequest) error {
 	rk := &RateLimitKey{
 		Operation: "RemoveInstances",
@@ -5233,6 +5328,7 @@ func (g *GCEInstanceGroups) RemoveInstances(ctx context.Context, key meta.Key, a
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 func (g *GCEInstanceGroups) SetNamedPorts(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsSetNamedPortsRequest) error {
@@ -5253,6 +5349,7 @@ func (g *GCEInstanceGroups) SetNamedPorts(ctx context.Context, key meta.Key, arg
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 // Instances is an interface that allows for mocking of Instances.
@@ -5410,6 +5507,7 @@ func (m *MockInstances) Delete(ctx context.Context, key meta.Key) error {
 }
 
 func (m *MockInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *ga.AttachedDisk) error {
+
 	if m.AttachDiskHook != nil {
 		return m.AttachDiskHook(m, ctx, key, arg0)
 	}
@@ -5417,6 +5515,7 @@ func (m *MockInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *ga.A
 }
 
 func (m *MockInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 string) error {
+
 	if m.DetachDiskHook != nil {
 		return m.DetachDiskHook(m, ctx, key, arg0)
 	}
@@ -5529,6 +5628,7 @@ func (g *GCEInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *ga.At
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 func (g *GCEInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 string) error {
@@ -5549,6 +5649,7 @@ func (g *GCEInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 string
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 // BetaInstances is an interface that allows for mocking of Instances.
@@ -5706,6 +5807,7 @@ func (m *MockBetaInstances) Delete(ctx context.Context, key meta.Key) error {
 }
 
 func (m *MockBetaInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *beta.AttachedDisk) error {
+
 	if m.AttachDiskHook != nil {
 		return m.AttachDiskHook(m, ctx, key, arg0)
 	}
@@ -5713,6 +5815,7 @@ func (m *MockBetaInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *
 }
 
 func (m *MockBetaInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 string) error {
+
 	if m.DetachDiskHook != nil {
 		return m.DetachDiskHook(m, ctx, key, arg0)
 	}
@@ -5825,6 +5928,7 @@ func (g *GCEBetaInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *b
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 func (g *GCEBetaInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 string) error {
@@ -5845,6 +5949,7 @@ func (g *GCEBetaInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 st
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 // AlphaInstances is an interface that allows for mocking of Instances.
@@ -6004,6 +6109,7 @@ func (m *MockAlphaInstances) Delete(ctx context.Context, key meta.Key) error {
 }
 
 func (m *MockAlphaInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *alpha.AttachedDisk) error {
+
 	if m.AttachDiskHook != nil {
 		return m.AttachDiskHook(m, ctx, key, arg0)
 	}
@@ -6011,6 +6117,7 @@ func (m *MockAlphaInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 
 }
 
 func (m *MockAlphaInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 string) error {
+
 	if m.DetachDiskHook != nil {
 		return m.DetachDiskHook(m, ctx, key, arg0)
 	}
@@ -6018,6 +6125,7 @@ func (m *MockAlphaInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 
 }
 
 func (m *MockAlphaInstances) UpdateNetworkInterface(ctx context.Context, key meta.Key, arg0 string, arg1 *alpha.NetworkInterface) error {
+
 	if m.UpdateNetworkInterfaceHook != nil {
 		return m.UpdateNetworkInterfaceHook(m, ctx, key, arg0, arg1)
 	}
@@ -6130,6 +6238,7 @@ func (g *GCEAlphaInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 func (g *GCEAlphaInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 string) error {
@@ -6150,6 +6259,7 @@ func (g *GCEAlphaInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 s
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 func (g *GCEAlphaInstances) UpdateNetworkInterface(ctx context.Context, key meta.Key, arg0 string, arg1 *alpha.NetworkInterface) error {
@@ -6170,6 +6280,7 @@ func (g *GCEAlphaInstances) UpdateNetworkInterface(ctx context.Context, key meta
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 // AlphaNetworkEndpointGroups is an interface that allows for mocking of NetworkEndpointGroups.
@@ -6327,6 +6438,7 @@ func (m *MockAlphaNetworkEndpointGroups) Delete(ctx context.Context, key meta.Ke
 }
 
 func (m *MockAlphaNetworkEndpointGroups) AttachNetworkEndpoints(ctx context.Context, key meta.Key, arg0 *alpha.NetworkEndpointGroupsAttachEndpointsRequest) error {
+
 	if m.AttachNetworkEndpointsHook != nil {
 		return m.AttachNetworkEndpointsHook(m, ctx, key, arg0)
 	}
@@ -6334,6 +6446,7 @@ func (m *MockAlphaNetworkEndpointGroups) AttachNetworkEndpoints(ctx context.Cont
 }
 
 func (m *MockAlphaNetworkEndpointGroups) DetachNetworkEndpoints(ctx context.Context, key meta.Key, arg0 *alpha.NetworkEndpointGroupsDetachEndpointsRequest) error {
+
 	if m.DetachNetworkEndpointsHook != nil {
 		return m.DetachNetworkEndpointsHook(m, ctx, key, arg0)
 	}
@@ -6446,6 +6559,7 @@ func (g *GCEAlphaNetworkEndpointGroups) AttachNetworkEndpoints(ctx context.Conte
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 func (g *GCEAlphaNetworkEndpointGroups) DetachNetworkEndpoints(ctx context.Context, key meta.Key, arg0 *alpha.NetworkEndpointGroupsDetachEndpointsRequest) error {
@@ -6466,6 +6580,7 @@ func (g *GCEAlphaNetworkEndpointGroups) DetachNetworkEndpoints(ctx context.Conte
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 // Regions is an interface that allows for mocking of Regions.
@@ -7218,6 +7333,7 @@ func (m *MockTargetHttpProxies) Delete(ctx context.Context, key meta.Key) error 
 }
 
 func (m *MockTargetHttpProxies) SetUrlMap(ctx context.Context, key meta.Key, arg0 *ga.UrlMapReference) error {
+
 	if m.SetUrlMapHook != nil {
 		return m.SetUrlMapHook(m, ctx, key, arg0)
 	}
@@ -7330,6 +7446,7 @@ func (g *GCETargetHttpProxies) SetUrlMap(ctx context.Context, key meta.Key, arg0
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 // TargetHttpsProxies is an interface that allows for mocking of TargetHttpsProxies.
@@ -7483,6 +7600,7 @@ func (m *MockTargetHttpsProxies) Delete(ctx context.Context, key meta.Key) error
 }
 
 func (m *MockTargetHttpsProxies) SetSslCertificates(ctx context.Context, key meta.Key, arg0 *ga.TargetHttpsProxiesSetSslCertificatesRequest) error {
+
 	if m.SetSslCertificatesHook != nil {
 		return m.SetSslCertificatesHook(m, ctx, key, arg0)
 	}
@@ -7490,6 +7608,7 @@ func (m *MockTargetHttpsProxies) SetSslCertificates(ctx context.Context, key met
 }
 
 func (m *MockTargetHttpsProxies) SetUrlMap(ctx context.Context, key meta.Key, arg0 *ga.UrlMapReference) error {
+
 	if m.SetUrlMapHook != nil {
 		return m.SetUrlMapHook(m, ctx, key, arg0)
 	}
@@ -7602,6 +7721,7 @@ func (g *GCETargetHttpsProxies) SetSslCertificates(ctx context.Context, key meta
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 func (g *GCETargetHttpsProxies) SetUrlMap(ctx context.Context, key meta.Key, arg0 *ga.UrlMapReference) error {
@@ -7622,6 +7742,7 @@ func (g *GCETargetHttpsProxies) SetUrlMap(ctx context.Context, key meta.Key, arg
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 // TargetPools is an interface that allows for mocking of TargetPools.
@@ -7779,6 +7900,7 @@ func (m *MockTargetPools) Delete(ctx context.Context, key meta.Key) error {
 }
 
 func (m *MockTargetPools) AddInstance(ctx context.Context, key meta.Key, arg0 *ga.TargetPoolsAddInstanceRequest) error {
+
 	if m.AddInstanceHook != nil {
 		return m.AddInstanceHook(m, ctx, key, arg0)
 	}
@@ -7786,6 +7908,7 @@ func (m *MockTargetPools) AddInstance(ctx context.Context, key meta.Key, arg0 *g
 }
 
 func (m *MockTargetPools) RemoveInstance(ctx context.Context, key meta.Key, arg0 *ga.TargetPoolsRemoveInstanceRequest) error {
+
 	if m.RemoveInstanceHook != nil {
 		return m.RemoveInstanceHook(m, ctx, key, arg0)
 	}
@@ -7898,6 +8021,7 @@ func (g *GCETargetPools) AddInstance(ctx context.Context, key meta.Key, arg0 *ga
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 func (g *GCETargetPools) RemoveInstance(ctx context.Context, key meta.Key, arg0 *ga.TargetPoolsRemoveInstanceRequest) error {
@@ -7918,6 +8042,7 @@ func (g *GCETargetPools) RemoveInstance(ctx context.Context, key meta.Key, arg0 
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 // UrlMaps is an interface that allows for mocking of UrlMaps.
@@ -8069,6 +8194,7 @@ func (m *MockUrlMaps) Delete(ctx context.Context, key meta.Key) error {
 }
 
 func (m *MockUrlMaps) Update(ctx context.Context, key meta.Key, arg0 *ga.UrlMap) error {
+
 	if m.UpdateHook != nil {
 		return m.UpdateHook(m, ctx, key, arg0)
 	}
@@ -8181,6 +8307,7 @@ func (g *GCEUrlMaps) Update(ctx context.Context, key meta.Key, arg0 *ga.UrlMap) 
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+
 }
 
 // Zones is an interface that allows for mocking of Zones.

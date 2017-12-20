@@ -85,7 +85,7 @@ var AllServices = []*ServiceInfo{
 		keyType:     Global,
 		serviceType: reflect.TypeOf(&ga.BackendServicesService{}),
 		additionalMethods: []string{
-			//	"GetHealth",
+			"GetHealth",
 			"Update",
 		},
 	},
@@ -104,7 +104,7 @@ var AllServices = []*ServiceInfo{
 		keyType:     Regional,
 		serviceType: reflect.TypeOf(&alpha.RegionBackendServicesService{}),
 		additionalMethods: []string{
-			//	"GetHealth",
+			"GetHealth",
 			"Update",
 		},
 	},
@@ -190,7 +190,7 @@ var AllServices = []*ServiceInfo{
 		keyType:     Zonal,
 		serviceType: reflect.TypeOf(&ga.InstanceGroupsService{}),
 		additionalMethods: []string{
-			// "ListInstances",
+			"ListInstances",
 			"RemoveInstances",
 			"SetNamedPorts",
 		},

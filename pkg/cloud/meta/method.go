@@ -85,20 +85,23 @@ func (a *arg) String() string {
 }
 
 // newMethod returns a newly initialized method.
-func newMethod(s *ServiceInfo, m reflect.Method) *method {
-	return &method{s, m, ""}
+func newMethod(s *ServiceInfo, m reflect.Method) *Method {
+	ret := &Method{s, m, ""}
+	ret.init()
+	return ret
 }
 
-// method is used to generate the calling code non-standard methods.
-type method struct {
+// Method is used to generate the calling code non-standard methods.
+type Method struct {
 	*ServiceInfo
-	m          reflect.Method
-	returnType string
+	m reflect.Method
+
+	ReturnType string
 }
 
 // argsSkip is the number of arguments to skip when generating the
 // synthesized method.
-func (mr *method) argsSkip() int {
+func (mr *Method) argsSkip() int {
 	switch mr.keyType {
 	case Zonal:
 		return 4
@@ -113,7 +116,7 @@ func (mr *method) argsSkip() int {
 // args return a list of arguments to the method, skipping the first skip
 // elements. If nameArgs is true, then the arguments will include a generated
 // parameter name (arg<N>). prefix will be added to the parameters.
-func (mr *method) args(skip int, nameArgs bool, prefix []string) []string {
+func (mr *Method) args(skip int, nameArgs bool, prefix []string) []string {
 	var args []*arg
 	fType := mr.m.Func.Type()
 	for i := 0; i < fType.NumIn(); i++ {
@@ -132,7 +135,7 @@ func (mr *method) args(skip int, nameArgs bool, prefix []string) []string {
 	return append(prefix, a...)
 }
 
-func (mr *method) sanityCheck() {
+func (mr *Method) init() {
 	fType := mr.m.Func.Type()
 	if fType.NumIn() < mr.argsSkip() {
 		err := fmt.Errorf("method %q.%q, arity = %d which is less than required (< %d)",
@@ -168,14 +171,15 @@ func (mr *method) sanityCheck() {
 			panic(fmt.Errorf("method %q.%q: return type %q of Do() = S, _; S must be pointer type (%v)",
 				mr.Service, mr.Name(), returnTypeName, out0))
 		}
+		mr.ReturnType = out0.Elem().Name()
 		if out0.Elem().Name() == "Operation" {
 			glog.Infof("Method %q.%q is an *Operation", mr.Service, mr.Name())
 		} else {
 			glog.Infof("Method %q.%q returns %v", mr.Service, mr.Name(), out0)
-			panic(fmt.Errorf("method %q.%q: return type %q of Do() = S, _; S must be an *Operation",
-				mr.Service, mr.Name(), returnTypeName))
+			// panic(fmt.Errorf("method %q.%q: return type %q of Do() = S, _; S must be an *Operation",
+			// mr.Service, mr.Name(), returnTypeName))
 		}
-		// Second argument must be error.
+		// Second argument must be "error".
 		if doMethod.Func.Type().Out(1).Name() != "error" {
 			panic(fmt.Errorf("method %q.%q: return type %q of Do() = S, T; T must be 'error'",
 				mr.Service, mr.Name(), returnTypeName))
@@ -187,11 +191,11 @@ func (mr *method) sanityCheck() {
 	}
 }
 
-func (mr *method) Name() string {
+func (mr *Method) Name() string {
 	return mr.m.Name
 }
 
-func (mr *method) CallArgs() string {
+func (mr *Method) CallArgs() string {
 	var args []string
 	for i := mr.argsSkip(); i < mr.m.Func.Type().NumIn(); i++ {
 		args = append(args, fmt.Sprintf("arg%d", i-mr.argsSkip()))
@@ -202,28 +206,38 @@ func (mr *method) CallArgs() string {
 	return fmt.Sprintf(", %s", strings.Join(args, ", "))
 }
 
-func (mr *method) MockHookName() string {
+func (mr *Method) MockHookName() string {
 	return mr.m.Name + "Hook"
 }
 
-func (mr *method) MockHook() string {
+func (mr *Method) MockHook() string {
 	args := mr.args(mr.argsSkip(), false, []string{
 		fmt.Sprintf("*%s", mr.MockWrapType()),
 		"context.Context",
 		"meta.Key",
 	})
-	return fmt.Sprintf("%v func(%v) error", mr.MockHookName(), strings.Join(args, ", "))
+	if mr.ReturnType == "Operation" {
+		return fmt.Sprintf("%v func(%v) error", mr.MockHookName(), strings.Join(args, ", "))
+	}
+	return fmt.Sprintf("%v func(%v) (*%v.%v, error)", mr.MockHookName(), strings.Join(args, ", "), mr.Version(), mr.ReturnType)
 }
 
-func (mr *method) MockFcnArgs() string {
+func (mr *Method) FcnArgs() string {
 	args := mr.args(mr.argsSkip(), true, []string{
 		"ctx context.Context",
 		"key meta.Key",
 	})
-	return fmt.Sprintf("%v(%v) error", mr.m.Name, strings.Join(args, ", "))
+
+	if mr.ReturnType == "Operation" {
+		return fmt.Sprintf("%v(%v) error", mr.m.Name, strings.Join(args, ", "))
+	}
+	return fmt.Sprintf("%v(%v) (*%v.%v, error)", mr.m.Name, strings.Join(args, ", "), mr.Version(), mr.ReturnType)
 }
 
-func (mr *method) InterfaceFunc() string {
+func (mr *Method) InterfaceFunc() string {
 	args := mr.args(mr.argsSkip(), false, []string{"context.Context", "meta.Key"})
-	return fmt.Sprintf("%v(%v) error", mr.m.Name, strings.Join(args, ", "))
+	if mr.ReturnType == "Operation" {
+		return fmt.Sprintf("%v(%v) error", mr.m.Name, strings.Join(args, ", "))
+	}
+	return fmt.Sprintf("%v(%v) (*%v.%v, error)", mr.m.Name, strings.Join(args, ", "), mr.Version(), mr.ReturnType)
 }
