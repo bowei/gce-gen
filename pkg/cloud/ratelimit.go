@@ -18,6 +18,7 @@ package cloud
 
 import (
 	"context"
+	"time"
 
 	"github.com/bowei/gce-gen/pkg/cloud/meta"
 )
@@ -33,6 +34,9 @@ type RateLimitKey struct {
 
 // RateLimiter is the interface for a rate limiting policy.
 type RateLimiter interface {
+	// Accept uses the RateLimitKey to derive a sleep time for the calling
+	// goroutine. This call will block until the operation is ready for
+	// execution.
 	Accept(ctx context.Context, key *RateLimitKey)
 }
 
@@ -41,4 +45,9 @@ type NopRateLimiter struct {
 }
 
 func (*NopRateLimiter) Accept(ctx context.Context, key *RateLimitKey) {
+	// Rate limit polling of the Operation status to avoid hammering GCE
+	// for the status of an operation.
+	if key.Operation == "Get" && key.Service == "Operations" {
+		time.Sleep(time.Duration(1) * time.Second)
+	}
 }
