@@ -176,8 +176,6 @@ func (mr *Method) init() {
 			glog.Infof("Method %q.%q is an *Operation", mr.Service, mr.Name())
 		} else {
 			glog.Infof("Method %q.%q returns %v", mr.Service, mr.Name(), out0)
-			// panic(fmt.Errorf("method %q.%q: return type %q of Do() = S, _; S must be an *Operation",
-			// mr.Service, mr.Name(), returnTypeName))
 		}
 		// Second argument must be "error".
 		if doMethod.Func.Type().Out(1).Name() != "error" {
