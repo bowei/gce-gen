@@ -51,7 +51,9 @@ func (g *GCEProjects) Get(ctx context.Context, projectID string) (*compute.Proje
 		Version:   meta.Version("ga"),
 		Service:   "Projects",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.Projects.Get(projectID)
 	call.Context(ctx)
 	return call.Do()

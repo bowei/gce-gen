@@ -449,7 +449,9 @@ func (g *{{.GCEWrapType}}) Get(ctx context.Context, key meta.Key) (*{{.FQObjectT
 		Version: meta.Version("{{.Version}}"),
 		Service: "{{.Service}}",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 {{- if .KeyIsGlobal}}
 	call := g.s.{{.VersionField}}.{{.Service}}.Get(projectID, key.Name)
 {{- end -}}
@@ -482,7 +484,9 @@ rk := &RateLimitKey{
 		Version: meta.Version("{{.Version}}"),
 		Service: "{{.Service}}",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 {{- if .KeyIsGlobal}}
 	call := g.s.{{.VersionField}}.{{.Service}}.List(projectID)
 {{- end -}}
@@ -514,7 +518,9 @@ func (g *{{.GCEWrapType}}) Insert(ctx context.Context, key meta.Key, obj *{{.FQO
 		Version: meta.Version("{{.Version}}"),
 		Service: "{{.Service}}",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 {{- if .KeyIsGlobal}}
 	call := g.s.{{.VersionField}}.{{.Service}}.Insert(projectID, obj)
@@ -545,7 +551,9 @@ func (g *{{.GCEWrapType}}) Delete(ctx context.Context, key meta.Key) error {
 		Version: meta.Version("{{.Version}}"),
 		Service: "{{.Service}}",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 {{- if .KeyIsGlobal}}
 	call := g.s.{{.VersionField}}.{{.Service}}.Delete(projectID, key.Name)
 {{end -}}
@@ -576,7 +584,13 @@ func (g *{{.GCEWrapType}}) {{.FcnArgs}} {
 		Version: meta.Version("{{.Version}}"),
 		Service: "{{.Service}}",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+	{{- if eq .ReturnType "Operation"}}
+		return err
+	{{- else}}
+		return nil, err
+	{{- end}}
+	}
 {{- if .KeyIsGlobal}}
 	call := g.s.{{.VersionField}}.{{.Service}}.{{.Name}}(projectID, key.Name {{.CallArgs}})
 {{- end -}}

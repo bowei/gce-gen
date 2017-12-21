@@ -37,17 +37,27 @@ type RateLimiter interface {
 	// Accept uses the RateLimitKey to derive a sleep time for the calling
 	// goroutine. This call will block until the operation is ready for
 	// execution.
-	Accept(ctx context.Context, key *RateLimitKey)
+	//
+	// If Accept() returns an error if the given context ctx was canceled
+	// while waiting for acceptance into the queue.
+	Accept(ctx context.Context, key *RateLimitKey) error
 }
 
 // NopRateLimiter is a rate limiter that performs no limiting.
 type NopRateLimiter struct {
 }
 
-func (*NopRateLimiter) Accept(ctx context.Context, key *RateLimitKey) {
+func (*NopRateLimiter) Accept(ctx context.Context, key *RateLimitKey) error {
 	// Rate limit polling of the Operation status to avoid hammering GCE
 	// for the status of an operation.
+	const pollTime = time.Duration(1) * time.Second
 	if key.Operation == "Get" && key.Service == "Operations" {
-		time.Sleep(time.Duration(1) * time.Second)
+		select {
+		case <-time.NewTimer(pollTime).C:
+			break
+		case <-ctx.Done():
+			return ctx.Err()
+		}
 	}
+	return nil
 }

@@ -640,7 +640,9 @@ func (g *GCEAddresses) Get(ctx context.Context, key meta.Key) (*ga.Address, erro
 		Version:   meta.Version("ga"),
 		Service:   "Addresses",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.Addresses.Get(projectID, key.Region, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -655,7 +657,9 @@ func (g *GCEAddresses) List(ctx context.Context, region string) ([]*ga.Address, 
 		Version:   meta.Version("ga"),
 		Service:   "Addresses",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.Addresses.List(projectID, region)
 	var all []*ga.Address
 	f := func(l *ga.AddressList) error {
@@ -677,7 +681,9 @@ func (g *GCEAddresses) Insert(ctx context.Context, key meta.Key, obj *ga.Address
 		Version:   meta.Version("ga"),
 		Service:   "Addresses",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.GA.Addresses.Insert(projectID, key.Region, obj)
 	call.Context(ctx)
@@ -698,7 +704,9 @@ func (g *GCEAddresses) Delete(ctx context.Context, key meta.Key) error {
 		Version:   meta.Version("ga"),
 		Service:   "Addresses",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.Addresses.Delete(projectID, key.Region, key.Name)
 	call.Context(ctx)
 
@@ -868,7 +876,9 @@ func (g *GCEAlphaAddresses) Get(ctx context.Context, key meta.Key) (*alpha.Addre
 		Version:   meta.Version("alpha"),
 		Service:   "Addresses",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.Alpha.Addresses.Get(projectID, key.Region, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -883,7 +893,9 @@ func (g *GCEAlphaAddresses) List(ctx context.Context, region string) ([]*alpha.A
 		Version:   meta.Version("alpha"),
 		Service:   "Addresses",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.Alpha.Addresses.List(projectID, region)
 	var all []*alpha.Address
 	f := func(l *alpha.AddressList) error {
@@ -905,7 +917,9 @@ func (g *GCEAlphaAddresses) Insert(ctx context.Context, key meta.Key, obj *alpha
 		Version:   meta.Version("alpha"),
 		Service:   "Addresses",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.Alpha.Addresses.Insert(projectID, key.Region, obj)
 	call.Context(ctx)
@@ -926,7 +940,9 @@ func (g *GCEAlphaAddresses) Delete(ctx context.Context, key meta.Key) error {
 		Version:   meta.Version("alpha"),
 		Service:   "Addresses",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.Alpha.Addresses.Delete(projectID, key.Region, key.Name)
 	call.Context(ctx)
 
@@ -1096,7 +1112,9 @@ func (g *GCEBetaAddresses) Get(ctx context.Context, key meta.Key) (*beta.Address
 		Version:   meta.Version("beta"),
 		Service:   "Addresses",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.Beta.Addresses.Get(projectID, key.Region, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -1111,7 +1129,9 @@ func (g *GCEBetaAddresses) List(ctx context.Context, region string) ([]*beta.Add
 		Version:   meta.Version("beta"),
 		Service:   "Addresses",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.Beta.Addresses.List(projectID, region)
 	var all []*beta.Address
 	f := func(l *beta.AddressList) error {
@@ -1133,7 +1153,9 @@ func (g *GCEBetaAddresses) Insert(ctx context.Context, key meta.Key, obj *beta.A
 		Version:   meta.Version("beta"),
 		Service:   "Addresses",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.Beta.Addresses.Insert(projectID, key.Region, obj)
 	call.Context(ctx)
@@ -1154,7 +1176,9 @@ func (g *GCEBetaAddresses) Delete(ctx context.Context, key meta.Key) error {
 		Version:   meta.Version("beta"),
 		Service:   "Addresses",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.Beta.Addresses.Delete(projectID, key.Region, key.Name)
 	call.Context(ctx)
 
@@ -1321,7 +1345,9 @@ func (g *GCEGlobalAddresses) Get(ctx context.Context, key meta.Key) (*ga.Address
 		Version:   meta.Version("ga"),
 		Service:   "GlobalAddresses",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.GlobalAddresses.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -1336,7 +1362,9 @@ func (g *GCEGlobalAddresses) List(ctx context.Context) ([]*ga.Address, error) {
 		Version:   meta.Version("ga"),
 		Service:   "GlobalAddresses",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.GlobalAddresses.List(projectID)
 	var all []*ga.Address
 	f := func(l *ga.AddressList) error {
@@ -1358,7 +1386,9 @@ func (g *GCEGlobalAddresses) Insert(ctx context.Context, key meta.Key, obj *ga.A
 		Version:   meta.Version("ga"),
 		Service:   "GlobalAddresses",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.GA.GlobalAddresses.Insert(projectID, obj)
 	call.Context(ctx)
@@ -1379,7 +1409,9 @@ func (g *GCEGlobalAddresses) Delete(ctx context.Context, key meta.Key) error {
 		Version:   meta.Version("ga"),
 		Service:   "GlobalAddresses",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.GlobalAddresses.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -1567,7 +1599,9 @@ func (g *GCEBackendServices) Get(ctx context.Context, key meta.Key) (*ga.Backend
 		Version:   meta.Version("ga"),
 		Service:   "BackendServices",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.BackendServices.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -1582,7 +1616,9 @@ func (g *GCEBackendServices) List(ctx context.Context) ([]*ga.BackendService, er
 		Version:   meta.Version("ga"),
 		Service:   "BackendServices",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.BackendServices.List(projectID)
 	var all []*ga.BackendService
 	f := func(l *ga.BackendServiceList) error {
@@ -1604,7 +1640,9 @@ func (g *GCEBackendServices) Insert(ctx context.Context, key meta.Key, obj *ga.B
 		Version:   meta.Version("ga"),
 		Service:   "BackendServices",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.GA.BackendServices.Insert(projectID, obj)
 	call.Context(ctx)
@@ -1625,7 +1663,9 @@ func (g *GCEBackendServices) Delete(ctx context.Context, key meta.Key) error {
 		Version:   meta.Version("ga"),
 		Service:   "BackendServices",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.BackendServices.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -1646,7 +1686,9 @@ func (g *GCEBackendServices) GetHealth(ctx context.Context, key meta.Key, arg0 *
 		Version:   meta.Version("ga"),
 		Service:   "BackendServices",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.BackendServices.GetHealth(projectID, key.Name, arg0)
 	call.Context(ctx)
 	return call.Do()
@@ -1661,7 +1703,9 @@ func (g *GCEBackendServices) Update(ctx context.Context, key meta.Key, arg0 *ga.
 		Version:   meta.Version("ga"),
 		Service:   "BackendServices",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.BackendServices.Update(projectID, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -1837,7 +1881,9 @@ func (g *GCEAlphaBackendServices) Get(ctx context.Context, key meta.Key) (*alpha
 		Version:   meta.Version("alpha"),
 		Service:   "BackendServices",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.Alpha.BackendServices.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -1852,7 +1898,9 @@ func (g *GCEAlphaBackendServices) List(ctx context.Context) ([]*alpha.BackendSer
 		Version:   meta.Version("alpha"),
 		Service:   "BackendServices",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.Alpha.BackendServices.List(projectID)
 	var all []*alpha.BackendService
 	f := func(l *alpha.BackendServiceList) error {
@@ -1874,7 +1922,9 @@ func (g *GCEAlphaBackendServices) Insert(ctx context.Context, key meta.Key, obj 
 		Version:   meta.Version("alpha"),
 		Service:   "BackendServices",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.Alpha.BackendServices.Insert(projectID, obj)
 	call.Context(ctx)
@@ -1895,7 +1945,9 @@ func (g *GCEAlphaBackendServices) Delete(ctx context.Context, key meta.Key) erro
 		Version:   meta.Version("alpha"),
 		Service:   "BackendServices",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.Alpha.BackendServices.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -1916,7 +1968,9 @@ func (g *GCEAlphaBackendServices) Update(ctx context.Context, key meta.Key, arg0
 		Version:   meta.Version("alpha"),
 		Service:   "BackendServices",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.Alpha.BackendServices.Update(projectID, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -2105,7 +2159,9 @@ func (g *GCEAlphaRegionBackendServices) Get(ctx context.Context, key meta.Key) (
 		Version:   meta.Version("alpha"),
 		Service:   "RegionBackendServices",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.Alpha.RegionBackendServices.Get(projectID, key.Region, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -2120,7 +2176,9 @@ func (g *GCEAlphaRegionBackendServices) List(ctx context.Context, region string)
 		Version:   meta.Version("alpha"),
 		Service:   "RegionBackendServices",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.Alpha.RegionBackendServices.List(projectID, region)
 	var all []*alpha.BackendService
 	f := func(l *alpha.BackendServiceList) error {
@@ -2142,7 +2200,9 @@ func (g *GCEAlphaRegionBackendServices) Insert(ctx context.Context, key meta.Key
 		Version:   meta.Version("alpha"),
 		Service:   "RegionBackendServices",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.Alpha.RegionBackendServices.Insert(projectID, key.Region, obj)
 	call.Context(ctx)
@@ -2163,7 +2223,9 @@ func (g *GCEAlphaRegionBackendServices) Delete(ctx context.Context, key meta.Key
 		Version:   meta.Version("alpha"),
 		Service:   "RegionBackendServices",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.Alpha.RegionBackendServices.Delete(projectID, key.Region, key.Name)
 	call.Context(ctx)
 
@@ -2183,7 +2245,9 @@ func (g *GCEAlphaRegionBackendServices) GetHealth(ctx context.Context, key meta.
 		Version:   meta.Version("alpha"),
 		Service:   "RegionBackendServices",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.Alpha.RegionBackendServices.GetHealth(projectID, key.Region, key.Name, arg0)
 	call.Context(ctx)
 	return call.Do()
@@ -2198,7 +2262,9 @@ func (g *GCEAlphaRegionBackendServices) Update(ctx context.Context, key meta.Key
 		Version:   meta.Version("alpha"),
 		Service:   "RegionBackendServices",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.Alpha.RegionBackendServices.Update(projectID, key.Region, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -2367,7 +2433,9 @@ func (g *GCEDisks) Get(ctx context.Context, key meta.Key) (*ga.Disk, error) {
 		Version:   meta.Version("ga"),
 		Service:   "Disks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.Disks.Get(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -2382,7 +2450,9 @@ func (g *GCEDisks) List(ctx context.Context, zone string) ([]*ga.Disk, error) {
 		Version:   meta.Version("ga"),
 		Service:   "Disks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.Disks.List(projectID, zone)
 	var all []*ga.Disk
 	f := func(l *ga.DiskList) error {
@@ -2404,7 +2474,9 @@ func (g *GCEDisks) Insert(ctx context.Context, key meta.Key, obj *ga.Disk) error
 		Version:   meta.Version("ga"),
 		Service:   "Disks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.GA.Disks.Insert(projectID, key.Zone, obj)
 	call.Context(ctx)
@@ -2425,7 +2497,9 @@ func (g *GCEDisks) Delete(ctx context.Context, key meta.Key) error {
 		Version:   meta.Version("ga"),
 		Service:   "Disks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.Disks.Delete(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 
@@ -2595,7 +2669,9 @@ func (g *GCEAlphaDisks) Get(ctx context.Context, key meta.Key) (*alpha.Disk, err
 		Version:   meta.Version("alpha"),
 		Service:   "Disks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.Alpha.Disks.Get(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -2610,7 +2686,9 @@ func (g *GCEAlphaDisks) List(ctx context.Context, zone string) ([]*alpha.Disk, e
 		Version:   meta.Version("alpha"),
 		Service:   "Disks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.Alpha.Disks.List(projectID, zone)
 	var all []*alpha.Disk
 	f := func(l *alpha.DiskList) error {
@@ -2632,7 +2710,9 @@ func (g *GCEAlphaDisks) Insert(ctx context.Context, key meta.Key, obj *alpha.Dis
 		Version:   meta.Version("alpha"),
 		Service:   "Disks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.Alpha.Disks.Insert(projectID, key.Zone, obj)
 	call.Context(ctx)
@@ -2653,7 +2733,9 @@ func (g *GCEAlphaDisks) Delete(ctx context.Context, key meta.Key) error {
 		Version:   meta.Version("alpha"),
 		Service:   "Disks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.Alpha.Disks.Delete(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 
@@ -2823,7 +2905,9 @@ func (g *GCEAlphaRegionDisks) Get(ctx context.Context, key meta.Key) (*alpha.Dis
 		Version:   meta.Version("alpha"),
 		Service:   "RegionDisks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.Alpha.RegionDisks.Get(projectID, key.Region, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -2838,7 +2922,9 @@ func (g *GCEAlphaRegionDisks) List(ctx context.Context, region string) ([]*alpha
 		Version:   meta.Version("alpha"),
 		Service:   "RegionDisks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.Alpha.RegionDisks.List(projectID, region)
 	var all []*alpha.Disk
 	f := func(l *alpha.DiskList) error {
@@ -2860,7 +2946,9 @@ func (g *GCEAlphaRegionDisks) Insert(ctx context.Context, key meta.Key, obj *alp
 		Version:   meta.Version("alpha"),
 		Service:   "RegionDisks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.Alpha.RegionDisks.Insert(projectID, key.Region, obj)
 	call.Context(ctx)
@@ -2881,7 +2969,9 @@ func (g *GCEAlphaRegionDisks) Delete(ctx context.Context, key meta.Key) error {
 		Version:   meta.Version("alpha"),
 		Service:   "RegionDisks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.Alpha.RegionDisks.Delete(projectID, key.Region, key.Name)
 	call.Context(ctx)
 
@@ -3058,7 +3148,9 @@ func (g *GCEFirewalls) Get(ctx context.Context, key meta.Key) (*ga.Firewall, err
 		Version:   meta.Version("ga"),
 		Service:   "Firewalls",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.Firewalls.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -3073,7 +3165,9 @@ func (g *GCEFirewalls) List(ctx context.Context) ([]*ga.Firewall, error) {
 		Version:   meta.Version("ga"),
 		Service:   "Firewalls",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.Firewalls.List(projectID)
 	var all []*ga.Firewall
 	f := func(l *ga.FirewallList) error {
@@ -3095,7 +3189,9 @@ func (g *GCEFirewalls) Insert(ctx context.Context, key meta.Key, obj *ga.Firewal
 		Version:   meta.Version("ga"),
 		Service:   "Firewalls",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.GA.Firewalls.Insert(projectID, obj)
 	call.Context(ctx)
@@ -3116,7 +3212,9 @@ func (g *GCEFirewalls) Delete(ctx context.Context, key meta.Key) error {
 		Version:   meta.Version("ga"),
 		Service:   "Firewalls",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.Firewalls.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -3137,7 +3235,9 @@ func (g *GCEFirewalls) Update(ctx context.Context, key meta.Key, arg0 *ga.Firewa
 		Version:   meta.Version("ga"),
 		Service:   "Firewalls",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.Firewalls.Update(projectID, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -3306,7 +3406,9 @@ func (g *GCEForwardingRules) Get(ctx context.Context, key meta.Key) (*ga.Forward
 		Version:   meta.Version("ga"),
 		Service:   "ForwardingRules",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.ForwardingRules.Get(projectID, key.Region, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -3321,7 +3423,9 @@ func (g *GCEForwardingRules) List(ctx context.Context, region string) ([]*ga.For
 		Version:   meta.Version("ga"),
 		Service:   "ForwardingRules",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.ForwardingRules.List(projectID, region)
 	var all []*ga.ForwardingRule
 	f := func(l *ga.ForwardingRuleList) error {
@@ -3343,7 +3447,9 @@ func (g *GCEForwardingRules) Insert(ctx context.Context, key meta.Key, obj *ga.F
 		Version:   meta.Version("ga"),
 		Service:   "ForwardingRules",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.GA.ForwardingRules.Insert(projectID, key.Region, obj)
 	call.Context(ctx)
@@ -3364,7 +3470,9 @@ func (g *GCEForwardingRules) Delete(ctx context.Context, key meta.Key) error {
 		Version:   meta.Version("ga"),
 		Service:   "ForwardingRules",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.ForwardingRules.Delete(projectID, key.Region, key.Name)
 	call.Context(ctx)
 
@@ -3534,7 +3642,9 @@ func (g *GCEAlphaForwardingRules) Get(ctx context.Context, key meta.Key) (*alpha
 		Version:   meta.Version("alpha"),
 		Service:   "ForwardingRules",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.Alpha.ForwardingRules.Get(projectID, key.Region, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -3549,7 +3659,9 @@ func (g *GCEAlphaForwardingRules) List(ctx context.Context, region string) ([]*a
 		Version:   meta.Version("alpha"),
 		Service:   "ForwardingRules",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.Alpha.ForwardingRules.List(projectID, region)
 	var all []*alpha.ForwardingRule
 	f := func(l *alpha.ForwardingRuleList) error {
@@ -3571,7 +3683,9 @@ func (g *GCEAlphaForwardingRules) Insert(ctx context.Context, key meta.Key, obj 
 		Version:   meta.Version("alpha"),
 		Service:   "ForwardingRules",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.Alpha.ForwardingRules.Insert(projectID, key.Region, obj)
 	call.Context(ctx)
@@ -3592,7 +3706,9 @@ func (g *GCEAlphaForwardingRules) Delete(ctx context.Context, key meta.Key) erro
 		Version:   meta.Version("alpha"),
 		Service:   "ForwardingRules",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.Alpha.ForwardingRules.Delete(projectID, key.Region, key.Name)
 	call.Context(ctx)
 
@@ -3769,7 +3885,9 @@ func (g *GCEGlobalForwardingRules) Get(ctx context.Context, key meta.Key) (*ga.F
 		Version:   meta.Version("ga"),
 		Service:   "GlobalForwardingRules",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.GlobalForwardingRules.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -3784,7 +3902,9 @@ func (g *GCEGlobalForwardingRules) List(ctx context.Context) ([]*ga.ForwardingRu
 		Version:   meta.Version("ga"),
 		Service:   "GlobalForwardingRules",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.GlobalForwardingRules.List(projectID)
 	var all []*ga.ForwardingRule
 	f := func(l *ga.ForwardingRuleList) error {
@@ -3806,7 +3926,9 @@ func (g *GCEGlobalForwardingRules) Insert(ctx context.Context, key meta.Key, obj
 		Version:   meta.Version("ga"),
 		Service:   "GlobalForwardingRules",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.GA.GlobalForwardingRules.Insert(projectID, obj)
 	call.Context(ctx)
@@ -3827,7 +3949,9 @@ func (g *GCEGlobalForwardingRules) Delete(ctx context.Context, key meta.Key) err
 		Version:   meta.Version("ga"),
 		Service:   "GlobalForwardingRules",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.GlobalForwardingRules.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -3848,7 +3972,9 @@ func (g *GCEGlobalForwardingRules) SetTarget(ctx context.Context, key meta.Key, 
 		Version:   meta.Version("ga"),
 		Service:   "GlobalForwardingRules",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.GlobalForwardingRules.SetTarget(projectID, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -4024,7 +4150,9 @@ func (g *GCEHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HealthChec
 		Version:   meta.Version("ga"),
 		Service:   "HealthChecks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.HealthChecks.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -4039,7 +4167,9 @@ func (g *GCEHealthChecks) List(ctx context.Context) ([]*ga.HealthCheck, error) {
 		Version:   meta.Version("ga"),
 		Service:   "HealthChecks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.HealthChecks.List(projectID)
 	var all []*ga.HealthCheck
 	f := func(l *ga.HealthCheckList) error {
@@ -4061,7 +4191,9 @@ func (g *GCEHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.Heal
 		Version:   meta.Version("ga"),
 		Service:   "HealthChecks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.GA.HealthChecks.Insert(projectID, obj)
 	call.Context(ctx)
@@ -4082,7 +4214,9 @@ func (g *GCEHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 		Version:   meta.Version("ga"),
 		Service:   "HealthChecks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.HealthChecks.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -4103,7 +4237,9 @@ func (g *GCEHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga.Hea
 		Version:   meta.Version("ga"),
 		Service:   "HealthChecks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.HealthChecks.Update(projectID, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -4279,7 +4415,9 @@ func (g *GCEAlphaHealthChecks) Get(ctx context.Context, key meta.Key) (*alpha.He
 		Version:   meta.Version("alpha"),
 		Service:   "HealthChecks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.Alpha.HealthChecks.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -4294,7 +4432,9 @@ func (g *GCEAlphaHealthChecks) List(ctx context.Context) ([]*alpha.HealthCheck, 
 		Version:   meta.Version("alpha"),
 		Service:   "HealthChecks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.Alpha.HealthChecks.List(projectID)
 	var all []*alpha.HealthCheck
 	f := func(l *alpha.HealthCheckList) error {
@@ -4316,7 +4456,9 @@ func (g *GCEAlphaHealthChecks) Insert(ctx context.Context, key meta.Key, obj *al
 		Version:   meta.Version("alpha"),
 		Service:   "HealthChecks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.Alpha.HealthChecks.Insert(projectID, obj)
 	call.Context(ctx)
@@ -4337,7 +4479,9 @@ func (g *GCEAlphaHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 		Version:   meta.Version("alpha"),
 		Service:   "HealthChecks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.Alpha.HealthChecks.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -4358,7 +4502,9 @@ func (g *GCEAlphaHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *a
 		Version:   meta.Version("alpha"),
 		Service:   "HealthChecks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.Alpha.HealthChecks.Update(projectID, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -4534,7 +4680,9 @@ func (g *GCEHttpHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HttpHe
 		Version:   meta.Version("ga"),
 		Service:   "HttpHealthChecks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.HttpHealthChecks.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -4549,7 +4697,9 @@ func (g *GCEHttpHealthChecks) List(ctx context.Context) ([]*ga.HttpHealthCheck, 
 		Version:   meta.Version("ga"),
 		Service:   "HttpHealthChecks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.HttpHealthChecks.List(projectID)
 	var all []*ga.HttpHealthCheck
 	f := func(l *ga.HttpHealthCheckList) error {
@@ -4571,7 +4721,9 @@ func (g *GCEHttpHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.
 		Version:   meta.Version("ga"),
 		Service:   "HttpHealthChecks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.GA.HttpHealthChecks.Insert(projectID, obj)
 	call.Context(ctx)
@@ -4592,7 +4744,9 @@ func (g *GCEHttpHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 		Version:   meta.Version("ga"),
 		Service:   "HttpHealthChecks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.HttpHealthChecks.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -4613,7 +4767,9 @@ func (g *GCEHttpHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga
 		Version:   meta.Version("ga"),
 		Service:   "HttpHealthChecks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.HttpHealthChecks.Update(projectID, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -4789,7 +4945,9 @@ func (g *GCEHttpsHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.Https
 		Version:   meta.Version("ga"),
 		Service:   "HttpsHealthChecks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.HttpsHealthChecks.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -4804,7 +4962,9 @@ func (g *GCEHttpsHealthChecks) List(ctx context.Context) ([]*ga.HttpsHealthCheck
 		Version:   meta.Version("ga"),
 		Service:   "HttpsHealthChecks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.HttpsHealthChecks.List(projectID)
 	var all []*ga.HttpsHealthCheck
 	f := func(l *ga.HttpsHealthCheckList) error {
@@ -4826,7 +4986,9 @@ func (g *GCEHttpsHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga
 		Version:   meta.Version("ga"),
 		Service:   "HttpsHealthChecks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.GA.HttpsHealthChecks.Insert(projectID, obj)
 	call.Context(ctx)
@@ -4847,7 +5009,9 @@ func (g *GCEHttpsHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 		Version:   meta.Version("ga"),
 		Service:   "HttpsHealthChecks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.HttpsHealthChecks.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -4868,7 +5032,9 @@ func (g *GCEHttpsHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *g
 		Version:   meta.Version("ga"),
 		Service:   "HttpsHealthChecks",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.HttpsHealthChecks.Update(projectID, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -5077,7 +5243,9 @@ func (g *GCEInstanceGroups) Get(ctx context.Context, key meta.Key) (*ga.Instance
 		Version:   meta.Version("ga"),
 		Service:   "InstanceGroups",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.InstanceGroups.Get(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -5092,7 +5260,9 @@ func (g *GCEInstanceGroups) List(ctx context.Context, zone string) ([]*ga.Instan
 		Version:   meta.Version("ga"),
 		Service:   "InstanceGroups",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.InstanceGroups.List(projectID, zone)
 	var all []*ga.InstanceGroup
 	f := func(l *ga.InstanceGroupList) error {
@@ -5114,7 +5284,9 @@ func (g *GCEInstanceGroups) Insert(ctx context.Context, key meta.Key, obj *ga.In
 		Version:   meta.Version("ga"),
 		Service:   "InstanceGroups",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.GA.InstanceGroups.Insert(projectID, key.Zone, obj)
 	call.Context(ctx)
@@ -5135,7 +5307,9 @@ func (g *GCEInstanceGroups) Delete(ctx context.Context, key meta.Key) error {
 		Version:   meta.Version("ga"),
 		Service:   "InstanceGroups",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.InstanceGroups.Delete(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 
@@ -5155,7 +5329,9 @@ func (g *GCEInstanceGroups) AddInstances(ctx context.Context, key meta.Key, arg0
 		Version:   meta.Version("ga"),
 		Service:   "InstanceGroups",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.InstanceGroups.AddInstances(projectID, key.Zone, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -5174,7 +5350,9 @@ func (g *GCEInstanceGroups) ListInstances(ctx context.Context, key meta.Key, arg
 		Version:   meta.Version("ga"),
 		Service:   "InstanceGroups",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.InstanceGroups.ListInstances(projectID, key.Zone, key.Name, arg0)
 	call.Context(ctx)
 	return call.Do()
@@ -5189,7 +5367,9 @@ func (g *GCEInstanceGroups) RemoveInstances(ctx context.Context, key meta.Key, a
 		Version:   meta.Version("ga"),
 		Service:   "InstanceGroups",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.InstanceGroups.RemoveInstances(projectID, key.Zone, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -5208,7 +5388,9 @@ func (g *GCEInstanceGroups) SetNamedPorts(ctx context.Context, key meta.Key, arg
 		Version:   meta.Version("ga"),
 		Service:   "InstanceGroups",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.InstanceGroups.SetNamedPorts(projectID, key.Zone, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -5397,7 +5579,9 @@ func (g *GCEInstances) Get(ctx context.Context, key meta.Key) (*ga.Instance, err
 		Version:   meta.Version("ga"),
 		Service:   "Instances",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.Instances.Get(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -5412,7 +5596,9 @@ func (g *GCEInstances) List(ctx context.Context, zone string) ([]*ga.Instance, e
 		Version:   meta.Version("ga"),
 		Service:   "Instances",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.Instances.List(projectID, zone)
 	var all []*ga.Instance
 	f := func(l *ga.InstanceList) error {
@@ -5434,7 +5620,9 @@ func (g *GCEInstances) Insert(ctx context.Context, key meta.Key, obj *ga.Instanc
 		Version:   meta.Version("ga"),
 		Service:   "Instances",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.GA.Instances.Insert(projectID, key.Zone, obj)
 	call.Context(ctx)
@@ -5455,7 +5643,9 @@ func (g *GCEInstances) Delete(ctx context.Context, key meta.Key) error {
 		Version:   meta.Version("ga"),
 		Service:   "Instances",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.Instances.Delete(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 
@@ -5475,7 +5665,9 @@ func (g *GCEInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *ga.At
 		Version:   meta.Version("ga"),
 		Service:   "Instances",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.Instances.AttachDisk(projectID, key.Zone, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -5494,7 +5686,9 @@ func (g *GCEInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 string
 		Version:   meta.Version("ga"),
 		Service:   "Instances",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.Instances.DetachDisk(projectID, key.Zone, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -5683,7 +5877,9 @@ func (g *GCEBetaInstances) Get(ctx context.Context, key meta.Key) (*beta.Instanc
 		Version:   meta.Version("beta"),
 		Service:   "Instances",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.Beta.Instances.Get(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -5698,7 +5894,9 @@ func (g *GCEBetaInstances) List(ctx context.Context, zone string) ([]*beta.Insta
 		Version:   meta.Version("beta"),
 		Service:   "Instances",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.Beta.Instances.List(projectID, zone)
 	var all []*beta.Instance
 	f := func(l *beta.InstanceList) error {
@@ -5720,7 +5918,9 @@ func (g *GCEBetaInstances) Insert(ctx context.Context, key meta.Key, obj *beta.I
 		Version:   meta.Version("beta"),
 		Service:   "Instances",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.Beta.Instances.Insert(projectID, key.Zone, obj)
 	call.Context(ctx)
@@ -5741,7 +5941,9 @@ func (g *GCEBetaInstances) Delete(ctx context.Context, key meta.Key) error {
 		Version:   meta.Version("beta"),
 		Service:   "Instances",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.Beta.Instances.Delete(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 
@@ -5761,7 +5963,9 @@ func (g *GCEBetaInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *b
 		Version:   meta.Version("beta"),
 		Service:   "Instances",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.Beta.Instances.AttachDisk(projectID, key.Zone, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -5780,7 +5984,9 @@ func (g *GCEBetaInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 st
 		Version:   meta.Version("beta"),
 		Service:   "Instances",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.Beta.Instances.DetachDisk(projectID, key.Zone, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -5979,7 +6185,9 @@ func (g *GCEAlphaInstances) Get(ctx context.Context, key meta.Key) (*alpha.Insta
 		Version:   meta.Version("alpha"),
 		Service:   "Instances",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.Alpha.Instances.Get(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -5994,7 +6202,9 @@ func (g *GCEAlphaInstances) List(ctx context.Context, zone string) ([]*alpha.Ins
 		Version:   meta.Version("alpha"),
 		Service:   "Instances",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.Alpha.Instances.List(projectID, zone)
 	var all []*alpha.Instance
 	f := func(l *alpha.InstanceList) error {
@@ -6016,7 +6226,9 @@ func (g *GCEAlphaInstances) Insert(ctx context.Context, key meta.Key, obj *alpha
 		Version:   meta.Version("alpha"),
 		Service:   "Instances",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.Alpha.Instances.Insert(projectID, key.Zone, obj)
 	call.Context(ctx)
@@ -6037,7 +6249,9 @@ func (g *GCEAlphaInstances) Delete(ctx context.Context, key meta.Key) error {
 		Version:   meta.Version("alpha"),
 		Service:   "Instances",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.Alpha.Instances.Delete(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 
@@ -6057,7 +6271,9 @@ func (g *GCEAlphaInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *
 		Version:   meta.Version("alpha"),
 		Service:   "Instances",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.Alpha.Instances.AttachDisk(projectID, key.Zone, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -6076,7 +6292,9 @@ func (g *GCEAlphaInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 s
 		Version:   meta.Version("alpha"),
 		Service:   "Instances",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.Alpha.Instances.DetachDisk(projectID, key.Zone, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -6095,7 +6313,9 @@ func (g *GCEAlphaInstances) UpdateNetworkInterface(ctx context.Context, key meta
 		Version:   meta.Version("alpha"),
 		Service:   "Instances",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.Alpha.Instances.UpdateNetworkInterface(projectID, key.Zone, key.Name, arg0, arg1)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -6284,7 +6504,9 @@ func (g *GCEAlphaNetworkEndpointGroups) Get(ctx context.Context, key meta.Key) (
 		Version:   meta.Version("alpha"),
 		Service:   "NetworkEndpointGroups",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.Alpha.NetworkEndpointGroups.Get(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -6299,7 +6521,9 @@ func (g *GCEAlphaNetworkEndpointGroups) List(ctx context.Context, zone string) (
 		Version:   meta.Version("alpha"),
 		Service:   "NetworkEndpointGroups",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.Alpha.NetworkEndpointGroups.List(projectID, zone)
 	var all []*alpha.NetworkEndpointGroup
 	f := func(l *alpha.NetworkEndpointGroupList) error {
@@ -6321,7 +6545,9 @@ func (g *GCEAlphaNetworkEndpointGroups) Insert(ctx context.Context, key meta.Key
 		Version:   meta.Version("alpha"),
 		Service:   "NetworkEndpointGroups",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.Alpha.NetworkEndpointGroups.Insert(projectID, key.Zone, obj)
 	call.Context(ctx)
@@ -6342,7 +6568,9 @@ func (g *GCEAlphaNetworkEndpointGroups) Delete(ctx context.Context, key meta.Key
 		Version:   meta.Version("alpha"),
 		Service:   "NetworkEndpointGroups",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.Alpha.NetworkEndpointGroups.Delete(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 
@@ -6362,7 +6590,9 @@ func (g *GCEAlphaNetworkEndpointGroups) AttachNetworkEndpoints(ctx context.Conte
 		Version:   meta.Version("alpha"),
 		Service:   "NetworkEndpointGroups",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.Alpha.NetworkEndpointGroups.AttachNetworkEndpoints(projectID, key.Zone, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -6381,7 +6611,9 @@ func (g *GCEAlphaNetworkEndpointGroups) DetachNetworkEndpoints(ctx context.Conte
 		Version:   meta.Version("alpha"),
 		Service:   "NetworkEndpointGroups",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.Alpha.NetworkEndpointGroups.DetachNetworkEndpoints(projectID, key.Zone, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -6529,7 +6761,9 @@ func (g *GCERegions) Get(ctx context.Context, key meta.Key) (*ga.Region, error) 
 		Version:   meta.Version("ga"),
 		Service:   "Regions",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.Regions.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -6544,7 +6778,9 @@ func (g *GCERegions) List(ctx context.Context) ([]*ga.Region, error) {
 		Version:   meta.Version("ga"),
 		Service:   "Regions",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.Regions.List(projectID)
 	var all []*ga.Region
 	f := func(l *ga.RegionList) error {
@@ -6713,7 +6949,9 @@ func (g *GCERoutes) Get(ctx context.Context, key meta.Key) (*ga.Route, error) {
 		Version:   meta.Version("ga"),
 		Service:   "Routes",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.Routes.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -6728,7 +6966,9 @@ func (g *GCERoutes) List(ctx context.Context) ([]*ga.Route, error) {
 		Version:   meta.Version("ga"),
 		Service:   "Routes",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.Routes.List(projectID)
 	var all []*ga.Route
 	f := func(l *ga.RouteList) error {
@@ -6750,7 +6990,9 @@ func (g *GCERoutes) Insert(ctx context.Context, key meta.Key, obj *ga.Route) err
 		Version:   meta.Version("ga"),
 		Service:   "Routes",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.GA.Routes.Insert(projectID, obj)
 	call.Context(ctx)
@@ -6771,7 +7013,9 @@ func (g *GCERoutes) Delete(ctx context.Context, key meta.Key) error {
 		Version:   meta.Version("ga"),
 		Service:   "Routes",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.Routes.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -6939,7 +7183,9 @@ func (g *GCESslCertificates) Get(ctx context.Context, key meta.Key) (*ga.SslCert
 		Version:   meta.Version("ga"),
 		Service:   "SslCertificates",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.SslCertificates.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -6954,7 +7200,9 @@ func (g *GCESslCertificates) List(ctx context.Context) ([]*ga.SslCertificate, er
 		Version:   meta.Version("ga"),
 		Service:   "SslCertificates",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.SslCertificates.List(projectID)
 	var all []*ga.SslCertificate
 	f := func(l *ga.SslCertificateList) error {
@@ -6976,7 +7224,9 @@ func (g *GCESslCertificates) Insert(ctx context.Context, key meta.Key, obj *ga.S
 		Version:   meta.Version("ga"),
 		Service:   "SslCertificates",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.GA.SslCertificates.Insert(projectID, obj)
 	call.Context(ctx)
@@ -6997,7 +7247,9 @@ func (g *GCESslCertificates) Delete(ctx context.Context, key meta.Key) error {
 		Version:   meta.Version("ga"),
 		Service:   "SslCertificates",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.SslCertificates.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -7175,7 +7427,9 @@ func (g *GCETargetHttpProxies) Get(ctx context.Context, key meta.Key) (*ga.Targe
 		Version:   meta.Version("ga"),
 		Service:   "TargetHttpProxies",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.TargetHttpProxies.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -7190,7 +7444,9 @@ func (g *GCETargetHttpProxies) List(ctx context.Context) ([]*ga.TargetHttpProxy,
 		Version:   meta.Version("ga"),
 		Service:   "TargetHttpProxies",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.TargetHttpProxies.List(projectID)
 	var all []*ga.TargetHttpProxy
 	f := func(l *ga.TargetHttpProxyList) error {
@@ -7212,7 +7468,9 @@ func (g *GCETargetHttpProxies) Insert(ctx context.Context, key meta.Key, obj *ga
 		Version:   meta.Version("ga"),
 		Service:   "TargetHttpProxies",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.GA.TargetHttpProxies.Insert(projectID, obj)
 	call.Context(ctx)
@@ -7233,7 +7491,9 @@ func (g *GCETargetHttpProxies) Delete(ctx context.Context, key meta.Key) error {
 		Version:   meta.Version("ga"),
 		Service:   "TargetHttpProxies",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.TargetHttpProxies.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -7254,7 +7514,9 @@ func (g *GCETargetHttpProxies) SetUrlMap(ctx context.Context, key meta.Key, arg0
 		Version:   meta.Version("ga"),
 		Service:   "TargetHttpProxies",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.TargetHttpProxies.SetUrlMap(projectID, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -7440,7 +7702,9 @@ func (g *GCETargetHttpsProxies) Get(ctx context.Context, key meta.Key) (*ga.Targ
 		Version:   meta.Version("ga"),
 		Service:   "TargetHttpsProxies",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.TargetHttpsProxies.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -7455,7 +7719,9 @@ func (g *GCETargetHttpsProxies) List(ctx context.Context) ([]*ga.TargetHttpsProx
 		Version:   meta.Version("ga"),
 		Service:   "TargetHttpsProxies",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.TargetHttpsProxies.List(projectID)
 	var all []*ga.TargetHttpsProxy
 	f := func(l *ga.TargetHttpsProxyList) error {
@@ -7477,7 +7743,9 @@ func (g *GCETargetHttpsProxies) Insert(ctx context.Context, key meta.Key, obj *g
 		Version:   meta.Version("ga"),
 		Service:   "TargetHttpsProxies",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.GA.TargetHttpsProxies.Insert(projectID, obj)
 	call.Context(ctx)
@@ -7498,7 +7766,9 @@ func (g *GCETargetHttpsProxies) Delete(ctx context.Context, key meta.Key) error 
 		Version:   meta.Version("ga"),
 		Service:   "TargetHttpsProxies",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.TargetHttpsProxies.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -7519,7 +7789,9 @@ func (g *GCETargetHttpsProxies) SetSslCertificates(ctx context.Context, key meta
 		Version:   meta.Version("ga"),
 		Service:   "TargetHttpsProxies",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.TargetHttpsProxies.SetSslCertificates(projectID, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -7538,7 +7810,9 @@ func (g *GCETargetHttpsProxies) SetUrlMap(ctx context.Context, key meta.Key, arg
 		Version:   meta.Version("ga"),
 		Service:   "TargetHttpsProxies",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.TargetHttpsProxies.SetUrlMap(projectID, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -7727,7 +8001,9 @@ func (g *GCETargetPools) Get(ctx context.Context, key meta.Key) (*ga.TargetPool,
 		Version:   meta.Version("ga"),
 		Service:   "TargetPools",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.TargetPools.Get(projectID, key.Region, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -7742,7 +8018,9 @@ func (g *GCETargetPools) List(ctx context.Context, region string) ([]*ga.TargetP
 		Version:   meta.Version("ga"),
 		Service:   "TargetPools",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.TargetPools.List(projectID, region)
 	var all []*ga.TargetPool
 	f := func(l *ga.TargetPoolList) error {
@@ -7764,7 +8042,9 @@ func (g *GCETargetPools) Insert(ctx context.Context, key meta.Key, obj *ga.Targe
 		Version:   meta.Version("ga"),
 		Service:   "TargetPools",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.GA.TargetPools.Insert(projectID, key.Region, obj)
 	call.Context(ctx)
@@ -7785,7 +8065,9 @@ func (g *GCETargetPools) Delete(ctx context.Context, key meta.Key) error {
 		Version:   meta.Version("ga"),
 		Service:   "TargetPools",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.TargetPools.Delete(projectID, key.Region, key.Name)
 	call.Context(ctx)
 
@@ -7805,7 +8087,9 @@ func (g *GCETargetPools) AddInstance(ctx context.Context, key meta.Key, arg0 *ga
 		Version:   meta.Version("ga"),
 		Service:   "TargetPools",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.TargetPools.AddInstance(projectID, key.Region, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -7824,7 +8108,9 @@ func (g *GCETargetPools) RemoveInstance(ctx context.Context, key meta.Key, arg0 
 		Version:   meta.Version("ga"),
 		Service:   "TargetPools",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.TargetPools.RemoveInstance(projectID, key.Region, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -8000,7 +8286,9 @@ func (g *GCEUrlMaps) Get(ctx context.Context, key meta.Key) (*ga.UrlMap, error) 
 		Version:   meta.Version("ga"),
 		Service:   "UrlMaps",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.UrlMaps.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -8015,7 +8303,9 @@ func (g *GCEUrlMaps) List(ctx context.Context) ([]*ga.UrlMap, error) {
 		Version:   meta.Version("ga"),
 		Service:   "UrlMaps",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.UrlMaps.List(projectID)
 	var all []*ga.UrlMap
 	f := func(l *ga.UrlMapList) error {
@@ -8037,7 +8327,9 @@ func (g *GCEUrlMaps) Insert(ctx context.Context, key meta.Key, obj *ga.UrlMap) e
 		Version:   meta.Version("ga"),
 		Service:   "UrlMaps",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	obj.Name = key.Name
 	call := g.s.GA.UrlMaps.Insert(projectID, obj)
 	call.Context(ctx)
@@ -8058,7 +8350,9 @@ func (g *GCEUrlMaps) Delete(ctx context.Context, key meta.Key) error {
 		Version:   meta.Version("ga"),
 		Service:   "UrlMaps",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.UrlMaps.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -8079,7 +8373,9 @@ func (g *GCEUrlMaps) Update(ctx context.Context, key meta.Key, arg0 *ga.UrlMap) 
 		Version:   meta.Version("ga"),
 		Service:   "UrlMaps",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
 	call := g.s.GA.UrlMaps.Update(projectID, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -8187,7 +8483,9 @@ func (g *GCEZones) Get(ctx context.Context, key meta.Key) (*ga.Zone, error) {
 		Version:   meta.Version("ga"),
 		Service:   "Zones",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.Zones.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -8202,7 +8500,9 @@ func (g *GCEZones) List(ctx context.Context) ([]*ga.Zone, error) {
 		Version:   meta.Version("ga"),
 		Service:   "Zones",
 	}
-	g.s.RateLimiter.Accept(ctx, rk)
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
 	call := g.s.GA.Zones.List(projectID)
 	var all []*ga.Zone
 	f := func(l *ga.ZoneList) error {
