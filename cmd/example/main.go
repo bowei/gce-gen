@@ -136,4 +136,13 @@ func main() {
 		glog.Fatalf("Firewall delete error %v", err)
 	}
 	glog.Infof("Firewall %v deleted", key)
+
+	if proj, err := c.Projects().Get(context.Background(), "bowei-gke"); err == nil {
+		glog.Infof("Project %+v", proj)
+		for _, q := range proj.Quotas {
+			glog.Infof("Project quota %+v", q)
+		}
+	} else {
+		glog.Errorf("Projects.Get: %v", err)
+	}
 }

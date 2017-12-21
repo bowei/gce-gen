@@ -26,10 +26,14 @@ import (
 // RateLimitKey is a key identifying the operation to be rate limited. The rate limit
 // queue will be determined based on the contents of RateKey.
 type RateLimitKey struct {
+	// ProjectID is the non-numeric ID of the project.
 	ProjectID string
+	// Operation is the specific method being invoked (e.g. "Get", "List").
 	Operation string
-	Version   meta.Version
-	Service   string
+	// Version is the API version of the call.
+	Version meta.Version
+	// Service is the service being invoked (e.g. "Firewalls", "BackendServices")
+	Service string
 }
 
 // RateLimiter is the interface for a rate limiting policy.

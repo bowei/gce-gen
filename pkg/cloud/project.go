@@ -24,8 +24,8 @@ import (
 
 // ProjectRouter routes service calls to the appropriate GCE project.
 type ProjectRouter interface {
-	// ProjectID returns the project ID to be used for a call to an API
-	// (version,service). Example tuples: ("ga", "ForwardingRules"),
+	// ProjectID returns the project ID (non-numeric) to be used for a call
+	// to an API (version,service). Example tuples: ("ga", "ForwardingRules"),
 	// ("alpha", "GlobalAddresses").
 	//
 	// This allows for plumbing different service calls to the appropriate

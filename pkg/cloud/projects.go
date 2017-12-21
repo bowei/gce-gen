@@ -26,7 +26,7 @@ import (
 	"google.golang.org/api/googleapi"
 )
 
-// ProjectOps is the manually implemented methods for the Projects service.
+// ProjectsOps is the manually implemented methods for the Projects service.
 type ProjectsOps interface {
 	Get(ctx context.Context, projectID string) (*compute.Project, error)
 }
