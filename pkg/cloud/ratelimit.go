@@ -38,12 +38,12 @@ type RateLimiter interface {
 	// goroutine. This call will block until the operation is ready for
 	// execution.
 	//
-	// If Accept() returns an error if the given context ctx was canceled
+	// Accept returns an error if the given context ctx was canceled
 	// while waiting for acceptance into the queue.
 	Accept(ctx context.Context, key *RateLimitKey) error
 }
 
-// NopRateLimiter is a rate limiter that performs no limiting.
+// NopRateLimiter is a rate limiter that performs no rate limiting.
 type NopRateLimiter struct {
 }
 
