@@ -22,13 +22,13 @@ import (
 	"github.com/bowei/gce-gen/pkg/cloud/meta"
 )
 
-// RateKey is a key identifying the operation to be rate limited. The rate limit
+// RateLimitKey is a key identifying the operation to be rate limited. The rate limit
 // queue will be determined based on the contents of RateKey.
 type RateLimitKey struct {
-	Project   string
+	ProjectID string
 	Operation string
 	Version   meta.Version
-	Target    string
+	Service   string
 }
 
 // RateLimiter is the interface for a rate limiting policy.

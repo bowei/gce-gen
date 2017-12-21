@@ -19,17 +19,10 @@ package cloud
 import (
 	"context"
 	"fmt"
-	"time"
 
 	alpha "google.golang.org/api/compute/v0.alpha"
 	beta "google.golang.org/api/compute/v0.beta"
 	ga "google.golang.org/api/compute/v1"
-)
-
-const (
-	// DefaultPollInterval to use when querying for a long running operation if
-	// not configured otherwise.
-	DefaultPollInterval = time.Duration(1) * time.Second
 )
 
 // Service is the top-level adapter for all of the different compute API
@@ -40,8 +33,6 @@ type Service struct {
 	Beta          *beta.Service
 	ProjectRouter ProjectRouter
 	RateLimiter   RateLimiter
-
-	PollInterval time.Duration
 }
 
 // wrapOperation wraps a GCE anyOP in a version generic operation type.
@@ -78,18 +69,11 @@ func (g *Service) WaitForCompletion(ctx context.Context, genericOp interface{}) 
 	if err != nil {
 		return err
 	}
-
-	pi := DefaultPollInterval
-	if g.PollInterval != time.Duration(0) {
-		pi = g.PollInterval
-	}
-
 	for done, err := op.isDone(ctx); !done; done, err = op.isDone(ctx) {
 		if err != nil {
 			return err
 		}
-		time.Sleep(pi)
-		// TODO: handle ctx cancellation.
+		g.RateLimiter.Accept(ctx, op.rateLimitKey())
 	}
 	return nil
 }

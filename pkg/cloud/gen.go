@@ -633,13 +633,14 @@ type GCEAddresses struct {
 
 // Get the Address named by key.
 func (g *GCEAddresses) Get(ctx context.Context, key meta.Key) (*ga.Address, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Addresses")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("ga"),
-		Target:    "Address",
+		Service:   "Addresses",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Addresses")
 	call := g.s.GA.Addresses.Get(projectID, key.Region, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -647,13 +648,14 @@ func (g *GCEAddresses) Get(ctx context.Context, key meta.Key) (*ga.Address, erro
 
 // List all Address objects.
 func (g *GCEAddresses) List(ctx context.Context, region string) ([]*ga.Address, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Addresses")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("ga"),
-		Target:    "Address",
+		Service:   "Addresses",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Addresses")
 	call := g.s.GA.Addresses.List(projectID, region)
 	var all []*ga.Address
 	f := func(l *ga.AddressList) error {
@@ -668,13 +670,14 @@ func (g *GCEAddresses) List(ctx context.Context, region string) ([]*ga.Address, 
 
 // Insert Address with key of value obj.
 func (g *GCEAddresses) Insert(ctx context.Context, key meta.Key, obj *ga.Address) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Addresses")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("ga"),
-		Target:    "Address",
+		Service:   "Addresses",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Addresses")
 	obj.Name = key.Name
 	call := g.s.GA.Addresses.Insert(projectID, key.Region, obj)
 	call.Context(ctx)
@@ -688,13 +691,14 @@ func (g *GCEAddresses) Insert(ctx context.Context, key meta.Key, obj *ga.Address
 
 // Delete the Address referenced by key.
 func (g *GCEAddresses) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Addresses")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("ga"),
-		Target:    "Address",
+		Service:   "Addresses",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Addresses")
 	call := g.s.GA.Addresses.Delete(projectID, key.Region, key.Name)
 	call.Context(ctx)
 
@@ -857,13 +861,14 @@ type GCEAlphaAddresses struct {
 
 // Get the Address named by key.
 func (g *GCEAlphaAddresses) Get(ctx context.Context, key meta.Key) (*alpha.Address, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Addresses")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("alpha"),
-		Target:    "Address",
+		Service:   "Addresses",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Addresses")
 	call := g.s.Alpha.Addresses.Get(projectID, key.Region, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -871,13 +876,14 @@ func (g *GCEAlphaAddresses) Get(ctx context.Context, key meta.Key) (*alpha.Addre
 
 // List all Address objects.
 func (g *GCEAlphaAddresses) List(ctx context.Context, region string) ([]*alpha.Address, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Addresses")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("alpha"),
-		Target:    "Address",
+		Service:   "Addresses",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Addresses")
 	call := g.s.Alpha.Addresses.List(projectID, region)
 	var all []*alpha.Address
 	f := func(l *alpha.AddressList) error {
@@ -892,13 +898,14 @@ func (g *GCEAlphaAddresses) List(ctx context.Context, region string) ([]*alpha.A
 
 // Insert Address with key of value obj.
 func (g *GCEAlphaAddresses) Insert(ctx context.Context, key meta.Key, obj *alpha.Address) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Addresses")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("alpha"),
-		Target:    "Address",
+		Service:   "Addresses",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Addresses")
 	obj.Name = key.Name
 	call := g.s.Alpha.Addresses.Insert(projectID, key.Region, obj)
 	call.Context(ctx)
@@ -912,13 +919,14 @@ func (g *GCEAlphaAddresses) Insert(ctx context.Context, key meta.Key, obj *alpha
 
 // Delete the Address referenced by key.
 func (g *GCEAlphaAddresses) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Addresses")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("alpha"),
-		Target:    "Address",
+		Service:   "Addresses",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Addresses")
 	call := g.s.Alpha.Addresses.Delete(projectID, key.Region, key.Name)
 	call.Context(ctx)
 
@@ -1081,13 +1089,14 @@ type GCEBetaAddresses struct {
 
 // Get the Address named by key.
 func (g *GCEBetaAddresses) Get(ctx context.Context, key meta.Key) (*beta.Address, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Addresses")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("beta"),
-		Target:    "Address",
+		Service:   "Addresses",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Addresses")
 	call := g.s.Beta.Addresses.Get(projectID, key.Region, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -1095,13 +1104,14 @@ func (g *GCEBetaAddresses) Get(ctx context.Context, key meta.Key) (*beta.Address
 
 // List all Address objects.
 func (g *GCEBetaAddresses) List(ctx context.Context, region string) ([]*beta.Address, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Addresses")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("beta"),
-		Target:    "Address",
+		Service:   "Addresses",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Addresses")
 	call := g.s.Beta.Addresses.List(projectID, region)
 	var all []*beta.Address
 	f := func(l *beta.AddressList) error {
@@ -1116,13 +1126,14 @@ func (g *GCEBetaAddresses) List(ctx context.Context, region string) ([]*beta.Add
 
 // Insert Address with key of value obj.
 func (g *GCEBetaAddresses) Insert(ctx context.Context, key meta.Key, obj *beta.Address) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Addresses")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("beta"),
-		Target:    "Address",
+		Service:   "Addresses",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Addresses")
 	obj.Name = key.Name
 	call := g.s.Beta.Addresses.Insert(projectID, key.Region, obj)
 	call.Context(ctx)
@@ -1136,13 +1147,14 @@ func (g *GCEBetaAddresses) Insert(ctx context.Context, key meta.Key, obj *beta.A
 
 // Delete the Address referenced by key.
 func (g *GCEBetaAddresses) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Addresses")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("beta"),
-		Target:    "Address",
+		Service:   "Addresses",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Addresses")
 	call := g.s.Beta.Addresses.Delete(projectID, key.Region, key.Name)
 	call.Context(ctx)
 
@@ -1302,13 +1314,14 @@ type GCEGlobalAddresses struct {
 
 // Get the Address named by key.
 func (g *GCEGlobalAddresses) Get(ctx context.Context, key meta.Key) (*ga.Address, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalAddresses")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("ga"),
-		Target:    "Address",
+		Service:   "GlobalAddresses",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalAddresses")
 	call := g.s.GA.GlobalAddresses.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -1316,13 +1329,14 @@ func (g *GCEGlobalAddresses) Get(ctx context.Context, key meta.Key) (*ga.Address
 
 // List all Address objects.
 func (g *GCEGlobalAddresses) List(ctx context.Context) ([]*ga.Address, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalAddresses")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("ga"),
-		Target:    "Address",
+		Service:   "GlobalAddresses",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalAddresses")
 	call := g.s.GA.GlobalAddresses.List(projectID)
 	var all []*ga.Address
 	f := func(l *ga.AddressList) error {
@@ -1337,13 +1351,14 @@ func (g *GCEGlobalAddresses) List(ctx context.Context) ([]*ga.Address, error) {
 
 // Insert Address with key of value obj.
 func (g *GCEGlobalAddresses) Insert(ctx context.Context, key meta.Key, obj *ga.Address) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalAddresses")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("ga"),
-		Target:    "Address",
+		Service:   "GlobalAddresses",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalAddresses")
 	obj.Name = key.Name
 	call := g.s.GA.GlobalAddresses.Insert(projectID, obj)
 	call.Context(ctx)
@@ -1357,13 +1372,14 @@ func (g *GCEGlobalAddresses) Insert(ctx context.Context, key meta.Key, obj *ga.A
 
 // Delete the Address referenced by key.
 func (g *GCEGlobalAddresses) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalAddresses")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("ga"),
-		Target:    "Address",
+		Service:   "GlobalAddresses",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalAddresses")
 	call := g.s.GA.GlobalAddresses.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -1544,13 +1560,14 @@ type GCEBackendServices struct {
 
 // Get the BackendService named by key.
 func (g *GCEBackendServices) Get(ctx context.Context, key meta.Key) (*ga.BackendService, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "BackendServices")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("ga"),
-		Target:    "BackendService",
+		Service:   "BackendServices",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "BackendServices")
 	call := g.s.GA.BackendServices.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -1558,13 +1575,14 @@ func (g *GCEBackendServices) Get(ctx context.Context, key meta.Key) (*ga.Backend
 
 // List all BackendService objects.
 func (g *GCEBackendServices) List(ctx context.Context) ([]*ga.BackendService, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "BackendServices")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("ga"),
-		Target:    "BackendService",
+		Service:   "BackendServices",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "BackendServices")
 	call := g.s.GA.BackendServices.List(projectID)
 	var all []*ga.BackendService
 	f := func(l *ga.BackendServiceList) error {
@@ -1579,13 +1597,14 @@ func (g *GCEBackendServices) List(ctx context.Context) ([]*ga.BackendService, er
 
 // Insert BackendService with key of value obj.
 func (g *GCEBackendServices) Insert(ctx context.Context, key meta.Key, obj *ga.BackendService) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "BackendServices")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("ga"),
-		Target:    "BackendService",
+		Service:   "BackendServices",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "BackendServices")
 	obj.Name = key.Name
 	call := g.s.GA.BackendServices.Insert(projectID, obj)
 	call.Context(ctx)
@@ -1599,13 +1618,14 @@ func (g *GCEBackendServices) Insert(ctx context.Context, key meta.Key, obj *ga.B
 
 // Delete the BackendService referenced by key.
 func (g *GCEBackendServices) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "BackendServices")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("ga"),
-		Target:    "BackendService",
+		Service:   "BackendServices",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "BackendServices")
 	call := g.s.GA.BackendServices.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -1619,13 +1639,14 @@ func (g *GCEBackendServices) Delete(ctx context.Context, key meta.Key) error {
 
 // GetHealth is a method on GCEBackendServices.
 func (g *GCEBackendServices) GetHealth(ctx context.Context, key meta.Key, arg0 *ga.ResourceGroupReference) (*ga.BackendServiceGroupHealth, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "BackendServices")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "GetHealth",
 		Version:   meta.Version("ga"),
-		Target:    "BackendService",
+		Service:   "BackendServices",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "BackendServices")
 	call := g.s.GA.BackendServices.GetHealth(projectID, key.Name, arg0)
 	call.Context(ctx)
 	return call.Do()
@@ -1633,13 +1654,14 @@ func (g *GCEBackendServices) GetHealth(ctx context.Context, key meta.Key, arg0 *
 
 // Update is a method on GCEBackendServices.
 func (g *GCEBackendServices) Update(ctx context.Context, key meta.Key, arg0 *ga.BackendService) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "BackendServices")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Update",
 		Version:   meta.Version("ga"),
-		Target:    "BackendService",
+		Service:   "BackendServices",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "BackendServices")
 	call := g.s.GA.BackendServices.Update(projectID, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -1808,13 +1830,14 @@ type GCEAlphaBackendServices struct {
 
 // Get the BackendService named by key.
 func (g *GCEAlphaBackendServices) Get(ctx context.Context, key meta.Key) (*alpha.BackendService, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "BackendServices")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("alpha"),
-		Target:    "BackendService",
+		Service:   "BackendServices",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "BackendServices")
 	call := g.s.Alpha.BackendServices.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -1822,13 +1845,14 @@ func (g *GCEAlphaBackendServices) Get(ctx context.Context, key meta.Key) (*alpha
 
 // List all BackendService objects.
 func (g *GCEAlphaBackendServices) List(ctx context.Context) ([]*alpha.BackendService, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "BackendServices")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("alpha"),
-		Target:    "BackendService",
+		Service:   "BackendServices",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "BackendServices")
 	call := g.s.Alpha.BackendServices.List(projectID)
 	var all []*alpha.BackendService
 	f := func(l *alpha.BackendServiceList) error {
@@ -1843,13 +1867,14 @@ func (g *GCEAlphaBackendServices) List(ctx context.Context) ([]*alpha.BackendSer
 
 // Insert BackendService with key of value obj.
 func (g *GCEAlphaBackendServices) Insert(ctx context.Context, key meta.Key, obj *alpha.BackendService) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "BackendServices")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("alpha"),
-		Target:    "BackendService",
+		Service:   "BackendServices",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "BackendServices")
 	obj.Name = key.Name
 	call := g.s.Alpha.BackendServices.Insert(projectID, obj)
 	call.Context(ctx)
@@ -1863,13 +1888,14 @@ func (g *GCEAlphaBackendServices) Insert(ctx context.Context, key meta.Key, obj 
 
 // Delete the BackendService referenced by key.
 func (g *GCEAlphaBackendServices) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "BackendServices")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("alpha"),
-		Target:    "BackendService",
+		Service:   "BackendServices",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "BackendServices")
 	call := g.s.Alpha.BackendServices.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -1883,13 +1909,14 @@ func (g *GCEAlphaBackendServices) Delete(ctx context.Context, key meta.Key) erro
 
 // Update is a method on GCEAlphaBackendServices.
 func (g *GCEAlphaBackendServices) Update(ctx context.Context, key meta.Key, arg0 *alpha.BackendService) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "BackendServices")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Update",
 		Version:   meta.Version("alpha"),
-		Target:    "BackendService",
+		Service:   "BackendServices",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "BackendServices")
 	call := g.s.Alpha.BackendServices.Update(projectID, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -2071,13 +2098,14 @@ type GCEAlphaRegionBackendServices struct {
 
 // Get the BackendService named by key.
 func (g *GCEAlphaRegionBackendServices) Get(ctx context.Context, key meta.Key) (*alpha.BackendService, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionBackendServices")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("alpha"),
-		Target:    "BackendService",
+		Service:   "RegionBackendServices",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionBackendServices")
 	call := g.s.Alpha.RegionBackendServices.Get(projectID, key.Region, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -2085,13 +2113,14 @@ func (g *GCEAlphaRegionBackendServices) Get(ctx context.Context, key meta.Key) (
 
 // List all BackendService objects.
 func (g *GCEAlphaRegionBackendServices) List(ctx context.Context, region string) ([]*alpha.BackendService, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionBackendServices")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("alpha"),
-		Target:    "BackendService",
+		Service:   "RegionBackendServices",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionBackendServices")
 	call := g.s.Alpha.RegionBackendServices.List(projectID, region)
 	var all []*alpha.BackendService
 	f := func(l *alpha.BackendServiceList) error {
@@ -2106,13 +2135,14 @@ func (g *GCEAlphaRegionBackendServices) List(ctx context.Context, region string)
 
 // Insert BackendService with key of value obj.
 func (g *GCEAlphaRegionBackendServices) Insert(ctx context.Context, key meta.Key, obj *alpha.BackendService) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionBackendServices")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("alpha"),
-		Target:    "BackendService",
+		Service:   "RegionBackendServices",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionBackendServices")
 	obj.Name = key.Name
 	call := g.s.Alpha.RegionBackendServices.Insert(projectID, key.Region, obj)
 	call.Context(ctx)
@@ -2126,13 +2156,14 @@ func (g *GCEAlphaRegionBackendServices) Insert(ctx context.Context, key meta.Key
 
 // Delete the BackendService referenced by key.
 func (g *GCEAlphaRegionBackendServices) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionBackendServices")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("alpha"),
-		Target:    "BackendService",
+		Service:   "RegionBackendServices",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionBackendServices")
 	call := g.s.Alpha.RegionBackendServices.Delete(projectID, key.Region, key.Name)
 	call.Context(ctx)
 
@@ -2145,13 +2176,14 @@ func (g *GCEAlphaRegionBackendServices) Delete(ctx context.Context, key meta.Key
 
 // GetHealth is a method on GCEAlphaRegionBackendServices.
 func (g *GCEAlphaRegionBackendServices) GetHealth(ctx context.Context, key meta.Key, arg0 *alpha.ResourceGroupReference) (*alpha.BackendServiceGroupHealth, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionBackendServices")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "GetHealth",
 		Version:   meta.Version("alpha"),
-		Target:    "BackendService",
+		Service:   "RegionBackendServices",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionBackendServices")
 	call := g.s.Alpha.RegionBackendServices.GetHealth(projectID, key.Region, key.Name, arg0)
 	call.Context(ctx)
 	return call.Do()
@@ -2159,13 +2191,14 @@ func (g *GCEAlphaRegionBackendServices) GetHealth(ctx context.Context, key meta.
 
 // Update is a method on GCEAlphaRegionBackendServices.
 func (g *GCEAlphaRegionBackendServices) Update(ctx context.Context, key meta.Key, arg0 *alpha.BackendService) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionBackendServices")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Update",
 		Version:   meta.Version("alpha"),
-		Target:    "BackendService",
+		Service:   "RegionBackendServices",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionBackendServices")
 	call := g.s.Alpha.RegionBackendServices.Update(projectID, key.Region, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -2327,13 +2360,14 @@ type GCEDisks struct {
 
 // Get the Disk named by key.
 func (g *GCEDisks) Get(ctx context.Context, key meta.Key) (*ga.Disk, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Disks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("ga"),
-		Target:    "Disk",
+		Service:   "Disks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Disks")
 	call := g.s.GA.Disks.Get(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -2341,13 +2375,14 @@ func (g *GCEDisks) Get(ctx context.Context, key meta.Key) (*ga.Disk, error) {
 
 // List all Disk objects.
 func (g *GCEDisks) List(ctx context.Context, zone string) ([]*ga.Disk, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Disks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("ga"),
-		Target:    "Disk",
+		Service:   "Disks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Disks")
 	call := g.s.GA.Disks.List(projectID, zone)
 	var all []*ga.Disk
 	f := func(l *ga.DiskList) error {
@@ -2362,13 +2397,14 @@ func (g *GCEDisks) List(ctx context.Context, zone string) ([]*ga.Disk, error) {
 
 // Insert Disk with key of value obj.
 func (g *GCEDisks) Insert(ctx context.Context, key meta.Key, obj *ga.Disk) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Disks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("ga"),
-		Target:    "Disk",
+		Service:   "Disks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Disks")
 	obj.Name = key.Name
 	call := g.s.GA.Disks.Insert(projectID, key.Zone, obj)
 	call.Context(ctx)
@@ -2382,13 +2418,14 @@ func (g *GCEDisks) Insert(ctx context.Context, key meta.Key, obj *ga.Disk) error
 
 // Delete the Disk referenced by key.
 func (g *GCEDisks) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Disks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("ga"),
-		Target:    "Disk",
+		Service:   "Disks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Disks")
 	call := g.s.GA.Disks.Delete(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 
@@ -2551,13 +2588,14 @@ type GCEAlphaDisks struct {
 
 // Get the Disk named by key.
 func (g *GCEAlphaDisks) Get(ctx context.Context, key meta.Key) (*alpha.Disk, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Disks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("alpha"),
-		Target:    "Disk",
+		Service:   "Disks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Disks")
 	call := g.s.Alpha.Disks.Get(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -2565,13 +2603,14 @@ func (g *GCEAlphaDisks) Get(ctx context.Context, key meta.Key) (*alpha.Disk, err
 
 // List all Disk objects.
 func (g *GCEAlphaDisks) List(ctx context.Context, zone string) ([]*alpha.Disk, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Disks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("alpha"),
-		Target:    "Disk",
+		Service:   "Disks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Disks")
 	call := g.s.Alpha.Disks.List(projectID, zone)
 	var all []*alpha.Disk
 	f := func(l *alpha.DiskList) error {
@@ -2586,13 +2625,14 @@ func (g *GCEAlphaDisks) List(ctx context.Context, zone string) ([]*alpha.Disk, e
 
 // Insert Disk with key of value obj.
 func (g *GCEAlphaDisks) Insert(ctx context.Context, key meta.Key, obj *alpha.Disk) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Disks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("alpha"),
-		Target:    "Disk",
+		Service:   "Disks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Disks")
 	obj.Name = key.Name
 	call := g.s.Alpha.Disks.Insert(projectID, key.Zone, obj)
 	call.Context(ctx)
@@ -2606,13 +2646,14 @@ func (g *GCEAlphaDisks) Insert(ctx context.Context, key meta.Key, obj *alpha.Dis
 
 // Delete the Disk referenced by key.
 func (g *GCEAlphaDisks) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Disks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("alpha"),
-		Target:    "Disk",
+		Service:   "Disks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Disks")
 	call := g.s.Alpha.Disks.Delete(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 
@@ -2775,13 +2816,14 @@ type GCEAlphaRegionDisks struct {
 
 // Get the Disk named by key.
 func (g *GCEAlphaRegionDisks) Get(ctx context.Context, key meta.Key) (*alpha.Disk, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionDisks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("alpha"),
-		Target:    "Disk",
+		Service:   "RegionDisks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionDisks")
 	call := g.s.Alpha.RegionDisks.Get(projectID, key.Region, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -2789,13 +2831,14 @@ func (g *GCEAlphaRegionDisks) Get(ctx context.Context, key meta.Key) (*alpha.Dis
 
 // List all Disk objects.
 func (g *GCEAlphaRegionDisks) List(ctx context.Context, region string) ([]*alpha.Disk, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionDisks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("alpha"),
-		Target:    "Disk",
+		Service:   "RegionDisks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionDisks")
 	call := g.s.Alpha.RegionDisks.List(projectID, region)
 	var all []*alpha.Disk
 	f := func(l *alpha.DiskList) error {
@@ -2810,13 +2853,14 @@ func (g *GCEAlphaRegionDisks) List(ctx context.Context, region string) ([]*alpha
 
 // Insert Disk with key of value obj.
 func (g *GCEAlphaRegionDisks) Insert(ctx context.Context, key meta.Key, obj *alpha.Disk) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionDisks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("alpha"),
-		Target:    "Disk",
+		Service:   "RegionDisks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionDisks")
 	obj.Name = key.Name
 	call := g.s.Alpha.RegionDisks.Insert(projectID, key.Region, obj)
 	call.Context(ctx)
@@ -2830,13 +2874,14 @@ func (g *GCEAlphaRegionDisks) Insert(ctx context.Context, key meta.Key, obj *alp
 
 // Delete the Disk referenced by key.
 func (g *GCEAlphaRegionDisks) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionDisks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("alpha"),
-		Target:    "Disk",
+		Service:   "RegionDisks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionDisks")
 	call := g.s.Alpha.RegionDisks.Delete(projectID, key.Region, key.Name)
 	call.Context(ctx)
 
@@ -3006,13 +3051,14 @@ type GCEFirewalls struct {
 
 // Get the Firewall named by key.
 func (g *GCEFirewalls) Get(ctx context.Context, key meta.Key) (*ga.Firewall, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Firewalls")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("ga"),
-		Target:    "Firewall",
+		Service:   "Firewalls",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Firewalls")
 	call := g.s.GA.Firewalls.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -3020,13 +3066,14 @@ func (g *GCEFirewalls) Get(ctx context.Context, key meta.Key) (*ga.Firewall, err
 
 // List all Firewall objects.
 func (g *GCEFirewalls) List(ctx context.Context) ([]*ga.Firewall, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Firewalls")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("ga"),
-		Target:    "Firewall",
+		Service:   "Firewalls",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Firewalls")
 	call := g.s.GA.Firewalls.List(projectID)
 	var all []*ga.Firewall
 	f := func(l *ga.FirewallList) error {
@@ -3041,13 +3088,14 @@ func (g *GCEFirewalls) List(ctx context.Context) ([]*ga.Firewall, error) {
 
 // Insert Firewall with key of value obj.
 func (g *GCEFirewalls) Insert(ctx context.Context, key meta.Key, obj *ga.Firewall) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Firewalls")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("ga"),
-		Target:    "Firewall",
+		Service:   "Firewalls",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Firewalls")
 	obj.Name = key.Name
 	call := g.s.GA.Firewalls.Insert(projectID, obj)
 	call.Context(ctx)
@@ -3061,13 +3109,14 @@ func (g *GCEFirewalls) Insert(ctx context.Context, key meta.Key, obj *ga.Firewal
 
 // Delete the Firewall referenced by key.
 func (g *GCEFirewalls) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Firewalls")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("ga"),
-		Target:    "Firewall",
+		Service:   "Firewalls",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Firewalls")
 	call := g.s.GA.Firewalls.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -3081,13 +3130,14 @@ func (g *GCEFirewalls) Delete(ctx context.Context, key meta.Key) error {
 
 // Update is a method on GCEFirewalls.
 func (g *GCEFirewalls) Update(ctx context.Context, key meta.Key, arg0 *ga.Firewall) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Firewalls")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Update",
 		Version:   meta.Version("ga"),
-		Target:    "Firewall",
+		Service:   "Firewalls",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Firewalls")
 	call := g.s.GA.Firewalls.Update(projectID, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -3249,13 +3299,14 @@ type GCEForwardingRules struct {
 
 // Get the ForwardingRule named by key.
 func (g *GCEForwardingRules) Get(ctx context.Context, key meta.Key) (*ga.ForwardingRule, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "ForwardingRules")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("ga"),
-		Target:    "ForwardingRule",
+		Service:   "ForwardingRules",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "ForwardingRules")
 	call := g.s.GA.ForwardingRules.Get(projectID, key.Region, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -3263,13 +3314,14 @@ func (g *GCEForwardingRules) Get(ctx context.Context, key meta.Key) (*ga.Forward
 
 // List all ForwardingRule objects.
 func (g *GCEForwardingRules) List(ctx context.Context, region string) ([]*ga.ForwardingRule, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "ForwardingRules")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("ga"),
-		Target:    "ForwardingRule",
+		Service:   "ForwardingRules",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "ForwardingRules")
 	call := g.s.GA.ForwardingRules.List(projectID, region)
 	var all []*ga.ForwardingRule
 	f := func(l *ga.ForwardingRuleList) error {
@@ -3284,13 +3336,14 @@ func (g *GCEForwardingRules) List(ctx context.Context, region string) ([]*ga.For
 
 // Insert ForwardingRule with key of value obj.
 func (g *GCEForwardingRules) Insert(ctx context.Context, key meta.Key, obj *ga.ForwardingRule) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "ForwardingRules")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("ga"),
-		Target:    "ForwardingRule",
+		Service:   "ForwardingRules",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "ForwardingRules")
 	obj.Name = key.Name
 	call := g.s.GA.ForwardingRules.Insert(projectID, key.Region, obj)
 	call.Context(ctx)
@@ -3304,13 +3357,14 @@ func (g *GCEForwardingRules) Insert(ctx context.Context, key meta.Key, obj *ga.F
 
 // Delete the ForwardingRule referenced by key.
 func (g *GCEForwardingRules) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "ForwardingRules")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("ga"),
-		Target:    "ForwardingRule",
+		Service:   "ForwardingRules",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "ForwardingRules")
 	call := g.s.GA.ForwardingRules.Delete(projectID, key.Region, key.Name)
 	call.Context(ctx)
 
@@ -3473,13 +3527,14 @@ type GCEAlphaForwardingRules struct {
 
 // Get the ForwardingRule named by key.
 func (g *GCEAlphaForwardingRules) Get(ctx context.Context, key meta.Key) (*alpha.ForwardingRule, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "ForwardingRules")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("alpha"),
-		Target:    "ForwardingRule",
+		Service:   "ForwardingRules",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "ForwardingRules")
 	call := g.s.Alpha.ForwardingRules.Get(projectID, key.Region, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -3487,13 +3542,14 @@ func (g *GCEAlphaForwardingRules) Get(ctx context.Context, key meta.Key) (*alpha
 
 // List all ForwardingRule objects.
 func (g *GCEAlphaForwardingRules) List(ctx context.Context, region string) ([]*alpha.ForwardingRule, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "ForwardingRules")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("alpha"),
-		Target:    "ForwardingRule",
+		Service:   "ForwardingRules",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "ForwardingRules")
 	call := g.s.Alpha.ForwardingRules.List(projectID, region)
 	var all []*alpha.ForwardingRule
 	f := func(l *alpha.ForwardingRuleList) error {
@@ -3508,13 +3564,14 @@ func (g *GCEAlphaForwardingRules) List(ctx context.Context, region string) ([]*a
 
 // Insert ForwardingRule with key of value obj.
 func (g *GCEAlphaForwardingRules) Insert(ctx context.Context, key meta.Key, obj *alpha.ForwardingRule) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "ForwardingRules")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("alpha"),
-		Target:    "ForwardingRule",
+		Service:   "ForwardingRules",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "ForwardingRules")
 	obj.Name = key.Name
 	call := g.s.Alpha.ForwardingRules.Insert(projectID, key.Region, obj)
 	call.Context(ctx)
@@ -3528,13 +3585,14 @@ func (g *GCEAlphaForwardingRules) Insert(ctx context.Context, key meta.Key, obj 
 
 // Delete the ForwardingRule referenced by key.
 func (g *GCEAlphaForwardingRules) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "ForwardingRules")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("alpha"),
-		Target:    "ForwardingRule",
+		Service:   "ForwardingRules",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "ForwardingRules")
 	call := g.s.Alpha.ForwardingRules.Delete(projectID, key.Region, key.Name)
 	call.Context(ctx)
 
@@ -3704,13 +3762,14 @@ type GCEGlobalForwardingRules struct {
 
 // Get the ForwardingRule named by key.
 func (g *GCEGlobalForwardingRules) Get(ctx context.Context, key meta.Key) (*ga.ForwardingRule, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalForwardingRules")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("ga"),
-		Target:    "ForwardingRule",
+		Service:   "GlobalForwardingRules",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalForwardingRules")
 	call := g.s.GA.GlobalForwardingRules.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -3718,13 +3777,14 @@ func (g *GCEGlobalForwardingRules) Get(ctx context.Context, key meta.Key) (*ga.F
 
 // List all ForwardingRule objects.
 func (g *GCEGlobalForwardingRules) List(ctx context.Context) ([]*ga.ForwardingRule, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalForwardingRules")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("ga"),
-		Target:    "ForwardingRule",
+		Service:   "GlobalForwardingRules",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalForwardingRules")
 	call := g.s.GA.GlobalForwardingRules.List(projectID)
 	var all []*ga.ForwardingRule
 	f := func(l *ga.ForwardingRuleList) error {
@@ -3739,13 +3799,14 @@ func (g *GCEGlobalForwardingRules) List(ctx context.Context) ([]*ga.ForwardingRu
 
 // Insert ForwardingRule with key of value obj.
 func (g *GCEGlobalForwardingRules) Insert(ctx context.Context, key meta.Key, obj *ga.ForwardingRule) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalForwardingRules")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("ga"),
-		Target:    "ForwardingRule",
+		Service:   "GlobalForwardingRules",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalForwardingRules")
 	obj.Name = key.Name
 	call := g.s.GA.GlobalForwardingRules.Insert(projectID, obj)
 	call.Context(ctx)
@@ -3759,13 +3820,14 @@ func (g *GCEGlobalForwardingRules) Insert(ctx context.Context, key meta.Key, obj
 
 // Delete the ForwardingRule referenced by key.
 func (g *GCEGlobalForwardingRules) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalForwardingRules")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("ga"),
-		Target:    "ForwardingRule",
+		Service:   "GlobalForwardingRules",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalForwardingRules")
 	call := g.s.GA.GlobalForwardingRules.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -3779,13 +3841,14 @@ func (g *GCEGlobalForwardingRules) Delete(ctx context.Context, key meta.Key) err
 
 // SetTarget is a method on GCEGlobalForwardingRules.
 func (g *GCEGlobalForwardingRules) SetTarget(ctx context.Context, key meta.Key, arg0 *ga.TargetReference) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalForwardingRules")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "SetTarget",
 		Version:   meta.Version("ga"),
-		Target:    "ForwardingRule",
+		Service:   "GlobalForwardingRules",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalForwardingRules")
 	call := g.s.GA.GlobalForwardingRules.SetTarget(projectID, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -3954,13 +4017,14 @@ type GCEHealthChecks struct {
 
 // Get the HealthCheck named by key.
 func (g *GCEHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HealthCheck, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HealthChecks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("ga"),
-		Target:    "HealthCheck",
+		Service:   "HealthChecks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HealthChecks")
 	call := g.s.GA.HealthChecks.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -3968,13 +4032,14 @@ func (g *GCEHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HealthChec
 
 // List all HealthCheck objects.
 func (g *GCEHealthChecks) List(ctx context.Context) ([]*ga.HealthCheck, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HealthChecks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("ga"),
-		Target:    "HealthCheck",
+		Service:   "HealthChecks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HealthChecks")
 	call := g.s.GA.HealthChecks.List(projectID)
 	var all []*ga.HealthCheck
 	f := func(l *ga.HealthCheckList) error {
@@ -3989,13 +4054,14 @@ func (g *GCEHealthChecks) List(ctx context.Context) ([]*ga.HealthCheck, error) {
 
 // Insert HealthCheck with key of value obj.
 func (g *GCEHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.HealthCheck) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HealthChecks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("ga"),
-		Target:    "HealthCheck",
+		Service:   "HealthChecks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HealthChecks")
 	obj.Name = key.Name
 	call := g.s.GA.HealthChecks.Insert(projectID, obj)
 	call.Context(ctx)
@@ -4009,13 +4075,14 @@ func (g *GCEHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.Heal
 
 // Delete the HealthCheck referenced by key.
 func (g *GCEHealthChecks) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HealthChecks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("ga"),
-		Target:    "HealthCheck",
+		Service:   "HealthChecks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HealthChecks")
 	call := g.s.GA.HealthChecks.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -4029,13 +4096,14 @@ func (g *GCEHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 
 // Update is a method on GCEHealthChecks.
 func (g *GCEHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga.HealthCheck) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HealthChecks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Update",
 		Version:   meta.Version("ga"),
-		Target:    "HealthCheck",
+		Service:   "HealthChecks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HealthChecks")
 	call := g.s.GA.HealthChecks.Update(projectID, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -4204,13 +4272,14 @@ type GCEAlphaHealthChecks struct {
 
 // Get the HealthCheck named by key.
 func (g *GCEAlphaHealthChecks) Get(ctx context.Context, key meta.Key) (*alpha.HealthCheck, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "HealthChecks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("alpha"),
-		Target:    "HealthCheck",
+		Service:   "HealthChecks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "HealthChecks")
 	call := g.s.Alpha.HealthChecks.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -4218,13 +4287,14 @@ func (g *GCEAlphaHealthChecks) Get(ctx context.Context, key meta.Key) (*alpha.He
 
 // List all HealthCheck objects.
 func (g *GCEAlphaHealthChecks) List(ctx context.Context) ([]*alpha.HealthCheck, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "HealthChecks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("alpha"),
-		Target:    "HealthCheck",
+		Service:   "HealthChecks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "HealthChecks")
 	call := g.s.Alpha.HealthChecks.List(projectID)
 	var all []*alpha.HealthCheck
 	f := func(l *alpha.HealthCheckList) error {
@@ -4239,13 +4309,14 @@ func (g *GCEAlphaHealthChecks) List(ctx context.Context) ([]*alpha.HealthCheck, 
 
 // Insert HealthCheck with key of value obj.
 func (g *GCEAlphaHealthChecks) Insert(ctx context.Context, key meta.Key, obj *alpha.HealthCheck) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "HealthChecks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("alpha"),
-		Target:    "HealthCheck",
+		Service:   "HealthChecks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "HealthChecks")
 	obj.Name = key.Name
 	call := g.s.Alpha.HealthChecks.Insert(projectID, obj)
 	call.Context(ctx)
@@ -4259,13 +4330,14 @@ func (g *GCEAlphaHealthChecks) Insert(ctx context.Context, key meta.Key, obj *al
 
 // Delete the HealthCheck referenced by key.
 func (g *GCEAlphaHealthChecks) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "HealthChecks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("alpha"),
-		Target:    "HealthCheck",
+		Service:   "HealthChecks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "HealthChecks")
 	call := g.s.Alpha.HealthChecks.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -4279,13 +4351,14 @@ func (g *GCEAlphaHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 
 // Update is a method on GCEAlphaHealthChecks.
 func (g *GCEAlphaHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *alpha.HealthCheck) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "HealthChecks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Update",
 		Version:   meta.Version("alpha"),
-		Target:    "HealthCheck",
+		Service:   "HealthChecks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "HealthChecks")
 	call := g.s.Alpha.HealthChecks.Update(projectID, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -4454,13 +4527,14 @@ type GCEHttpHealthChecks struct {
 
 // Get the HttpHealthCheck named by key.
 func (g *GCEHttpHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HttpHealthCheck, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpHealthChecks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("ga"),
-		Target:    "HttpHealthCheck",
+		Service:   "HttpHealthChecks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpHealthChecks")
 	call := g.s.GA.HttpHealthChecks.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -4468,13 +4542,14 @@ func (g *GCEHttpHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HttpHe
 
 // List all HttpHealthCheck objects.
 func (g *GCEHttpHealthChecks) List(ctx context.Context) ([]*ga.HttpHealthCheck, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpHealthChecks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("ga"),
-		Target:    "HttpHealthCheck",
+		Service:   "HttpHealthChecks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpHealthChecks")
 	call := g.s.GA.HttpHealthChecks.List(projectID)
 	var all []*ga.HttpHealthCheck
 	f := func(l *ga.HttpHealthCheckList) error {
@@ -4489,13 +4564,14 @@ func (g *GCEHttpHealthChecks) List(ctx context.Context) ([]*ga.HttpHealthCheck, 
 
 // Insert HttpHealthCheck with key of value obj.
 func (g *GCEHttpHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.HttpHealthCheck) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpHealthChecks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("ga"),
-		Target:    "HttpHealthCheck",
+		Service:   "HttpHealthChecks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpHealthChecks")
 	obj.Name = key.Name
 	call := g.s.GA.HttpHealthChecks.Insert(projectID, obj)
 	call.Context(ctx)
@@ -4509,13 +4585,14 @@ func (g *GCEHttpHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.
 
 // Delete the HttpHealthCheck referenced by key.
 func (g *GCEHttpHealthChecks) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpHealthChecks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("ga"),
-		Target:    "HttpHealthCheck",
+		Service:   "HttpHealthChecks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpHealthChecks")
 	call := g.s.GA.HttpHealthChecks.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -4529,13 +4606,14 @@ func (g *GCEHttpHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 
 // Update is a method on GCEHttpHealthChecks.
 func (g *GCEHttpHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga.HttpHealthCheck) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpHealthChecks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Update",
 		Version:   meta.Version("ga"),
-		Target:    "HttpHealthCheck",
+		Service:   "HttpHealthChecks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpHealthChecks")
 	call := g.s.GA.HttpHealthChecks.Update(projectID, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -4704,13 +4782,14 @@ type GCEHttpsHealthChecks struct {
 
 // Get the HttpsHealthCheck named by key.
 func (g *GCEHttpsHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HttpsHealthCheck, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpsHealthChecks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("ga"),
-		Target:    "HttpsHealthCheck",
+		Service:   "HttpsHealthChecks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpsHealthChecks")
 	call := g.s.GA.HttpsHealthChecks.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -4718,13 +4797,14 @@ func (g *GCEHttpsHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.Https
 
 // List all HttpsHealthCheck objects.
 func (g *GCEHttpsHealthChecks) List(ctx context.Context) ([]*ga.HttpsHealthCheck, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpsHealthChecks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("ga"),
-		Target:    "HttpsHealthCheck",
+		Service:   "HttpsHealthChecks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpsHealthChecks")
 	call := g.s.GA.HttpsHealthChecks.List(projectID)
 	var all []*ga.HttpsHealthCheck
 	f := func(l *ga.HttpsHealthCheckList) error {
@@ -4739,13 +4819,14 @@ func (g *GCEHttpsHealthChecks) List(ctx context.Context) ([]*ga.HttpsHealthCheck
 
 // Insert HttpsHealthCheck with key of value obj.
 func (g *GCEHttpsHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.HttpsHealthCheck) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpsHealthChecks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("ga"),
-		Target:    "HttpsHealthCheck",
+		Service:   "HttpsHealthChecks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpsHealthChecks")
 	obj.Name = key.Name
 	call := g.s.GA.HttpsHealthChecks.Insert(projectID, obj)
 	call.Context(ctx)
@@ -4759,13 +4840,14 @@ func (g *GCEHttpsHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga
 
 // Delete the HttpsHealthCheck referenced by key.
 func (g *GCEHttpsHealthChecks) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpsHealthChecks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("ga"),
-		Target:    "HttpsHealthCheck",
+		Service:   "HttpsHealthChecks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpsHealthChecks")
 	call := g.s.GA.HttpsHealthChecks.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -4779,13 +4861,14 @@ func (g *GCEHttpsHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 
 // Update is a method on GCEHttpsHealthChecks.
 func (g *GCEHttpsHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga.HttpsHealthCheck) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpsHealthChecks")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Update",
 		Version:   meta.Version("ga"),
-		Target:    "HttpsHealthCheck",
+		Service:   "HttpsHealthChecks",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpsHealthChecks")
 	call := g.s.GA.HttpsHealthChecks.Update(projectID, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -4987,13 +5070,14 @@ type GCEInstanceGroups struct {
 
 // Get the InstanceGroup named by key.
 func (g *GCEInstanceGroups) Get(ctx context.Context, key meta.Key) (*ga.InstanceGroup, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("ga"),
-		Target:    "InstanceGroup",
+		Service:   "InstanceGroups",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
 	call := g.s.GA.InstanceGroups.Get(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -5001,13 +5085,14 @@ func (g *GCEInstanceGroups) Get(ctx context.Context, key meta.Key) (*ga.Instance
 
 // List all InstanceGroup objects.
 func (g *GCEInstanceGroups) List(ctx context.Context, zone string) ([]*ga.InstanceGroup, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("ga"),
-		Target:    "InstanceGroup",
+		Service:   "InstanceGroups",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
 	call := g.s.GA.InstanceGroups.List(projectID, zone)
 	var all []*ga.InstanceGroup
 	f := func(l *ga.InstanceGroupList) error {
@@ -5022,13 +5107,14 @@ func (g *GCEInstanceGroups) List(ctx context.Context, zone string) ([]*ga.Instan
 
 // Insert InstanceGroup with key of value obj.
 func (g *GCEInstanceGroups) Insert(ctx context.Context, key meta.Key, obj *ga.InstanceGroup) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("ga"),
-		Target:    "InstanceGroup",
+		Service:   "InstanceGroups",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
 	obj.Name = key.Name
 	call := g.s.GA.InstanceGroups.Insert(projectID, key.Zone, obj)
 	call.Context(ctx)
@@ -5042,13 +5128,14 @@ func (g *GCEInstanceGroups) Insert(ctx context.Context, key meta.Key, obj *ga.In
 
 // Delete the InstanceGroup referenced by key.
 func (g *GCEInstanceGroups) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("ga"),
-		Target:    "InstanceGroup",
+		Service:   "InstanceGroups",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
 	call := g.s.GA.InstanceGroups.Delete(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 
@@ -5061,13 +5148,14 @@ func (g *GCEInstanceGroups) Delete(ctx context.Context, key meta.Key) error {
 
 // AddInstances is a method on GCEInstanceGroups.
 func (g *GCEInstanceGroups) AddInstances(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsAddInstancesRequest) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "AddInstances",
 		Version:   meta.Version("ga"),
-		Target:    "InstanceGroup",
+		Service:   "InstanceGroups",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
 	call := g.s.GA.InstanceGroups.AddInstances(projectID, key.Zone, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -5079,13 +5167,14 @@ func (g *GCEInstanceGroups) AddInstances(ctx context.Context, key meta.Key, arg0
 
 // ListInstances is a method on GCEInstanceGroups.
 func (g *GCEInstanceGroups) ListInstances(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsListInstancesRequest) (*ga.InstanceGroupsListInstances, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "ListInstances",
 		Version:   meta.Version("ga"),
-		Target:    "InstanceGroup",
+		Service:   "InstanceGroups",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
 	call := g.s.GA.InstanceGroups.ListInstances(projectID, key.Zone, key.Name, arg0)
 	call.Context(ctx)
 	return call.Do()
@@ -5093,13 +5182,14 @@ func (g *GCEInstanceGroups) ListInstances(ctx context.Context, key meta.Key, arg
 
 // RemoveInstances is a method on GCEInstanceGroups.
 func (g *GCEInstanceGroups) RemoveInstances(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsRemoveInstancesRequest) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "RemoveInstances",
 		Version:   meta.Version("ga"),
-		Target:    "InstanceGroup",
+		Service:   "InstanceGroups",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
 	call := g.s.GA.InstanceGroups.RemoveInstances(projectID, key.Zone, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -5111,13 +5201,14 @@ func (g *GCEInstanceGroups) RemoveInstances(ctx context.Context, key meta.Key, a
 
 // SetNamedPorts is a method on GCEInstanceGroups.
 func (g *GCEInstanceGroups) SetNamedPorts(ctx context.Context, key meta.Key, arg0 *ga.InstanceGroupsSetNamedPortsRequest) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "SetNamedPorts",
 		Version:   meta.Version("ga"),
-		Target:    "InstanceGroup",
+		Service:   "InstanceGroups",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
 	call := g.s.GA.InstanceGroups.SetNamedPorts(projectID, key.Zone, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -5299,13 +5390,14 @@ type GCEInstances struct {
 
 // Get the Instance named by key.
 func (g *GCEInstances) Get(ctx context.Context, key meta.Key) (*ga.Instance, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Instances")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("ga"),
-		Target:    "Instance",
+		Service:   "Instances",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Instances")
 	call := g.s.GA.Instances.Get(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -5313,13 +5405,14 @@ func (g *GCEInstances) Get(ctx context.Context, key meta.Key) (*ga.Instance, err
 
 // List all Instance objects.
 func (g *GCEInstances) List(ctx context.Context, zone string) ([]*ga.Instance, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Instances")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("ga"),
-		Target:    "Instance",
+		Service:   "Instances",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Instances")
 	call := g.s.GA.Instances.List(projectID, zone)
 	var all []*ga.Instance
 	f := func(l *ga.InstanceList) error {
@@ -5334,13 +5427,14 @@ func (g *GCEInstances) List(ctx context.Context, zone string) ([]*ga.Instance, e
 
 // Insert Instance with key of value obj.
 func (g *GCEInstances) Insert(ctx context.Context, key meta.Key, obj *ga.Instance) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Instances")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("ga"),
-		Target:    "Instance",
+		Service:   "Instances",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Instances")
 	obj.Name = key.Name
 	call := g.s.GA.Instances.Insert(projectID, key.Zone, obj)
 	call.Context(ctx)
@@ -5354,13 +5448,14 @@ func (g *GCEInstances) Insert(ctx context.Context, key meta.Key, obj *ga.Instanc
 
 // Delete the Instance referenced by key.
 func (g *GCEInstances) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Instances")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("ga"),
-		Target:    "Instance",
+		Service:   "Instances",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Instances")
 	call := g.s.GA.Instances.Delete(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 
@@ -5373,13 +5468,14 @@ func (g *GCEInstances) Delete(ctx context.Context, key meta.Key) error {
 
 // AttachDisk is a method on GCEInstances.
 func (g *GCEInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *ga.AttachedDisk) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Instances")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "AttachDisk",
 		Version:   meta.Version("ga"),
-		Target:    "Instance",
+		Service:   "Instances",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Instances")
 	call := g.s.GA.Instances.AttachDisk(projectID, key.Zone, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -5391,13 +5487,14 @@ func (g *GCEInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *ga.At
 
 // DetachDisk is a method on GCEInstances.
 func (g *GCEInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 string) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Instances")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "DetachDisk",
 		Version:   meta.Version("ga"),
-		Target:    "Instance",
+		Service:   "Instances",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Instances")
 	call := g.s.GA.Instances.DetachDisk(projectID, key.Zone, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -5579,13 +5676,14 @@ type GCEBetaInstances struct {
 
 // Get the Instance named by key.
 func (g *GCEBetaInstances) Get(ctx context.Context, key meta.Key) (*beta.Instance, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Instances")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("beta"),
-		Target:    "Instance",
+		Service:   "Instances",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Instances")
 	call := g.s.Beta.Instances.Get(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -5593,13 +5691,14 @@ func (g *GCEBetaInstances) Get(ctx context.Context, key meta.Key) (*beta.Instanc
 
 // List all Instance objects.
 func (g *GCEBetaInstances) List(ctx context.Context, zone string) ([]*beta.Instance, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Instances")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("beta"),
-		Target:    "Instance",
+		Service:   "Instances",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Instances")
 	call := g.s.Beta.Instances.List(projectID, zone)
 	var all []*beta.Instance
 	f := func(l *beta.InstanceList) error {
@@ -5614,13 +5713,14 @@ func (g *GCEBetaInstances) List(ctx context.Context, zone string) ([]*beta.Insta
 
 // Insert Instance with key of value obj.
 func (g *GCEBetaInstances) Insert(ctx context.Context, key meta.Key, obj *beta.Instance) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Instances")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("beta"),
-		Target:    "Instance",
+		Service:   "Instances",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Instances")
 	obj.Name = key.Name
 	call := g.s.Beta.Instances.Insert(projectID, key.Zone, obj)
 	call.Context(ctx)
@@ -5634,13 +5734,14 @@ func (g *GCEBetaInstances) Insert(ctx context.Context, key meta.Key, obj *beta.I
 
 // Delete the Instance referenced by key.
 func (g *GCEBetaInstances) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Instances")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("beta"),
-		Target:    "Instance",
+		Service:   "Instances",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Instances")
 	call := g.s.Beta.Instances.Delete(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 
@@ -5653,13 +5754,14 @@ func (g *GCEBetaInstances) Delete(ctx context.Context, key meta.Key) error {
 
 // AttachDisk is a method on GCEBetaInstances.
 func (g *GCEBetaInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *beta.AttachedDisk) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Instances")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "AttachDisk",
 		Version:   meta.Version("beta"),
-		Target:    "Instance",
+		Service:   "Instances",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Instances")
 	call := g.s.Beta.Instances.AttachDisk(projectID, key.Zone, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -5671,13 +5773,14 @@ func (g *GCEBetaInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *b
 
 // DetachDisk is a method on GCEBetaInstances.
 func (g *GCEBetaInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 string) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Instances")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "DetachDisk",
 		Version:   meta.Version("beta"),
-		Target:    "Instance",
+		Service:   "Instances",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Instances")
 	call := g.s.Beta.Instances.DetachDisk(projectID, key.Zone, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -5869,13 +5972,14 @@ type GCEAlphaInstances struct {
 
 // Get the Instance named by key.
 func (g *GCEAlphaInstances) Get(ctx context.Context, key meta.Key) (*alpha.Instance, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("alpha"),
-		Target:    "Instance",
+		Service:   "Instances",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
 	call := g.s.Alpha.Instances.Get(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -5883,13 +5987,14 @@ func (g *GCEAlphaInstances) Get(ctx context.Context, key meta.Key) (*alpha.Insta
 
 // List all Instance objects.
 func (g *GCEAlphaInstances) List(ctx context.Context, zone string) ([]*alpha.Instance, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("alpha"),
-		Target:    "Instance",
+		Service:   "Instances",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
 	call := g.s.Alpha.Instances.List(projectID, zone)
 	var all []*alpha.Instance
 	f := func(l *alpha.InstanceList) error {
@@ -5904,13 +6009,14 @@ func (g *GCEAlphaInstances) List(ctx context.Context, zone string) ([]*alpha.Ins
 
 // Insert Instance with key of value obj.
 func (g *GCEAlphaInstances) Insert(ctx context.Context, key meta.Key, obj *alpha.Instance) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("alpha"),
-		Target:    "Instance",
+		Service:   "Instances",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
 	obj.Name = key.Name
 	call := g.s.Alpha.Instances.Insert(projectID, key.Zone, obj)
 	call.Context(ctx)
@@ -5924,13 +6030,14 @@ func (g *GCEAlphaInstances) Insert(ctx context.Context, key meta.Key, obj *alpha
 
 // Delete the Instance referenced by key.
 func (g *GCEAlphaInstances) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("alpha"),
-		Target:    "Instance",
+		Service:   "Instances",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
 	call := g.s.Alpha.Instances.Delete(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 
@@ -5943,13 +6050,14 @@ func (g *GCEAlphaInstances) Delete(ctx context.Context, key meta.Key) error {
 
 // AttachDisk is a method on GCEAlphaInstances.
 func (g *GCEAlphaInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *alpha.AttachedDisk) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "AttachDisk",
 		Version:   meta.Version("alpha"),
-		Target:    "Instance",
+		Service:   "Instances",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
 	call := g.s.Alpha.Instances.AttachDisk(projectID, key.Zone, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -5961,13 +6069,14 @@ func (g *GCEAlphaInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *
 
 // DetachDisk is a method on GCEAlphaInstances.
 func (g *GCEAlphaInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 string) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "DetachDisk",
 		Version:   meta.Version("alpha"),
-		Target:    "Instance",
+		Service:   "Instances",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
 	call := g.s.Alpha.Instances.DetachDisk(projectID, key.Zone, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -5979,13 +6088,14 @@ func (g *GCEAlphaInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 s
 
 // UpdateNetworkInterface is a method on GCEAlphaInstances.
 func (g *GCEAlphaInstances) UpdateNetworkInterface(ctx context.Context, key meta.Key, arg0 string, arg1 *alpha.NetworkInterface) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "UpdateNetworkInterface",
 		Version:   meta.Version("alpha"),
-		Target:    "Instance",
+		Service:   "Instances",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
 	call := g.s.Alpha.Instances.UpdateNetworkInterface(projectID, key.Zone, key.Name, arg0, arg1)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -6167,13 +6277,14 @@ type GCEAlphaNetworkEndpointGroups struct {
 
 // Get the NetworkEndpointGroup named by key.
 func (g *GCEAlphaNetworkEndpointGroups) Get(ctx context.Context, key meta.Key) (*alpha.NetworkEndpointGroup, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "NetworkEndpointGroups")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("alpha"),
-		Target:    "NetworkEndpointGroup",
+		Service:   "NetworkEndpointGroups",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "NetworkEndpointGroups")
 	call := g.s.Alpha.NetworkEndpointGroups.Get(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -6181,13 +6292,14 @@ func (g *GCEAlphaNetworkEndpointGroups) Get(ctx context.Context, key meta.Key) (
 
 // List all NetworkEndpointGroup objects.
 func (g *GCEAlphaNetworkEndpointGroups) List(ctx context.Context, zone string) ([]*alpha.NetworkEndpointGroup, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "NetworkEndpointGroups")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("alpha"),
-		Target:    "NetworkEndpointGroup",
+		Service:   "NetworkEndpointGroups",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "NetworkEndpointGroups")
 	call := g.s.Alpha.NetworkEndpointGroups.List(projectID, zone)
 	var all []*alpha.NetworkEndpointGroup
 	f := func(l *alpha.NetworkEndpointGroupList) error {
@@ -6202,13 +6314,14 @@ func (g *GCEAlphaNetworkEndpointGroups) List(ctx context.Context, zone string) (
 
 // Insert NetworkEndpointGroup with key of value obj.
 func (g *GCEAlphaNetworkEndpointGroups) Insert(ctx context.Context, key meta.Key, obj *alpha.NetworkEndpointGroup) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "NetworkEndpointGroups")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("alpha"),
-		Target:    "NetworkEndpointGroup",
+		Service:   "NetworkEndpointGroups",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "NetworkEndpointGroups")
 	obj.Name = key.Name
 	call := g.s.Alpha.NetworkEndpointGroups.Insert(projectID, key.Zone, obj)
 	call.Context(ctx)
@@ -6222,13 +6335,14 @@ func (g *GCEAlphaNetworkEndpointGroups) Insert(ctx context.Context, key meta.Key
 
 // Delete the NetworkEndpointGroup referenced by key.
 func (g *GCEAlphaNetworkEndpointGroups) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "NetworkEndpointGroups")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("alpha"),
-		Target:    "NetworkEndpointGroup",
+		Service:   "NetworkEndpointGroups",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "NetworkEndpointGroups")
 	call := g.s.Alpha.NetworkEndpointGroups.Delete(projectID, key.Zone, key.Name)
 	call.Context(ctx)
 
@@ -6241,13 +6355,14 @@ func (g *GCEAlphaNetworkEndpointGroups) Delete(ctx context.Context, key meta.Key
 
 // AttachNetworkEndpoints is a method on GCEAlphaNetworkEndpointGroups.
 func (g *GCEAlphaNetworkEndpointGroups) AttachNetworkEndpoints(ctx context.Context, key meta.Key, arg0 *alpha.NetworkEndpointGroupsAttachEndpointsRequest) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "NetworkEndpointGroups")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "AttachNetworkEndpoints",
 		Version:   meta.Version("alpha"),
-		Target:    "NetworkEndpointGroup",
+		Service:   "NetworkEndpointGroups",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "NetworkEndpointGroups")
 	call := g.s.Alpha.NetworkEndpointGroups.AttachNetworkEndpoints(projectID, key.Zone, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -6259,13 +6374,14 @@ func (g *GCEAlphaNetworkEndpointGroups) AttachNetworkEndpoints(ctx context.Conte
 
 // DetachNetworkEndpoints is a method on GCEAlphaNetworkEndpointGroups.
 func (g *GCEAlphaNetworkEndpointGroups) DetachNetworkEndpoints(ctx context.Context, key meta.Key, arg0 *alpha.NetworkEndpointGroupsDetachEndpointsRequest) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "NetworkEndpointGroups")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "DetachNetworkEndpoints",
 		Version:   meta.Version("alpha"),
-		Target:    "NetworkEndpointGroup",
+		Service:   "NetworkEndpointGroups",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "NetworkEndpointGroups")
 	call := g.s.Alpha.NetworkEndpointGroups.DetachNetworkEndpoints(projectID, key.Zone, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -6406,13 +6522,14 @@ type GCERegions struct {
 
 // Get the Region named by key.
 func (g *GCERegions) Get(ctx context.Context, key meta.Key) (*ga.Region, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Regions")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("ga"),
-		Target:    "Region",
+		Service:   "Regions",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Regions")
 	call := g.s.GA.Regions.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -6420,13 +6537,14 @@ func (g *GCERegions) Get(ctx context.Context, key meta.Key) (*ga.Region, error) 
 
 // List all Region objects.
 func (g *GCERegions) List(ctx context.Context) ([]*ga.Region, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Regions")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("ga"),
-		Target:    "Region",
+		Service:   "Regions",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Regions")
 	call := g.s.GA.Regions.List(projectID)
 	var all []*ga.Region
 	f := func(l *ga.RegionList) error {
@@ -6588,13 +6706,14 @@ type GCERoutes struct {
 
 // Get the Route named by key.
 func (g *GCERoutes) Get(ctx context.Context, key meta.Key) (*ga.Route, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Routes")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("ga"),
-		Target:    "Route",
+		Service:   "Routes",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Routes")
 	call := g.s.GA.Routes.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -6602,13 +6721,14 @@ func (g *GCERoutes) Get(ctx context.Context, key meta.Key) (*ga.Route, error) {
 
 // List all Route objects.
 func (g *GCERoutes) List(ctx context.Context) ([]*ga.Route, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Routes")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("ga"),
-		Target:    "Route",
+		Service:   "Routes",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Routes")
 	call := g.s.GA.Routes.List(projectID)
 	var all []*ga.Route
 	f := func(l *ga.RouteList) error {
@@ -6623,13 +6743,14 @@ func (g *GCERoutes) List(ctx context.Context) ([]*ga.Route, error) {
 
 // Insert Route with key of value obj.
 func (g *GCERoutes) Insert(ctx context.Context, key meta.Key, obj *ga.Route) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Routes")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("ga"),
-		Target:    "Route",
+		Service:   "Routes",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Routes")
 	obj.Name = key.Name
 	call := g.s.GA.Routes.Insert(projectID, obj)
 	call.Context(ctx)
@@ -6643,13 +6764,14 @@ func (g *GCERoutes) Insert(ctx context.Context, key meta.Key, obj *ga.Route) err
 
 // Delete the Route referenced by key.
 func (g *GCERoutes) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Routes")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("ga"),
-		Target:    "Route",
+		Service:   "Routes",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Routes")
 	call := g.s.GA.Routes.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -6810,13 +6932,14 @@ type GCESslCertificates struct {
 
 // Get the SslCertificate named by key.
 func (g *GCESslCertificates) Get(ctx context.Context, key meta.Key) (*ga.SslCertificate, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "SslCertificates")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("ga"),
-		Target:    "SslCertificate",
+		Service:   "SslCertificates",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "SslCertificates")
 	call := g.s.GA.SslCertificates.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -6824,13 +6947,14 @@ func (g *GCESslCertificates) Get(ctx context.Context, key meta.Key) (*ga.SslCert
 
 // List all SslCertificate objects.
 func (g *GCESslCertificates) List(ctx context.Context) ([]*ga.SslCertificate, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "SslCertificates")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("ga"),
-		Target:    "SslCertificate",
+		Service:   "SslCertificates",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "SslCertificates")
 	call := g.s.GA.SslCertificates.List(projectID)
 	var all []*ga.SslCertificate
 	f := func(l *ga.SslCertificateList) error {
@@ -6845,13 +6969,14 @@ func (g *GCESslCertificates) List(ctx context.Context) ([]*ga.SslCertificate, er
 
 // Insert SslCertificate with key of value obj.
 func (g *GCESslCertificates) Insert(ctx context.Context, key meta.Key, obj *ga.SslCertificate) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "SslCertificates")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("ga"),
-		Target:    "SslCertificate",
+		Service:   "SslCertificates",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "SslCertificates")
 	obj.Name = key.Name
 	call := g.s.GA.SslCertificates.Insert(projectID, obj)
 	call.Context(ctx)
@@ -6865,13 +6990,14 @@ func (g *GCESslCertificates) Insert(ctx context.Context, key meta.Key, obj *ga.S
 
 // Delete the SslCertificate referenced by key.
 func (g *GCESslCertificates) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "SslCertificates")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("ga"),
-		Target:    "SslCertificate",
+		Service:   "SslCertificates",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "SslCertificates")
 	call := g.s.GA.SslCertificates.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -7042,13 +7168,14 @@ type GCETargetHttpProxies struct {
 
 // Get the TargetHttpProxy named by key.
 func (g *GCETargetHttpProxies) Get(ctx context.Context, key meta.Key) (*ga.TargetHttpProxy, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpProxies")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("ga"),
-		Target:    "TargetHttpProxy",
+		Service:   "TargetHttpProxies",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpProxies")
 	call := g.s.GA.TargetHttpProxies.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -7056,13 +7183,14 @@ func (g *GCETargetHttpProxies) Get(ctx context.Context, key meta.Key) (*ga.Targe
 
 // List all TargetHttpProxy objects.
 func (g *GCETargetHttpProxies) List(ctx context.Context) ([]*ga.TargetHttpProxy, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpProxies")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("ga"),
-		Target:    "TargetHttpProxy",
+		Service:   "TargetHttpProxies",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpProxies")
 	call := g.s.GA.TargetHttpProxies.List(projectID)
 	var all []*ga.TargetHttpProxy
 	f := func(l *ga.TargetHttpProxyList) error {
@@ -7077,13 +7205,14 @@ func (g *GCETargetHttpProxies) List(ctx context.Context) ([]*ga.TargetHttpProxy,
 
 // Insert TargetHttpProxy with key of value obj.
 func (g *GCETargetHttpProxies) Insert(ctx context.Context, key meta.Key, obj *ga.TargetHttpProxy) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpProxies")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("ga"),
-		Target:    "TargetHttpProxy",
+		Service:   "TargetHttpProxies",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpProxies")
 	obj.Name = key.Name
 	call := g.s.GA.TargetHttpProxies.Insert(projectID, obj)
 	call.Context(ctx)
@@ -7097,13 +7226,14 @@ func (g *GCETargetHttpProxies) Insert(ctx context.Context, key meta.Key, obj *ga
 
 // Delete the TargetHttpProxy referenced by key.
 func (g *GCETargetHttpProxies) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpProxies")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("ga"),
-		Target:    "TargetHttpProxy",
+		Service:   "TargetHttpProxies",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpProxies")
 	call := g.s.GA.TargetHttpProxies.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -7117,13 +7247,14 @@ func (g *GCETargetHttpProxies) Delete(ctx context.Context, key meta.Key) error {
 
 // SetUrlMap is a method on GCETargetHttpProxies.
 func (g *GCETargetHttpProxies) SetUrlMap(ctx context.Context, key meta.Key, arg0 *ga.UrlMapReference) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpProxies")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "SetUrlMap",
 		Version:   meta.Version("ga"),
-		Target:    "TargetHttpProxy",
+		Service:   "TargetHttpProxies",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpProxies")
 	call := g.s.GA.TargetHttpProxies.SetUrlMap(projectID, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -7302,13 +7433,14 @@ type GCETargetHttpsProxies struct {
 
 // Get the TargetHttpsProxy named by key.
 func (g *GCETargetHttpsProxies) Get(ctx context.Context, key meta.Key) (*ga.TargetHttpsProxy, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("ga"),
-		Target:    "TargetHttpsProxy",
+		Service:   "TargetHttpsProxies",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
 	call := g.s.GA.TargetHttpsProxies.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -7316,13 +7448,14 @@ func (g *GCETargetHttpsProxies) Get(ctx context.Context, key meta.Key) (*ga.Targ
 
 // List all TargetHttpsProxy objects.
 func (g *GCETargetHttpsProxies) List(ctx context.Context) ([]*ga.TargetHttpsProxy, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("ga"),
-		Target:    "TargetHttpsProxy",
+		Service:   "TargetHttpsProxies",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
 	call := g.s.GA.TargetHttpsProxies.List(projectID)
 	var all []*ga.TargetHttpsProxy
 	f := func(l *ga.TargetHttpsProxyList) error {
@@ -7337,13 +7470,14 @@ func (g *GCETargetHttpsProxies) List(ctx context.Context) ([]*ga.TargetHttpsProx
 
 // Insert TargetHttpsProxy with key of value obj.
 func (g *GCETargetHttpsProxies) Insert(ctx context.Context, key meta.Key, obj *ga.TargetHttpsProxy) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("ga"),
-		Target:    "TargetHttpsProxy",
+		Service:   "TargetHttpsProxies",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
 	obj.Name = key.Name
 	call := g.s.GA.TargetHttpsProxies.Insert(projectID, obj)
 	call.Context(ctx)
@@ -7357,13 +7491,14 @@ func (g *GCETargetHttpsProxies) Insert(ctx context.Context, key meta.Key, obj *g
 
 // Delete the TargetHttpsProxy referenced by key.
 func (g *GCETargetHttpsProxies) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("ga"),
-		Target:    "TargetHttpsProxy",
+		Service:   "TargetHttpsProxies",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
 	call := g.s.GA.TargetHttpsProxies.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -7377,13 +7512,14 @@ func (g *GCETargetHttpsProxies) Delete(ctx context.Context, key meta.Key) error 
 
 // SetSslCertificates is a method on GCETargetHttpsProxies.
 func (g *GCETargetHttpsProxies) SetSslCertificates(ctx context.Context, key meta.Key, arg0 *ga.TargetHttpsProxiesSetSslCertificatesRequest) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "SetSslCertificates",
 		Version:   meta.Version("ga"),
-		Target:    "TargetHttpsProxy",
+		Service:   "TargetHttpsProxies",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
 	call := g.s.GA.TargetHttpsProxies.SetSslCertificates(projectID, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -7395,13 +7531,14 @@ func (g *GCETargetHttpsProxies) SetSslCertificates(ctx context.Context, key meta
 
 // SetUrlMap is a method on GCETargetHttpsProxies.
 func (g *GCETargetHttpsProxies) SetUrlMap(ctx context.Context, key meta.Key, arg0 *ga.UrlMapReference) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "SetUrlMap",
 		Version:   meta.Version("ga"),
-		Target:    "TargetHttpsProxy",
+		Service:   "TargetHttpsProxies",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
 	call := g.s.GA.TargetHttpsProxies.SetUrlMap(projectID, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -7583,13 +7720,14 @@ type GCETargetPools struct {
 
 // Get the TargetPool named by key.
 func (g *GCETargetPools) Get(ctx context.Context, key meta.Key) (*ga.TargetPool, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetPools")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("ga"),
-		Target:    "TargetPool",
+		Service:   "TargetPools",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetPools")
 	call := g.s.GA.TargetPools.Get(projectID, key.Region, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -7597,13 +7735,14 @@ func (g *GCETargetPools) Get(ctx context.Context, key meta.Key) (*ga.TargetPool,
 
 // List all TargetPool objects.
 func (g *GCETargetPools) List(ctx context.Context, region string) ([]*ga.TargetPool, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetPools")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("ga"),
-		Target:    "TargetPool",
+		Service:   "TargetPools",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetPools")
 	call := g.s.GA.TargetPools.List(projectID, region)
 	var all []*ga.TargetPool
 	f := func(l *ga.TargetPoolList) error {
@@ -7618,13 +7757,14 @@ func (g *GCETargetPools) List(ctx context.Context, region string) ([]*ga.TargetP
 
 // Insert TargetPool with key of value obj.
 func (g *GCETargetPools) Insert(ctx context.Context, key meta.Key, obj *ga.TargetPool) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetPools")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("ga"),
-		Target:    "TargetPool",
+		Service:   "TargetPools",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetPools")
 	obj.Name = key.Name
 	call := g.s.GA.TargetPools.Insert(projectID, key.Region, obj)
 	call.Context(ctx)
@@ -7638,13 +7778,14 @@ func (g *GCETargetPools) Insert(ctx context.Context, key meta.Key, obj *ga.Targe
 
 // Delete the TargetPool referenced by key.
 func (g *GCETargetPools) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetPools")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("ga"),
-		Target:    "TargetPool",
+		Service:   "TargetPools",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetPools")
 	call := g.s.GA.TargetPools.Delete(projectID, key.Region, key.Name)
 	call.Context(ctx)
 
@@ -7657,13 +7798,14 @@ func (g *GCETargetPools) Delete(ctx context.Context, key meta.Key) error {
 
 // AddInstance is a method on GCETargetPools.
 func (g *GCETargetPools) AddInstance(ctx context.Context, key meta.Key, arg0 *ga.TargetPoolsAddInstanceRequest) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetPools")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "AddInstance",
 		Version:   meta.Version("ga"),
-		Target:    "TargetPool",
+		Service:   "TargetPools",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetPools")
 	call := g.s.GA.TargetPools.AddInstance(projectID, key.Region, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -7675,13 +7817,14 @@ func (g *GCETargetPools) AddInstance(ctx context.Context, key meta.Key, arg0 *ga
 
 // RemoveInstance is a method on GCETargetPools.
 func (g *GCETargetPools) RemoveInstance(ctx context.Context, key meta.Key, arg0 *ga.TargetPoolsRemoveInstanceRequest) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetPools")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "RemoveInstance",
 		Version:   meta.Version("ga"),
-		Target:    "TargetPool",
+		Service:   "TargetPools",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetPools")
 	call := g.s.GA.TargetPools.RemoveInstance(projectID, key.Region, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -7850,13 +7993,14 @@ type GCEUrlMaps struct {
 
 // Get the UrlMap named by key.
 func (g *GCEUrlMaps) Get(ctx context.Context, key meta.Key) (*ga.UrlMap, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "UrlMaps")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("ga"),
-		Target:    "UrlMap",
+		Service:   "UrlMaps",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "UrlMaps")
 	call := g.s.GA.UrlMaps.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -7864,13 +8008,14 @@ func (g *GCEUrlMaps) Get(ctx context.Context, key meta.Key) (*ga.UrlMap, error) 
 
 // List all UrlMap objects.
 func (g *GCEUrlMaps) List(ctx context.Context) ([]*ga.UrlMap, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "UrlMaps")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("ga"),
-		Target:    "UrlMap",
+		Service:   "UrlMaps",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "UrlMaps")
 	call := g.s.GA.UrlMaps.List(projectID)
 	var all []*ga.UrlMap
 	f := func(l *ga.UrlMapList) error {
@@ -7885,13 +8030,14 @@ func (g *GCEUrlMaps) List(ctx context.Context) ([]*ga.UrlMap, error) {
 
 // Insert UrlMap with key of value obj.
 func (g *GCEUrlMaps) Insert(ctx context.Context, key meta.Key, obj *ga.UrlMap) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "UrlMaps")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version:   meta.Version("ga"),
-		Target:    "UrlMap",
+		Service:   "UrlMaps",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "UrlMaps")
 	obj.Name = key.Name
 	call := g.s.GA.UrlMaps.Insert(projectID, obj)
 	call.Context(ctx)
@@ -7905,13 +8051,14 @@ func (g *GCEUrlMaps) Insert(ctx context.Context, key meta.Key, obj *ga.UrlMap) e
 
 // Delete the UrlMap referenced by key.
 func (g *GCEUrlMaps) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "UrlMaps")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version:   meta.Version("ga"),
-		Target:    "UrlMap",
+		Service:   "UrlMaps",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "UrlMaps")
 	call := g.s.GA.UrlMaps.Delete(projectID, key.Name)
 
 	call.Context(ctx)
@@ -7925,13 +8072,14 @@ func (g *GCEUrlMaps) Delete(ctx context.Context, key meta.Key) error {
 
 // Update is a method on GCEUrlMaps.
 func (g *GCEUrlMaps) Update(ctx context.Context, key meta.Key, arg0 *ga.UrlMap) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "UrlMaps")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Update",
 		Version:   meta.Version("ga"),
-		Target:    "UrlMap",
+		Service:   "UrlMaps",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "UrlMaps")
 	call := g.s.GA.UrlMaps.Update(projectID, key.Name, arg0)
 	call.Context(ctx)
 	op, err := call.Do()
@@ -8032,13 +8180,14 @@ type GCEZones struct {
 
 // Get the Zone named by key.
 func (g *GCEZones) Get(ctx context.Context, key meta.Key) (*ga.Zone, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Zones")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("ga"),
-		Target:    "Zone",
+		Service:   "Zones",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Zones")
 	call := g.s.GA.Zones.Get(projectID, key.Name)
 	call.Context(ctx)
 	return call.Do()
@@ -8046,13 +8195,14 @@ func (g *GCEZones) Get(ctx context.Context, key meta.Key) (*ga.Zone, error) {
 
 // List all Zone objects.
 func (g *GCEZones) List(ctx context.Context) ([]*ga.Zone, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Zones")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version:   meta.Version("ga"),
-		Target:    "Zone",
+		Service:   "Zones",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Zones")
 	call := g.s.GA.Zones.List(projectID)
 	var all []*ga.Zone
 	f := func(l *ga.ZoneList) error {

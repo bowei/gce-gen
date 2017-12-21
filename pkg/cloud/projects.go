@@ -46,9 +46,10 @@ func (m *MockProjects) Get(ctx context.Context, projectID string) (*compute.Proj
 
 func (g *GCEProjects) Get(ctx context.Context, projectID string) (*compute.Project, error) {
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version:   meta.Version("ga"),
-		Target:    "Projects",
+		Service:   "Projects",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
 	call := g.s.GA.Projects.Get(projectID)

@@ -22,12 +22,18 @@ import (
 	alpha "google.golang.org/api/compute/v0.alpha"
 	beta "google.golang.org/api/compute/v0.beta"
 	ga "google.golang.org/api/compute/v1"
+
+	"github.com/bowei/gce-gen/pkg/cloud/meta"
 )
 
 // operation is a GCE operation that can be watied on.
 type operation interface {
 	// isDone queries GCE for the done status. This call can block.
 	isDone(ctx context.Context) (bool, error)
+	// rateLimitKey returns the rate limit key to use for the given operation.
+	// This rate limit will govern how fast the server will be polled for
+	// operation completion status.
+	rateLimitKey() *RateLimitKey
 }
 
 type gaOperation struct {
@@ -56,6 +62,15 @@ func (o *gaOperation) isDone(ctx context.Context) (bool, error) {
 	return op != nil && op.Status == "DONE", nil
 }
 
+func (o *gaOperation) rateLimitKey() *RateLimitKey {
+	return &RateLimitKey{
+		ProjectID: o.projectID,
+		Operation: "Get",
+		Service:   "Operations",
+		Version:   meta.VersionGA,
+	}
+}
+
 type alphaOperation struct {
 	s         *Service
 	op        *alpha.Operation
@@ -82,6 +97,15 @@ func (o *alphaOperation) isDone(ctx context.Context) (bool, error) {
 	return op != nil && op.Status == "DONE", nil
 }
 
+func (o *alphaOperation) rateLimitKey() *RateLimitKey {
+	return &RateLimitKey{
+		ProjectID: o.projectID,
+		Operation: "Get",
+		Service:   "Operations",
+		Version:   meta.VersionAlpha,
+	}
+}
+
 type betaOperation struct {
 	s         *Service
 	op        *beta.Operation
@@ -106,4 +130,13 @@ func (o *betaOperation) isDone(ctx context.Context) (bool, error) {
 		return false, err
 	}
 	return op != nil && op.Status == "DONE", nil
+}
+
+func (o *betaOperation) rateLimitKey() *RateLimitKey {
+	return &RateLimitKey{
+		ProjectID: o.projectID,
+		Operation: "Get",
+		Service:   "Operations",
+		Version:   meta.VersionBeta,
+	}
 }

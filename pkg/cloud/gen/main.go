@@ -442,13 +442,14 @@ type {{.GCEWrapType}} struct {
 {{- if .GenerateGet}}
 // Get the {{.Object}} named by key.
 func (g *{{.GCEWrapType}}) Get(ctx context.Context, key meta.Key) (*{{.FQObjectType}}, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "{{.Version}}", "{{.Service}}")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Get",
 		Version: meta.Version("{{.Version}}"),
-		Target: "{{.Object}}",
+		Service: "{{.Service}}",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "{{.Version}}", "{{.Service}}")
 {{- if .KeyIsGlobal}}
 	call := g.s.{{.VersionField}}.{{.Service}}.Get(projectID, key.Name)
 {{- end -}}
@@ -474,13 +475,14 @@ func (g *{{.GCEWrapType}}) List(ctx context.Context, region string) ([]*{{.FQObj
 {{- if .KeyIsZonal}}
 func (g *{{.GCEWrapType}}) List(ctx context.Context, zone string) ([]*{{.FQObjectType}}, error) {
 {{- end}}
-	rk := &RateLimitKey{
+projectID := g.s.ProjectRouter.ProjectID(ctx, "{{.Version}}", "{{.Service}}")
+rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "List",
 		Version: meta.Version("{{.Version}}"),
-		Target: "{{.Object}}",
+		Service: "{{.Service}}",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "{{.Version}}", "{{.Service}}")
 {{- if .KeyIsGlobal}}
 	call := g.s.{{.VersionField}}.{{.Service}}.List(projectID)
 {{- end -}}
@@ -505,13 +507,14 @@ func (g *{{.GCEWrapType}}) List(ctx context.Context, zone string) ([]*{{.FQObjec
 {{- if .GenerateInsert}}
 // Insert {{.Object}} with key of value obj.
 func (g *{{.GCEWrapType}}) Insert(ctx context.Context, key meta.Key, obj *{{.FQObjectType}}) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "{{.Version}}", "{{.Service}}")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Insert",
 		Version: meta.Version("{{.Version}}"),
-		Target: "{{.Object}}",
+		Service: "{{.Service}}",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "{{.Version}}", "{{.Service}}")
 	obj.Name = key.Name
 {{- if .KeyIsGlobal}}
 	call := g.s.{{.VersionField}}.{{.Service}}.Insert(projectID, obj)
@@ -535,13 +538,14 @@ func (g *{{.GCEWrapType}}) Insert(ctx context.Context, key meta.Key, obj *{{.FQO
 {{- if .GenerateDelete}}
 // Delete the {{.Object}} referenced by key.
 func (g *{{.GCEWrapType}}) Delete(ctx context.Context, key meta.Key) error {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "{{.Version}}", "{{.Service}}")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "Delete",
 		Version: meta.Version("{{.Version}}"),
-		Target: "{{.Object}}",
+		Service: "{{.Service}}",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "{{.Version}}", "{{.Service}}")
 {{- if .KeyIsGlobal}}
 	call := g.s.{{.VersionField}}.{{.Service}}.Delete(projectID, key.Name)
 {{end -}}
@@ -565,13 +569,14 @@ func (g *{{.GCEWrapType}}) Delete(ctx context.Context, key meta.Key) error {
 {{- range .}}
 // {{.Name}} is a method on {{.GCEWrapType}}.
 func (g *{{.GCEWrapType}}) {{.FcnArgs}} {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "{{.Version}}", "{{.Service}}")
 	rk := &RateLimitKey{
+		ProjectID: projectID,
 		Operation: "{{.Name}}",
 		Version: meta.Version("{{.Version}}"),
-		Target: "{{.Object}}",
+		Service: "{{.Service}}",
 	}
 	g.s.RateLimiter.Accept(ctx, rk)
-	projectID := g.s.ProjectRouter.ProjectID(ctx, "{{.Version}}", "{{.Service}}")
 {{- if .KeyIsGlobal}}
 	call := g.s.{{.VersionField}}.{{.Service}}.{{.Name}}(projectID, key.Name {{.CallArgs}})
 {{- end -}}
