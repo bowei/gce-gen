@@ -28,13 +28,15 @@ import (
 	"os"
 	"os/exec"
 	"text/template"
+	"time"
 
 	"github.com/bowei/gce-gen/pkg/cloud/meta"
 	"github.com/golang/glog"
 )
 
 const (
-	gofmt = "gofmt"
+	gofmt       = "gofmt"
+	packageRoot = "github.com/bowei/gce-gen/pkg/cloud"
 
 	// readOnly specifies that the given resource is read-only and should not
 	// have insert() or delete() methods generated for the wrapper.
@@ -80,8 +82,8 @@ func genHeader(wr io.Writer) {
 		}
 	}
 
-	fmt.Fprintln(wr, `/*
-Copyright 2017 The Kubernetes Authors.
+	fmt.Fprintf(wr, `/*
+Copyright %d The Kubernetes Authors.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -108,8 +110,11 @@ import (
 	"sync"
 
 	"google.golang.org/api/googleapi"
-	"github.com/bowei/gce-gen/pkg/cloud/meta"
-`)
+	"%v/filter"
+	"%v/meta"
+
+`, time.Now().Year(), packageRoot, packageRoot)
+
 	if hasAlpha {
 		fmt.Fprintln(wr, `	alpha "google.golang.org/api/compute/v0.alpha"`)
 	}
@@ -119,7 +124,7 @@ import (
 	if hasGA {
 		fmt.Fprintln(wr, `	ga "google.golang.org/api/compute/v1"`)
 	}
-	fmt.Fprintln(wr, ")\n")
+	fmt.Fprintf(wr, ")\n\n")
 }
 
 // genStubs generates the interface and wrapper stubs.
@@ -202,13 +207,13 @@ type {{.WrapType}} interface {
 {{- end -}}
 {{- if .GenerateList}}
 {{- if .KeyIsGlobal}}
-	List(ctx context.Context) ([]*{{.FQObjectType}}, error)
+	List(ctx context.Context, fl *filter.F) ([]*{{.FQObjectType}}, error)
 {{- end -}}
 {{- if .KeyIsRegional}}
-	List(ctx context.Context, region string) ([]*{{.FQObjectType}}, error)
+	List(ctx context.Context, region string, fl *filter.F) ([]*{{.FQObjectType}}, error)
 {{- end -}}
 {{- if .KeyIsZonal}}
-	List(ctx context.Context, zone string) ([]*{{.FQObjectType}}, error)
+	List(ctx context.Context, zone string, fl *filter.F) ([]*{{.FQObjectType}}, error)
 {{- end -}}
 {{- end -}}
 {{- if .GenerateInsert}}
@@ -318,15 +323,15 @@ func (m *{{.MockWrapType}}) Get(ctx context.Context, key meta.Key) (*{{.FQObject
 {{- if .GenerateList}}
 {{if .KeyIsGlobal -}}
 // List all of the objects in the mock.
-func (m *{{.MockWrapType}}) List(ctx context.Context) ([]*{{.FQObjectType}}, error) {
+func (m *{{.MockWrapType}}) List(ctx context.Context, fl *filter.F) ([]*{{.FQObjectType}}, error) {
 {{- end -}}
 {{- if .KeyIsRegional -}}
 // List all of the objects in the mock in the given region.
-func (m *{{.MockWrapType}}) List(ctx context.Context, region string) ([]*{{.FQObjectType}}, error) {
+func (m *{{.MockWrapType}}) List(ctx context.Context, region string, fl *filter.F) ([]*{{.FQObjectType}}, error) {
 {{- end -}}
 {{- if .KeyIsZonal -}}
 // List all of the objects in the mock in the given zone.
-func (m *{{.MockWrapType}}) List(ctx context.Context, zone string) ([]*{{.FQObjectType}}, error) {
+func (m *{{.MockWrapType}}) List(ctx context.Context, zone string, fl *filter.F) ([]*{{.FQObjectType}}, error) {
 {{- end}}
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx);  intercept {
@@ -357,6 +362,9 @@ func (m *{{.MockWrapType}}) List(ctx context.Context, zone string) ([]*{{.FQObje
 			continue
 		}
 {{- end}}
+		if ! fl.Match(obj) {
+			continue
+		}
 		objs = append(objs, obj)
 	}
 	return objs, nil
@@ -469,13 +477,13 @@ func (g *{{.GCEWrapType}}) Get(ctx context.Context, key meta.Key) (*{{.FQObjectT
 {{- if .GenerateList}}
 // List all {{.Object}} objects.
 {{- if .KeyIsGlobal}}
-func (g *{{.GCEWrapType}}) List(ctx context.Context) ([]*{{.FQObjectType}}, error) {
+func (g *{{.GCEWrapType}}) List(ctx context.Context, fl *filter.F) ([]*{{.FQObjectType}}, error) {
 {{- end -}}
 {{- if .KeyIsRegional}}
-func (g *{{.GCEWrapType}}) List(ctx context.Context, region string) ([]*{{.FQObjectType}}, error) {
+func (g *{{.GCEWrapType}}) List(ctx context.Context, region string, fl *filter.F) ([]*{{.FQObjectType}}, error) {
 {{- end -}}
 {{- if .KeyIsZonal}}
-func (g *{{.GCEWrapType}}) List(ctx context.Context, zone string) ([]*{{.FQObjectType}}, error) {
+func (g *{{.GCEWrapType}}) List(ctx context.Context, zone string, fl *filter.F) ([]*{{.FQObjectType}}, error) {
 {{- end}}
 projectID := g.s.ProjectRouter.ProjectID(ctx, "{{.Version}}", "{{.Service}}")
 rk := &RateLimitKey{
@@ -496,6 +504,9 @@ rk := &RateLimitKey{
 {{- if .KeyIsZonal}}
 	call := g.s.{{.VersionField}}.{{.Service}}.List(projectID, zone)
 {{- end}}
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*{{.FQObjectType}}
 	f := func(l *{{.ObjectListType}}) error {
 		all = append(all, l.Items...)

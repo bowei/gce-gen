@@ -1,5 +1,5 @@
 /*
-Copyright 2017 The Kubernetes Authors.
+Copyright 2018 The Kubernetes Authors.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import (
 	"net/http"
 	"sync"
 
+	"github.com/bowei/gce-gen/pkg/cloud/filter"
 	"github.com/bowei/gce-gen/pkg/cloud/meta"
 	"google.golang.org/api/googleapi"
 
@@ -484,7 +485,7 @@ func (gce *GCE) Zones() Zones {
 // Addresses is an interface that allows for mocking of Addresses.
 type Addresses interface {
 	Get(ctx context.Context, key meta.Key) (*ga.Address, error)
-	List(ctx context.Context, region string) ([]*ga.Address, error)
+	List(ctx context.Context, region string, fl *filter.F) ([]*ga.Address, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.Address) error
 	Delete(ctx context.Context, key meta.Key) error
 }
@@ -552,7 +553,7 @@ func (m *MockAddresses) Get(ctx context.Context, key meta.Key) (*ga.Address, err
 }
 
 // List all of the objects in the mock in the given region.
-func (m *MockAddresses) List(ctx context.Context, region string) ([]*ga.Address, error) {
+func (m *MockAddresses) List(ctx context.Context, region string, fl *filter.F) ([]*ga.Address, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -569,6 +570,9 @@ func (m *MockAddresses) List(ctx context.Context, region string) ([]*ga.Address,
 	var objs []*ga.Address
 	for key, obj := range m.Objects {
 		if key.Region != region {
+			continue
+		}
+		if !fl.Match(obj) {
 			continue
 		}
 		objs = append(objs, obj)
@@ -649,7 +653,7 @@ func (g *GCEAddresses) Get(ctx context.Context, key meta.Key) (*ga.Address, erro
 }
 
 // List all Address objects.
-func (g *GCEAddresses) List(ctx context.Context, region string) ([]*ga.Address, error) {
+func (g *GCEAddresses) List(ctx context.Context, region string, fl *filter.F) ([]*ga.Address, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Addresses")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -661,6 +665,9 @@ func (g *GCEAddresses) List(ctx context.Context, region string) ([]*ga.Address, 
 		return nil, err
 	}
 	call := g.s.GA.Addresses.List(projectID, region)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*ga.Address
 	f := func(l *ga.AddressList) error {
 		all = append(all, l.Items...)
@@ -720,7 +727,7 @@ func (g *GCEAddresses) Delete(ctx context.Context, key meta.Key) error {
 // AlphaAddresses is an interface that allows for mocking of Addresses.
 type AlphaAddresses interface {
 	Get(ctx context.Context, key meta.Key) (*alpha.Address, error)
-	List(ctx context.Context, region string) ([]*alpha.Address, error)
+	List(ctx context.Context, region string, fl *filter.F) ([]*alpha.Address, error)
 	Insert(ctx context.Context, key meta.Key, obj *alpha.Address) error
 	Delete(ctx context.Context, key meta.Key) error
 }
@@ -788,7 +795,7 @@ func (m *MockAlphaAddresses) Get(ctx context.Context, key meta.Key) (*alpha.Addr
 }
 
 // List all of the objects in the mock in the given region.
-func (m *MockAlphaAddresses) List(ctx context.Context, region string) ([]*alpha.Address, error) {
+func (m *MockAlphaAddresses) List(ctx context.Context, region string, fl *filter.F) ([]*alpha.Address, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -805,6 +812,9 @@ func (m *MockAlphaAddresses) List(ctx context.Context, region string) ([]*alpha.
 	var objs []*alpha.Address
 	for key, obj := range m.Objects {
 		if key.Region != region {
+			continue
+		}
+		if !fl.Match(obj) {
 			continue
 		}
 		objs = append(objs, obj)
@@ -885,7 +895,7 @@ func (g *GCEAlphaAddresses) Get(ctx context.Context, key meta.Key) (*alpha.Addre
 }
 
 // List all Address objects.
-func (g *GCEAlphaAddresses) List(ctx context.Context, region string) ([]*alpha.Address, error) {
+func (g *GCEAlphaAddresses) List(ctx context.Context, region string, fl *filter.F) ([]*alpha.Address, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Addresses")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -897,6 +907,9 @@ func (g *GCEAlphaAddresses) List(ctx context.Context, region string) ([]*alpha.A
 		return nil, err
 	}
 	call := g.s.Alpha.Addresses.List(projectID, region)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*alpha.Address
 	f := func(l *alpha.AddressList) error {
 		all = append(all, l.Items...)
@@ -956,7 +969,7 @@ func (g *GCEAlphaAddresses) Delete(ctx context.Context, key meta.Key) error {
 // BetaAddresses is an interface that allows for mocking of Addresses.
 type BetaAddresses interface {
 	Get(ctx context.Context, key meta.Key) (*beta.Address, error)
-	List(ctx context.Context, region string) ([]*beta.Address, error)
+	List(ctx context.Context, region string, fl *filter.F) ([]*beta.Address, error)
 	Insert(ctx context.Context, key meta.Key, obj *beta.Address) error
 	Delete(ctx context.Context, key meta.Key) error
 }
@@ -1024,7 +1037,7 @@ func (m *MockBetaAddresses) Get(ctx context.Context, key meta.Key) (*beta.Addres
 }
 
 // List all of the objects in the mock in the given region.
-func (m *MockBetaAddresses) List(ctx context.Context, region string) ([]*beta.Address, error) {
+func (m *MockBetaAddresses) List(ctx context.Context, region string, fl *filter.F) ([]*beta.Address, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -1041,6 +1054,9 @@ func (m *MockBetaAddresses) List(ctx context.Context, region string) ([]*beta.Ad
 	var objs []*beta.Address
 	for key, obj := range m.Objects {
 		if key.Region != region {
+			continue
+		}
+		if !fl.Match(obj) {
 			continue
 		}
 		objs = append(objs, obj)
@@ -1121,7 +1137,7 @@ func (g *GCEBetaAddresses) Get(ctx context.Context, key meta.Key) (*beta.Address
 }
 
 // List all Address objects.
-func (g *GCEBetaAddresses) List(ctx context.Context, region string) ([]*beta.Address, error) {
+func (g *GCEBetaAddresses) List(ctx context.Context, region string, fl *filter.F) ([]*beta.Address, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Addresses")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -1133,6 +1149,9 @@ func (g *GCEBetaAddresses) List(ctx context.Context, region string) ([]*beta.Add
 		return nil, err
 	}
 	call := g.s.Beta.Addresses.List(projectID, region)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*beta.Address
 	f := func(l *beta.AddressList) error {
 		all = append(all, l.Items...)
@@ -1192,7 +1211,7 @@ func (g *GCEBetaAddresses) Delete(ctx context.Context, key meta.Key) error {
 // GlobalAddresses is an interface that allows for mocking of GlobalAddresses.
 type GlobalAddresses interface {
 	Get(ctx context.Context, key meta.Key) (*ga.Address, error)
-	List(ctx context.Context) ([]*ga.Address, error)
+	List(ctx context.Context, fl *filter.F) ([]*ga.Address, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.Address) error
 	Delete(ctx context.Context, key meta.Key) error
 }
@@ -1260,7 +1279,7 @@ func (m *MockGlobalAddresses) Get(ctx context.Context, key meta.Key) (*ga.Addres
 }
 
 // List all of the objects in the mock.
-func (m *MockGlobalAddresses) List(ctx context.Context) ([]*ga.Address, error) {
+func (m *MockGlobalAddresses) List(ctx context.Context, fl *filter.F) ([]*ga.Address, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -1276,6 +1295,9 @@ func (m *MockGlobalAddresses) List(ctx context.Context) ([]*ga.Address, error) {
 
 	var objs []*ga.Address
 	for _, obj := range m.Objects {
+		if !fl.Match(obj) {
+			continue
+		}
 		objs = append(objs, obj)
 	}
 	return objs, nil
@@ -1354,7 +1376,7 @@ func (g *GCEGlobalAddresses) Get(ctx context.Context, key meta.Key) (*ga.Address
 }
 
 // List all Address objects.
-func (g *GCEGlobalAddresses) List(ctx context.Context) ([]*ga.Address, error) {
+func (g *GCEGlobalAddresses) List(ctx context.Context, fl *filter.F) ([]*ga.Address, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalAddresses")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -1366,6 +1388,9 @@ func (g *GCEGlobalAddresses) List(ctx context.Context) ([]*ga.Address, error) {
 		return nil, err
 	}
 	call := g.s.GA.GlobalAddresses.List(projectID)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*ga.Address
 	f := func(l *ga.AddressList) error {
 		all = append(all, l.Items...)
@@ -1426,7 +1451,7 @@ func (g *GCEGlobalAddresses) Delete(ctx context.Context, key meta.Key) error {
 // BackendServices is an interface that allows for mocking of BackendServices.
 type BackendServices interface {
 	Get(ctx context.Context, key meta.Key) (*ga.BackendService, error)
-	List(ctx context.Context) ([]*ga.BackendService, error)
+	List(ctx context.Context, fl *filter.F) ([]*ga.BackendService, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.BackendService) error
 	Delete(ctx context.Context, key meta.Key) error
 	GetHealth(context.Context, meta.Key, *ga.ResourceGroupReference) (*ga.BackendServiceGroupHealth, error)
@@ -1498,7 +1523,7 @@ func (m *MockBackendServices) Get(ctx context.Context, key meta.Key) (*ga.Backen
 }
 
 // List all of the objects in the mock.
-func (m *MockBackendServices) List(ctx context.Context) ([]*ga.BackendService, error) {
+func (m *MockBackendServices) List(ctx context.Context, fl *filter.F) ([]*ga.BackendService, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -1514,6 +1539,9 @@ func (m *MockBackendServices) List(ctx context.Context) ([]*ga.BackendService, e
 
 	var objs []*ga.BackendService
 	for _, obj := range m.Objects {
+		if !fl.Match(obj) {
+			continue
+		}
 		objs = append(objs, obj)
 	}
 	return objs, nil
@@ -1608,7 +1636,7 @@ func (g *GCEBackendServices) Get(ctx context.Context, key meta.Key) (*ga.Backend
 }
 
 // List all BackendService objects.
-func (g *GCEBackendServices) List(ctx context.Context) ([]*ga.BackendService, error) {
+func (g *GCEBackendServices) List(ctx context.Context, fl *filter.F) ([]*ga.BackendService, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "BackendServices")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -1620,6 +1648,9 @@ func (g *GCEBackendServices) List(ctx context.Context) ([]*ga.BackendService, er
 		return nil, err
 	}
 	call := g.s.GA.BackendServices.List(projectID)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*ga.BackendService
 	f := func(l *ga.BackendServiceList) error {
 		all = append(all, l.Items...)
@@ -1718,7 +1749,7 @@ func (g *GCEBackendServices) Update(ctx context.Context, key meta.Key, arg0 *ga.
 // AlphaBackendServices is an interface that allows for mocking of BackendServices.
 type AlphaBackendServices interface {
 	Get(ctx context.Context, key meta.Key) (*alpha.BackendService, error)
-	List(ctx context.Context) ([]*alpha.BackendService, error)
+	List(ctx context.Context, fl *filter.F) ([]*alpha.BackendService, error)
 	Insert(ctx context.Context, key meta.Key, obj *alpha.BackendService) error
 	Delete(ctx context.Context, key meta.Key) error
 	Update(context.Context, meta.Key, *alpha.BackendService) error
@@ -1788,7 +1819,7 @@ func (m *MockAlphaBackendServices) Get(ctx context.Context, key meta.Key) (*alph
 }
 
 // List all of the objects in the mock.
-func (m *MockAlphaBackendServices) List(ctx context.Context) ([]*alpha.BackendService, error) {
+func (m *MockAlphaBackendServices) List(ctx context.Context, fl *filter.F) ([]*alpha.BackendService, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -1804,6 +1835,9 @@ func (m *MockAlphaBackendServices) List(ctx context.Context) ([]*alpha.BackendSe
 
 	var objs []*alpha.BackendService
 	for _, obj := range m.Objects {
+		if !fl.Match(obj) {
+			continue
+		}
 		objs = append(objs, obj)
 	}
 	return objs, nil
@@ -1890,7 +1924,7 @@ func (g *GCEAlphaBackendServices) Get(ctx context.Context, key meta.Key) (*alpha
 }
 
 // List all BackendService objects.
-func (g *GCEAlphaBackendServices) List(ctx context.Context) ([]*alpha.BackendService, error) {
+func (g *GCEAlphaBackendServices) List(ctx context.Context, fl *filter.F) ([]*alpha.BackendService, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "BackendServices")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -1902,6 +1936,9 @@ func (g *GCEAlphaBackendServices) List(ctx context.Context) ([]*alpha.BackendSer
 		return nil, err
 	}
 	call := g.s.Alpha.BackendServices.List(projectID)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*alpha.BackendService
 	f := func(l *alpha.BackendServiceList) error {
 		all = append(all, l.Items...)
@@ -1983,7 +2020,7 @@ func (g *GCEAlphaBackendServices) Update(ctx context.Context, key meta.Key, arg0
 // AlphaRegionBackendServices is an interface that allows for mocking of RegionBackendServices.
 type AlphaRegionBackendServices interface {
 	Get(ctx context.Context, key meta.Key) (*alpha.BackendService, error)
-	List(ctx context.Context, region string) ([]*alpha.BackendService, error)
+	List(ctx context.Context, region string, fl *filter.F) ([]*alpha.BackendService, error)
 	Insert(ctx context.Context, key meta.Key, obj *alpha.BackendService) error
 	Delete(ctx context.Context, key meta.Key) error
 	GetHealth(context.Context, meta.Key, *alpha.ResourceGroupReference) (*alpha.BackendServiceGroupHealth, error)
@@ -2055,7 +2092,7 @@ func (m *MockAlphaRegionBackendServices) Get(ctx context.Context, key meta.Key) 
 }
 
 // List all of the objects in the mock in the given region.
-func (m *MockAlphaRegionBackendServices) List(ctx context.Context, region string) ([]*alpha.BackendService, error) {
+func (m *MockAlphaRegionBackendServices) List(ctx context.Context, region string, fl *filter.F) ([]*alpha.BackendService, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -2072,6 +2109,9 @@ func (m *MockAlphaRegionBackendServices) List(ctx context.Context, region string
 	var objs []*alpha.BackendService
 	for key, obj := range m.Objects {
 		if key.Region != region {
+			continue
+		}
+		if !fl.Match(obj) {
 			continue
 		}
 		objs = append(objs, obj)
@@ -2168,7 +2208,7 @@ func (g *GCEAlphaRegionBackendServices) Get(ctx context.Context, key meta.Key) (
 }
 
 // List all BackendService objects.
-func (g *GCEAlphaRegionBackendServices) List(ctx context.Context, region string) ([]*alpha.BackendService, error) {
+func (g *GCEAlphaRegionBackendServices) List(ctx context.Context, region string, fl *filter.F) ([]*alpha.BackendService, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionBackendServices")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -2180,6 +2220,9 @@ func (g *GCEAlphaRegionBackendServices) List(ctx context.Context, region string)
 		return nil, err
 	}
 	call := g.s.Alpha.RegionBackendServices.List(projectID, region)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*alpha.BackendService
 	f := func(l *alpha.BackendServiceList) error {
 		all = append(all, l.Items...)
@@ -2277,7 +2320,7 @@ func (g *GCEAlphaRegionBackendServices) Update(ctx context.Context, key meta.Key
 // Disks is an interface that allows for mocking of Disks.
 type Disks interface {
 	Get(ctx context.Context, key meta.Key) (*ga.Disk, error)
-	List(ctx context.Context, zone string) ([]*ga.Disk, error)
+	List(ctx context.Context, zone string, fl *filter.F) ([]*ga.Disk, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.Disk) error
 	Delete(ctx context.Context, key meta.Key) error
 }
@@ -2345,7 +2388,7 @@ func (m *MockDisks) Get(ctx context.Context, key meta.Key) (*ga.Disk, error) {
 }
 
 // List all of the objects in the mock in the given zone.
-func (m *MockDisks) List(ctx context.Context, zone string) ([]*ga.Disk, error) {
+func (m *MockDisks) List(ctx context.Context, zone string, fl *filter.F) ([]*ga.Disk, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -2362,6 +2405,9 @@ func (m *MockDisks) List(ctx context.Context, zone string) ([]*ga.Disk, error) {
 	var objs []*ga.Disk
 	for key, obj := range m.Objects {
 		if key.Zone != zone {
+			continue
+		}
+		if !fl.Match(obj) {
 			continue
 		}
 		objs = append(objs, obj)
@@ -2442,7 +2488,7 @@ func (g *GCEDisks) Get(ctx context.Context, key meta.Key) (*ga.Disk, error) {
 }
 
 // List all Disk objects.
-func (g *GCEDisks) List(ctx context.Context, zone string) ([]*ga.Disk, error) {
+func (g *GCEDisks) List(ctx context.Context, zone string, fl *filter.F) ([]*ga.Disk, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Disks")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -2454,6 +2500,9 @@ func (g *GCEDisks) List(ctx context.Context, zone string) ([]*ga.Disk, error) {
 		return nil, err
 	}
 	call := g.s.GA.Disks.List(projectID, zone)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*ga.Disk
 	f := func(l *ga.DiskList) error {
 		all = append(all, l.Items...)
@@ -2513,7 +2562,7 @@ func (g *GCEDisks) Delete(ctx context.Context, key meta.Key) error {
 // AlphaDisks is an interface that allows for mocking of Disks.
 type AlphaDisks interface {
 	Get(ctx context.Context, key meta.Key) (*alpha.Disk, error)
-	List(ctx context.Context, zone string) ([]*alpha.Disk, error)
+	List(ctx context.Context, zone string, fl *filter.F) ([]*alpha.Disk, error)
 	Insert(ctx context.Context, key meta.Key, obj *alpha.Disk) error
 	Delete(ctx context.Context, key meta.Key) error
 }
@@ -2581,7 +2630,7 @@ func (m *MockAlphaDisks) Get(ctx context.Context, key meta.Key) (*alpha.Disk, er
 }
 
 // List all of the objects in the mock in the given zone.
-func (m *MockAlphaDisks) List(ctx context.Context, zone string) ([]*alpha.Disk, error) {
+func (m *MockAlphaDisks) List(ctx context.Context, zone string, fl *filter.F) ([]*alpha.Disk, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -2598,6 +2647,9 @@ func (m *MockAlphaDisks) List(ctx context.Context, zone string) ([]*alpha.Disk, 
 	var objs []*alpha.Disk
 	for key, obj := range m.Objects {
 		if key.Zone != zone {
+			continue
+		}
+		if !fl.Match(obj) {
 			continue
 		}
 		objs = append(objs, obj)
@@ -2678,7 +2730,7 @@ func (g *GCEAlphaDisks) Get(ctx context.Context, key meta.Key) (*alpha.Disk, err
 }
 
 // List all Disk objects.
-func (g *GCEAlphaDisks) List(ctx context.Context, zone string) ([]*alpha.Disk, error) {
+func (g *GCEAlphaDisks) List(ctx context.Context, zone string, fl *filter.F) ([]*alpha.Disk, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Disks")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -2690,6 +2742,9 @@ func (g *GCEAlphaDisks) List(ctx context.Context, zone string) ([]*alpha.Disk, e
 		return nil, err
 	}
 	call := g.s.Alpha.Disks.List(projectID, zone)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*alpha.Disk
 	f := func(l *alpha.DiskList) error {
 		all = append(all, l.Items...)
@@ -2749,7 +2804,7 @@ func (g *GCEAlphaDisks) Delete(ctx context.Context, key meta.Key) error {
 // AlphaRegionDisks is an interface that allows for mocking of RegionDisks.
 type AlphaRegionDisks interface {
 	Get(ctx context.Context, key meta.Key) (*alpha.Disk, error)
-	List(ctx context.Context, region string) ([]*alpha.Disk, error)
+	List(ctx context.Context, region string, fl *filter.F) ([]*alpha.Disk, error)
 	Insert(ctx context.Context, key meta.Key, obj *alpha.Disk) error
 	Delete(ctx context.Context, key meta.Key) error
 }
@@ -2817,7 +2872,7 @@ func (m *MockAlphaRegionDisks) Get(ctx context.Context, key meta.Key) (*alpha.Di
 }
 
 // List all of the objects in the mock in the given region.
-func (m *MockAlphaRegionDisks) List(ctx context.Context, region string) ([]*alpha.Disk, error) {
+func (m *MockAlphaRegionDisks) List(ctx context.Context, region string, fl *filter.F) ([]*alpha.Disk, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -2834,6 +2889,9 @@ func (m *MockAlphaRegionDisks) List(ctx context.Context, region string) ([]*alph
 	var objs []*alpha.Disk
 	for key, obj := range m.Objects {
 		if key.Region != region {
+			continue
+		}
+		if !fl.Match(obj) {
 			continue
 		}
 		objs = append(objs, obj)
@@ -2914,7 +2972,7 @@ func (g *GCEAlphaRegionDisks) Get(ctx context.Context, key meta.Key) (*alpha.Dis
 }
 
 // List all Disk objects.
-func (g *GCEAlphaRegionDisks) List(ctx context.Context, region string) ([]*alpha.Disk, error) {
+func (g *GCEAlphaRegionDisks) List(ctx context.Context, region string, fl *filter.F) ([]*alpha.Disk, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "RegionDisks")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -2926,6 +2984,9 @@ func (g *GCEAlphaRegionDisks) List(ctx context.Context, region string) ([]*alpha
 		return nil, err
 	}
 	call := g.s.Alpha.RegionDisks.List(projectID, region)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*alpha.Disk
 	f := func(l *alpha.DiskList) error {
 		all = append(all, l.Items...)
@@ -2985,7 +3046,7 @@ func (g *GCEAlphaRegionDisks) Delete(ctx context.Context, key meta.Key) error {
 // Firewalls is an interface that allows for mocking of Firewalls.
 type Firewalls interface {
 	Get(ctx context.Context, key meta.Key) (*ga.Firewall, error)
-	List(ctx context.Context) ([]*ga.Firewall, error)
+	List(ctx context.Context, fl *filter.F) ([]*ga.Firewall, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.Firewall) error
 	Delete(ctx context.Context, key meta.Key) error
 	Update(context.Context, meta.Key, *ga.Firewall) error
@@ -3055,7 +3116,7 @@ func (m *MockFirewalls) Get(ctx context.Context, key meta.Key) (*ga.Firewall, er
 }
 
 // List all of the objects in the mock.
-func (m *MockFirewalls) List(ctx context.Context) ([]*ga.Firewall, error) {
+func (m *MockFirewalls) List(ctx context.Context, fl *filter.F) ([]*ga.Firewall, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -3071,6 +3132,9 @@ func (m *MockFirewalls) List(ctx context.Context) ([]*ga.Firewall, error) {
 
 	var objs []*ga.Firewall
 	for _, obj := range m.Objects {
+		if !fl.Match(obj) {
+			continue
+		}
 		objs = append(objs, obj)
 	}
 	return objs, nil
@@ -3157,7 +3221,7 @@ func (g *GCEFirewalls) Get(ctx context.Context, key meta.Key) (*ga.Firewall, err
 }
 
 // List all Firewall objects.
-func (g *GCEFirewalls) List(ctx context.Context) ([]*ga.Firewall, error) {
+func (g *GCEFirewalls) List(ctx context.Context, fl *filter.F) ([]*ga.Firewall, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Firewalls")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -3169,6 +3233,9 @@ func (g *GCEFirewalls) List(ctx context.Context) ([]*ga.Firewall, error) {
 		return nil, err
 	}
 	call := g.s.GA.Firewalls.List(projectID)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*ga.Firewall
 	f := func(l *ga.FirewallList) error {
 		all = append(all, l.Items...)
@@ -3250,7 +3317,7 @@ func (g *GCEFirewalls) Update(ctx context.Context, key meta.Key, arg0 *ga.Firewa
 // ForwardingRules is an interface that allows for mocking of ForwardingRules.
 type ForwardingRules interface {
 	Get(ctx context.Context, key meta.Key) (*ga.ForwardingRule, error)
-	List(ctx context.Context, region string) ([]*ga.ForwardingRule, error)
+	List(ctx context.Context, region string, fl *filter.F) ([]*ga.ForwardingRule, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.ForwardingRule) error
 	Delete(ctx context.Context, key meta.Key) error
 }
@@ -3318,7 +3385,7 @@ func (m *MockForwardingRules) Get(ctx context.Context, key meta.Key) (*ga.Forwar
 }
 
 // List all of the objects in the mock in the given region.
-func (m *MockForwardingRules) List(ctx context.Context, region string) ([]*ga.ForwardingRule, error) {
+func (m *MockForwardingRules) List(ctx context.Context, region string, fl *filter.F) ([]*ga.ForwardingRule, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -3335,6 +3402,9 @@ func (m *MockForwardingRules) List(ctx context.Context, region string) ([]*ga.Fo
 	var objs []*ga.ForwardingRule
 	for key, obj := range m.Objects {
 		if key.Region != region {
+			continue
+		}
+		if !fl.Match(obj) {
 			continue
 		}
 		objs = append(objs, obj)
@@ -3415,7 +3485,7 @@ func (g *GCEForwardingRules) Get(ctx context.Context, key meta.Key) (*ga.Forward
 }
 
 // List all ForwardingRule objects.
-func (g *GCEForwardingRules) List(ctx context.Context, region string) ([]*ga.ForwardingRule, error) {
+func (g *GCEForwardingRules) List(ctx context.Context, region string, fl *filter.F) ([]*ga.ForwardingRule, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "ForwardingRules")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -3427,6 +3497,9 @@ func (g *GCEForwardingRules) List(ctx context.Context, region string) ([]*ga.For
 		return nil, err
 	}
 	call := g.s.GA.ForwardingRules.List(projectID, region)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*ga.ForwardingRule
 	f := func(l *ga.ForwardingRuleList) error {
 		all = append(all, l.Items...)
@@ -3486,7 +3559,7 @@ func (g *GCEForwardingRules) Delete(ctx context.Context, key meta.Key) error {
 // AlphaForwardingRules is an interface that allows for mocking of ForwardingRules.
 type AlphaForwardingRules interface {
 	Get(ctx context.Context, key meta.Key) (*alpha.ForwardingRule, error)
-	List(ctx context.Context, region string) ([]*alpha.ForwardingRule, error)
+	List(ctx context.Context, region string, fl *filter.F) ([]*alpha.ForwardingRule, error)
 	Insert(ctx context.Context, key meta.Key, obj *alpha.ForwardingRule) error
 	Delete(ctx context.Context, key meta.Key) error
 }
@@ -3554,7 +3627,7 @@ func (m *MockAlphaForwardingRules) Get(ctx context.Context, key meta.Key) (*alph
 }
 
 // List all of the objects in the mock in the given region.
-func (m *MockAlphaForwardingRules) List(ctx context.Context, region string) ([]*alpha.ForwardingRule, error) {
+func (m *MockAlphaForwardingRules) List(ctx context.Context, region string, fl *filter.F) ([]*alpha.ForwardingRule, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -3571,6 +3644,9 @@ func (m *MockAlphaForwardingRules) List(ctx context.Context, region string) ([]*
 	var objs []*alpha.ForwardingRule
 	for key, obj := range m.Objects {
 		if key.Region != region {
+			continue
+		}
+		if !fl.Match(obj) {
 			continue
 		}
 		objs = append(objs, obj)
@@ -3651,7 +3727,7 @@ func (g *GCEAlphaForwardingRules) Get(ctx context.Context, key meta.Key) (*alpha
 }
 
 // List all ForwardingRule objects.
-func (g *GCEAlphaForwardingRules) List(ctx context.Context, region string) ([]*alpha.ForwardingRule, error) {
+func (g *GCEAlphaForwardingRules) List(ctx context.Context, region string, fl *filter.F) ([]*alpha.ForwardingRule, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "ForwardingRules")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -3663,6 +3739,9 @@ func (g *GCEAlphaForwardingRules) List(ctx context.Context, region string) ([]*a
 		return nil, err
 	}
 	call := g.s.Alpha.ForwardingRules.List(projectID, region)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*alpha.ForwardingRule
 	f := func(l *alpha.ForwardingRuleList) error {
 		all = append(all, l.Items...)
@@ -3722,7 +3801,7 @@ func (g *GCEAlphaForwardingRules) Delete(ctx context.Context, key meta.Key) erro
 // GlobalForwardingRules is an interface that allows for mocking of GlobalForwardingRules.
 type GlobalForwardingRules interface {
 	Get(ctx context.Context, key meta.Key) (*ga.ForwardingRule, error)
-	List(ctx context.Context) ([]*ga.ForwardingRule, error)
+	List(ctx context.Context, fl *filter.F) ([]*ga.ForwardingRule, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.ForwardingRule) error
 	Delete(ctx context.Context, key meta.Key) error
 	SetTarget(context.Context, meta.Key, *ga.TargetReference) error
@@ -3792,7 +3871,7 @@ func (m *MockGlobalForwardingRules) Get(ctx context.Context, key meta.Key) (*ga.
 }
 
 // List all of the objects in the mock.
-func (m *MockGlobalForwardingRules) List(ctx context.Context) ([]*ga.ForwardingRule, error) {
+func (m *MockGlobalForwardingRules) List(ctx context.Context, fl *filter.F) ([]*ga.ForwardingRule, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -3808,6 +3887,9 @@ func (m *MockGlobalForwardingRules) List(ctx context.Context) ([]*ga.ForwardingR
 
 	var objs []*ga.ForwardingRule
 	for _, obj := range m.Objects {
+		if !fl.Match(obj) {
+			continue
+		}
 		objs = append(objs, obj)
 	}
 	return objs, nil
@@ -3894,7 +3976,7 @@ func (g *GCEGlobalForwardingRules) Get(ctx context.Context, key meta.Key) (*ga.F
 }
 
 // List all ForwardingRule objects.
-func (g *GCEGlobalForwardingRules) List(ctx context.Context) ([]*ga.ForwardingRule, error) {
+func (g *GCEGlobalForwardingRules) List(ctx context.Context, fl *filter.F) ([]*ga.ForwardingRule, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "GlobalForwardingRules")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -3906,6 +3988,9 @@ func (g *GCEGlobalForwardingRules) List(ctx context.Context) ([]*ga.ForwardingRu
 		return nil, err
 	}
 	call := g.s.GA.GlobalForwardingRules.List(projectID)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*ga.ForwardingRule
 	f := func(l *ga.ForwardingRuleList) error {
 		all = append(all, l.Items...)
@@ -3987,7 +4072,7 @@ func (g *GCEGlobalForwardingRules) SetTarget(ctx context.Context, key meta.Key, 
 // HealthChecks is an interface that allows for mocking of HealthChecks.
 type HealthChecks interface {
 	Get(ctx context.Context, key meta.Key) (*ga.HealthCheck, error)
-	List(ctx context.Context) ([]*ga.HealthCheck, error)
+	List(ctx context.Context, fl *filter.F) ([]*ga.HealthCheck, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.HealthCheck) error
 	Delete(ctx context.Context, key meta.Key) error
 	Update(context.Context, meta.Key, *ga.HealthCheck) error
@@ -4057,7 +4142,7 @@ func (m *MockHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HealthChe
 }
 
 // List all of the objects in the mock.
-func (m *MockHealthChecks) List(ctx context.Context) ([]*ga.HealthCheck, error) {
+func (m *MockHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.HealthCheck, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -4073,6 +4158,9 @@ func (m *MockHealthChecks) List(ctx context.Context) ([]*ga.HealthCheck, error) 
 
 	var objs []*ga.HealthCheck
 	for _, obj := range m.Objects {
+		if !fl.Match(obj) {
+			continue
+		}
 		objs = append(objs, obj)
 	}
 	return objs, nil
@@ -4159,7 +4247,7 @@ func (g *GCEHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HealthChec
 }
 
 // List all HealthCheck objects.
-func (g *GCEHealthChecks) List(ctx context.Context) ([]*ga.HealthCheck, error) {
+func (g *GCEHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.HealthCheck, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HealthChecks")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -4171,6 +4259,9 @@ func (g *GCEHealthChecks) List(ctx context.Context) ([]*ga.HealthCheck, error) {
 		return nil, err
 	}
 	call := g.s.GA.HealthChecks.List(projectID)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*ga.HealthCheck
 	f := func(l *ga.HealthCheckList) error {
 		all = append(all, l.Items...)
@@ -4252,7 +4343,7 @@ func (g *GCEHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga.Hea
 // AlphaHealthChecks is an interface that allows for mocking of HealthChecks.
 type AlphaHealthChecks interface {
 	Get(ctx context.Context, key meta.Key) (*alpha.HealthCheck, error)
-	List(ctx context.Context) ([]*alpha.HealthCheck, error)
+	List(ctx context.Context, fl *filter.F) ([]*alpha.HealthCheck, error)
 	Insert(ctx context.Context, key meta.Key, obj *alpha.HealthCheck) error
 	Delete(ctx context.Context, key meta.Key) error
 	Update(context.Context, meta.Key, *alpha.HealthCheck) error
@@ -4322,7 +4413,7 @@ func (m *MockAlphaHealthChecks) Get(ctx context.Context, key meta.Key) (*alpha.H
 }
 
 // List all of the objects in the mock.
-func (m *MockAlphaHealthChecks) List(ctx context.Context) ([]*alpha.HealthCheck, error) {
+func (m *MockAlphaHealthChecks) List(ctx context.Context, fl *filter.F) ([]*alpha.HealthCheck, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -4338,6 +4429,9 @@ func (m *MockAlphaHealthChecks) List(ctx context.Context) ([]*alpha.HealthCheck,
 
 	var objs []*alpha.HealthCheck
 	for _, obj := range m.Objects {
+		if !fl.Match(obj) {
+			continue
+		}
 		objs = append(objs, obj)
 	}
 	return objs, nil
@@ -4424,7 +4518,7 @@ func (g *GCEAlphaHealthChecks) Get(ctx context.Context, key meta.Key) (*alpha.He
 }
 
 // List all HealthCheck objects.
-func (g *GCEAlphaHealthChecks) List(ctx context.Context) ([]*alpha.HealthCheck, error) {
+func (g *GCEAlphaHealthChecks) List(ctx context.Context, fl *filter.F) ([]*alpha.HealthCheck, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "HealthChecks")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -4436,6 +4530,9 @@ func (g *GCEAlphaHealthChecks) List(ctx context.Context) ([]*alpha.HealthCheck, 
 		return nil, err
 	}
 	call := g.s.Alpha.HealthChecks.List(projectID)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*alpha.HealthCheck
 	f := func(l *alpha.HealthCheckList) error {
 		all = append(all, l.Items...)
@@ -4517,7 +4614,7 @@ func (g *GCEAlphaHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *a
 // HttpHealthChecks is an interface that allows for mocking of HttpHealthChecks.
 type HttpHealthChecks interface {
 	Get(ctx context.Context, key meta.Key) (*ga.HttpHealthCheck, error)
-	List(ctx context.Context) ([]*ga.HttpHealthCheck, error)
+	List(ctx context.Context, fl *filter.F) ([]*ga.HttpHealthCheck, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.HttpHealthCheck) error
 	Delete(ctx context.Context, key meta.Key) error
 	Update(context.Context, meta.Key, *ga.HttpHealthCheck) error
@@ -4587,7 +4684,7 @@ func (m *MockHttpHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HttpH
 }
 
 // List all of the objects in the mock.
-func (m *MockHttpHealthChecks) List(ctx context.Context) ([]*ga.HttpHealthCheck, error) {
+func (m *MockHttpHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.HttpHealthCheck, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -4603,6 +4700,9 @@ func (m *MockHttpHealthChecks) List(ctx context.Context) ([]*ga.HttpHealthCheck,
 
 	var objs []*ga.HttpHealthCheck
 	for _, obj := range m.Objects {
+		if !fl.Match(obj) {
+			continue
+		}
 		objs = append(objs, obj)
 	}
 	return objs, nil
@@ -4689,7 +4789,7 @@ func (g *GCEHttpHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HttpHe
 }
 
 // List all HttpHealthCheck objects.
-func (g *GCEHttpHealthChecks) List(ctx context.Context) ([]*ga.HttpHealthCheck, error) {
+func (g *GCEHttpHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.HttpHealthCheck, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpHealthChecks")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -4701,6 +4801,9 @@ func (g *GCEHttpHealthChecks) List(ctx context.Context) ([]*ga.HttpHealthCheck, 
 		return nil, err
 	}
 	call := g.s.GA.HttpHealthChecks.List(projectID)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*ga.HttpHealthCheck
 	f := func(l *ga.HttpHealthCheckList) error {
 		all = append(all, l.Items...)
@@ -4782,7 +4885,7 @@ func (g *GCEHttpHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga
 // HttpsHealthChecks is an interface that allows for mocking of HttpsHealthChecks.
 type HttpsHealthChecks interface {
 	Get(ctx context.Context, key meta.Key) (*ga.HttpsHealthCheck, error)
-	List(ctx context.Context) ([]*ga.HttpsHealthCheck, error)
+	List(ctx context.Context, fl *filter.F) ([]*ga.HttpsHealthCheck, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.HttpsHealthCheck) error
 	Delete(ctx context.Context, key meta.Key) error
 	Update(context.Context, meta.Key, *ga.HttpsHealthCheck) error
@@ -4852,7 +4955,7 @@ func (m *MockHttpsHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.Http
 }
 
 // List all of the objects in the mock.
-func (m *MockHttpsHealthChecks) List(ctx context.Context) ([]*ga.HttpsHealthCheck, error) {
+func (m *MockHttpsHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.HttpsHealthCheck, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -4868,6 +4971,9 @@ func (m *MockHttpsHealthChecks) List(ctx context.Context) ([]*ga.HttpsHealthChec
 
 	var objs []*ga.HttpsHealthCheck
 	for _, obj := range m.Objects {
+		if !fl.Match(obj) {
+			continue
+		}
 		objs = append(objs, obj)
 	}
 	return objs, nil
@@ -4954,7 +5060,7 @@ func (g *GCEHttpsHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.Https
 }
 
 // List all HttpsHealthCheck objects.
-func (g *GCEHttpsHealthChecks) List(ctx context.Context) ([]*ga.HttpsHealthCheck, error) {
+func (g *GCEHttpsHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.HttpsHealthCheck, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "HttpsHealthChecks")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -4966,6 +5072,9 @@ func (g *GCEHttpsHealthChecks) List(ctx context.Context) ([]*ga.HttpsHealthCheck
 		return nil, err
 	}
 	call := g.s.GA.HttpsHealthChecks.List(projectID)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*ga.HttpsHealthCheck
 	f := func(l *ga.HttpsHealthCheckList) error {
 		all = append(all, l.Items...)
@@ -5047,7 +5156,7 @@ func (g *GCEHttpsHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *g
 // InstanceGroups is an interface that allows for mocking of InstanceGroups.
 type InstanceGroups interface {
 	Get(ctx context.Context, key meta.Key) (*ga.InstanceGroup, error)
-	List(ctx context.Context, zone string) ([]*ga.InstanceGroup, error)
+	List(ctx context.Context, zone string, fl *filter.F) ([]*ga.InstanceGroup, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.InstanceGroup) error
 	Delete(ctx context.Context, key meta.Key) error
 	AddInstances(context.Context, meta.Key, *ga.InstanceGroupsAddInstancesRequest) error
@@ -5123,7 +5232,7 @@ func (m *MockInstanceGroups) Get(ctx context.Context, key meta.Key) (*ga.Instanc
 }
 
 // List all of the objects in the mock in the given zone.
-func (m *MockInstanceGroups) List(ctx context.Context, zone string) ([]*ga.InstanceGroup, error) {
+func (m *MockInstanceGroups) List(ctx context.Context, zone string, fl *filter.F) ([]*ga.InstanceGroup, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -5140,6 +5249,9 @@ func (m *MockInstanceGroups) List(ctx context.Context, zone string) ([]*ga.Insta
 	var objs []*ga.InstanceGroup
 	for key, obj := range m.Objects {
 		if key.Zone != zone {
+			continue
+		}
+		if !fl.Match(obj) {
 			continue
 		}
 		objs = append(objs, obj)
@@ -5252,7 +5364,7 @@ func (g *GCEInstanceGroups) Get(ctx context.Context, key meta.Key) (*ga.Instance
 }
 
 // List all InstanceGroup objects.
-func (g *GCEInstanceGroups) List(ctx context.Context, zone string) ([]*ga.InstanceGroup, error) {
+func (g *GCEInstanceGroups) List(ctx context.Context, zone string, fl *filter.F) ([]*ga.InstanceGroup, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "InstanceGroups")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -5264,6 +5376,9 @@ func (g *GCEInstanceGroups) List(ctx context.Context, zone string) ([]*ga.Instan
 		return nil, err
 	}
 	call := g.s.GA.InstanceGroups.List(projectID, zone)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*ga.InstanceGroup
 	f := func(l *ga.InstanceGroupList) error {
 		all = append(all, l.Items...)
@@ -5403,7 +5518,7 @@ func (g *GCEInstanceGroups) SetNamedPorts(ctx context.Context, key meta.Key, arg
 // Instances is an interface that allows for mocking of Instances.
 type Instances interface {
 	Get(ctx context.Context, key meta.Key) (*ga.Instance, error)
-	List(ctx context.Context, zone string) ([]*ga.Instance, error)
+	List(ctx context.Context, zone string, fl *filter.F) ([]*ga.Instance, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.Instance) error
 	Delete(ctx context.Context, key meta.Key) error
 	AttachDisk(context.Context, meta.Key, *ga.AttachedDisk) error
@@ -5475,7 +5590,7 @@ func (m *MockInstances) Get(ctx context.Context, key meta.Key) (*ga.Instance, er
 }
 
 // List all of the objects in the mock in the given zone.
-func (m *MockInstances) List(ctx context.Context, zone string) ([]*ga.Instance, error) {
+func (m *MockInstances) List(ctx context.Context, zone string, fl *filter.F) ([]*ga.Instance, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -5492,6 +5607,9 @@ func (m *MockInstances) List(ctx context.Context, zone string) ([]*ga.Instance, 
 	var objs []*ga.Instance
 	for key, obj := range m.Objects {
 		if key.Zone != zone {
+			continue
+		}
+		if !fl.Match(obj) {
 			continue
 		}
 		objs = append(objs, obj)
@@ -5588,7 +5706,7 @@ func (g *GCEInstances) Get(ctx context.Context, key meta.Key) (*ga.Instance, err
 }
 
 // List all Instance objects.
-func (g *GCEInstances) List(ctx context.Context, zone string) ([]*ga.Instance, error) {
+func (g *GCEInstances) List(ctx context.Context, zone string, fl *filter.F) ([]*ga.Instance, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Instances")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -5600,6 +5718,9 @@ func (g *GCEInstances) List(ctx context.Context, zone string) ([]*ga.Instance, e
 		return nil, err
 	}
 	call := g.s.GA.Instances.List(projectID, zone)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*ga.Instance
 	f := func(l *ga.InstanceList) error {
 		all = append(all, l.Items...)
@@ -5701,7 +5822,7 @@ func (g *GCEInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 string
 // BetaInstances is an interface that allows for mocking of Instances.
 type BetaInstances interface {
 	Get(ctx context.Context, key meta.Key) (*beta.Instance, error)
-	List(ctx context.Context, zone string) ([]*beta.Instance, error)
+	List(ctx context.Context, zone string, fl *filter.F) ([]*beta.Instance, error)
 	Insert(ctx context.Context, key meta.Key, obj *beta.Instance) error
 	Delete(ctx context.Context, key meta.Key) error
 	AttachDisk(context.Context, meta.Key, *beta.AttachedDisk) error
@@ -5773,7 +5894,7 @@ func (m *MockBetaInstances) Get(ctx context.Context, key meta.Key) (*beta.Instan
 }
 
 // List all of the objects in the mock in the given zone.
-func (m *MockBetaInstances) List(ctx context.Context, zone string) ([]*beta.Instance, error) {
+func (m *MockBetaInstances) List(ctx context.Context, zone string, fl *filter.F) ([]*beta.Instance, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -5790,6 +5911,9 @@ func (m *MockBetaInstances) List(ctx context.Context, zone string) ([]*beta.Inst
 	var objs []*beta.Instance
 	for key, obj := range m.Objects {
 		if key.Zone != zone {
+			continue
+		}
+		if !fl.Match(obj) {
 			continue
 		}
 		objs = append(objs, obj)
@@ -5886,7 +6010,7 @@ func (g *GCEBetaInstances) Get(ctx context.Context, key meta.Key) (*beta.Instanc
 }
 
 // List all Instance objects.
-func (g *GCEBetaInstances) List(ctx context.Context, zone string) ([]*beta.Instance, error) {
+func (g *GCEBetaInstances) List(ctx context.Context, zone string, fl *filter.F) ([]*beta.Instance, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "beta", "Instances")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -5898,6 +6022,9 @@ func (g *GCEBetaInstances) List(ctx context.Context, zone string) ([]*beta.Insta
 		return nil, err
 	}
 	call := g.s.Beta.Instances.List(projectID, zone)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*beta.Instance
 	f := func(l *beta.InstanceList) error {
 		all = append(all, l.Items...)
@@ -5999,7 +6126,7 @@ func (g *GCEBetaInstances) DetachDisk(ctx context.Context, key meta.Key, arg0 st
 // AlphaInstances is an interface that allows for mocking of Instances.
 type AlphaInstances interface {
 	Get(ctx context.Context, key meta.Key) (*alpha.Instance, error)
-	List(ctx context.Context, zone string) ([]*alpha.Instance, error)
+	List(ctx context.Context, zone string, fl *filter.F) ([]*alpha.Instance, error)
 	Insert(ctx context.Context, key meta.Key, obj *alpha.Instance) error
 	Delete(ctx context.Context, key meta.Key) error
 	AttachDisk(context.Context, meta.Key, *alpha.AttachedDisk) error
@@ -6073,7 +6200,7 @@ func (m *MockAlphaInstances) Get(ctx context.Context, key meta.Key) (*alpha.Inst
 }
 
 // List all of the objects in the mock in the given zone.
-func (m *MockAlphaInstances) List(ctx context.Context, zone string) ([]*alpha.Instance, error) {
+func (m *MockAlphaInstances) List(ctx context.Context, zone string, fl *filter.F) ([]*alpha.Instance, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -6090,6 +6217,9 @@ func (m *MockAlphaInstances) List(ctx context.Context, zone string) ([]*alpha.In
 	var objs []*alpha.Instance
 	for key, obj := range m.Objects {
 		if key.Zone != zone {
+			continue
+		}
+		if !fl.Match(obj) {
 			continue
 		}
 		objs = append(objs, obj)
@@ -6194,7 +6324,7 @@ func (g *GCEAlphaInstances) Get(ctx context.Context, key meta.Key) (*alpha.Insta
 }
 
 // List all Instance objects.
-func (g *GCEAlphaInstances) List(ctx context.Context, zone string) ([]*alpha.Instance, error) {
+func (g *GCEAlphaInstances) List(ctx context.Context, zone string, fl *filter.F) ([]*alpha.Instance, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "Instances")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -6206,6 +6336,9 @@ func (g *GCEAlphaInstances) List(ctx context.Context, zone string) ([]*alpha.Ins
 		return nil, err
 	}
 	call := g.s.Alpha.Instances.List(projectID, zone)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*alpha.Instance
 	f := func(l *alpha.InstanceList) error {
 		all = append(all, l.Items...)
@@ -6328,7 +6461,7 @@ func (g *GCEAlphaInstances) UpdateNetworkInterface(ctx context.Context, key meta
 // AlphaNetworkEndpointGroups is an interface that allows for mocking of NetworkEndpointGroups.
 type AlphaNetworkEndpointGroups interface {
 	Get(ctx context.Context, key meta.Key) (*alpha.NetworkEndpointGroup, error)
-	List(ctx context.Context, zone string) ([]*alpha.NetworkEndpointGroup, error)
+	List(ctx context.Context, zone string, fl *filter.F) ([]*alpha.NetworkEndpointGroup, error)
 	Insert(ctx context.Context, key meta.Key, obj *alpha.NetworkEndpointGroup) error
 	Delete(ctx context.Context, key meta.Key) error
 	AttachNetworkEndpoints(context.Context, meta.Key, *alpha.NetworkEndpointGroupsAttachEndpointsRequest) error
@@ -6400,7 +6533,7 @@ func (m *MockAlphaNetworkEndpointGroups) Get(ctx context.Context, key meta.Key) 
 }
 
 // List all of the objects in the mock in the given zone.
-func (m *MockAlphaNetworkEndpointGroups) List(ctx context.Context, zone string) ([]*alpha.NetworkEndpointGroup, error) {
+func (m *MockAlphaNetworkEndpointGroups) List(ctx context.Context, zone string, fl *filter.F) ([]*alpha.NetworkEndpointGroup, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -6417,6 +6550,9 @@ func (m *MockAlphaNetworkEndpointGroups) List(ctx context.Context, zone string) 
 	var objs []*alpha.NetworkEndpointGroup
 	for key, obj := range m.Objects {
 		if key.Zone != zone {
+			continue
+		}
+		if !fl.Match(obj) {
 			continue
 		}
 		objs = append(objs, obj)
@@ -6513,7 +6649,7 @@ func (g *GCEAlphaNetworkEndpointGroups) Get(ctx context.Context, key meta.Key) (
 }
 
 // List all NetworkEndpointGroup objects.
-func (g *GCEAlphaNetworkEndpointGroups) List(ctx context.Context, zone string) ([]*alpha.NetworkEndpointGroup, error) {
+func (g *GCEAlphaNetworkEndpointGroups) List(ctx context.Context, zone string, fl *filter.F) ([]*alpha.NetworkEndpointGroup, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "NetworkEndpointGroups")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -6525,6 +6661,9 @@ func (g *GCEAlphaNetworkEndpointGroups) List(ctx context.Context, zone string) (
 		return nil, err
 	}
 	call := g.s.Alpha.NetworkEndpointGroups.List(projectID, zone)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*alpha.NetworkEndpointGroup
 	f := func(l *alpha.NetworkEndpointGroupList) error {
 		all = append(all, l.Items...)
@@ -6666,7 +6805,7 @@ type GCEProjects struct {
 // Regions is an interface that allows for mocking of Regions.
 type Regions interface {
 	Get(ctx context.Context, key meta.Key) (*ga.Region, error)
-	List(ctx context.Context) ([]*ga.Region, error)
+	List(ctx context.Context, fl *filter.F) ([]*ga.Region, error)
 }
 
 // NewMockRegions returns a new mock for Regions.
@@ -6726,7 +6865,7 @@ func (m *MockRegions) Get(ctx context.Context, key meta.Key) (*ga.Region, error)
 }
 
 // List all of the objects in the mock.
-func (m *MockRegions) List(ctx context.Context) ([]*ga.Region, error) {
+func (m *MockRegions) List(ctx context.Context, fl *filter.F) ([]*ga.Region, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -6742,6 +6881,9 @@ func (m *MockRegions) List(ctx context.Context) ([]*ga.Region, error) {
 
 	var objs []*ga.Region
 	for _, obj := range m.Objects {
+		if !fl.Match(obj) {
+			continue
+		}
 		objs = append(objs, obj)
 	}
 	return objs, nil
@@ -6770,7 +6912,7 @@ func (g *GCERegions) Get(ctx context.Context, key meta.Key) (*ga.Region, error) 
 }
 
 // List all Region objects.
-func (g *GCERegions) List(ctx context.Context) ([]*ga.Region, error) {
+func (g *GCERegions) List(ctx context.Context, fl *filter.F) ([]*ga.Region, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Regions")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -6782,6 +6924,9 @@ func (g *GCERegions) List(ctx context.Context) ([]*ga.Region, error) {
 		return nil, err
 	}
 	call := g.s.GA.Regions.List(projectID)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*ga.Region
 	f := func(l *ga.RegionList) error {
 		all = append(all, l.Items...)
@@ -6796,7 +6941,7 @@ func (g *GCERegions) List(ctx context.Context) ([]*ga.Region, error) {
 // Routes is an interface that allows for mocking of Routes.
 type Routes interface {
 	Get(ctx context.Context, key meta.Key) (*ga.Route, error)
-	List(ctx context.Context) ([]*ga.Route, error)
+	List(ctx context.Context, fl *filter.F) ([]*ga.Route, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.Route) error
 	Delete(ctx context.Context, key meta.Key) error
 }
@@ -6864,7 +7009,7 @@ func (m *MockRoutes) Get(ctx context.Context, key meta.Key) (*ga.Route, error) {
 }
 
 // List all of the objects in the mock.
-func (m *MockRoutes) List(ctx context.Context) ([]*ga.Route, error) {
+func (m *MockRoutes) List(ctx context.Context, fl *filter.F) ([]*ga.Route, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -6880,6 +7025,9 @@ func (m *MockRoutes) List(ctx context.Context) ([]*ga.Route, error) {
 
 	var objs []*ga.Route
 	for _, obj := range m.Objects {
+		if !fl.Match(obj) {
+			continue
+		}
 		objs = append(objs, obj)
 	}
 	return objs, nil
@@ -6958,7 +7106,7 @@ func (g *GCERoutes) Get(ctx context.Context, key meta.Key) (*ga.Route, error) {
 }
 
 // List all Route objects.
-func (g *GCERoutes) List(ctx context.Context) ([]*ga.Route, error) {
+func (g *GCERoutes) List(ctx context.Context, fl *filter.F) ([]*ga.Route, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Routes")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -6970,6 +7118,9 @@ func (g *GCERoutes) List(ctx context.Context) ([]*ga.Route, error) {
 		return nil, err
 	}
 	call := g.s.GA.Routes.List(projectID)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*ga.Route
 	f := func(l *ga.RouteList) error {
 		all = append(all, l.Items...)
@@ -7030,7 +7181,7 @@ func (g *GCERoutes) Delete(ctx context.Context, key meta.Key) error {
 // SslCertificates is an interface that allows for mocking of SslCertificates.
 type SslCertificates interface {
 	Get(ctx context.Context, key meta.Key) (*ga.SslCertificate, error)
-	List(ctx context.Context) ([]*ga.SslCertificate, error)
+	List(ctx context.Context, fl *filter.F) ([]*ga.SslCertificate, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.SslCertificate) error
 	Delete(ctx context.Context, key meta.Key) error
 }
@@ -7098,7 +7249,7 @@ func (m *MockSslCertificates) Get(ctx context.Context, key meta.Key) (*ga.SslCer
 }
 
 // List all of the objects in the mock.
-func (m *MockSslCertificates) List(ctx context.Context) ([]*ga.SslCertificate, error) {
+func (m *MockSslCertificates) List(ctx context.Context, fl *filter.F) ([]*ga.SslCertificate, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -7114,6 +7265,9 @@ func (m *MockSslCertificates) List(ctx context.Context) ([]*ga.SslCertificate, e
 
 	var objs []*ga.SslCertificate
 	for _, obj := range m.Objects {
+		if !fl.Match(obj) {
+			continue
+		}
 		objs = append(objs, obj)
 	}
 	return objs, nil
@@ -7192,7 +7346,7 @@ func (g *GCESslCertificates) Get(ctx context.Context, key meta.Key) (*ga.SslCert
 }
 
 // List all SslCertificate objects.
-func (g *GCESslCertificates) List(ctx context.Context) ([]*ga.SslCertificate, error) {
+func (g *GCESslCertificates) List(ctx context.Context, fl *filter.F) ([]*ga.SslCertificate, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "SslCertificates")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -7204,6 +7358,9 @@ func (g *GCESslCertificates) List(ctx context.Context) ([]*ga.SslCertificate, er
 		return nil, err
 	}
 	call := g.s.GA.SslCertificates.List(projectID)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*ga.SslCertificate
 	f := func(l *ga.SslCertificateList) error {
 		all = append(all, l.Items...)
@@ -7264,7 +7421,7 @@ func (g *GCESslCertificates) Delete(ctx context.Context, key meta.Key) error {
 // TargetHttpProxies is an interface that allows for mocking of TargetHttpProxies.
 type TargetHttpProxies interface {
 	Get(ctx context.Context, key meta.Key) (*ga.TargetHttpProxy, error)
-	List(ctx context.Context) ([]*ga.TargetHttpProxy, error)
+	List(ctx context.Context, fl *filter.F) ([]*ga.TargetHttpProxy, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.TargetHttpProxy) error
 	Delete(ctx context.Context, key meta.Key) error
 	SetUrlMap(context.Context, meta.Key, *ga.UrlMapReference) error
@@ -7334,7 +7491,7 @@ func (m *MockTargetHttpProxies) Get(ctx context.Context, key meta.Key) (*ga.Targ
 }
 
 // List all of the objects in the mock.
-func (m *MockTargetHttpProxies) List(ctx context.Context) ([]*ga.TargetHttpProxy, error) {
+func (m *MockTargetHttpProxies) List(ctx context.Context, fl *filter.F) ([]*ga.TargetHttpProxy, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -7350,6 +7507,9 @@ func (m *MockTargetHttpProxies) List(ctx context.Context) ([]*ga.TargetHttpProxy
 
 	var objs []*ga.TargetHttpProxy
 	for _, obj := range m.Objects {
+		if !fl.Match(obj) {
+			continue
+		}
 		objs = append(objs, obj)
 	}
 	return objs, nil
@@ -7436,7 +7596,7 @@ func (g *GCETargetHttpProxies) Get(ctx context.Context, key meta.Key) (*ga.Targe
 }
 
 // List all TargetHttpProxy objects.
-func (g *GCETargetHttpProxies) List(ctx context.Context) ([]*ga.TargetHttpProxy, error) {
+func (g *GCETargetHttpProxies) List(ctx context.Context, fl *filter.F) ([]*ga.TargetHttpProxy, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpProxies")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -7448,6 +7608,9 @@ func (g *GCETargetHttpProxies) List(ctx context.Context) ([]*ga.TargetHttpProxy,
 		return nil, err
 	}
 	call := g.s.GA.TargetHttpProxies.List(projectID)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*ga.TargetHttpProxy
 	f := func(l *ga.TargetHttpProxyList) error {
 		all = append(all, l.Items...)
@@ -7529,7 +7692,7 @@ func (g *GCETargetHttpProxies) SetUrlMap(ctx context.Context, key meta.Key, arg0
 // TargetHttpsProxies is an interface that allows for mocking of TargetHttpsProxies.
 type TargetHttpsProxies interface {
 	Get(ctx context.Context, key meta.Key) (*ga.TargetHttpsProxy, error)
-	List(ctx context.Context) ([]*ga.TargetHttpsProxy, error)
+	List(ctx context.Context, fl *filter.F) ([]*ga.TargetHttpsProxy, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.TargetHttpsProxy) error
 	Delete(ctx context.Context, key meta.Key) error
 	SetSslCertificates(context.Context, meta.Key, *ga.TargetHttpsProxiesSetSslCertificatesRequest) error
@@ -7601,7 +7764,7 @@ func (m *MockTargetHttpsProxies) Get(ctx context.Context, key meta.Key) (*ga.Tar
 }
 
 // List all of the objects in the mock.
-func (m *MockTargetHttpsProxies) List(ctx context.Context) ([]*ga.TargetHttpsProxy, error) {
+func (m *MockTargetHttpsProxies) List(ctx context.Context, fl *filter.F) ([]*ga.TargetHttpsProxy, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -7617,6 +7780,9 @@ func (m *MockTargetHttpsProxies) List(ctx context.Context) ([]*ga.TargetHttpsPro
 
 	var objs []*ga.TargetHttpsProxy
 	for _, obj := range m.Objects {
+		if !fl.Match(obj) {
+			continue
+		}
 		objs = append(objs, obj)
 	}
 	return objs, nil
@@ -7711,7 +7877,7 @@ func (g *GCETargetHttpsProxies) Get(ctx context.Context, key meta.Key) (*ga.Targ
 }
 
 // List all TargetHttpsProxy objects.
-func (g *GCETargetHttpsProxies) List(ctx context.Context) ([]*ga.TargetHttpsProxy, error) {
+func (g *GCETargetHttpsProxies) List(ctx context.Context, fl *filter.F) ([]*ga.TargetHttpsProxy, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetHttpsProxies")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -7723,6 +7889,9 @@ func (g *GCETargetHttpsProxies) List(ctx context.Context) ([]*ga.TargetHttpsProx
 		return nil, err
 	}
 	call := g.s.GA.TargetHttpsProxies.List(projectID)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*ga.TargetHttpsProxy
 	f := func(l *ga.TargetHttpsProxyList) error {
 		all = append(all, l.Items...)
@@ -7825,7 +7994,7 @@ func (g *GCETargetHttpsProxies) SetUrlMap(ctx context.Context, key meta.Key, arg
 // TargetPools is an interface that allows for mocking of TargetPools.
 type TargetPools interface {
 	Get(ctx context.Context, key meta.Key) (*ga.TargetPool, error)
-	List(ctx context.Context, region string) ([]*ga.TargetPool, error)
+	List(ctx context.Context, region string, fl *filter.F) ([]*ga.TargetPool, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.TargetPool) error
 	Delete(ctx context.Context, key meta.Key) error
 	AddInstance(context.Context, meta.Key, *ga.TargetPoolsAddInstanceRequest) error
@@ -7897,7 +8066,7 @@ func (m *MockTargetPools) Get(ctx context.Context, key meta.Key) (*ga.TargetPool
 }
 
 // List all of the objects in the mock in the given region.
-func (m *MockTargetPools) List(ctx context.Context, region string) ([]*ga.TargetPool, error) {
+func (m *MockTargetPools) List(ctx context.Context, region string, fl *filter.F) ([]*ga.TargetPool, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -7914,6 +8083,9 @@ func (m *MockTargetPools) List(ctx context.Context, region string) ([]*ga.Target
 	var objs []*ga.TargetPool
 	for key, obj := range m.Objects {
 		if key.Region != region {
+			continue
+		}
+		if !fl.Match(obj) {
 			continue
 		}
 		objs = append(objs, obj)
@@ -8010,7 +8182,7 @@ func (g *GCETargetPools) Get(ctx context.Context, key meta.Key) (*ga.TargetPool,
 }
 
 // List all TargetPool objects.
-func (g *GCETargetPools) List(ctx context.Context, region string) ([]*ga.TargetPool, error) {
+func (g *GCETargetPools) List(ctx context.Context, region string, fl *filter.F) ([]*ga.TargetPool, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "TargetPools")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -8022,6 +8194,9 @@ func (g *GCETargetPools) List(ctx context.Context, region string) ([]*ga.TargetP
 		return nil, err
 	}
 	call := g.s.GA.TargetPools.List(projectID, region)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*ga.TargetPool
 	f := func(l *ga.TargetPoolList) error {
 		all = append(all, l.Items...)
@@ -8123,7 +8298,7 @@ func (g *GCETargetPools) RemoveInstance(ctx context.Context, key meta.Key, arg0 
 // UrlMaps is an interface that allows for mocking of UrlMaps.
 type UrlMaps interface {
 	Get(ctx context.Context, key meta.Key) (*ga.UrlMap, error)
-	List(ctx context.Context) ([]*ga.UrlMap, error)
+	List(ctx context.Context, fl *filter.F) ([]*ga.UrlMap, error)
 	Insert(ctx context.Context, key meta.Key, obj *ga.UrlMap) error
 	Delete(ctx context.Context, key meta.Key) error
 	Update(context.Context, meta.Key, *ga.UrlMap) error
@@ -8193,7 +8368,7 @@ func (m *MockUrlMaps) Get(ctx context.Context, key meta.Key) (*ga.UrlMap, error)
 }
 
 // List all of the objects in the mock.
-func (m *MockUrlMaps) List(ctx context.Context) ([]*ga.UrlMap, error) {
+func (m *MockUrlMaps) List(ctx context.Context, fl *filter.F) ([]*ga.UrlMap, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -8209,6 +8384,9 @@ func (m *MockUrlMaps) List(ctx context.Context) ([]*ga.UrlMap, error) {
 
 	var objs []*ga.UrlMap
 	for _, obj := range m.Objects {
+		if !fl.Match(obj) {
+			continue
+		}
 		objs = append(objs, obj)
 	}
 	return objs, nil
@@ -8295,7 +8473,7 @@ func (g *GCEUrlMaps) Get(ctx context.Context, key meta.Key) (*ga.UrlMap, error) 
 }
 
 // List all UrlMap objects.
-func (g *GCEUrlMaps) List(ctx context.Context) ([]*ga.UrlMap, error) {
+func (g *GCEUrlMaps) List(ctx context.Context, fl *filter.F) ([]*ga.UrlMap, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "UrlMaps")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -8307,6 +8485,9 @@ func (g *GCEUrlMaps) List(ctx context.Context) ([]*ga.UrlMap, error) {
 		return nil, err
 	}
 	call := g.s.GA.UrlMaps.List(projectID)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*ga.UrlMap
 	f := func(l *ga.UrlMapList) error {
 		all = append(all, l.Items...)
@@ -8388,7 +8569,7 @@ func (g *GCEUrlMaps) Update(ctx context.Context, key meta.Key, arg0 *ga.UrlMap) 
 // Zones is an interface that allows for mocking of Zones.
 type Zones interface {
 	Get(ctx context.Context, key meta.Key) (*ga.Zone, error)
-	List(ctx context.Context) ([]*ga.Zone, error)
+	List(ctx context.Context, fl *filter.F) ([]*ga.Zone, error)
 }
 
 // NewMockZones returns a new mock for Zones.
@@ -8448,7 +8629,7 @@ func (m *MockZones) Get(ctx context.Context, key meta.Key) (*ga.Zone, error) {
 }
 
 // List all of the objects in the mock.
-func (m *MockZones) List(ctx context.Context) ([]*ga.Zone, error) {
+func (m *MockZones) List(ctx context.Context, fl *filter.F) ([]*ga.Zone, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx); intercept {
 			return objs, err
@@ -8464,6 +8645,9 @@ func (m *MockZones) List(ctx context.Context) ([]*ga.Zone, error) {
 
 	var objs []*ga.Zone
 	for _, obj := range m.Objects {
+		if !fl.Match(obj) {
+			continue
+		}
 		objs = append(objs, obj)
 	}
 	return objs, nil
@@ -8492,7 +8676,7 @@ func (g *GCEZones) Get(ctx context.Context, key meta.Key) (*ga.Zone, error) {
 }
 
 // List all Zone objects.
-func (g *GCEZones) List(ctx context.Context) ([]*ga.Zone, error) {
+func (g *GCEZones) List(ctx context.Context, fl *filter.F) ([]*ga.Zone, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "ga", "Zones")
 	rk := &RateLimitKey{
 		ProjectID: projectID,
@@ -8504,6 +8688,9 @@ func (g *GCEZones) List(ctx context.Context) ([]*ga.Zone, error) {
 		return nil, err
 	}
 	call := g.s.GA.Zones.List(projectID)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
 	var all []*ga.Zone
 	f := func(l *ga.ZoneList) error {
 		all = append(all, l.Items...)

@@ -29,6 +29,7 @@ import (
 	ga "google.golang.org/api/compute/v1"
 
 	"github.com/bowei/gce-gen/pkg/cloud"
+	"github.com/bowei/gce-gen/pkg/cloud/filter"
 	"github.com/bowei/gce-gen/pkg/cloud/meta"
 )
 
@@ -99,7 +100,7 @@ func main() {
 	}
 
 	glog.Infof("List addresses")
-	addrs, err := c.Addresses().List(context.Background(), "us-central1")
+	addrs, err := c.Addresses().List(context.Background(), "us-central1", filter.None)
 	if err != nil {
 		panic(err)
 	}
@@ -108,7 +109,7 @@ func main() {
 	}
 
 	glog.Infof("List firewalls")
-	fws, err := c.Firewalls().List(context.Background())
+	fws, err := c.Firewalls().List(context.Background(), filter.None)
 	if err != nil {
 		panic(err)
 	}
@@ -127,11 +128,31 @@ func main() {
 	if err := c.Firewalls().Insert(context.Background(), key, fw); err != nil {
 		glog.Fatalf("Firewall insert error %v", err)
 	}
+
 	glog.Infof("Firewall %v created", key)
 	if fw, err = c.Firewalls().Get(context.Background(), key); err != nil {
 		glog.Fatalf("Firewall get error %v", err)
 	}
 	glog.Infof("Firewall is %+v", fw)
+
+	glog.Infof("List firewalls")
+	fws, err = c.Firewalls().List(context.Background(), filter.None)
+	if err != nil {
+		panic(err)
+	}
+	for _, fw := range fws {
+		glog.Infof("fw = %+v\n", fw)
+	}
+
+	glog.Infof("List firewalls (starting with a.*)")
+	fws, err = c.Firewalls().List(context.Background(), filter.Regexp("name", "a.*"))
+	if err != nil {
+		panic(err)
+	}
+	for _, fw := range fws {
+		glog.Infof("fw = %+v\n", fw)
+	}
+
 	if err := c.Firewalls().Delete(context.Background(), key); err != nil {
 		glog.Fatalf("Firewall delete error %v", err)
 	}
