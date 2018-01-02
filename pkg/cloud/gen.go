@@ -520,7 +520,7 @@ type MockAddresses struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockAddresses, ctx context.Context, key meta.Key) (bool, *ga.Address, error)
-	ListHook   func(m *MockAddresses, ctx context.Context) (bool, []*ga.Address, error)
+	ListHook   func(m *MockAddresses, ctx context.Context, region string, fl *filter.F) (bool, []*ga.Address, error)
 	InsertHook func(m *MockAddresses, ctx context.Context, key meta.Key, obj *ga.Address) (bool, error)
 	DeleteHook func(m *MockAddresses, ctx context.Context, key meta.Key) (bool, error)
 
@@ -555,7 +555,7 @@ func (m *MockAddresses) Get(ctx context.Context, key meta.Key) (*ga.Address, err
 // List all of the objects in the mock in the given region.
 func (m *MockAddresses) List(ctx context.Context, region string, fl *filter.F) ([]*ga.Address, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, region, fl); intercept {
 			return objs, err
 		}
 	}
@@ -762,7 +762,7 @@ type MockAlphaAddresses struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockAlphaAddresses, ctx context.Context, key meta.Key) (bool, *alpha.Address, error)
-	ListHook   func(m *MockAlphaAddresses, ctx context.Context) (bool, []*alpha.Address, error)
+	ListHook   func(m *MockAlphaAddresses, ctx context.Context, region string, fl *filter.F) (bool, []*alpha.Address, error)
 	InsertHook func(m *MockAlphaAddresses, ctx context.Context, key meta.Key, obj *alpha.Address) (bool, error)
 	DeleteHook func(m *MockAlphaAddresses, ctx context.Context, key meta.Key) (bool, error)
 
@@ -797,7 +797,7 @@ func (m *MockAlphaAddresses) Get(ctx context.Context, key meta.Key) (*alpha.Addr
 // List all of the objects in the mock in the given region.
 func (m *MockAlphaAddresses) List(ctx context.Context, region string, fl *filter.F) ([]*alpha.Address, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, region, fl); intercept {
 			return objs, err
 		}
 	}
@@ -1004,7 +1004,7 @@ type MockBetaAddresses struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockBetaAddresses, ctx context.Context, key meta.Key) (bool, *beta.Address, error)
-	ListHook   func(m *MockBetaAddresses, ctx context.Context) (bool, []*beta.Address, error)
+	ListHook   func(m *MockBetaAddresses, ctx context.Context, region string, fl *filter.F) (bool, []*beta.Address, error)
 	InsertHook func(m *MockBetaAddresses, ctx context.Context, key meta.Key, obj *beta.Address) (bool, error)
 	DeleteHook func(m *MockBetaAddresses, ctx context.Context, key meta.Key) (bool, error)
 
@@ -1039,7 +1039,7 @@ func (m *MockBetaAddresses) Get(ctx context.Context, key meta.Key) (*beta.Addres
 // List all of the objects in the mock in the given region.
 func (m *MockBetaAddresses) List(ctx context.Context, region string, fl *filter.F) ([]*beta.Address, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, region, fl); intercept {
 			return objs, err
 		}
 	}
@@ -1246,7 +1246,7 @@ type MockGlobalAddresses struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockGlobalAddresses, ctx context.Context, key meta.Key) (bool, *ga.Address, error)
-	ListHook   func(m *MockGlobalAddresses, ctx context.Context) (bool, []*ga.Address, error)
+	ListHook   func(m *MockGlobalAddresses, ctx context.Context, fl *filter.F) (bool, []*ga.Address, error)
 	InsertHook func(m *MockGlobalAddresses, ctx context.Context, key meta.Key, obj *ga.Address) (bool, error)
 	DeleteHook func(m *MockGlobalAddresses, ctx context.Context, key meta.Key) (bool, error)
 
@@ -1281,7 +1281,7 @@ func (m *MockGlobalAddresses) Get(ctx context.Context, key meta.Key) (*ga.Addres
 // List all of the objects in the mock.
 func (m *MockGlobalAddresses) List(ctx context.Context, fl *filter.F) ([]*ga.Address, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
 			return objs, err
 		}
 	}
@@ -1488,7 +1488,7 @@ type MockBackendServices struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook       func(m *MockBackendServices, ctx context.Context, key meta.Key) (bool, *ga.BackendService, error)
-	ListHook      func(m *MockBackendServices, ctx context.Context) (bool, []*ga.BackendService, error)
+	ListHook      func(m *MockBackendServices, ctx context.Context, fl *filter.F) (bool, []*ga.BackendService, error)
 	InsertHook    func(m *MockBackendServices, ctx context.Context, key meta.Key, obj *ga.BackendService) (bool, error)
 	DeleteHook    func(m *MockBackendServices, ctx context.Context, key meta.Key) (bool, error)
 	GetHealthHook func(*MockBackendServices, context.Context, meta.Key, *ga.ResourceGroupReference) (*ga.BackendServiceGroupHealth, error)
@@ -1525,7 +1525,7 @@ func (m *MockBackendServices) Get(ctx context.Context, key meta.Key) (*ga.Backen
 // List all of the objects in the mock.
 func (m *MockBackendServices) List(ctx context.Context, fl *filter.F) ([]*ga.BackendService, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
 			return objs, err
 		}
 	}
@@ -1785,7 +1785,7 @@ type MockAlphaBackendServices struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockAlphaBackendServices, ctx context.Context, key meta.Key) (bool, *alpha.BackendService, error)
-	ListHook   func(m *MockAlphaBackendServices, ctx context.Context) (bool, []*alpha.BackendService, error)
+	ListHook   func(m *MockAlphaBackendServices, ctx context.Context, fl *filter.F) (bool, []*alpha.BackendService, error)
 	InsertHook func(m *MockAlphaBackendServices, ctx context.Context, key meta.Key, obj *alpha.BackendService) (bool, error)
 	DeleteHook func(m *MockAlphaBackendServices, ctx context.Context, key meta.Key) (bool, error)
 	UpdateHook func(*MockAlphaBackendServices, context.Context, meta.Key, *alpha.BackendService) error
@@ -1821,7 +1821,7 @@ func (m *MockAlphaBackendServices) Get(ctx context.Context, key meta.Key) (*alph
 // List all of the objects in the mock.
 func (m *MockAlphaBackendServices) List(ctx context.Context, fl *filter.F) ([]*alpha.BackendService, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
 			return objs, err
 		}
 	}
@@ -2057,7 +2057,7 @@ type MockAlphaRegionBackendServices struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook       func(m *MockAlphaRegionBackendServices, ctx context.Context, key meta.Key) (bool, *alpha.BackendService, error)
-	ListHook      func(m *MockAlphaRegionBackendServices, ctx context.Context) (bool, []*alpha.BackendService, error)
+	ListHook      func(m *MockAlphaRegionBackendServices, ctx context.Context, region string, fl *filter.F) (bool, []*alpha.BackendService, error)
 	InsertHook    func(m *MockAlphaRegionBackendServices, ctx context.Context, key meta.Key, obj *alpha.BackendService) (bool, error)
 	DeleteHook    func(m *MockAlphaRegionBackendServices, ctx context.Context, key meta.Key) (bool, error)
 	GetHealthHook func(*MockAlphaRegionBackendServices, context.Context, meta.Key, *alpha.ResourceGroupReference) (*alpha.BackendServiceGroupHealth, error)
@@ -2094,7 +2094,7 @@ func (m *MockAlphaRegionBackendServices) Get(ctx context.Context, key meta.Key) 
 // List all of the objects in the mock in the given region.
 func (m *MockAlphaRegionBackendServices) List(ctx context.Context, region string, fl *filter.F) ([]*alpha.BackendService, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, region, fl); intercept {
 			return objs, err
 		}
 	}
@@ -2355,7 +2355,7 @@ type MockDisks struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockDisks, ctx context.Context, key meta.Key) (bool, *ga.Disk, error)
-	ListHook   func(m *MockDisks, ctx context.Context) (bool, []*ga.Disk, error)
+	ListHook   func(m *MockDisks, ctx context.Context, zone string, fl *filter.F) (bool, []*ga.Disk, error)
 	InsertHook func(m *MockDisks, ctx context.Context, key meta.Key, obj *ga.Disk) (bool, error)
 	DeleteHook func(m *MockDisks, ctx context.Context, key meta.Key) (bool, error)
 
@@ -2390,7 +2390,7 @@ func (m *MockDisks) Get(ctx context.Context, key meta.Key) (*ga.Disk, error) {
 // List all of the objects in the mock in the given zone.
 func (m *MockDisks) List(ctx context.Context, zone string, fl *filter.F) ([]*ga.Disk, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, zone, fl); intercept {
 			return objs, err
 		}
 	}
@@ -2597,7 +2597,7 @@ type MockAlphaDisks struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockAlphaDisks, ctx context.Context, key meta.Key) (bool, *alpha.Disk, error)
-	ListHook   func(m *MockAlphaDisks, ctx context.Context) (bool, []*alpha.Disk, error)
+	ListHook   func(m *MockAlphaDisks, ctx context.Context, zone string, fl *filter.F) (bool, []*alpha.Disk, error)
 	InsertHook func(m *MockAlphaDisks, ctx context.Context, key meta.Key, obj *alpha.Disk) (bool, error)
 	DeleteHook func(m *MockAlphaDisks, ctx context.Context, key meta.Key) (bool, error)
 
@@ -2632,7 +2632,7 @@ func (m *MockAlphaDisks) Get(ctx context.Context, key meta.Key) (*alpha.Disk, er
 // List all of the objects in the mock in the given zone.
 func (m *MockAlphaDisks) List(ctx context.Context, zone string, fl *filter.F) ([]*alpha.Disk, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, zone, fl); intercept {
 			return objs, err
 		}
 	}
@@ -2839,7 +2839,7 @@ type MockAlphaRegionDisks struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockAlphaRegionDisks, ctx context.Context, key meta.Key) (bool, *alpha.Disk, error)
-	ListHook   func(m *MockAlphaRegionDisks, ctx context.Context) (bool, []*alpha.Disk, error)
+	ListHook   func(m *MockAlphaRegionDisks, ctx context.Context, region string, fl *filter.F) (bool, []*alpha.Disk, error)
 	InsertHook func(m *MockAlphaRegionDisks, ctx context.Context, key meta.Key, obj *alpha.Disk) (bool, error)
 	DeleteHook func(m *MockAlphaRegionDisks, ctx context.Context, key meta.Key) (bool, error)
 
@@ -2874,7 +2874,7 @@ func (m *MockAlphaRegionDisks) Get(ctx context.Context, key meta.Key) (*alpha.Di
 // List all of the objects in the mock in the given region.
 func (m *MockAlphaRegionDisks) List(ctx context.Context, region string, fl *filter.F) ([]*alpha.Disk, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, region, fl); intercept {
 			return objs, err
 		}
 	}
@@ -3082,7 +3082,7 @@ type MockFirewalls struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockFirewalls, ctx context.Context, key meta.Key) (bool, *ga.Firewall, error)
-	ListHook   func(m *MockFirewalls, ctx context.Context) (bool, []*ga.Firewall, error)
+	ListHook   func(m *MockFirewalls, ctx context.Context, fl *filter.F) (bool, []*ga.Firewall, error)
 	InsertHook func(m *MockFirewalls, ctx context.Context, key meta.Key, obj *ga.Firewall) (bool, error)
 	DeleteHook func(m *MockFirewalls, ctx context.Context, key meta.Key) (bool, error)
 	UpdateHook func(*MockFirewalls, context.Context, meta.Key, *ga.Firewall) error
@@ -3118,7 +3118,7 @@ func (m *MockFirewalls) Get(ctx context.Context, key meta.Key) (*ga.Firewall, er
 // List all of the objects in the mock.
 func (m *MockFirewalls) List(ctx context.Context, fl *filter.F) ([]*ga.Firewall, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
 			return objs, err
 		}
 	}
@@ -3352,7 +3352,7 @@ type MockForwardingRules struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockForwardingRules, ctx context.Context, key meta.Key) (bool, *ga.ForwardingRule, error)
-	ListHook   func(m *MockForwardingRules, ctx context.Context) (bool, []*ga.ForwardingRule, error)
+	ListHook   func(m *MockForwardingRules, ctx context.Context, region string, fl *filter.F) (bool, []*ga.ForwardingRule, error)
 	InsertHook func(m *MockForwardingRules, ctx context.Context, key meta.Key, obj *ga.ForwardingRule) (bool, error)
 	DeleteHook func(m *MockForwardingRules, ctx context.Context, key meta.Key) (bool, error)
 
@@ -3387,7 +3387,7 @@ func (m *MockForwardingRules) Get(ctx context.Context, key meta.Key) (*ga.Forwar
 // List all of the objects in the mock in the given region.
 func (m *MockForwardingRules) List(ctx context.Context, region string, fl *filter.F) ([]*ga.ForwardingRule, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, region, fl); intercept {
 			return objs, err
 		}
 	}
@@ -3594,7 +3594,7 @@ type MockAlphaForwardingRules struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockAlphaForwardingRules, ctx context.Context, key meta.Key) (bool, *alpha.ForwardingRule, error)
-	ListHook   func(m *MockAlphaForwardingRules, ctx context.Context) (bool, []*alpha.ForwardingRule, error)
+	ListHook   func(m *MockAlphaForwardingRules, ctx context.Context, region string, fl *filter.F) (bool, []*alpha.ForwardingRule, error)
 	InsertHook func(m *MockAlphaForwardingRules, ctx context.Context, key meta.Key, obj *alpha.ForwardingRule) (bool, error)
 	DeleteHook func(m *MockAlphaForwardingRules, ctx context.Context, key meta.Key) (bool, error)
 
@@ -3629,7 +3629,7 @@ func (m *MockAlphaForwardingRules) Get(ctx context.Context, key meta.Key) (*alph
 // List all of the objects in the mock in the given region.
 func (m *MockAlphaForwardingRules) List(ctx context.Context, region string, fl *filter.F) ([]*alpha.ForwardingRule, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, region, fl); intercept {
 			return objs, err
 		}
 	}
@@ -3837,7 +3837,7 @@ type MockGlobalForwardingRules struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook       func(m *MockGlobalForwardingRules, ctx context.Context, key meta.Key) (bool, *ga.ForwardingRule, error)
-	ListHook      func(m *MockGlobalForwardingRules, ctx context.Context) (bool, []*ga.ForwardingRule, error)
+	ListHook      func(m *MockGlobalForwardingRules, ctx context.Context, fl *filter.F) (bool, []*ga.ForwardingRule, error)
 	InsertHook    func(m *MockGlobalForwardingRules, ctx context.Context, key meta.Key, obj *ga.ForwardingRule) (bool, error)
 	DeleteHook    func(m *MockGlobalForwardingRules, ctx context.Context, key meta.Key) (bool, error)
 	SetTargetHook func(*MockGlobalForwardingRules, context.Context, meta.Key, *ga.TargetReference) error
@@ -3873,7 +3873,7 @@ func (m *MockGlobalForwardingRules) Get(ctx context.Context, key meta.Key) (*ga.
 // List all of the objects in the mock.
 func (m *MockGlobalForwardingRules) List(ctx context.Context, fl *filter.F) ([]*ga.ForwardingRule, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
 			return objs, err
 		}
 	}
@@ -4108,7 +4108,7 @@ type MockHealthChecks struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockHealthChecks, ctx context.Context, key meta.Key) (bool, *ga.HealthCheck, error)
-	ListHook   func(m *MockHealthChecks, ctx context.Context) (bool, []*ga.HealthCheck, error)
+	ListHook   func(m *MockHealthChecks, ctx context.Context, fl *filter.F) (bool, []*ga.HealthCheck, error)
 	InsertHook func(m *MockHealthChecks, ctx context.Context, key meta.Key, obj *ga.HealthCheck) (bool, error)
 	DeleteHook func(m *MockHealthChecks, ctx context.Context, key meta.Key) (bool, error)
 	UpdateHook func(*MockHealthChecks, context.Context, meta.Key, *ga.HealthCheck) error
@@ -4144,7 +4144,7 @@ func (m *MockHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HealthChe
 // List all of the objects in the mock.
 func (m *MockHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.HealthCheck, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
 			return objs, err
 		}
 	}
@@ -4379,7 +4379,7 @@ type MockAlphaHealthChecks struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockAlphaHealthChecks, ctx context.Context, key meta.Key) (bool, *alpha.HealthCheck, error)
-	ListHook   func(m *MockAlphaHealthChecks, ctx context.Context) (bool, []*alpha.HealthCheck, error)
+	ListHook   func(m *MockAlphaHealthChecks, ctx context.Context, fl *filter.F) (bool, []*alpha.HealthCheck, error)
 	InsertHook func(m *MockAlphaHealthChecks, ctx context.Context, key meta.Key, obj *alpha.HealthCheck) (bool, error)
 	DeleteHook func(m *MockAlphaHealthChecks, ctx context.Context, key meta.Key) (bool, error)
 	UpdateHook func(*MockAlphaHealthChecks, context.Context, meta.Key, *alpha.HealthCheck) error
@@ -4415,7 +4415,7 @@ func (m *MockAlphaHealthChecks) Get(ctx context.Context, key meta.Key) (*alpha.H
 // List all of the objects in the mock.
 func (m *MockAlphaHealthChecks) List(ctx context.Context, fl *filter.F) ([]*alpha.HealthCheck, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
 			return objs, err
 		}
 	}
@@ -4650,7 +4650,7 @@ type MockHttpHealthChecks struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockHttpHealthChecks, ctx context.Context, key meta.Key) (bool, *ga.HttpHealthCheck, error)
-	ListHook   func(m *MockHttpHealthChecks, ctx context.Context) (bool, []*ga.HttpHealthCheck, error)
+	ListHook   func(m *MockHttpHealthChecks, ctx context.Context, fl *filter.F) (bool, []*ga.HttpHealthCheck, error)
 	InsertHook func(m *MockHttpHealthChecks, ctx context.Context, key meta.Key, obj *ga.HttpHealthCheck) (bool, error)
 	DeleteHook func(m *MockHttpHealthChecks, ctx context.Context, key meta.Key) (bool, error)
 	UpdateHook func(*MockHttpHealthChecks, context.Context, meta.Key, *ga.HttpHealthCheck) error
@@ -4686,7 +4686,7 @@ func (m *MockHttpHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HttpH
 // List all of the objects in the mock.
 func (m *MockHttpHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.HttpHealthCheck, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
 			return objs, err
 		}
 	}
@@ -4921,7 +4921,7 @@ type MockHttpsHealthChecks struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockHttpsHealthChecks, ctx context.Context, key meta.Key) (bool, *ga.HttpsHealthCheck, error)
-	ListHook   func(m *MockHttpsHealthChecks, ctx context.Context) (bool, []*ga.HttpsHealthCheck, error)
+	ListHook   func(m *MockHttpsHealthChecks, ctx context.Context, fl *filter.F) (bool, []*ga.HttpsHealthCheck, error)
 	InsertHook func(m *MockHttpsHealthChecks, ctx context.Context, key meta.Key, obj *ga.HttpsHealthCheck) (bool, error)
 	DeleteHook func(m *MockHttpsHealthChecks, ctx context.Context, key meta.Key) (bool, error)
 	UpdateHook func(*MockHttpsHealthChecks, context.Context, meta.Key, *ga.HttpsHealthCheck) error
@@ -4957,7 +4957,7 @@ func (m *MockHttpsHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.Http
 // List all of the objects in the mock.
 func (m *MockHttpsHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.HttpsHealthCheck, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
 			return objs, err
 		}
 	}
@@ -5195,7 +5195,7 @@ type MockInstanceGroups struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook             func(m *MockInstanceGroups, ctx context.Context, key meta.Key) (bool, *ga.InstanceGroup, error)
-	ListHook            func(m *MockInstanceGroups, ctx context.Context) (bool, []*ga.InstanceGroup, error)
+	ListHook            func(m *MockInstanceGroups, ctx context.Context, zone string, fl *filter.F) (bool, []*ga.InstanceGroup, error)
 	InsertHook          func(m *MockInstanceGroups, ctx context.Context, key meta.Key, obj *ga.InstanceGroup) (bool, error)
 	DeleteHook          func(m *MockInstanceGroups, ctx context.Context, key meta.Key) (bool, error)
 	AddInstancesHook    func(*MockInstanceGroups, context.Context, meta.Key, *ga.InstanceGroupsAddInstancesRequest) error
@@ -5234,7 +5234,7 @@ func (m *MockInstanceGroups) Get(ctx context.Context, key meta.Key) (*ga.Instanc
 // List all of the objects in the mock in the given zone.
 func (m *MockInstanceGroups) List(ctx context.Context, zone string, fl *filter.F) ([]*ga.InstanceGroup, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, zone, fl); intercept {
 			return objs, err
 		}
 	}
@@ -5555,7 +5555,7 @@ type MockInstances struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook        func(m *MockInstances, ctx context.Context, key meta.Key) (bool, *ga.Instance, error)
-	ListHook       func(m *MockInstances, ctx context.Context) (bool, []*ga.Instance, error)
+	ListHook       func(m *MockInstances, ctx context.Context, zone string, fl *filter.F) (bool, []*ga.Instance, error)
 	InsertHook     func(m *MockInstances, ctx context.Context, key meta.Key, obj *ga.Instance) (bool, error)
 	DeleteHook     func(m *MockInstances, ctx context.Context, key meta.Key) (bool, error)
 	AttachDiskHook func(*MockInstances, context.Context, meta.Key, *ga.AttachedDisk) error
@@ -5592,7 +5592,7 @@ func (m *MockInstances) Get(ctx context.Context, key meta.Key) (*ga.Instance, er
 // List all of the objects in the mock in the given zone.
 func (m *MockInstances) List(ctx context.Context, zone string, fl *filter.F) ([]*ga.Instance, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, zone, fl); intercept {
 			return objs, err
 		}
 	}
@@ -5859,7 +5859,7 @@ type MockBetaInstances struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook        func(m *MockBetaInstances, ctx context.Context, key meta.Key) (bool, *beta.Instance, error)
-	ListHook       func(m *MockBetaInstances, ctx context.Context) (bool, []*beta.Instance, error)
+	ListHook       func(m *MockBetaInstances, ctx context.Context, zone string, fl *filter.F) (bool, []*beta.Instance, error)
 	InsertHook     func(m *MockBetaInstances, ctx context.Context, key meta.Key, obj *beta.Instance) (bool, error)
 	DeleteHook     func(m *MockBetaInstances, ctx context.Context, key meta.Key) (bool, error)
 	AttachDiskHook func(*MockBetaInstances, context.Context, meta.Key, *beta.AttachedDisk) error
@@ -5896,7 +5896,7 @@ func (m *MockBetaInstances) Get(ctx context.Context, key meta.Key) (*beta.Instan
 // List all of the objects in the mock in the given zone.
 func (m *MockBetaInstances) List(ctx context.Context, zone string, fl *filter.F) ([]*beta.Instance, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, zone, fl); intercept {
 			return objs, err
 		}
 	}
@@ -6164,7 +6164,7 @@ type MockAlphaInstances struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook                    func(m *MockAlphaInstances, ctx context.Context, key meta.Key) (bool, *alpha.Instance, error)
-	ListHook                   func(m *MockAlphaInstances, ctx context.Context) (bool, []*alpha.Instance, error)
+	ListHook                   func(m *MockAlphaInstances, ctx context.Context, zone string, fl *filter.F) (bool, []*alpha.Instance, error)
 	InsertHook                 func(m *MockAlphaInstances, ctx context.Context, key meta.Key, obj *alpha.Instance) (bool, error)
 	DeleteHook                 func(m *MockAlphaInstances, ctx context.Context, key meta.Key) (bool, error)
 	AttachDiskHook             func(*MockAlphaInstances, context.Context, meta.Key, *alpha.AttachedDisk) error
@@ -6202,7 +6202,7 @@ func (m *MockAlphaInstances) Get(ctx context.Context, key meta.Key) (*alpha.Inst
 // List all of the objects in the mock in the given zone.
 func (m *MockAlphaInstances) List(ctx context.Context, zone string, fl *filter.F) ([]*alpha.Instance, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, zone, fl); intercept {
 			return objs, err
 		}
 	}
@@ -6498,7 +6498,7 @@ type MockAlphaNetworkEndpointGroups struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook                    func(m *MockAlphaNetworkEndpointGroups, ctx context.Context, key meta.Key) (bool, *alpha.NetworkEndpointGroup, error)
-	ListHook                   func(m *MockAlphaNetworkEndpointGroups, ctx context.Context) (bool, []*alpha.NetworkEndpointGroup, error)
+	ListHook                   func(m *MockAlphaNetworkEndpointGroups, ctx context.Context, zone string, fl *filter.F) (bool, []*alpha.NetworkEndpointGroup, error)
 	InsertHook                 func(m *MockAlphaNetworkEndpointGroups, ctx context.Context, key meta.Key, obj *alpha.NetworkEndpointGroup) (bool, error)
 	DeleteHook                 func(m *MockAlphaNetworkEndpointGroups, ctx context.Context, key meta.Key) (bool, error)
 	AttachNetworkEndpointsHook func(*MockAlphaNetworkEndpointGroups, context.Context, meta.Key, *alpha.NetworkEndpointGroupsAttachEndpointsRequest) error
@@ -6535,7 +6535,7 @@ func (m *MockAlphaNetworkEndpointGroups) Get(ctx context.Context, key meta.Key) 
 // List all of the objects in the mock in the given zone.
 func (m *MockAlphaNetworkEndpointGroups) List(ctx context.Context, zone string, fl *filter.F) ([]*alpha.NetworkEndpointGroup, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, zone, fl); intercept {
 			return objs, err
 		}
 	}
@@ -6834,7 +6834,7 @@ type MockRegions struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook  func(m *MockRegions, ctx context.Context, key meta.Key) (bool, *ga.Region, error)
-	ListHook func(m *MockRegions, ctx context.Context) (bool, []*ga.Region, error)
+	ListHook func(m *MockRegions, ctx context.Context, fl *filter.F) (bool, []*ga.Region, error)
 
 	// X is extra state that can be used as part of the mock. Generated code
 	// will not use this field.
@@ -6867,7 +6867,7 @@ func (m *MockRegions) Get(ctx context.Context, key meta.Key) (*ga.Region, error)
 // List all of the objects in the mock.
 func (m *MockRegions) List(ctx context.Context, fl *filter.F) ([]*ga.Region, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
 			return objs, err
 		}
 	}
@@ -6976,7 +6976,7 @@ type MockRoutes struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockRoutes, ctx context.Context, key meta.Key) (bool, *ga.Route, error)
-	ListHook   func(m *MockRoutes, ctx context.Context) (bool, []*ga.Route, error)
+	ListHook   func(m *MockRoutes, ctx context.Context, fl *filter.F) (bool, []*ga.Route, error)
 	InsertHook func(m *MockRoutes, ctx context.Context, key meta.Key, obj *ga.Route) (bool, error)
 	DeleteHook func(m *MockRoutes, ctx context.Context, key meta.Key) (bool, error)
 
@@ -7011,7 +7011,7 @@ func (m *MockRoutes) Get(ctx context.Context, key meta.Key) (*ga.Route, error) {
 // List all of the objects in the mock.
 func (m *MockRoutes) List(ctx context.Context, fl *filter.F) ([]*ga.Route, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
 			return objs, err
 		}
 	}
@@ -7216,7 +7216,7 @@ type MockSslCertificates struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockSslCertificates, ctx context.Context, key meta.Key) (bool, *ga.SslCertificate, error)
-	ListHook   func(m *MockSslCertificates, ctx context.Context) (bool, []*ga.SslCertificate, error)
+	ListHook   func(m *MockSslCertificates, ctx context.Context, fl *filter.F) (bool, []*ga.SslCertificate, error)
 	InsertHook func(m *MockSslCertificates, ctx context.Context, key meta.Key, obj *ga.SslCertificate) (bool, error)
 	DeleteHook func(m *MockSslCertificates, ctx context.Context, key meta.Key) (bool, error)
 
@@ -7251,7 +7251,7 @@ func (m *MockSslCertificates) Get(ctx context.Context, key meta.Key) (*ga.SslCer
 // List all of the objects in the mock.
 func (m *MockSslCertificates) List(ctx context.Context, fl *filter.F) ([]*ga.SslCertificate, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
 			return objs, err
 		}
 	}
@@ -7457,7 +7457,7 @@ type MockTargetHttpProxies struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook       func(m *MockTargetHttpProxies, ctx context.Context, key meta.Key) (bool, *ga.TargetHttpProxy, error)
-	ListHook      func(m *MockTargetHttpProxies, ctx context.Context) (bool, []*ga.TargetHttpProxy, error)
+	ListHook      func(m *MockTargetHttpProxies, ctx context.Context, fl *filter.F) (bool, []*ga.TargetHttpProxy, error)
 	InsertHook    func(m *MockTargetHttpProxies, ctx context.Context, key meta.Key, obj *ga.TargetHttpProxy) (bool, error)
 	DeleteHook    func(m *MockTargetHttpProxies, ctx context.Context, key meta.Key) (bool, error)
 	SetUrlMapHook func(*MockTargetHttpProxies, context.Context, meta.Key, *ga.UrlMapReference) error
@@ -7493,7 +7493,7 @@ func (m *MockTargetHttpProxies) Get(ctx context.Context, key meta.Key) (*ga.Targ
 // List all of the objects in the mock.
 func (m *MockTargetHttpProxies) List(ctx context.Context, fl *filter.F) ([]*ga.TargetHttpProxy, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
 			return objs, err
 		}
 	}
@@ -7729,7 +7729,7 @@ type MockTargetHttpsProxies struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook                func(m *MockTargetHttpsProxies, ctx context.Context, key meta.Key) (bool, *ga.TargetHttpsProxy, error)
-	ListHook               func(m *MockTargetHttpsProxies, ctx context.Context) (bool, []*ga.TargetHttpsProxy, error)
+	ListHook               func(m *MockTargetHttpsProxies, ctx context.Context, fl *filter.F) (bool, []*ga.TargetHttpsProxy, error)
 	InsertHook             func(m *MockTargetHttpsProxies, ctx context.Context, key meta.Key, obj *ga.TargetHttpsProxy) (bool, error)
 	DeleteHook             func(m *MockTargetHttpsProxies, ctx context.Context, key meta.Key) (bool, error)
 	SetSslCertificatesHook func(*MockTargetHttpsProxies, context.Context, meta.Key, *ga.TargetHttpsProxiesSetSslCertificatesRequest) error
@@ -7766,7 +7766,7 @@ func (m *MockTargetHttpsProxies) Get(ctx context.Context, key meta.Key) (*ga.Tar
 // List all of the objects in the mock.
 func (m *MockTargetHttpsProxies) List(ctx context.Context, fl *filter.F) ([]*ga.TargetHttpsProxy, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
 			return objs, err
 		}
 	}
@@ -8031,7 +8031,7 @@ type MockTargetPools struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook            func(m *MockTargetPools, ctx context.Context, key meta.Key) (bool, *ga.TargetPool, error)
-	ListHook           func(m *MockTargetPools, ctx context.Context) (bool, []*ga.TargetPool, error)
+	ListHook           func(m *MockTargetPools, ctx context.Context, region string, fl *filter.F) (bool, []*ga.TargetPool, error)
 	InsertHook         func(m *MockTargetPools, ctx context.Context, key meta.Key, obj *ga.TargetPool) (bool, error)
 	DeleteHook         func(m *MockTargetPools, ctx context.Context, key meta.Key) (bool, error)
 	AddInstanceHook    func(*MockTargetPools, context.Context, meta.Key, *ga.TargetPoolsAddInstanceRequest) error
@@ -8068,7 +8068,7 @@ func (m *MockTargetPools) Get(ctx context.Context, key meta.Key) (*ga.TargetPool
 // List all of the objects in the mock in the given region.
 func (m *MockTargetPools) List(ctx context.Context, region string, fl *filter.F) ([]*ga.TargetPool, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, region, fl); intercept {
 			return objs, err
 		}
 	}
@@ -8334,7 +8334,7 @@ type MockUrlMaps struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook    func(m *MockUrlMaps, ctx context.Context, key meta.Key) (bool, *ga.UrlMap, error)
-	ListHook   func(m *MockUrlMaps, ctx context.Context) (bool, []*ga.UrlMap, error)
+	ListHook   func(m *MockUrlMaps, ctx context.Context, fl *filter.F) (bool, []*ga.UrlMap, error)
 	InsertHook func(m *MockUrlMaps, ctx context.Context, key meta.Key, obj *ga.UrlMap) (bool, error)
 	DeleteHook func(m *MockUrlMaps, ctx context.Context, key meta.Key) (bool, error)
 	UpdateHook func(*MockUrlMaps, context.Context, meta.Key, *ga.UrlMap) error
@@ -8370,7 +8370,7 @@ func (m *MockUrlMaps) Get(ctx context.Context, key meta.Key) (*ga.UrlMap, error)
 // List all of the objects in the mock.
 func (m *MockUrlMaps) List(ctx context.Context, fl *filter.F) ([]*ga.UrlMap, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
 			return objs, err
 		}
 	}
@@ -8598,7 +8598,7 @@ type MockZones struct {
 	// execution flow of the mock. Return (false, nil, nil) to continue with
 	// normal mock behavior/ after the hook function executes.
 	GetHook  func(m *MockZones, ctx context.Context, key meta.Key) (bool, *ga.Zone, error)
-	ListHook func(m *MockZones, ctx context.Context) (bool, []*ga.Zone, error)
+	ListHook func(m *MockZones, ctx context.Context, fl *filter.F) (bool, []*ga.Zone, error)
 
 	// X is extra state that can be used as part of the mock. Generated code
 	// will not use this field.
@@ -8631,7 +8631,7 @@ func (m *MockZones) Get(ctx context.Context, key meta.Key) (*ga.Zone, error) {
 // List all of the objects in the mock.
 func (m *MockZones) List(ctx context.Context, fl *filter.F) ([]*ga.Zone, error) {
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx); intercept {
+		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
 			return objs, err
 		}
 	}

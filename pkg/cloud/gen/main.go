@@ -276,7 +276,15 @@ type {{.MockWrapType}} struct {
 	GetHook    func(m *{{.MockWrapType}}, ctx context.Context, key meta.Key) (bool, *{{.FQObjectType}}, error)
 	{{- end -}}
 	{{- if .GenerateList}}
-	ListHook   func(m *{{.MockWrapType}}, ctx context.Context) (bool, []*{{.FQObjectType}}, error)
+	{{- if .KeyIsGlobal}}
+	ListHook   func(m *{{.MockWrapType}}, ctx context.Context, fl *filter.F) (bool, []*{{.FQObjectType}}, error)
+	{{- end -}}
+	{{- if .KeyIsRegional}}
+	ListHook   func(m *{{.MockWrapType}}, ctx context.Context, region string, fl *filter.F) (bool, []*{{.FQObjectType}}, error)
+	{{- end -}}
+	{{- if .KeyIsZonal}}
+	ListHook   func(m *{{.MockWrapType}}, ctx context.Context, zone string, fl *filter.F) (bool, []*{{.FQObjectType}}, error)
+	{{- end}}
 	{{- end -}}
 	{{- if .GenerateInsert}}
 	InsertHook func(m *{{.MockWrapType}}, ctx context.Context, key meta.Key, obj *{{.FQObjectType}}) (bool, error)
@@ -334,7 +342,15 @@ func (m *{{.MockWrapType}}) List(ctx context.Context, region string, fl *filter.
 func (m *{{.MockWrapType}}) List(ctx context.Context, zone string, fl *filter.F) ([]*{{.FQObjectType}}, error) {
 {{- end}}
 	if m.ListHook != nil {
-		if intercept, objs, err := m.ListHook(m, ctx);  intercept {
+		{{if .KeyIsGlobal -}}
+		if intercept, objs, err := m.ListHook(m, ctx, fl);  intercept {
+		{{- end -}}
+		{{- if .KeyIsRegional -}}
+		if intercept, objs, err := m.ListHook(m, ctx, region, fl);  intercept {
+		{{- end -}}
+		{{- if .KeyIsZonal -}}
+		if intercept, objs, err := m.ListHook(m, ctx, zone, fl);  intercept {
+		{{- end}}
 			return objs, err
 		}
 	}
@@ -633,17 +649,6 @@ func (g *{{.GCEWrapType}}) {{.FcnArgs}} {
 	}
 }
 
-func genDummy(wr io.Writer) {
-	fmt.Fprintln(wr, `
-package cloud
-`)
-	for _, s := range meta.AllServices {
-		if s.GenerateCustomOps() {
-			fmt.Fprintf(wr, "type %v interface {}\n", s.WrapTypeOps())
-		}
-	}
-}
-
 func main() {
 	flag.Parse()
 
@@ -655,8 +660,7 @@ func main() {
 		genStubs(out)
 		genTypes(out)
 	case "test":
-	case "dummy":
-		genDummy(out)
+		panic(fmt.Errorf("not implemented"))
 	default:
 		glog.Fatalf("Invalid -mode: %q", flags.mode)
 	}
