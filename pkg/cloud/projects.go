@@ -36,7 +36,7 @@ func (m *MockProjects) Get(ctx context.Context, projectID string) (*compute.Proj
 	defer m.Lock.Unlock()
 
 	if p, ok := m.Objects[*meta.GlobalKey(projectID)]; ok {
-		return p, nil
+		return p.ToGA(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,

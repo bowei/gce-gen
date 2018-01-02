@@ -53,6 +53,7 @@ func init() {
 	flag.StringVar(&flags.mode, "mode", "src", "content to generate: src, test, dummy")
 }
 
+// gofmtContent runs "gofmt" on the given contents.
 func gofmtContent(r io.Reader) string {
 	cmd := exec.Command(gofmt, "-s")
 	out := &bytes.Buffer{}
@@ -70,18 +71,6 @@ func gofmtContent(r io.Reader) string {
 
 // genHeader generate the header for the file.
 func genHeader(wr io.Writer) {
-	var hasGA, hasAlpha, hasBeta bool
-	for _, s := range meta.AllServices {
-		switch s.Version() {
-		case meta.VersionGA:
-			hasGA = true
-		case meta.VersionAlpha:
-			hasAlpha = true
-		case meta.VersionBeta:
-			hasBeta = true
-		}
-	}
-
 	fmt.Fprintf(wr, `/*
 Copyright %d The Kubernetes Authors.
 
@@ -110,11 +99,24 @@ import (
 	"sync"
 
 	"google.golang.org/api/googleapi"
+	"github.com/golang/glog"
+
 	"%v/filter"
 	"%v/meta"
 
 `, time.Now().Year(), packageRoot, packageRoot)
 
+	var hasGA, hasAlpha, hasBeta bool
+	for _, s := range meta.AllServices {
+		switch s.Version() {
+		case meta.VersionGA:
+			hasGA = true
+		case meta.VersionAlpha:
+			hasAlpha = true
+		case meta.VersionBeta:
+			hasBeta = true
+		}
+	}
 	if hasAlpha {
 		fmt.Fprintln(wr, `	alpha "google.golang.org/api/compute/v0.alpha"`)
 	}
@@ -131,16 +133,46 @@ import (
 func genStubs(wr io.Writer) {
 	const text = `// Cloud is an interface for the GCE compute API.
 type Cloud interface {
-{{- range .}}
+{{- range .All}}
 	{{.WrapType}}() {{.WrapType}}
 {{- end}}
 }
 
+// NewGCE returns a GCE.
+func NewGCE(s *Service) *GCE {
+	g := &GCE{
+	{{- range .All}}
+		{{.Field}}: &{{.GCEWrapType}}{s},
+	{{- end}}
+	}
+	return g
+}
+
+// GCE implements Cloud.
+var _ Cloud = (*GCE)(nil)
+
+// GCE is the golang adapter for the compute APIs.
+type GCE struct {
+{{- range .All}}
+	{{.Field}} *{{.GCEWrapType}}
+{{- end}}
+}
+
+{{range .All}}
+func (gce *GCE) {{.WrapType}}() {{.WrapType}} {
+	return gce.{{.Field}}
+}
+{{- end}}
+
 // NewMockGCE returns a new mock for GCE.
 func NewMockGCE() *MockGCE {
+	{{- range .Groups}}
+	mock{{.Service}}Objs := map[meta.Key]*Mock{{.Service}}Obj{}
+	{{- end}}
+
 	mock := &MockGCE{
-	{{- range .}}
-		{{.MockField}}: New{{.MockWrapType}}(),
+	{{- range .All}}
+		{{.MockField}}: New{{.MockWrapType}}(mock{{.Service}}Objs),
 	{{- end}}
 	}
 	return mock
@@ -151,44 +183,74 @@ var _ Cloud = (*MockGCE)(nil)
 
 // MockGCE is the mock for the compute API.
 type MockGCE struct {
-{{- range .}}
+{{- range .All}}
 	{{.MockField}} *{{.MockWrapType}}
 {{- end}}
 }
-{{range .}}
+{{range .All}}
 func (mock *MockGCE) {{.WrapType}}() {{.WrapType}} {
 	return mock.{{.MockField}}
 }
 {{end}}
 
-// NewGCE returns a GCE.
-func NewGCE(s *Service) *GCE {
-	g := &GCE{
-	{{range . -}}
-		{{.Field}}: &{{.GCEWrapType}}{s},
-	{{end -}}
+{{range .Groups}}
+// Mock{{.Service}}Obj is used to store the various object versions in the shared
+// map of mocked objects. This allows for multiple API versions to co-exist and
+// share the same "view" of the objects in the backend.
+type Mock{{.Service}}Obj struct {
+	o interface{}
+}
+{{- if .HasAlpha}}
+// ToAlpha retrieves the given version of the object.
+func (m *Mock{{.Service}}Obj) ToAlpha() *{{.Alpha.FQObjectType}} {
+	if ret, ok := m.o.(*{{.Alpha.FQObjectType}}); ok {
+		return ret
 	}
-	return g
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &{{.Alpha.FQObjectType}}{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *{{.Alpha.FQObjectType}} via JSON: %v", m.o, err)
+	}
+	return ret
 }
-
-// GCE implements Cloud.
-var _ Cloud = (*GCE)(nil)
-
-// GCE is the golang adapter for the compute APIs.
-type GCE struct {
-{{- range .}}
-	{{.Field}} *{{.GCEWrapType}}
 {{- end}}
+{{- if .HasBeta}}
+// ToBeta retrieves the given version of the object.
+func (m *Mock{{.Service}}Obj) ToBeta() *{{.Beta.FQObjectType}} {
+	if ret, ok := m.o.(*{{.Beta.FQObjectType}}); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &{{.Beta.FQObjectType}}{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *{{.Beta.FQObjectType}} via JSON: %v", m.o, err)
+	}
+	return ret
 }
-
-{{range .}}
-func (gce *GCE) {{.WrapType}}() {{.WrapType}} {
-	return gce.{{.Field}}
+{{- end}}
+{{- if .HasGA}}
+// ToGA retrieves the given version of the object.
+func (m *Mock{{.Service}}Obj) ToGA() *{{.GA.FQObjectType}} {
+	if ret, ok := m.o.(*{{.GA.FQObjectType}}); ok {
+		return ret
+	}
+		// Convert the object via JSON copying to the type that was requested.
+	ret := &{{.GA.FQObjectType}}{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *{{.GA.FQObjectType}} via JSON: %v", m.o, err)
+	}
+	return ret
 }
-{{end}}
+{{- end}}
+{{- end}}
 `
+	data := struct {
+		All    []*meta.ServiceInfo
+		Groups map[string]*meta.ServiceGroup
+	}{meta.AllServices, meta.AllServicesByGroup}
+
 	tmpl := template.Must(template.New("interface").Parse(text))
-	if err := tmpl.Execute(wr, meta.AllServices); err != nil {
+	if err := tmpl.Execute(wr, data); err != nil {
 		panic(err)
 	}
 }
@@ -230,9 +292,9 @@ type {{.WrapType}} interface {
 }
 
 // New{{.MockWrapType}} returns a new mock for {{.Service}}.
-func New{{.MockWrapType}}() *{{.MockWrapType}} {
+func New{{.MockWrapType}}(objs map[meta.Key]*Mock{{.Service}}Obj) *{{.MockWrapType}} {
 	mock := &{{.MockWrapType}}{
-		Objects:     map[meta.Key]*{{.FQObjectType}}{},
+		Objects: objs,
 		{{- if .GenerateGet}}
 		GetError:    map[meta.Key]error{},
 		{{- end -}}
@@ -251,7 +313,7 @@ type {{.MockWrapType}} struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*{{.FQObjectType}}
+	Objects map[meta.Key]*Mock{{.Service}}Obj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -319,7 +381,7 @@ func (m *{{.MockWrapType}}) Get(ctx context.Context, key meta.Key) (*{{.FQObject
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.To{{.VersionTitle}}(), nil
 	}
 	return nil, &googleapi.Error{
 		Code: http.StatusNotFound,
@@ -381,7 +443,7 @@ func (m *{{.MockWrapType}}) List(ctx context.Context, zone string, fl *filter.F)
 		if ! fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.To{{.VersionTitle}}())
 	}
 	return objs, nil
 }
@@ -409,7 +471,7 @@ func (m *{{.MockWrapType}}) Insert(ctx context.Context, key meta.Key, obj *{{.FQ
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &Mock{{.Service}}Obj{obj}
 	return nil
 }
 {{- end}}
@@ -477,13 +539,13 @@ func (g *{{.GCEWrapType}}) Get(ctx context.Context, key meta.Key) (*{{.FQObjectT
 		return nil, err
 	}
 {{- if .KeyIsGlobal}}
-	call := g.s.{{.VersionField}}.{{.Service}}.Get(projectID, key.Name)
+	call := g.s.{{.VersionTitle}}.{{.Service}}.Get(projectID, key.Name)
 {{- end -}}
 {{- if .KeyIsRegional}}
-	call := g.s.{{.VersionField}}.{{.Service}}.Get(projectID, key.Region, key.Name)
+	call := g.s.{{.VersionTitle}}.{{.Service}}.Get(projectID, key.Region, key.Name)
 {{- end -}}
 {{- if .KeyIsZonal}}
-	call := g.s.{{.VersionField}}.{{.Service}}.Get(projectID, key.Zone, key.Name)
+	call := g.s.{{.VersionTitle}}.{{.Service}}.Get(projectID, key.Zone, key.Name)
 {{- end}}
 	call.Context(ctx)
 	return call.Do()
@@ -512,13 +574,13 @@ rk := &RateLimitKey{
 		return nil, err
 	}
 {{- if .KeyIsGlobal}}
-	call := g.s.{{.VersionField}}.{{.Service}}.List(projectID)
+	call := g.s.{{.VersionTitle}}.{{.Service}}.List(projectID)
 {{- end -}}
 {{- if .KeyIsRegional}}
-	call := g.s.{{.VersionField}}.{{.Service}}.List(projectID, region)
+	call := g.s.{{.VersionTitle}}.{{.Service}}.List(projectID, region)
 {{- end -}}
 {{- if .KeyIsZonal}}
-	call := g.s.{{.VersionField}}.{{.Service}}.List(projectID, zone)
+	call := g.s.{{.VersionTitle}}.{{.Service}}.List(projectID, zone)
 {{- end}}
 	if fl != filter.None {
 		call.Filter(fl.String())
@@ -550,13 +612,13 @@ func (g *{{.GCEWrapType}}) Insert(ctx context.Context, key meta.Key, obj *{{.FQO
 	}
 	obj.Name = key.Name
 {{- if .KeyIsGlobal}}
-	call := g.s.{{.VersionField}}.{{.Service}}.Insert(projectID, obj)
+	call := g.s.{{.VersionTitle}}.{{.Service}}.Insert(projectID, obj)
 {{- end -}}
 {{- if .KeyIsRegional}}
-	call := g.s.{{.VersionField}}.{{.Service}}.Insert(projectID, key.Region, obj)
+	call := g.s.{{.VersionTitle}}.{{.Service}}.Insert(projectID, key.Region, obj)
 {{- end -}}
 {{- if .KeyIsZonal}}
-	call := g.s.{{.VersionField}}.{{.Service}}.Insert(projectID, key.Zone, obj)
+	call := g.s.{{.VersionTitle}}.{{.Service}}.Insert(projectID, key.Zone, obj)
 {{- end}}
 	call.Context(ctx)
 
@@ -582,13 +644,13 @@ func (g *{{.GCEWrapType}}) Delete(ctx context.Context, key meta.Key) error {
 		return err
 	}
 {{- if .KeyIsGlobal}}
-	call := g.s.{{.VersionField}}.{{.Service}}.Delete(projectID, key.Name)
+	call := g.s.{{.VersionTitle}}.{{.Service}}.Delete(projectID, key.Name)
 {{end -}}
 {{- if .KeyIsRegional}}
-	call := g.s.{{.VersionField}}.{{.Service}}.Delete(projectID, key.Region, key.Name)
+	call := g.s.{{.VersionTitle}}.{{.Service}}.Delete(projectID, key.Region, key.Name)
 {{- end -}}
 {{- if .KeyIsZonal}}
-	call := g.s.{{.VersionField}}.{{.Service}}.Delete(projectID, key.Zone, key.Name)
+	call := g.s.{{.VersionTitle}}.{{.Service}}.Delete(projectID, key.Zone, key.Name)
 {{- end}}
 	call.Context(ctx)
 
@@ -619,13 +681,13 @@ func (g *{{.GCEWrapType}}) {{.FcnArgs}} {
 	{{- end}}
 	}
 {{- if .KeyIsGlobal}}
-	call := g.s.{{.VersionField}}.{{.Service}}.{{.Name}}(projectID, key.Name {{.CallArgs}})
+	call := g.s.{{.VersionTitle}}.{{.Service}}.{{.Name}}(projectID, key.Name {{.CallArgs}})
 {{- end -}}
 {{- if .KeyIsRegional}}
-	call := g.s.{{.VersionField}}.{{.Service}}.{{.Name}}(projectID, key.Region, key.Name {{.CallArgs}})
+	call := g.s.{{.VersionTitle}}.{{.Service}}.{{.Name}}(projectID, key.Region, key.Name {{.CallArgs}})
 {{- end -}}
 {{- if .KeyIsZonal}}
-	call := g.s.{{.VersionField}}.{{.Service}}.{{.Name}}(projectID, key.Zone, key.Name {{.CallArgs}})
+	call := g.s.{{.VersionTitle}}.{{.Service}}.{{.Name}}(projectID, key.Zone, key.Name {{.CallArgs}})
 {{- end}}
 	call.Context(ctx)
 {{- if eq .ReturnType "Operation"}}

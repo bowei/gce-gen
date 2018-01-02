@@ -17,6 +17,7 @@ limitations under the License.
 package cloud
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/bowei/gce-gen/pkg/cloud/meta"
@@ -106,5 +107,51 @@ func TestParseResourceURL(t *testing.T) {
 		if err == nil {
 			t.Errorf("ParseResourceURL(%q) = %+v, %v, want _, error", tc, r, err)
 		}
+	}
+}
+
+type A struct {
+	A, B, C string
+}
+
+type B struct {
+	A, B, D string
+}
+
+type E struct{}
+
+func (*E) MarshalJSON() ([]byte, error) {
+	return nil, errors.New("injected error")
+}
+
+func TestCopyVisJSON(t *testing.T) {
+	t.Parallel()
+
+	var b B
+	srcA := &A{"aa", "bb", "cc"}
+	err := copyViaJSON(&b, srcA)
+	if err != nil {
+		t.Errorf(`copyViaJSON(&b, %+v) = %v, want nil`, srcA, err)
+	} else {
+		expectedB := B{"aa", "bb", ""}
+		if b != expectedB {
+			t.Errorf("b == %+v, want %+v", b, expectedB)
+		}
+	}
+
+	var a A
+	srcB := &B{"aaa", "bbb", "ccc"}
+	err = copyViaJSON(&a, srcB)
+	if err != nil {
+		t.Errorf(`copyViaJSON(&a, %+v) = %v, want nil`, srcB, err)
+	} else {
+		expectedA := A{"aaa", "bbb", ""}
+		if a != expectedA {
+			t.Errorf("a == %+v, want %+v", a, expectedA)
+		}
+	}
+
+	if err := copyViaJSON(&a, &E{}); err == nil {
+		t.Errorf("copyViaJSON(&a, &E{}) = nil, want error")
 	}
 }

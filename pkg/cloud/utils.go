@@ -17,6 +17,7 @@ limitations under the License.
 package cloud
 
 import (
+	"encoding/json"
 	"fmt"
 	"strings"
 
@@ -130,4 +131,12 @@ func ParseResourceURL(url string) (*ResourceID, error) {
 		return ret, nil
 	}
 	return nil, errNotValid
+}
+
+func copyViaJSON(dest, src interface{}) error {
+	bytes, err := json.Marshal(src)
+	if err != nil {
+		return err
+	}
+	return json.Unmarshal(bytes, dest)
 }

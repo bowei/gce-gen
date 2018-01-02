@@ -25,9 +25,11 @@ import (
 	"net/http"
 	"sync"
 
+	"github.com/golang/glog"
+	"google.golang.org/api/googleapi"
+
 	"github.com/bowei/gce-gen/pkg/cloud/filter"
 	"github.com/bowei/gce-gen/pkg/cloud/meta"
-	"google.golang.org/api/googleapi"
 
 	alpha "google.golang.org/api/compute/v0.alpha"
 	beta "google.golang.org/api/compute/v0.beta"
@@ -70,41 +72,241 @@ type Cloud interface {
 	Zones() Zones
 }
 
+// NewGCE returns a GCE.
+func NewGCE(s *Service) *GCE {
+	g := &GCE{
+		gceAddresses:                  &GCEAddresses{s},
+		gceAlphaAddresses:             &GCEAlphaAddresses{s},
+		gceBetaAddresses:              &GCEBetaAddresses{s},
+		gceGlobalAddresses:            &GCEGlobalAddresses{s},
+		gceBackendServices:            &GCEBackendServices{s},
+		gceAlphaBackendServices:       &GCEAlphaBackendServices{s},
+		gceAlphaRegionBackendServices: &GCEAlphaRegionBackendServices{s},
+		gceDisks:                      &GCEDisks{s},
+		gceAlphaDisks:                 &GCEAlphaDisks{s},
+		gceAlphaRegionDisks:           &GCEAlphaRegionDisks{s},
+		gceFirewalls:                  &GCEFirewalls{s},
+		gceForwardingRules:            &GCEForwardingRules{s},
+		gceAlphaForwardingRules:       &GCEAlphaForwardingRules{s},
+		gceGlobalForwardingRules:      &GCEGlobalForwardingRules{s},
+		gceHealthChecks:               &GCEHealthChecks{s},
+		gceAlphaHealthChecks:          &GCEAlphaHealthChecks{s},
+		gceHttpHealthChecks:           &GCEHttpHealthChecks{s},
+		gceHttpsHealthChecks:          &GCEHttpsHealthChecks{s},
+		gceInstanceGroups:             &GCEInstanceGroups{s},
+		gceInstances:                  &GCEInstances{s},
+		gceBetaInstances:              &GCEBetaInstances{s},
+		gceAlphaInstances:             &GCEAlphaInstances{s},
+		gceAlphaNetworkEndpointGroups: &GCEAlphaNetworkEndpointGroups{s},
+		gceProjects:                   &GCEProjects{s},
+		gceRegions:                    &GCERegions{s},
+		gceRoutes:                     &GCERoutes{s},
+		gceSslCertificates:            &GCESslCertificates{s},
+		gceTargetHttpProxies:          &GCETargetHttpProxies{s},
+		gceTargetHttpsProxies:         &GCETargetHttpsProxies{s},
+		gceTargetPools:                &GCETargetPools{s},
+		gceUrlMaps:                    &GCEUrlMaps{s},
+		gceZones:                      &GCEZones{s},
+	}
+	return g
+}
+
+// GCE implements Cloud.
+var _ Cloud = (*GCE)(nil)
+
+// GCE is the golang adapter for the compute APIs.
+type GCE struct {
+	gceAddresses                  *GCEAddresses
+	gceAlphaAddresses             *GCEAlphaAddresses
+	gceBetaAddresses              *GCEBetaAddresses
+	gceGlobalAddresses            *GCEGlobalAddresses
+	gceBackendServices            *GCEBackendServices
+	gceAlphaBackendServices       *GCEAlphaBackendServices
+	gceAlphaRegionBackendServices *GCEAlphaRegionBackendServices
+	gceDisks                      *GCEDisks
+	gceAlphaDisks                 *GCEAlphaDisks
+	gceAlphaRegionDisks           *GCEAlphaRegionDisks
+	gceFirewalls                  *GCEFirewalls
+	gceForwardingRules            *GCEForwardingRules
+	gceAlphaForwardingRules       *GCEAlphaForwardingRules
+	gceGlobalForwardingRules      *GCEGlobalForwardingRules
+	gceHealthChecks               *GCEHealthChecks
+	gceAlphaHealthChecks          *GCEAlphaHealthChecks
+	gceHttpHealthChecks           *GCEHttpHealthChecks
+	gceHttpsHealthChecks          *GCEHttpsHealthChecks
+	gceInstanceGroups             *GCEInstanceGroups
+	gceInstances                  *GCEInstances
+	gceBetaInstances              *GCEBetaInstances
+	gceAlphaInstances             *GCEAlphaInstances
+	gceAlphaNetworkEndpointGroups *GCEAlphaNetworkEndpointGroups
+	gceProjects                   *GCEProjects
+	gceRegions                    *GCERegions
+	gceRoutes                     *GCERoutes
+	gceSslCertificates            *GCESslCertificates
+	gceTargetHttpProxies          *GCETargetHttpProxies
+	gceTargetHttpsProxies         *GCETargetHttpsProxies
+	gceTargetPools                *GCETargetPools
+	gceUrlMaps                    *GCEUrlMaps
+	gceZones                      *GCEZones
+}
+
+func (gce *GCE) Addresses() Addresses {
+	return gce.gceAddresses
+}
+func (gce *GCE) AlphaAddresses() AlphaAddresses {
+	return gce.gceAlphaAddresses
+}
+func (gce *GCE) BetaAddresses() BetaAddresses {
+	return gce.gceBetaAddresses
+}
+func (gce *GCE) GlobalAddresses() GlobalAddresses {
+	return gce.gceGlobalAddresses
+}
+func (gce *GCE) BackendServices() BackendServices {
+	return gce.gceBackendServices
+}
+func (gce *GCE) AlphaBackendServices() AlphaBackendServices {
+	return gce.gceAlphaBackendServices
+}
+func (gce *GCE) AlphaRegionBackendServices() AlphaRegionBackendServices {
+	return gce.gceAlphaRegionBackendServices
+}
+func (gce *GCE) Disks() Disks {
+	return gce.gceDisks
+}
+func (gce *GCE) AlphaDisks() AlphaDisks {
+	return gce.gceAlphaDisks
+}
+func (gce *GCE) AlphaRegionDisks() AlphaRegionDisks {
+	return gce.gceAlphaRegionDisks
+}
+func (gce *GCE) Firewalls() Firewalls {
+	return gce.gceFirewalls
+}
+func (gce *GCE) ForwardingRules() ForwardingRules {
+	return gce.gceForwardingRules
+}
+func (gce *GCE) AlphaForwardingRules() AlphaForwardingRules {
+	return gce.gceAlphaForwardingRules
+}
+func (gce *GCE) GlobalForwardingRules() GlobalForwardingRules {
+	return gce.gceGlobalForwardingRules
+}
+func (gce *GCE) HealthChecks() HealthChecks {
+	return gce.gceHealthChecks
+}
+func (gce *GCE) AlphaHealthChecks() AlphaHealthChecks {
+	return gce.gceAlphaHealthChecks
+}
+func (gce *GCE) HttpHealthChecks() HttpHealthChecks {
+	return gce.gceHttpHealthChecks
+}
+func (gce *GCE) HttpsHealthChecks() HttpsHealthChecks {
+	return gce.gceHttpsHealthChecks
+}
+func (gce *GCE) InstanceGroups() InstanceGroups {
+	return gce.gceInstanceGroups
+}
+func (gce *GCE) Instances() Instances {
+	return gce.gceInstances
+}
+func (gce *GCE) BetaInstances() BetaInstances {
+	return gce.gceBetaInstances
+}
+func (gce *GCE) AlphaInstances() AlphaInstances {
+	return gce.gceAlphaInstances
+}
+func (gce *GCE) AlphaNetworkEndpointGroups() AlphaNetworkEndpointGroups {
+	return gce.gceAlphaNetworkEndpointGroups
+}
+func (gce *GCE) Projects() Projects {
+	return gce.gceProjects
+}
+func (gce *GCE) Regions() Regions {
+	return gce.gceRegions
+}
+func (gce *GCE) Routes() Routes {
+	return gce.gceRoutes
+}
+func (gce *GCE) SslCertificates() SslCertificates {
+	return gce.gceSslCertificates
+}
+func (gce *GCE) TargetHttpProxies() TargetHttpProxies {
+	return gce.gceTargetHttpProxies
+}
+func (gce *GCE) TargetHttpsProxies() TargetHttpsProxies {
+	return gce.gceTargetHttpsProxies
+}
+func (gce *GCE) TargetPools() TargetPools {
+	return gce.gceTargetPools
+}
+func (gce *GCE) UrlMaps() UrlMaps {
+	return gce.gceUrlMaps
+}
+func (gce *GCE) Zones() Zones {
+	return gce.gceZones
+}
+
 // NewMockGCE returns a new mock for GCE.
 func NewMockGCE() *MockGCE {
+	mockAddressesObjs := map[meta.Key]*MockAddressesObj{}
+	mockBackendServicesObjs := map[meta.Key]*MockBackendServicesObj{}
+	mockDisksObjs := map[meta.Key]*MockDisksObj{}
+	mockFirewallsObjs := map[meta.Key]*MockFirewallsObj{}
+	mockForwardingRulesObjs := map[meta.Key]*MockForwardingRulesObj{}
+	mockGlobalAddressesObjs := map[meta.Key]*MockGlobalAddressesObj{}
+	mockGlobalForwardingRulesObjs := map[meta.Key]*MockGlobalForwardingRulesObj{}
+	mockHealthChecksObjs := map[meta.Key]*MockHealthChecksObj{}
+	mockHttpHealthChecksObjs := map[meta.Key]*MockHttpHealthChecksObj{}
+	mockHttpsHealthChecksObjs := map[meta.Key]*MockHttpsHealthChecksObj{}
+	mockInstanceGroupsObjs := map[meta.Key]*MockInstanceGroupsObj{}
+	mockInstancesObjs := map[meta.Key]*MockInstancesObj{}
+	mockNetworkEndpointGroupsObjs := map[meta.Key]*MockNetworkEndpointGroupsObj{}
+	mockProjectsObjs := map[meta.Key]*MockProjectsObj{}
+	mockRegionBackendServicesObjs := map[meta.Key]*MockRegionBackendServicesObj{}
+	mockRegionDisksObjs := map[meta.Key]*MockRegionDisksObj{}
+	mockRegionsObjs := map[meta.Key]*MockRegionsObj{}
+	mockRoutesObjs := map[meta.Key]*MockRoutesObj{}
+	mockSslCertificatesObjs := map[meta.Key]*MockSslCertificatesObj{}
+	mockTargetHttpProxiesObjs := map[meta.Key]*MockTargetHttpProxiesObj{}
+	mockTargetHttpsProxiesObjs := map[meta.Key]*MockTargetHttpsProxiesObj{}
+	mockTargetPoolsObjs := map[meta.Key]*MockTargetPoolsObj{}
+	mockUrlMapsObjs := map[meta.Key]*MockUrlMapsObj{}
+	mockZonesObjs := map[meta.Key]*MockZonesObj{}
+
 	mock := &MockGCE{
-		MockAddresses:                  NewMockAddresses(),
-		MockAlphaAddresses:             NewMockAlphaAddresses(),
-		MockBetaAddresses:              NewMockBetaAddresses(),
-		MockGlobalAddresses:            NewMockGlobalAddresses(),
-		MockBackendServices:            NewMockBackendServices(),
-		MockAlphaBackendServices:       NewMockAlphaBackendServices(),
-		MockAlphaRegionBackendServices: NewMockAlphaRegionBackendServices(),
-		MockDisks:                      NewMockDisks(),
-		MockAlphaDisks:                 NewMockAlphaDisks(),
-		MockAlphaRegionDisks:           NewMockAlphaRegionDisks(),
-		MockFirewalls:                  NewMockFirewalls(),
-		MockForwardingRules:            NewMockForwardingRules(),
-		MockAlphaForwardingRules:       NewMockAlphaForwardingRules(),
-		MockGlobalForwardingRules:      NewMockGlobalForwardingRules(),
-		MockHealthChecks:               NewMockHealthChecks(),
-		MockAlphaHealthChecks:          NewMockAlphaHealthChecks(),
-		MockHttpHealthChecks:           NewMockHttpHealthChecks(),
-		MockHttpsHealthChecks:          NewMockHttpsHealthChecks(),
-		MockInstanceGroups:             NewMockInstanceGroups(),
-		MockInstances:                  NewMockInstances(),
-		MockBetaInstances:              NewMockBetaInstances(),
-		MockAlphaInstances:             NewMockAlphaInstances(),
-		MockAlphaNetworkEndpointGroups: NewMockAlphaNetworkEndpointGroups(),
-		MockProjects:                   NewMockProjects(),
-		MockRegions:                    NewMockRegions(),
-		MockRoutes:                     NewMockRoutes(),
-		MockSslCertificates:            NewMockSslCertificates(),
-		MockTargetHttpProxies:          NewMockTargetHttpProxies(),
-		MockTargetHttpsProxies:         NewMockTargetHttpsProxies(),
-		MockTargetPools:                NewMockTargetPools(),
-		MockUrlMaps:                    NewMockUrlMaps(),
-		MockZones:                      NewMockZones(),
+		MockAddresses:                  NewMockAddresses(mockAddressesObjs),
+		MockAlphaAddresses:             NewMockAlphaAddresses(mockAddressesObjs),
+		MockBetaAddresses:              NewMockBetaAddresses(mockAddressesObjs),
+		MockGlobalAddresses:            NewMockGlobalAddresses(mockGlobalAddressesObjs),
+		MockBackendServices:            NewMockBackendServices(mockBackendServicesObjs),
+		MockAlphaBackendServices:       NewMockAlphaBackendServices(mockBackendServicesObjs),
+		MockAlphaRegionBackendServices: NewMockAlphaRegionBackendServices(mockRegionBackendServicesObjs),
+		MockDisks:                      NewMockDisks(mockDisksObjs),
+		MockAlphaDisks:                 NewMockAlphaDisks(mockDisksObjs),
+		MockAlphaRegionDisks:           NewMockAlphaRegionDisks(mockRegionDisksObjs),
+		MockFirewalls:                  NewMockFirewalls(mockFirewallsObjs),
+		MockForwardingRules:            NewMockForwardingRules(mockForwardingRulesObjs),
+		MockAlphaForwardingRules:       NewMockAlphaForwardingRules(mockForwardingRulesObjs),
+		MockGlobalForwardingRules:      NewMockGlobalForwardingRules(mockGlobalForwardingRulesObjs),
+		MockHealthChecks:               NewMockHealthChecks(mockHealthChecksObjs),
+		MockAlphaHealthChecks:          NewMockAlphaHealthChecks(mockHealthChecksObjs),
+		MockHttpHealthChecks:           NewMockHttpHealthChecks(mockHttpHealthChecksObjs),
+		MockHttpsHealthChecks:          NewMockHttpsHealthChecks(mockHttpsHealthChecksObjs),
+		MockInstanceGroups:             NewMockInstanceGroups(mockInstanceGroupsObjs),
+		MockInstances:                  NewMockInstances(mockInstancesObjs),
+		MockBetaInstances:              NewMockBetaInstances(mockInstancesObjs),
+		MockAlphaInstances:             NewMockAlphaInstances(mockInstancesObjs),
+		MockAlphaNetworkEndpointGroups: NewMockAlphaNetworkEndpointGroups(mockNetworkEndpointGroupsObjs),
+		MockProjects:                   NewMockProjects(mockProjectsObjs),
+		MockRegions:                    NewMockRegions(mockRegionsObjs),
+		MockRoutes:                     NewMockRoutes(mockRoutesObjs),
+		MockSslCertificates:            NewMockSslCertificates(mockSslCertificatesObjs),
+		MockTargetHttpProxies:          NewMockTargetHttpProxies(mockTargetHttpProxiesObjs),
+		MockTargetHttpsProxies:         NewMockTargetHttpsProxies(mockTargetHttpsProxiesObjs),
+		MockTargetPools:                NewMockTargetPools(mockTargetPoolsObjs),
+		MockUrlMaps:                    NewMockUrlMaps(mockUrlMapsObjs),
+		MockZones:                      NewMockZones(mockZonesObjs),
 	}
 	return mock
 }
@@ -276,210 +478,588 @@ func (mock *MockGCE) Zones() Zones {
 	return mock.MockZones
 }
 
-// NewGCE returns a GCE.
-func NewGCE(s *Service) *GCE {
-	g := &GCE{
-		gceAddresses:                  &GCEAddresses{s},
-		gceAlphaAddresses:             &GCEAlphaAddresses{s},
-		gceBetaAddresses:              &GCEBetaAddresses{s},
-		gceGlobalAddresses:            &GCEGlobalAddresses{s},
-		gceBackendServices:            &GCEBackendServices{s},
-		gceAlphaBackendServices:       &GCEAlphaBackendServices{s},
-		gceAlphaRegionBackendServices: &GCEAlphaRegionBackendServices{s},
-		gceDisks:                      &GCEDisks{s},
-		gceAlphaDisks:                 &GCEAlphaDisks{s},
-		gceAlphaRegionDisks:           &GCEAlphaRegionDisks{s},
-		gceFirewalls:                  &GCEFirewalls{s},
-		gceForwardingRules:            &GCEForwardingRules{s},
-		gceAlphaForwardingRules:       &GCEAlphaForwardingRules{s},
-		gceGlobalForwardingRules:      &GCEGlobalForwardingRules{s},
-		gceHealthChecks:               &GCEHealthChecks{s},
-		gceAlphaHealthChecks:          &GCEAlphaHealthChecks{s},
-		gceHttpHealthChecks:           &GCEHttpHealthChecks{s},
-		gceHttpsHealthChecks:          &GCEHttpsHealthChecks{s},
-		gceInstanceGroups:             &GCEInstanceGroups{s},
-		gceInstances:                  &GCEInstances{s},
-		gceBetaInstances:              &GCEBetaInstances{s},
-		gceAlphaInstances:             &GCEAlphaInstances{s},
-		gceAlphaNetworkEndpointGroups: &GCEAlphaNetworkEndpointGroups{s},
-		gceProjects:                   &GCEProjects{s},
-		gceRegions:                    &GCERegions{s},
-		gceRoutes:                     &GCERoutes{s},
-		gceSslCertificates:            &GCESslCertificates{s},
-		gceTargetHttpProxies:          &GCETargetHttpProxies{s},
-		gceTargetHttpsProxies:         &GCETargetHttpsProxies{s},
-		gceTargetPools:                &GCETargetPools{s},
-		gceUrlMaps:                    &GCEUrlMaps{s},
-		gceZones:                      &GCEZones{s},
+// MockAddressesObj is used to store the various object versions in the shared
+// map of mocked objects. This allows for multiple API versions to co-exist and
+// share the same "view" of the objects in the backend.
+type MockAddressesObj struct {
+	o interface{}
+}
+
+// ToAlpha retrieves the given version of the object.
+func (m *MockAddressesObj) ToAlpha() *alpha.Address {
+	if ret, ok := m.o.(*alpha.Address); ok {
+		return ret
 	}
-	return g
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &alpha.Address{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *alpha.Address via JSON: %v", m.o, err)
+	}
+	return ret
 }
 
-// GCE implements Cloud.
-var _ Cloud = (*GCE)(nil)
-
-// GCE is the golang adapter for the compute APIs.
-type GCE struct {
-	gceAddresses                  *GCEAddresses
-	gceAlphaAddresses             *GCEAlphaAddresses
-	gceBetaAddresses              *GCEBetaAddresses
-	gceGlobalAddresses            *GCEGlobalAddresses
-	gceBackendServices            *GCEBackendServices
-	gceAlphaBackendServices       *GCEAlphaBackendServices
-	gceAlphaRegionBackendServices *GCEAlphaRegionBackendServices
-	gceDisks                      *GCEDisks
-	gceAlphaDisks                 *GCEAlphaDisks
-	gceAlphaRegionDisks           *GCEAlphaRegionDisks
-	gceFirewalls                  *GCEFirewalls
-	gceForwardingRules            *GCEForwardingRules
-	gceAlphaForwardingRules       *GCEAlphaForwardingRules
-	gceGlobalForwardingRules      *GCEGlobalForwardingRules
-	gceHealthChecks               *GCEHealthChecks
-	gceAlphaHealthChecks          *GCEAlphaHealthChecks
-	gceHttpHealthChecks           *GCEHttpHealthChecks
-	gceHttpsHealthChecks          *GCEHttpsHealthChecks
-	gceInstanceGroups             *GCEInstanceGroups
-	gceInstances                  *GCEInstances
-	gceBetaInstances              *GCEBetaInstances
-	gceAlphaInstances             *GCEAlphaInstances
-	gceAlphaNetworkEndpointGroups *GCEAlphaNetworkEndpointGroups
-	gceProjects                   *GCEProjects
-	gceRegions                    *GCERegions
-	gceRoutes                     *GCERoutes
-	gceSslCertificates            *GCESslCertificates
-	gceTargetHttpProxies          *GCETargetHttpProxies
-	gceTargetHttpsProxies         *GCETargetHttpsProxies
-	gceTargetPools                *GCETargetPools
-	gceUrlMaps                    *GCEUrlMaps
-	gceZones                      *GCEZones
+// ToBeta retrieves the given version of the object.
+func (m *MockAddressesObj) ToBeta() *beta.Address {
+	if ret, ok := m.o.(*beta.Address); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &beta.Address{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *beta.Address via JSON: %v", m.o, err)
+	}
+	return ret
 }
 
-func (gce *GCE) Addresses() Addresses {
-	return gce.gceAddresses
+// ToGA retrieves the given version of the object.
+func (m *MockAddressesObj) ToGA() *ga.Address {
+	if ret, ok := m.o.(*ga.Address); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &ga.Address{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *ga.Address via JSON: %v", m.o, err)
+	}
+	return ret
 }
 
-func (gce *GCE) AlphaAddresses() AlphaAddresses {
-	return gce.gceAlphaAddresses
+// MockBackendServicesObj is used to store the various object versions in the shared
+// map of mocked objects. This allows for multiple API versions to co-exist and
+// share the same "view" of the objects in the backend.
+type MockBackendServicesObj struct {
+	o interface{}
 }
 
-func (gce *GCE) BetaAddresses() BetaAddresses {
-	return gce.gceBetaAddresses
+// ToAlpha retrieves the given version of the object.
+func (m *MockBackendServicesObj) ToAlpha() *alpha.BackendService {
+	if ret, ok := m.o.(*alpha.BackendService); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &alpha.BackendService{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *alpha.BackendService via JSON: %v", m.o, err)
+	}
+	return ret
 }
 
-func (gce *GCE) GlobalAddresses() GlobalAddresses {
-	return gce.gceGlobalAddresses
+// ToGA retrieves the given version of the object.
+func (m *MockBackendServicesObj) ToGA() *ga.BackendService {
+	if ret, ok := m.o.(*ga.BackendService); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &ga.BackendService{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *ga.BackendService via JSON: %v", m.o, err)
+	}
+	return ret
 }
 
-func (gce *GCE) BackendServices() BackendServices {
-	return gce.gceBackendServices
+// MockDisksObj is used to store the various object versions in the shared
+// map of mocked objects. This allows for multiple API versions to co-exist and
+// share the same "view" of the objects in the backend.
+type MockDisksObj struct {
+	o interface{}
 }
 
-func (gce *GCE) AlphaBackendServices() AlphaBackendServices {
-	return gce.gceAlphaBackendServices
+// ToAlpha retrieves the given version of the object.
+func (m *MockDisksObj) ToAlpha() *alpha.Disk {
+	if ret, ok := m.o.(*alpha.Disk); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &alpha.Disk{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *alpha.Disk via JSON: %v", m.o, err)
+	}
+	return ret
 }
 
-func (gce *GCE) AlphaRegionBackendServices() AlphaRegionBackendServices {
-	return gce.gceAlphaRegionBackendServices
+// ToGA retrieves the given version of the object.
+func (m *MockDisksObj) ToGA() *ga.Disk {
+	if ret, ok := m.o.(*ga.Disk); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &ga.Disk{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *ga.Disk via JSON: %v", m.o, err)
+	}
+	return ret
 }
 
-func (gce *GCE) Disks() Disks {
-	return gce.gceDisks
+// MockFirewallsObj is used to store the various object versions in the shared
+// map of mocked objects. This allows for multiple API versions to co-exist and
+// share the same "view" of the objects in the backend.
+type MockFirewallsObj struct {
+	o interface{}
 }
 
-func (gce *GCE) AlphaDisks() AlphaDisks {
-	return gce.gceAlphaDisks
+// ToGA retrieves the given version of the object.
+func (m *MockFirewallsObj) ToGA() *ga.Firewall {
+	if ret, ok := m.o.(*ga.Firewall); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &ga.Firewall{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *ga.Firewall via JSON: %v", m.o, err)
+	}
+	return ret
 }
 
-func (gce *GCE) AlphaRegionDisks() AlphaRegionDisks {
-	return gce.gceAlphaRegionDisks
+// MockForwardingRulesObj is used to store the various object versions in the shared
+// map of mocked objects. This allows for multiple API versions to co-exist and
+// share the same "view" of the objects in the backend.
+type MockForwardingRulesObj struct {
+	o interface{}
 }
 
-func (gce *GCE) Firewalls() Firewalls {
-	return gce.gceFirewalls
+// ToAlpha retrieves the given version of the object.
+func (m *MockForwardingRulesObj) ToAlpha() *alpha.ForwardingRule {
+	if ret, ok := m.o.(*alpha.ForwardingRule); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &alpha.ForwardingRule{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *alpha.ForwardingRule via JSON: %v", m.o, err)
+	}
+	return ret
 }
 
-func (gce *GCE) ForwardingRules() ForwardingRules {
-	return gce.gceForwardingRules
+// ToGA retrieves the given version of the object.
+func (m *MockForwardingRulesObj) ToGA() *ga.ForwardingRule {
+	if ret, ok := m.o.(*ga.ForwardingRule); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &ga.ForwardingRule{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *ga.ForwardingRule via JSON: %v", m.o, err)
+	}
+	return ret
 }
 
-func (gce *GCE) AlphaForwardingRules() AlphaForwardingRules {
-	return gce.gceAlphaForwardingRules
+// MockGlobalAddressesObj is used to store the various object versions in the shared
+// map of mocked objects. This allows for multiple API versions to co-exist and
+// share the same "view" of the objects in the backend.
+type MockGlobalAddressesObj struct {
+	o interface{}
 }
 
-func (gce *GCE) GlobalForwardingRules() GlobalForwardingRules {
-	return gce.gceGlobalForwardingRules
+// ToGA retrieves the given version of the object.
+func (m *MockGlobalAddressesObj) ToGA() *ga.Address {
+	if ret, ok := m.o.(*ga.Address); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &ga.Address{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *ga.Address via JSON: %v", m.o, err)
+	}
+	return ret
 }
 
-func (gce *GCE) HealthChecks() HealthChecks {
-	return gce.gceHealthChecks
+// MockGlobalForwardingRulesObj is used to store the various object versions in the shared
+// map of mocked objects. This allows for multiple API versions to co-exist and
+// share the same "view" of the objects in the backend.
+type MockGlobalForwardingRulesObj struct {
+	o interface{}
 }
 
-func (gce *GCE) AlphaHealthChecks() AlphaHealthChecks {
-	return gce.gceAlphaHealthChecks
+// ToGA retrieves the given version of the object.
+func (m *MockGlobalForwardingRulesObj) ToGA() *ga.ForwardingRule {
+	if ret, ok := m.o.(*ga.ForwardingRule); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &ga.ForwardingRule{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *ga.ForwardingRule via JSON: %v", m.o, err)
+	}
+	return ret
 }
 
-func (gce *GCE) HttpHealthChecks() HttpHealthChecks {
-	return gce.gceHttpHealthChecks
+// MockHealthChecksObj is used to store the various object versions in the shared
+// map of mocked objects. This allows for multiple API versions to co-exist and
+// share the same "view" of the objects in the backend.
+type MockHealthChecksObj struct {
+	o interface{}
 }
 
-func (gce *GCE) HttpsHealthChecks() HttpsHealthChecks {
-	return gce.gceHttpsHealthChecks
+// ToAlpha retrieves the given version of the object.
+func (m *MockHealthChecksObj) ToAlpha() *alpha.HealthCheck {
+	if ret, ok := m.o.(*alpha.HealthCheck); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &alpha.HealthCheck{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *alpha.HealthCheck via JSON: %v", m.o, err)
+	}
+	return ret
 }
 
-func (gce *GCE) InstanceGroups() InstanceGroups {
-	return gce.gceInstanceGroups
+// ToGA retrieves the given version of the object.
+func (m *MockHealthChecksObj) ToGA() *ga.HealthCheck {
+	if ret, ok := m.o.(*ga.HealthCheck); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &ga.HealthCheck{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *ga.HealthCheck via JSON: %v", m.o, err)
+	}
+	return ret
 }
 
-func (gce *GCE) Instances() Instances {
-	return gce.gceInstances
+// MockHttpHealthChecksObj is used to store the various object versions in the shared
+// map of mocked objects. This allows for multiple API versions to co-exist and
+// share the same "view" of the objects in the backend.
+type MockHttpHealthChecksObj struct {
+	o interface{}
 }
 
-func (gce *GCE) BetaInstances() BetaInstances {
-	return gce.gceBetaInstances
+// ToGA retrieves the given version of the object.
+func (m *MockHttpHealthChecksObj) ToGA() *ga.HttpHealthCheck {
+	if ret, ok := m.o.(*ga.HttpHealthCheck); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &ga.HttpHealthCheck{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *ga.HttpHealthCheck via JSON: %v", m.o, err)
+	}
+	return ret
 }
 
-func (gce *GCE) AlphaInstances() AlphaInstances {
-	return gce.gceAlphaInstances
+// MockHttpsHealthChecksObj is used to store the various object versions in the shared
+// map of mocked objects. This allows for multiple API versions to co-exist and
+// share the same "view" of the objects in the backend.
+type MockHttpsHealthChecksObj struct {
+	o interface{}
 }
 
-func (gce *GCE) AlphaNetworkEndpointGroups() AlphaNetworkEndpointGroups {
-	return gce.gceAlphaNetworkEndpointGroups
+// ToGA retrieves the given version of the object.
+func (m *MockHttpsHealthChecksObj) ToGA() *ga.HttpsHealthCheck {
+	if ret, ok := m.o.(*ga.HttpsHealthCheck); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &ga.HttpsHealthCheck{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *ga.HttpsHealthCheck via JSON: %v", m.o, err)
+	}
+	return ret
 }
 
-func (gce *GCE) Projects() Projects {
-	return gce.gceProjects
+// MockInstanceGroupsObj is used to store the various object versions in the shared
+// map of mocked objects. This allows for multiple API versions to co-exist and
+// share the same "view" of the objects in the backend.
+type MockInstanceGroupsObj struct {
+	o interface{}
 }
 
-func (gce *GCE) Regions() Regions {
-	return gce.gceRegions
+// ToGA retrieves the given version of the object.
+func (m *MockInstanceGroupsObj) ToGA() *ga.InstanceGroup {
+	if ret, ok := m.o.(*ga.InstanceGroup); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &ga.InstanceGroup{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *ga.InstanceGroup via JSON: %v", m.o, err)
+	}
+	return ret
 }
 
-func (gce *GCE) Routes() Routes {
-	return gce.gceRoutes
+// MockInstancesObj is used to store the various object versions in the shared
+// map of mocked objects. This allows for multiple API versions to co-exist and
+// share the same "view" of the objects in the backend.
+type MockInstancesObj struct {
+	o interface{}
 }
 
-func (gce *GCE) SslCertificates() SslCertificates {
-	return gce.gceSslCertificates
+// ToAlpha retrieves the given version of the object.
+func (m *MockInstancesObj) ToAlpha() *alpha.Instance {
+	if ret, ok := m.o.(*alpha.Instance); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &alpha.Instance{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *alpha.Instance via JSON: %v", m.o, err)
+	}
+	return ret
 }
 
-func (gce *GCE) TargetHttpProxies() TargetHttpProxies {
-	return gce.gceTargetHttpProxies
+// ToBeta retrieves the given version of the object.
+func (m *MockInstancesObj) ToBeta() *beta.Instance {
+	if ret, ok := m.o.(*beta.Instance); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &beta.Instance{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *beta.Instance via JSON: %v", m.o, err)
+	}
+	return ret
 }
 
-func (gce *GCE) TargetHttpsProxies() TargetHttpsProxies {
-	return gce.gceTargetHttpsProxies
+// ToGA retrieves the given version of the object.
+func (m *MockInstancesObj) ToGA() *ga.Instance {
+	if ret, ok := m.o.(*ga.Instance); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &ga.Instance{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *ga.Instance via JSON: %v", m.o, err)
+	}
+	return ret
 }
 
-func (gce *GCE) TargetPools() TargetPools {
-	return gce.gceTargetPools
+// MockNetworkEndpointGroupsObj is used to store the various object versions in the shared
+// map of mocked objects. This allows for multiple API versions to co-exist and
+// share the same "view" of the objects in the backend.
+type MockNetworkEndpointGroupsObj struct {
+	o interface{}
 }
 
-func (gce *GCE) UrlMaps() UrlMaps {
-	return gce.gceUrlMaps
+// ToAlpha retrieves the given version of the object.
+func (m *MockNetworkEndpointGroupsObj) ToAlpha() *alpha.NetworkEndpointGroup {
+	if ret, ok := m.o.(*alpha.NetworkEndpointGroup); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &alpha.NetworkEndpointGroup{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *alpha.NetworkEndpointGroup via JSON: %v", m.o, err)
+	}
+	return ret
 }
 
-func (gce *GCE) Zones() Zones {
-	return gce.gceZones
+// MockProjectsObj is used to store the various object versions in the shared
+// map of mocked objects. This allows for multiple API versions to co-exist and
+// share the same "view" of the objects in the backend.
+type MockProjectsObj struct {
+	o interface{}
+}
+
+// ToGA retrieves the given version of the object.
+func (m *MockProjectsObj) ToGA() *ga.Project {
+	if ret, ok := m.o.(*ga.Project); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &ga.Project{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *ga.Project via JSON: %v", m.o, err)
+	}
+	return ret
+}
+
+// MockRegionBackendServicesObj is used to store the various object versions in the shared
+// map of mocked objects. This allows for multiple API versions to co-exist and
+// share the same "view" of the objects in the backend.
+type MockRegionBackendServicesObj struct {
+	o interface{}
+}
+
+// ToAlpha retrieves the given version of the object.
+func (m *MockRegionBackendServicesObj) ToAlpha() *alpha.BackendService {
+	if ret, ok := m.o.(*alpha.BackendService); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &alpha.BackendService{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *alpha.BackendService via JSON: %v", m.o, err)
+	}
+	return ret
+}
+
+// MockRegionDisksObj is used to store the various object versions in the shared
+// map of mocked objects. This allows for multiple API versions to co-exist and
+// share the same "view" of the objects in the backend.
+type MockRegionDisksObj struct {
+	o interface{}
+}
+
+// ToAlpha retrieves the given version of the object.
+func (m *MockRegionDisksObj) ToAlpha() *alpha.Disk {
+	if ret, ok := m.o.(*alpha.Disk); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &alpha.Disk{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *alpha.Disk via JSON: %v", m.o, err)
+	}
+	return ret
+}
+
+// MockRegionsObj is used to store the various object versions in the shared
+// map of mocked objects. This allows for multiple API versions to co-exist and
+// share the same "view" of the objects in the backend.
+type MockRegionsObj struct {
+	o interface{}
+}
+
+// ToGA retrieves the given version of the object.
+func (m *MockRegionsObj) ToGA() *ga.Region {
+	if ret, ok := m.o.(*ga.Region); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &ga.Region{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *ga.Region via JSON: %v", m.o, err)
+	}
+	return ret
+}
+
+// MockRoutesObj is used to store the various object versions in the shared
+// map of mocked objects. This allows for multiple API versions to co-exist and
+// share the same "view" of the objects in the backend.
+type MockRoutesObj struct {
+	o interface{}
+}
+
+// ToGA retrieves the given version of the object.
+func (m *MockRoutesObj) ToGA() *ga.Route {
+	if ret, ok := m.o.(*ga.Route); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &ga.Route{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *ga.Route via JSON: %v", m.o, err)
+	}
+	return ret
+}
+
+// MockSslCertificatesObj is used to store the various object versions in the shared
+// map of mocked objects. This allows for multiple API versions to co-exist and
+// share the same "view" of the objects in the backend.
+type MockSslCertificatesObj struct {
+	o interface{}
+}
+
+// ToGA retrieves the given version of the object.
+func (m *MockSslCertificatesObj) ToGA() *ga.SslCertificate {
+	if ret, ok := m.o.(*ga.SslCertificate); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &ga.SslCertificate{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *ga.SslCertificate via JSON: %v", m.o, err)
+	}
+	return ret
+}
+
+// MockTargetHttpProxiesObj is used to store the various object versions in the shared
+// map of mocked objects. This allows for multiple API versions to co-exist and
+// share the same "view" of the objects in the backend.
+type MockTargetHttpProxiesObj struct {
+	o interface{}
+}
+
+// ToGA retrieves the given version of the object.
+func (m *MockTargetHttpProxiesObj) ToGA() *ga.TargetHttpProxy {
+	if ret, ok := m.o.(*ga.TargetHttpProxy); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &ga.TargetHttpProxy{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *ga.TargetHttpProxy via JSON: %v", m.o, err)
+	}
+	return ret
+}
+
+// MockTargetHttpsProxiesObj is used to store the various object versions in the shared
+// map of mocked objects. This allows for multiple API versions to co-exist and
+// share the same "view" of the objects in the backend.
+type MockTargetHttpsProxiesObj struct {
+	o interface{}
+}
+
+// ToGA retrieves the given version of the object.
+func (m *MockTargetHttpsProxiesObj) ToGA() *ga.TargetHttpsProxy {
+	if ret, ok := m.o.(*ga.TargetHttpsProxy); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &ga.TargetHttpsProxy{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *ga.TargetHttpsProxy via JSON: %v", m.o, err)
+	}
+	return ret
+}
+
+// MockTargetPoolsObj is used to store the various object versions in the shared
+// map of mocked objects. This allows for multiple API versions to co-exist and
+// share the same "view" of the objects in the backend.
+type MockTargetPoolsObj struct {
+	o interface{}
+}
+
+// ToGA retrieves the given version of the object.
+func (m *MockTargetPoolsObj) ToGA() *ga.TargetPool {
+	if ret, ok := m.o.(*ga.TargetPool); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &ga.TargetPool{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *ga.TargetPool via JSON: %v", m.o, err)
+	}
+	return ret
+}
+
+// MockUrlMapsObj is used to store the various object versions in the shared
+// map of mocked objects. This allows for multiple API versions to co-exist and
+// share the same "view" of the objects in the backend.
+type MockUrlMapsObj struct {
+	o interface{}
+}
+
+// ToGA retrieves the given version of the object.
+func (m *MockUrlMapsObj) ToGA() *ga.UrlMap {
+	if ret, ok := m.o.(*ga.UrlMap); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &ga.UrlMap{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *ga.UrlMap via JSON: %v", m.o, err)
+	}
+	return ret
+}
+
+// MockZonesObj is used to store the various object versions in the shared
+// map of mocked objects. This allows for multiple API versions to co-exist and
+// share the same "view" of the objects in the backend.
+type MockZonesObj struct {
+	o interface{}
+}
+
+// ToGA retrieves the given version of the object.
+func (m *MockZonesObj) ToGA() *ga.Zone {
+	if ret, ok := m.o.(*ga.Zone); ok {
+		return ret
+	}
+	// Convert the object via JSON copying to the type that was requested.
+	ret := &ga.Zone{}
+	if err := copyViaJSON(ret, m.o); err != nil {
+		glog.Errorf("Could not convert %T to *ga.Zone via JSON: %v", m.o, err)
+	}
+	return ret
 }
 
 // Addresses is an interface that allows for mocking of Addresses.
@@ -491,9 +1071,9 @@ type Addresses interface {
 }
 
 // NewMockAddresses returns a new mock for Addresses.
-func NewMockAddresses() *MockAddresses {
+func NewMockAddresses(objs map[meta.Key]*MockAddressesObj) *MockAddresses {
 	mock := &MockAddresses{
-		Objects:     map[meta.Key]*ga.Address{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -506,7 +1086,7 @@ type MockAddresses struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*ga.Address
+	Objects map[meta.Key]*MockAddressesObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -544,7 +1124,7 @@ func (m *MockAddresses) Get(ctx context.Context, key meta.Key) (*ga.Address, err
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToGA(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -575,7 +1155,7 @@ func (m *MockAddresses) List(ctx context.Context, region string, fl *filter.F) (
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToGA())
 	}
 	return objs, nil
 }
@@ -601,7 +1181,7 @@ func (m *MockAddresses) Insert(ctx context.Context, key meta.Key, obj *ga.Addres
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockAddressesObj{obj}
 	return nil
 }
 
@@ -733,9 +1313,9 @@ type AlphaAddresses interface {
 }
 
 // NewMockAlphaAddresses returns a new mock for Addresses.
-func NewMockAlphaAddresses() *MockAlphaAddresses {
+func NewMockAlphaAddresses(objs map[meta.Key]*MockAddressesObj) *MockAlphaAddresses {
 	mock := &MockAlphaAddresses{
-		Objects:     map[meta.Key]*alpha.Address{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -748,7 +1328,7 @@ type MockAlphaAddresses struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*alpha.Address
+	Objects map[meta.Key]*MockAddressesObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -786,7 +1366,7 @@ func (m *MockAlphaAddresses) Get(ctx context.Context, key meta.Key) (*alpha.Addr
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToAlpha(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -817,7 +1397,7 @@ func (m *MockAlphaAddresses) List(ctx context.Context, region string, fl *filter
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToAlpha())
 	}
 	return objs, nil
 }
@@ -843,7 +1423,7 @@ func (m *MockAlphaAddresses) Insert(ctx context.Context, key meta.Key, obj *alph
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockAddressesObj{obj}
 	return nil
 }
 
@@ -975,9 +1555,9 @@ type BetaAddresses interface {
 }
 
 // NewMockBetaAddresses returns a new mock for Addresses.
-func NewMockBetaAddresses() *MockBetaAddresses {
+func NewMockBetaAddresses(objs map[meta.Key]*MockAddressesObj) *MockBetaAddresses {
 	mock := &MockBetaAddresses{
-		Objects:     map[meta.Key]*beta.Address{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -990,7 +1570,7 @@ type MockBetaAddresses struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*beta.Address
+	Objects map[meta.Key]*MockAddressesObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -1028,7 +1608,7 @@ func (m *MockBetaAddresses) Get(ctx context.Context, key meta.Key) (*beta.Addres
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToBeta(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -1059,7 +1639,7 @@ func (m *MockBetaAddresses) List(ctx context.Context, region string, fl *filter.
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToBeta())
 	}
 	return objs, nil
 }
@@ -1085,7 +1665,7 @@ func (m *MockBetaAddresses) Insert(ctx context.Context, key meta.Key, obj *beta.
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockAddressesObj{obj}
 	return nil
 }
 
@@ -1217,9 +1797,9 @@ type GlobalAddresses interface {
 }
 
 // NewMockGlobalAddresses returns a new mock for GlobalAddresses.
-func NewMockGlobalAddresses() *MockGlobalAddresses {
+func NewMockGlobalAddresses(objs map[meta.Key]*MockGlobalAddressesObj) *MockGlobalAddresses {
 	mock := &MockGlobalAddresses{
-		Objects:     map[meta.Key]*ga.Address{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -1232,7 +1812,7 @@ type MockGlobalAddresses struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*ga.Address
+	Objects map[meta.Key]*MockGlobalAddressesObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -1270,7 +1850,7 @@ func (m *MockGlobalAddresses) Get(ctx context.Context, key meta.Key) (*ga.Addres
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToGA(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -1298,7 +1878,7 @@ func (m *MockGlobalAddresses) List(ctx context.Context, fl *filter.F) ([]*ga.Add
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToGA())
 	}
 	return objs, nil
 }
@@ -1324,7 +1904,7 @@ func (m *MockGlobalAddresses) Insert(ctx context.Context, key meta.Key, obj *ga.
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockGlobalAddressesObj{obj}
 	return nil
 }
 
@@ -1459,9 +2039,9 @@ type BackendServices interface {
 }
 
 // NewMockBackendServices returns a new mock for BackendServices.
-func NewMockBackendServices() *MockBackendServices {
+func NewMockBackendServices(objs map[meta.Key]*MockBackendServicesObj) *MockBackendServices {
 	mock := &MockBackendServices{
-		Objects:     map[meta.Key]*ga.BackendService{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -1474,7 +2054,7 @@ type MockBackendServices struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*ga.BackendService
+	Objects map[meta.Key]*MockBackendServicesObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -1514,7 +2094,7 @@ func (m *MockBackendServices) Get(ctx context.Context, key meta.Key) (*ga.Backen
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToGA(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -1542,7 +2122,7 @@ func (m *MockBackendServices) List(ctx context.Context, fl *filter.F) ([]*ga.Bac
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToGA())
 	}
 	return objs, nil
 }
@@ -1568,7 +2148,7 @@ func (m *MockBackendServices) Insert(ctx context.Context, key meta.Key, obj *ga.
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockBackendServicesObj{obj}
 	return nil
 }
 
@@ -1756,9 +2336,9 @@ type AlphaBackendServices interface {
 }
 
 // NewMockAlphaBackendServices returns a new mock for BackendServices.
-func NewMockAlphaBackendServices() *MockAlphaBackendServices {
+func NewMockAlphaBackendServices(objs map[meta.Key]*MockBackendServicesObj) *MockAlphaBackendServices {
 	mock := &MockAlphaBackendServices{
-		Objects:     map[meta.Key]*alpha.BackendService{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -1771,7 +2351,7 @@ type MockAlphaBackendServices struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*alpha.BackendService
+	Objects map[meta.Key]*MockBackendServicesObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -1810,7 +2390,7 @@ func (m *MockAlphaBackendServices) Get(ctx context.Context, key meta.Key) (*alph
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToAlpha(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -1838,7 +2418,7 @@ func (m *MockAlphaBackendServices) List(ctx context.Context, fl *filter.F) ([]*a
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToAlpha())
 	}
 	return objs, nil
 }
@@ -1864,7 +2444,7 @@ func (m *MockAlphaBackendServices) Insert(ctx context.Context, key meta.Key, obj
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockBackendServicesObj{obj}
 	return nil
 }
 
@@ -2028,9 +2608,9 @@ type AlphaRegionBackendServices interface {
 }
 
 // NewMockAlphaRegionBackendServices returns a new mock for RegionBackendServices.
-func NewMockAlphaRegionBackendServices() *MockAlphaRegionBackendServices {
+func NewMockAlphaRegionBackendServices(objs map[meta.Key]*MockRegionBackendServicesObj) *MockAlphaRegionBackendServices {
 	mock := &MockAlphaRegionBackendServices{
-		Objects:     map[meta.Key]*alpha.BackendService{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -2043,7 +2623,7 @@ type MockAlphaRegionBackendServices struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*alpha.BackendService
+	Objects map[meta.Key]*MockRegionBackendServicesObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -2083,7 +2663,7 @@ func (m *MockAlphaRegionBackendServices) Get(ctx context.Context, key meta.Key) 
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToAlpha(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -2114,7 +2694,7 @@ func (m *MockAlphaRegionBackendServices) List(ctx context.Context, region string
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToAlpha())
 	}
 	return objs, nil
 }
@@ -2140,7 +2720,7 @@ func (m *MockAlphaRegionBackendServices) Insert(ctx context.Context, key meta.Ke
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockRegionBackendServicesObj{obj}
 	return nil
 }
 
@@ -2326,9 +2906,9 @@ type Disks interface {
 }
 
 // NewMockDisks returns a new mock for Disks.
-func NewMockDisks() *MockDisks {
+func NewMockDisks(objs map[meta.Key]*MockDisksObj) *MockDisks {
 	mock := &MockDisks{
-		Objects:     map[meta.Key]*ga.Disk{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -2341,7 +2921,7 @@ type MockDisks struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*ga.Disk
+	Objects map[meta.Key]*MockDisksObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -2379,7 +2959,7 @@ func (m *MockDisks) Get(ctx context.Context, key meta.Key) (*ga.Disk, error) {
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToGA(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -2410,7 +2990,7 @@ func (m *MockDisks) List(ctx context.Context, zone string, fl *filter.F) ([]*ga.
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToGA())
 	}
 	return objs, nil
 }
@@ -2436,7 +3016,7 @@ func (m *MockDisks) Insert(ctx context.Context, key meta.Key, obj *ga.Disk) erro
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockDisksObj{obj}
 	return nil
 }
 
@@ -2568,9 +3148,9 @@ type AlphaDisks interface {
 }
 
 // NewMockAlphaDisks returns a new mock for Disks.
-func NewMockAlphaDisks() *MockAlphaDisks {
+func NewMockAlphaDisks(objs map[meta.Key]*MockDisksObj) *MockAlphaDisks {
 	mock := &MockAlphaDisks{
-		Objects:     map[meta.Key]*alpha.Disk{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -2583,7 +3163,7 @@ type MockAlphaDisks struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*alpha.Disk
+	Objects map[meta.Key]*MockDisksObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -2621,7 +3201,7 @@ func (m *MockAlphaDisks) Get(ctx context.Context, key meta.Key) (*alpha.Disk, er
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToAlpha(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -2652,7 +3232,7 @@ func (m *MockAlphaDisks) List(ctx context.Context, zone string, fl *filter.F) ([
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToAlpha())
 	}
 	return objs, nil
 }
@@ -2678,7 +3258,7 @@ func (m *MockAlphaDisks) Insert(ctx context.Context, key meta.Key, obj *alpha.Di
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockDisksObj{obj}
 	return nil
 }
 
@@ -2810,9 +3390,9 @@ type AlphaRegionDisks interface {
 }
 
 // NewMockAlphaRegionDisks returns a new mock for RegionDisks.
-func NewMockAlphaRegionDisks() *MockAlphaRegionDisks {
+func NewMockAlphaRegionDisks(objs map[meta.Key]*MockRegionDisksObj) *MockAlphaRegionDisks {
 	mock := &MockAlphaRegionDisks{
-		Objects:     map[meta.Key]*alpha.Disk{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -2825,7 +3405,7 @@ type MockAlphaRegionDisks struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*alpha.Disk
+	Objects map[meta.Key]*MockRegionDisksObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -2863,7 +3443,7 @@ func (m *MockAlphaRegionDisks) Get(ctx context.Context, key meta.Key) (*alpha.Di
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToAlpha(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -2894,7 +3474,7 @@ func (m *MockAlphaRegionDisks) List(ctx context.Context, region string, fl *filt
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToAlpha())
 	}
 	return objs, nil
 }
@@ -2920,7 +3500,7 @@ func (m *MockAlphaRegionDisks) Insert(ctx context.Context, key meta.Key, obj *al
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockRegionDisksObj{obj}
 	return nil
 }
 
@@ -3053,9 +3633,9 @@ type Firewalls interface {
 }
 
 // NewMockFirewalls returns a new mock for Firewalls.
-func NewMockFirewalls() *MockFirewalls {
+func NewMockFirewalls(objs map[meta.Key]*MockFirewallsObj) *MockFirewalls {
 	mock := &MockFirewalls{
-		Objects:     map[meta.Key]*ga.Firewall{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -3068,7 +3648,7 @@ type MockFirewalls struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*ga.Firewall
+	Objects map[meta.Key]*MockFirewallsObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -3107,7 +3687,7 @@ func (m *MockFirewalls) Get(ctx context.Context, key meta.Key) (*ga.Firewall, er
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToGA(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -3135,7 +3715,7 @@ func (m *MockFirewalls) List(ctx context.Context, fl *filter.F) ([]*ga.Firewall,
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToGA())
 	}
 	return objs, nil
 }
@@ -3161,7 +3741,7 @@ func (m *MockFirewalls) Insert(ctx context.Context, key meta.Key, obj *ga.Firewa
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockFirewallsObj{obj}
 	return nil
 }
 
@@ -3323,9 +3903,9 @@ type ForwardingRules interface {
 }
 
 // NewMockForwardingRules returns a new mock for ForwardingRules.
-func NewMockForwardingRules() *MockForwardingRules {
+func NewMockForwardingRules(objs map[meta.Key]*MockForwardingRulesObj) *MockForwardingRules {
 	mock := &MockForwardingRules{
-		Objects:     map[meta.Key]*ga.ForwardingRule{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -3338,7 +3918,7 @@ type MockForwardingRules struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*ga.ForwardingRule
+	Objects map[meta.Key]*MockForwardingRulesObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -3376,7 +3956,7 @@ func (m *MockForwardingRules) Get(ctx context.Context, key meta.Key) (*ga.Forwar
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToGA(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -3407,7 +3987,7 @@ func (m *MockForwardingRules) List(ctx context.Context, region string, fl *filte
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToGA())
 	}
 	return objs, nil
 }
@@ -3433,7 +4013,7 @@ func (m *MockForwardingRules) Insert(ctx context.Context, key meta.Key, obj *ga.
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockForwardingRulesObj{obj}
 	return nil
 }
 
@@ -3565,9 +4145,9 @@ type AlphaForwardingRules interface {
 }
 
 // NewMockAlphaForwardingRules returns a new mock for ForwardingRules.
-func NewMockAlphaForwardingRules() *MockAlphaForwardingRules {
+func NewMockAlphaForwardingRules(objs map[meta.Key]*MockForwardingRulesObj) *MockAlphaForwardingRules {
 	mock := &MockAlphaForwardingRules{
-		Objects:     map[meta.Key]*alpha.ForwardingRule{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -3580,7 +4160,7 @@ type MockAlphaForwardingRules struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*alpha.ForwardingRule
+	Objects map[meta.Key]*MockForwardingRulesObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -3618,7 +4198,7 @@ func (m *MockAlphaForwardingRules) Get(ctx context.Context, key meta.Key) (*alph
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToAlpha(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -3649,7 +4229,7 @@ func (m *MockAlphaForwardingRules) List(ctx context.Context, region string, fl *
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToAlpha())
 	}
 	return objs, nil
 }
@@ -3675,7 +4255,7 @@ func (m *MockAlphaForwardingRules) Insert(ctx context.Context, key meta.Key, obj
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockForwardingRulesObj{obj}
 	return nil
 }
 
@@ -3808,9 +4388,9 @@ type GlobalForwardingRules interface {
 }
 
 // NewMockGlobalForwardingRules returns a new mock for GlobalForwardingRules.
-func NewMockGlobalForwardingRules() *MockGlobalForwardingRules {
+func NewMockGlobalForwardingRules(objs map[meta.Key]*MockGlobalForwardingRulesObj) *MockGlobalForwardingRules {
 	mock := &MockGlobalForwardingRules{
-		Objects:     map[meta.Key]*ga.ForwardingRule{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -3823,7 +4403,7 @@ type MockGlobalForwardingRules struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*ga.ForwardingRule
+	Objects map[meta.Key]*MockGlobalForwardingRulesObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -3862,7 +4442,7 @@ func (m *MockGlobalForwardingRules) Get(ctx context.Context, key meta.Key) (*ga.
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToGA(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -3890,7 +4470,7 @@ func (m *MockGlobalForwardingRules) List(ctx context.Context, fl *filter.F) ([]*
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToGA())
 	}
 	return objs, nil
 }
@@ -3916,7 +4496,7 @@ func (m *MockGlobalForwardingRules) Insert(ctx context.Context, key meta.Key, ob
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockGlobalForwardingRulesObj{obj}
 	return nil
 }
 
@@ -4079,9 +4659,9 @@ type HealthChecks interface {
 }
 
 // NewMockHealthChecks returns a new mock for HealthChecks.
-func NewMockHealthChecks() *MockHealthChecks {
+func NewMockHealthChecks(objs map[meta.Key]*MockHealthChecksObj) *MockHealthChecks {
 	mock := &MockHealthChecks{
-		Objects:     map[meta.Key]*ga.HealthCheck{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -4094,7 +4674,7 @@ type MockHealthChecks struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*ga.HealthCheck
+	Objects map[meta.Key]*MockHealthChecksObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -4133,7 +4713,7 @@ func (m *MockHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HealthChe
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToGA(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -4161,7 +4741,7 @@ func (m *MockHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.Health
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToGA())
 	}
 	return objs, nil
 }
@@ -4187,7 +4767,7 @@ func (m *MockHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.Hea
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockHealthChecksObj{obj}
 	return nil
 }
 
@@ -4350,9 +4930,9 @@ type AlphaHealthChecks interface {
 }
 
 // NewMockAlphaHealthChecks returns a new mock for HealthChecks.
-func NewMockAlphaHealthChecks() *MockAlphaHealthChecks {
+func NewMockAlphaHealthChecks(objs map[meta.Key]*MockHealthChecksObj) *MockAlphaHealthChecks {
 	mock := &MockAlphaHealthChecks{
-		Objects:     map[meta.Key]*alpha.HealthCheck{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -4365,7 +4945,7 @@ type MockAlphaHealthChecks struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*alpha.HealthCheck
+	Objects map[meta.Key]*MockHealthChecksObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -4404,7 +4984,7 @@ func (m *MockAlphaHealthChecks) Get(ctx context.Context, key meta.Key) (*alpha.H
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToAlpha(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -4432,7 +5012,7 @@ func (m *MockAlphaHealthChecks) List(ctx context.Context, fl *filter.F) ([]*alph
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToAlpha())
 	}
 	return objs, nil
 }
@@ -4458,7 +5038,7 @@ func (m *MockAlphaHealthChecks) Insert(ctx context.Context, key meta.Key, obj *a
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockHealthChecksObj{obj}
 	return nil
 }
 
@@ -4621,9 +5201,9 @@ type HttpHealthChecks interface {
 }
 
 // NewMockHttpHealthChecks returns a new mock for HttpHealthChecks.
-func NewMockHttpHealthChecks() *MockHttpHealthChecks {
+func NewMockHttpHealthChecks(objs map[meta.Key]*MockHttpHealthChecksObj) *MockHttpHealthChecks {
 	mock := &MockHttpHealthChecks{
-		Objects:     map[meta.Key]*ga.HttpHealthCheck{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -4636,7 +5216,7 @@ type MockHttpHealthChecks struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*ga.HttpHealthCheck
+	Objects map[meta.Key]*MockHttpHealthChecksObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -4675,7 +5255,7 @@ func (m *MockHttpHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HttpH
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToGA(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -4703,7 +5283,7 @@ func (m *MockHttpHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.Ht
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToGA())
 	}
 	return objs, nil
 }
@@ -4729,7 +5309,7 @@ func (m *MockHttpHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockHttpHealthChecksObj{obj}
 	return nil
 }
 
@@ -4892,9 +5472,9 @@ type HttpsHealthChecks interface {
 }
 
 // NewMockHttpsHealthChecks returns a new mock for HttpsHealthChecks.
-func NewMockHttpsHealthChecks() *MockHttpsHealthChecks {
+func NewMockHttpsHealthChecks(objs map[meta.Key]*MockHttpsHealthChecksObj) *MockHttpsHealthChecks {
 	mock := &MockHttpsHealthChecks{
-		Objects:     map[meta.Key]*ga.HttpsHealthCheck{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -4907,7 +5487,7 @@ type MockHttpsHealthChecks struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*ga.HttpsHealthCheck
+	Objects map[meta.Key]*MockHttpsHealthChecksObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -4946,7 +5526,7 @@ func (m *MockHttpsHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.Http
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToGA(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -4974,7 +5554,7 @@ func (m *MockHttpsHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.H
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToGA())
 	}
 	return objs, nil
 }
@@ -5000,7 +5580,7 @@ func (m *MockHttpsHealthChecks) Insert(ctx context.Context, key meta.Key, obj *g
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockHttpsHealthChecksObj{obj}
 	return nil
 }
 
@@ -5166,9 +5746,9 @@ type InstanceGroups interface {
 }
 
 // NewMockInstanceGroups returns a new mock for InstanceGroups.
-func NewMockInstanceGroups() *MockInstanceGroups {
+func NewMockInstanceGroups(objs map[meta.Key]*MockInstanceGroupsObj) *MockInstanceGroups {
 	mock := &MockInstanceGroups{
-		Objects:     map[meta.Key]*ga.InstanceGroup{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -5181,7 +5761,7 @@ type MockInstanceGroups struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*ga.InstanceGroup
+	Objects map[meta.Key]*MockInstanceGroupsObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -5223,7 +5803,7 @@ func (m *MockInstanceGroups) Get(ctx context.Context, key meta.Key) (*ga.Instanc
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToGA(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -5254,7 +5834,7 @@ func (m *MockInstanceGroups) List(ctx context.Context, zone string, fl *filter.F
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToGA())
 	}
 	return objs, nil
 }
@@ -5280,7 +5860,7 @@ func (m *MockInstanceGroups) Insert(ctx context.Context, key meta.Key, obj *ga.I
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockInstanceGroupsObj{obj}
 	return nil
 }
 
@@ -5526,9 +6106,9 @@ type Instances interface {
 }
 
 // NewMockInstances returns a new mock for Instances.
-func NewMockInstances() *MockInstances {
+func NewMockInstances(objs map[meta.Key]*MockInstancesObj) *MockInstances {
 	mock := &MockInstances{
-		Objects:     map[meta.Key]*ga.Instance{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -5541,7 +6121,7 @@ type MockInstances struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*ga.Instance
+	Objects map[meta.Key]*MockInstancesObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -5581,7 +6161,7 @@ func (m *MockInstances) Get(ctx context.Context, key meta.Key) (*ga.Instance, er
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToGA(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -5612,7 +6192,7 @@ func (m *MockInstances) List(ctx context.Context, zone string, fl *filter.F) ([]
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToGA())
 	}
 	return objs, nil
 }
@@ -5638,7 +6218,7 @@ func (m *MockInstances) Insert(ctx context.Context, key meta.Key, obj *ga.Instan
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockInstancesObj{obj}
 	return nil
 }
 
@@ -5830,9 +6410,9 @@ type BetaInstances interface {
 }
 
 // NewMockBetaInstances returns a new mock for Instances.
-func NewMockBetaInstances() *MockBetaInstances {
+func NewMockBetaInstances(objs map[meta.Key]*MockInstancesObj) *MockBetaInstances {
 	mock := &MockBetaInstances{
-		Objects:     map[meta.Key]*beta.Instance{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -5845,7 +6425,7 @@ type MockBetaInstances struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*beta.Instance
+	Objects map[meta.Key]*MockInstancesObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -5885,7 +6465,7 @@ func (m *MockBetaInstances) Get(ctx context.Context, key meta.Key) (*beta.Instan
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToBeta(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -5916,7 +6496,7 @@ func (m *MockBetaInstances) List(ctx context.Context, zone string, fl *filter.F)
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToBeta())
 	}
 	return objs, nil
 }
@@ -5942,7 +6522,7 @@ func (m *MockBetaInstances) Insert(ctx context.Context, key meta.Key, obj *beta.
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockInstancesObj{obj}
 	return nil
 }
 
@@ -6135,9 +6715,9 @@ type AlphaInstances interface {
 }
 
 // NewMockAlphaInstances returns a new mock for Instances.
-func NewMockAlphaInstances() *MockAlphaInstances {
+func NewMockAlphaInstances(objs map[meta.Key]*MockInstancesObj) *MockAlphaInstances {
 	mock := &MockAlphaInstances{
-		Objects:     map[meta.Key]*alpha.Instance{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -6150,7 +6730,7 @@ type MockAlphaInstances struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*alpha.Instance
+	Objects map[meta.Key]*MockInstancesObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -6191,7 +6771,7 @@ func (m *MockAlphaInstances) Get(ctx context.Context, key meta.Key) (*alpha.Inst
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToAlpha(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -6222,7 +6802,7 @@ func (m *MockAlphaInstances) List(ctx context.Context, zone string, fl *filter.F
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToAlpha())
 	}
 	return objs, nil
 }
@@ -6248,7 +6828,7 @@ func (m *MockAlphaInstances) Insert(ctx context.Context, key meta.Key, obj *alph
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockInstancesObj{obj}
 	return nil
 }
 
@@ -6469,9 +7049,9 @@ type AlphaNetworkEndpointGroups interface {
 }
 
 // NewMockAlphaNetworkEndpointGroups returns a new mock for NetworkEndpointGroups.
-func NewMockAlphaNetworkEndpointGroups() *MockAlphaNetworkEndpointGroups {
+func NewMockAlphaNetworkEndpointGroups(objs map[meta.Key]*MockNetworkEndpointGroupsObj) *MockAlphaNetworkEndpointGroups {
 	mock := &MockAlphaNetworkEndpointGroups{
-		Objects:     map[meta.Key]*alpha.NetworkEndpointGroup{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -6484,7 +7064,7 @@ type MockAlphaNetworkEndpointGroups struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*alpha.NetworkEndpointGroup
+	Objects map[meta.Key]*MockNetworkEndpointGroupsObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -6524,7 +7104,7 @@ func (m *MockAlphaNetworkEndpointGroups) Get(ctx context.Context, key meta.Key) 
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToAlpha(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -6555,7 +7135,7 @@ func (m *MockAlphaNetworkEndpointGroups) List(ctx context.Context, zone string, 
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToAlpha())
 	}
 	return objs, nil
 }
@@ -6581,7 +7161,7 @@ func (m *MockAlphaNetworkEndpointGroups) Insert(ctx context.Context, key meta.Ke
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockNetworkEndpointGroupsObj{obj}
 	return nil
 }
 
@@ -6770,9 +7350,9 @@ type Projects interface {
 }
 
 // NewMockProjects returns a new mock for Projects.
-func NewMockProjects() *MockProjects {
+func NewMockProjects(objs map[meta.Key]*MockProjectsObj) *MockProjects {
 	mock := &MockProjects{
-		Objects: map[meta.Key]*ga.Project{},
+		Objects: objs,
 	}
 	return mock
 }
@@ -6782,7 +7362,7 @@ type MockProjects struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*ga.Project
+	Objects map[meta.Key]*MockProjectsObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -6809,9 +7389,9 @@ type Regions interface {
 }
 
 // NewMockRegions returns a new mock for Regions.
-func NewMockRegions() *MockRegions {
+func NewMockRegions(objs map[meta.Key]*MockRegionsObj) *MockRegions {
 	mock := &MockRegions{
-		Objects:  map[meta.Key]*ga.Region{},
+		Objects:  objs,
 		GetError: map[meta.Key]error{},
 	}
 	return mock
@@ -6822,7 +7402,7 @@ type MockRegions struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*ga.Region
+	Objects map[meta.Key]*MockRegionsObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -6856,7 +7436,7 @@ func (m *MockRegions) Get(ctx context.Context, key meta.Key) (*ga.Region, error)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToGA(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -6884,7 +7464,7 @@ func (m *MockRegions) List(ctx context.Context, fl *filter.F) ([]*ga.Region, err
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToGA())
 	}
 	return objs, nil
 }
@@ -6947,9 +7527,9 @@ type Routes interface {
 }
 
 // NewMockRoutes returns a new mock for Routes.
-func NewMockRoutes() *MockRoutes {
+func NewMockRoutes(objs map[meta.Key]*MockRoutesObj) *MockRoutes {
 	mock := &MockRoutes{
-		Objects:     map[meta.Key]*ga.Route{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -6962,7 +7542,7 @@ type MockRoutes struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*ga.Route
+	Objects map[meta.Key]*MockRoutesObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -7000,7 +7580,7 @@ func (m *MockRoutes) Get(ctx context.Context, key meta.Key) (*ga.Route, error) {
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToGA(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -7028,7 +7608,7 @@ func (m *MockRoutes) List(ctx context.Context, fl *filter.F) ([]*ga.Route, error
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToGA())
 	}
 	return objs, nil
 }
@@ -7054,7 +7634,7 @@ func (m *MockRoutes) Insert(ctx context.Context, key meta.Key, obj *ga.Route) er
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockRoutesObj{obj}
 	return nil
 }
 
@@ -7187,9 +7767,9 @@ type SslCertificates interface {
 }
 
 // NewMockSslCertificates returns a new mock for SslCertificates.
-func NewMockSslCertificates() *MockSslCertificates {
+func NewMockSslCertificates(objs map[meta.Key]*MockSslCertificatesObj) *MockSslCertificates {
 	mock := &MockSslCertificates{
-		Objects:     map[meta.Key]*ga.SslCertificate{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -7202,7 +7782,7 @@ type MockSslCertificates struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*ga.SslCertificate
+	Objects map[meta.Key]*MockSslCertificatesObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -7240,7 +7820,7 @@ func (m *MockSslCertificates) Get(ctx context.Context, key meta.Key) (*ga.SslCer
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToGA(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -7268,7 +7848,7 @@ func (m *MockSslCertificates) List(ctx context.Context, fl *filter.F) ([]*ga.Ssl
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToGA())
 	}
 	return objs, nil
 }
@@ -7294,7 +7874,7 @@ func (m *MockSslCertificates) Insert(ctx context.Context, key meta.Key, obj *ga.
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockSslCertificatesObj{obj}
 	return nil
 }
 
@@ -7428,9 +8008,9 @@ type TargetHttpProxies interface {
 }
 
 // NewMockTargetHttpProxies returns a new mock for TargetHttpProxies.
-func NewMockTargetHttpProxies() *MockTargetHttpProxies {
+func NewMockTargetHttpProxies(objs map[meta.Key]*MockTargetHttpProxiesObj) *MockTargetHttpProxies {
 	mock := &MockTargetHttpProxies{
-		Objects:     map[meta.Key]*ga.TargetHttpProxy{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -7443,7 +8023,7 @@ type MockTargetHttpProxies struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*ga.TargetHttpProxy
+	Objects map[meta.Key]*MockTargetHttpProxiesObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -7482,7 +8062,7 @@ func (m *MockTargetHttpProxies) Get(ctx context.Context, key meta.Key) (*ga.Targ
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToGA(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -7510,7 +8090,7 @@ func (m *MockTargetHttpProxies) List(ctx context.Context, fl *filter.F) ([]*ga.T
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToGA())
 	}
 	return objs, nil
 }
@@ -7536,7 +8116,7 @@ func (m *MockTargetHttpProxies) Insert(ctx context.Context, key meta.Key, obj *g
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockTargetHttpProxiesObj{obj}
 	return nil
 }
 
@@ -7700,9 +8280,9 @@ type TargetHttpsProxies interface {
 }
 
 // NewMockTargetHttpsProxies returns a new mock for TargetHttpsProxies.
-func NewMockTargetHttpsProxies() *MockTargetHttpsProxies {
+func NewMockTargetHttpsProxies(objs map[meta.Key]*MockTargetHttpsProxiesObj) *MockTargetHttpsProxies {
 	mock := &MockTargetHttpsProxies{
-		Objects:     map[meta.Key]*ga.TargetHttpsProxy{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -7715,7 +8295,7 @@ type MockTargetHttpsProxies struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*ga.TargetHttpsProxy
+	Objects map[meta.Key]*MockTargetHttpsProxiesObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -7755,7 +8335,7 @@ func (m *MockTargetHttpsProxies) Get(ctx context.Context, key meta.Key) (*ga.Tar
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToGA(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -7783,7 +8363,7 @@ func (m *MockTargetHttpsProxies) List(ctx context.Context, fl *filter.F) ([]*ga.
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToGA())
 	}
 	return objs, nil
 }
@@ -7809,7 +8389,7 @@ func (m *MockTargetHttpsProxies) Insert(ctx context.Context, key meta.Key, obj *
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockTargetHttpsProxiesObj{obj}
 	return nil
 }
 
@@ -8002,9 +8582,9 @@ type TargetPools interface {
 }
 
 // NewMockTargetPools returns a new mock for TargetPools.
-func NewMockTargetPools() *MockTargetPools {
+func NewMockTargetPools(objs map[meta.Key]*MockTargetPoolsObj) *MockTargetPools {
 	mock := &MockTargetPools{
-		Objects:     map[meta.Key]*ga.TargetPool{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -8017,7 +8597,7 @@ type MockTargetPools struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*ga.TargetPool
+	Objects map[meta.Key]*MockTargetPoolsObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -8057,7 +8637,7 @@ func (m *MockTargetPools) Get(ctx context.Context, key meta.Key) (*ga.TargetPool
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToGA(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -8088,7 +8668,7 @@ func (m *MockTargetPools) List(ctx context.Context, region string, fl *filter.F)
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToGA())
 	}
 	return objs, nil
 }
@@ -8114,7 +8694,7 @@ func (m *MockTargetPools) Insert(ctx context.Context, key meta.Key, obj *ga.Targ
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockTargetPoolsObj{obj}
 	return nil
 }
 
@@ -8305,9 +8885,9 @@ type UrlMaps interface {
 }
 
 // NewMockUrlMaps returns a new mock for UrlMaps.
-func NewMockUrlMaps() *MockUrlMaps {
+func NewMockUrlMaps(objs map[meta.Key]*MockUrlMapsObj) *MockUrlMaps {
 	mock := &MockUrlMaps{
-		Objects:     map[meta.Key]*ga.UrlMap{},
+		Objects:     objs,
 		GetError:    map[meta.Key]error{},
 		InsertError: map[meta.Key]error{},
 		DeleteError: map[meta.Key]error{},
@@ -8320,7 +8900,7 @@ type MockUrlMaps struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*ga.UrlMap
+	Objects map[meta.Key]*MockUrlMapsObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -8359,7 +8939,7 @@ func (m *MockUrlMaps) Get(ctx context.Context, key meta.Key) (*ga.UrlMap, error)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToGA(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -8387,7 +8967,7 @@ func (m *MockUrlMaps) List(ctx context.Context, fl *filter.F) ([]*ga.UrlMap, err
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToGA())
 	}
 	return objs, nil
 }
@@ -8413,7 +8993,7 @@ func (m *MockUrlMaps) Insert(ctx context.Context, key meta.Key, obj *ga.UrlMap) 
 		}
 	}
 
-	m.Objects[key] = obj
+	m.Objects[key] = &MockUrlMapsObj{obj}
 	return nil
 }
 
@@ -8573,9 +9153,9 @@ type Zones interface {
 }
 
 // NewMockZones returns a new mock for Zones.
-func NewMockZones() *MockZones {
+func NewMockZones(objs map[meta.Key]*MockZonesObj) *MockZones {
 	mock := &MockZones{
-		Objects:  map[meta.Key]*ga.Zone{},
+		Objects:  objs,
 		GetError: map[meta.Key]error{},
 	}
 	return mock
@@ -8586,7 +9166,7 @@ type MockZones struct {
 	Lock sync.Mutex
 
 	// Objects maintained by the mock.
-	Objects map[meta.Key]*ga.Zone
+	Objects map[meta.Key]*MockZonesObj
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
@@ -8620,7 +9200,7 @@ func (m *MockZones) Get(ctx context.Context, key meta.Key) (*ga.Zone, error) {
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj, nil
+		return obj.ToGA(), nil
 	}
 	return nil, &googleapi.Error{
 		Code:    http.StatusNotFound,
@@ -8648,7 +9228,7 @@ func (m *MockZones) List(ctx context.Context, fl *filter.F) ([]*ga.Zone, error) 
 		if !fl.Match(obj) {
 			continue
 		}
-		objs = append(objs, obj)
+		objs = append(objs, obj.ToGA())
 	}
 	return objs, nil
 }
