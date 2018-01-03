@@ -29,6 +29,12 @@ import (
 // ProjectsOps is the manually implemented methods for the Projects service.
 type ProjectsOps interface {
 	Get(ctx context.Context, projectID string) (*compute.Project, error)
+	SetCommonInstanceMetadata(ctx context.Context, projectID string, m *compute.Metadata) error
+}
+
+// MockProjectOpsState is stored in the mock.X field.
+type MockProjectOpsState struct {
+	metadata map[string]*compute.Metadata
 }
 
 func (m *MockProjects) Get(ctx context.Context, projectID string) (*compute.Project, error) {
@@ -57,4 +63,33 @@ func (g *GCEProjects) Get(ctx context.Context, projectID string) (*compute.Proje
 	call := g.s.GA.Projects.Get(projectID)
 	call.Context(ctx)
 	return call.Do()
+}
+
+func (m *MockProjects) SetCommonInstanceMetadata(ctx context.Context, projectID string, meta *compute.Metadata) error {
+	if m.X == nil {
+		m.X = &MockProjectOpsState{metadata: map[string]*compute.Metadata{}}
+	}
+	state := m.X.(*MockProjectOpsState)
+	state.metadata[projectID] = meta
+	return nil
+}
+
+func (g *GCEProjects) SetCommonInstanceMetadata(ctx context.Context, projectID string, m *compute.Metadata) error {
+	rk := &RateLimitKey{
+		ProjectID: projectID,
+		Operation: "SetCommonInstanceMetadata",
+		Version:   meta.Version("ga"),
+		Service:   "Projects",
+	}
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return err
+	}
+	call := g.s.GA.Projects.SetCommonInstanceMetadata(projectID, m)
+	call.Context(ctx)
+
+	op, err := call.Do()
+	if err != nil {
+		return err
+	}
+	return g.s.WaitForCompletion(ctx, op)
 }
