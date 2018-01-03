@@ -157,3 +157,7 @@ func TestCopyVisJSON(t *testing.T) {
 		t.Errorf("copyViaJSON(&a, &E{}) = nil, want error")
 	}
 }
+
+func TestSelfLink(t *testing.T) {
+	// XXX
+}

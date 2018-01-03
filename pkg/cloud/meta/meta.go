@@ -68,12 +68,14 @@ var AllServices = []*ServiceInfo{
 	&ServiceInfo{
 		Object:      "Address",
 		Service:     "Addresses",
+		Resource:    "addresses",
 		keyType:     Regional,
 		serviceType: reflect.TypeOf(&ga.AddressesService{}),
 	},
 	&ServiceInfo{
 		Object:      "Address",
 		Service:     "Addresses",
+		Resource:    "addresses",
 		version:     VersionAlpha,
 		keyType:     Regional,
 		serviceType: reflect.TypeOf(&alpha.AddressesService{}),
@@ -81,6 +83,7 @@ var AllServices = []*ServiceInfo{
 	&ServiceInfo{
 		Object:      "Address",
 		Service:     "Addresses",
+		Resource:    "addresses",
 		version:     VersionBeta,
 		keyType:     Regional,
 		serviceType: reflect.TypeOf(&beta.AddressesService{}),
@@ -88,12 +91,14 @@ var AllServices = []*ServiceInfo{
 	&ServiceInfo{
 		Object:      "Address",
 		Service:     "GlobalAddresses",
+		Resource:    "addresses",
 		keyType:     Global,
 		serviceType: reflect.TypeOf(&ga.GlobalAddressesService{}),
 	},
 	&ServiceInfo{
 		Object:      "BackendService",
 		Service:     "BackendServices",
+		Resource:    "backendServices",
 		keyType:     Global,
 		serviceType: reflect.TypeOf(&ga.BackendServicesService{}),
 		additionalMethods: []string{
@@ -104,6 +109,7 @@ var AllServices = []*ServiceInfo{
 	&ServiceInfo{
 		Object:            "BackendService",
 		Service:           "BackendServices",
+		Resource:    "backendServices",
 		version:           VersionAlpha,
 		keyType:           Global,
 		serviceType:       reflect.TypeOf(&alpha.BackendServicesService{}),
@@ -112,6 +118,7 @@ var AllServices = []*ServiceInfo{
 	&ServiceInfo{
 		Object:      "BackendService",
 		Service:     "RegionBackendServices",
+		Resource:    "backendServices",
 		version:     VersionAlpha,
 		keyType:     Regional,
 		serviceType: reflect.TypeOf(&alpha.RegionBackendServicesService{}),
@@ -123,12 +130,14 @@ var AllServices = []*ServiceInfo{
 	&ServiceInfo{
 		Object:      "Disk",
 		Service:     "Disks",
+		Resource:    "disks",
 		keyType:     Zonal,
 		serviceType: reflect.TypeOf(&ga.DisksService{}),
 	},
 	&ServiceInfo{
 		Object:      "Disk",
 		Service:     "Disks",
+		Resource:    "disks",
 		version:     VersionAlpha,
 		keyType:     Zonal,
 		serviceType: reflect.TypeOf(&alpha.DisksService{}),
@@ -136,6 +145,7 @@ var AllServices = []*ServiceInfo{
 	&ServiceInfo{
 		Object:      "Disk",
 		Service:     "RegionDisks",
+		Resource:    "disks",
 		version:     VersionAlpha,
 		keyType:     Regional,
 		serviceType: reflect.TypeOf(&alpha.DisksService{}),
@@ -143,6 +153,7 @@ var AllServices = []*ServiceInfo{
 	&ServiceInfo{
 		Object:      "Firewall",
 		Service:     "Firewalls",
+		Resource:    "firewalls",
 		keyType:     Global,
 		serviceType: reflect.TypeOf(&ga.FirewallsService{}),
 		additionalMethods: []string{
@@ -152,12 +163,14 @@ var AllServices = []*ServiceInfo{
 	&ServiceInfo{
 		Object:      "ForwardingRule",
 		Service:     "ForwardingRules",
+		Resource:    "forwardingRules",
 		keyType:     Regional,
 		serviceType: reflect.TypeOf(&ga.ForwardingRulesService{}),
 	},
 	&ServiceInfo{
 		Object:      "ForwardingRule",
 		Service:     "ForwardingRules",
+		Resource:    "forwardingRules",
 		version:     VersionAlpha,
 		keyType:     Regional,
 		serviceType: reflect.TypeOf(&alpha.ForwardingRulesService{}),
@@ -165,6 +178,7 @@ var AllServices = []*ServiceInfo{
 	&ServiceInfo{
 		Object:      "ForwardingRule",
 		Service:     "GlobalForwardingRules",
+		Resource:    "forwardingRules",
 		keyType:     Global,
 		serviceType: reflect.TypeOf(&ga.GlobalForwardingRulesService{}),
 		additionalMethods: []string{
@@ -174,6 +188,7 @@ var AllServices = []*ServiceInfo{
 	&ServiceInfo{
 		Object:      "HealthCheck",
 		Service:     "HealthChecks",
+		Resource:    "healthChecks",
 		keyType:     Global,
 		serviceType: reflect.TypeOf(&ga.HealthChecksService{}),
 		additionalMethods: []string{
@@ -183,6 +198,7 @@ var AllServices = []*ServiceInfo{
 	&ServiceInfo{
 		Object:      "HealthCheck",
 		Service:     "HealthChecks",
+		Resource:    "healthChecks",
 		version:     VersionAlpha,
 		keyType:     Global,
 		serviceType: reflect.TypeOf(&alpha.HealthChecksService{}),
@@ -193,6 +209,7 @@ var AllServices = []*ServiceInfo{
 	&ServiceInfo{
 		Object:      "HttpHealthCheck",
 		Service:     "HttpHealthChecks",
+		Resource:    "httpHealthChecks",
 		keyType:     Global,
 		serviceType: reflect.TypeOf(&ga.HttpHealthChecksService{}),
 		additionalMethods: []string{
@@ -202,6 +219,7 @@ var AllServices = []*ServiceInfo{
 	&ServiceInfo{
 		Object:      "HttpsHealthCheck",
 		Service:     "HttpsHealthChecks",
+		Resource:    "httpsHealthChecks",
 		keyType:     Global,
 		serviceType: reflect.TypeOf(&ga.HttpsHealthChecksService{}),
 		additionalMethods: []string{
@@ -211,6 +229,7 @@ var AllServices = []*ServiceInfo{
 	&ServiceInfo{
 		Object:      "InstanceGroup",
 		Service:     "InstanceGroups",
+		Resource:    "instanceGroups",
 		keyType:     Zonal,
 		serviceType: reflect.TypeOf(&ga.InstanceGroupsService{}),
 		additionalMethods: []string{
@@ -223,6 +242,7 @@ var AllServices = []*ServiceInfo{
 	&ServiceInfo{
 		Object:      "Instance",
 		Service:     "Instances",
+		Resource:    "instances",
 		keyType:     Zonal,
 		serviceType: reflect.TypeOf(&ga.InstancesService{}),
 		additionalMethods: []string{
@@ -233,6 +253,7 @@ var AllServices = []*ServiceInfo{
 	&ServiceInfo{
 		Object:      "Instance",
 		Service:     "Instances",
+		Resource:    "instances",
 		version:     VersionBeta,
 		keyType:     Zonal,
 		serviceType: reflect.TypeOf(&beta.InstancesService{}),
@@ -244,6 +265,7 @@ var AllServices = []*ServiceInfo{
 	&ServiceInfo{
 		Object:      "Instance",
 		Service:     "Instances",
+		Resource:    "instances",
 		version:     VersionAlpha,
 		keyType:     Zonal,
 		serviceType: reflect.TypeOf(&alpha.InstancesService{}),
@@ -256,6 +278,7 @@ var AllServices = []*ServiceInfo{
 	&ServiceInfo{
 		Object:      "NetworkEndpointGroup",
 		Service:     "NetworkEndpointGroups",
+		Resource:    "networkEndpointGroups",
 		version:     VersionAlpha,
 		keyType:     Zonal,
 		serviceType: reflect.TypeOf(&alpha.NetworkEndpointGroupsService{}),
@@ -268,6 +291,7 @@ var AllServices = []*ServiceInfo{
 	&ServiceInfo{
 		Object:  "Project",
 		Service: "Projects",
+		Resource: "projects",
 		keyType: Global,
 		// Generate only the stub with no methods.
 		options:     NoGet | NoList | NoInsert | NoDelete | CustomOps,
@@ -276,6 +300,7 @@ var AllServices = []*ServiceInfo{
 	&ServiceInfo{
 		Object:      "Region",
 		Service:     "Regions",
+		Resource:    "regions",
 		keyType:     Global,
 		options:     ReadOnly,
 		serviceType: reflect.TypeOf(&ga.RegionsService{}),
@@ -283,18 +308,21 @@ var AllServices = []*ServiceInfo{
 	&ServiceInfo{
 		Object:      "Route",
 		Service:     "Routes",
+		Resource:    "routes",
 		keyType:     Global,
 		serviceType: reflect.TypeOf(&ga.RoutesService{}),
 	},
 	&ServiceInfo{
 		Object:      "SslCertificate",
 		Service:     "SslCertificates",
+		Resource:    "sslCertificates",
 		keyType:     Global,
 		serviceType: reflect.TypeOf(&ga.SslCertificatesService{}),
 	},
 	&ServiceInfo{
 		Object:      "TargetHttpProxy",
 		Service:     "TargetHttpProxies",
+		Resource:    "targetHttpProxies",
 		keyType:     Global,
 		serviceType: reflect.TypeOf(&ga.TargetHttpProxiesService{}),
 		additionalMethods: []string{
@@ -304,6 +332,7 @@ var AllServices = []*ServiceInfo{
 	&ServiceInfo{
 		Object:      "TargetHttpsProxy",
 		Service:     "TargetHttpsProxies",
+		Resource:    "targetHttpsProxies",
 		keyType:     Global,
 		serviceType: reflect.TypeOf(&ga.TargetHttpsProxiesService{}),
 		additionalMethods: []string{
@@ -314,6 +343,7 @@ var AllServices = []*ServiceInfo{
 	&ServiceInfo{
 		Object:      "TargetPool",
 		Service:     "TargetPools",
+		Resource:    "targetPools",
 		keyType:     Regional,
 		serviceType: reflect.TypeOf(&ga.TargetPoolsService{}),
 		additionalMethods: []string{
@@ -324,6 +354,7 @@ var AllServices = []*ServiceInfo{
 	&ServiceInfo{
 		Object:      "UrlMap",
 		Service:     "UrlMaps",
+		Resource:    "urlMaps",
 		keyType:     Global,
 		serviceType: reflect.TypeOf(&ga.UrlMapsService{}),
 		additionalMethods: []string{
@@ -333,6 +364,7 @@ var AllServices = []*ServiceInfo{
 	&ServiceInfo{
 		Object:      "Zone",
 		Service:     "Zones",
+		Resource:    "zones",
 		keyType:     Global,
 		options:     ReadOnly,
 		serviceType: reflect.TypeOf(&ga.ZonesService{}),

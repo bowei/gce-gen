@@ -24,8 +24,15 @@ import (
 
 // ServiceInfo defines the entry for a Service that code will be generated for.
 type ServiceInfo struct {
-	Object  string
-	Service string
+	// Object is the Go name of the object type that the service deals
+	// with. Example: "ForwardingRule".
+	Object   string
+	// Service is the Go name of the service struct i.e. where the methods
+	// are defined. Examples: "GlobalForwardingRules".
+	Service  string
+	// Resource is the plural noun of the resource in the compute API URL (e.g.
+	// "forwardingRules").
+	Resource string
 	// version if unspecified will be assumed to be VersionGA.
 	version     Version
 	keyType     KeyType

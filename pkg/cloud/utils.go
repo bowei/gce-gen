@@ -140,3 +140,28 @@ func copyViaJSON(dest, src interface{}) error {
 	}
 	return json.Unmarshal(bytes, dest)
 }
+
+// SelfLink returns the self link URL for the given object.
+func SelfLink(ver meta.Version, project, resource string, key meta.Key) string {
+	var prefix string
+	switch ver {
+	case meta.VersionAlpha:
+		prefix = alphaPrefix
+	case meta.VersionBeta:
+		prefix = betaPrefix
+	case meta.VersionGA:
+		prefix = gaPrefix
+	default:
+		prefix = "invalid-prefix"
+	}
+
+	switch key.Type() {
+	case meta.Zonal:
+		return fmt.Sprintf("%sprojects/%s/zones/%s/%s/%s", prefix, project, key.Zone, resource, key.Name)
+	case meta.Regional:
+		return fmt.Sprintf("%sprojects/%s/regions/%s/%s/%s", prefix, project, key.Region, resource, key.Name)
+	case meta.Global:
+		return fmt.Sprintf("%sprojects/%s/%s/%s", prefix, project, resource, key.Name)
+	}
+	return "invalid-self-link"
+}

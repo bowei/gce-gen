@@ -1198,6 +1198,11 @@ func (m *MockAddresses) Insert(ctx context.Context, key meta.Key, obj *ga.Addres
 		return err
 	}
 
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionGA, "mock-project", "addresses", key)
+	}
+
 	m.Objects[key] = &MockAddressesObj{obj}
 	glog.V(5).Infof("MockAddresses.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
@@ -1461,6 +1466,11 @@ func (m *MockAlphaAddresses) Insert(ctx context.Context, key meta.Key, obj *alph
 		}
 		glog.V(5).Infof("MockAlphaAddresses.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
+	}
+
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionAlpha, "mock-project", "addresses", key)
 	}
 
 	m.Objects[key] = &MockAddressesObj{obj}
@@ -1728,6 +1738,11 @@ func (m *MockBetaAddresses) Insert(ctx context.Context, key meta.Key, obj *beta.
 		return err
 	}
 
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionBeta, "mock-project", "addresses", key)
+	}
+
 	m.Objects[key] = &MockAddressesObj{obj}
 	glog.V(5).Infof("MockBetaAddresses.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
@@ -1988,6 +2003,11 @@ func (m *MockGlobalAddresses) Insert(ctx context.Context, key meta.Key, obj *ga.
 		}
 		glog.V(5).Infof("MockGlobalAddresses.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
+	}
+
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionGA, "mock-project", "addresses", key)
 	}
 
 	m.Objects[key] = &MockGlobalAddressesObj{obj}
@@ -2255,6 +2275,11 @@ func (m *MockBackendServices) Insert(ctx context.Context, key meta.Key, obj *ga.
 		}
 		glog.V(5).Infof("MockBackendServices.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
+	}
+
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionGA, "mock-project", "backendServices", key)
 	}
 
 	m.Objects[key] = &MockBackendServicesObj{obj}
@@ -2576,6 +2601,11 @@ func (m *MockAlphaBackendServices) Insert(ctx context.Context, key meta.Key, obj
 		return err
 	}
 
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionAlpha, "mock-project", "backendServices", key)
+	}
+
 	m.Objects[key] = &MockBackendServicesObj{obj}
 	glog.V(5).Infof("MockAlphaBackendServices.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
@@ -2873,6 +2903,11 @@ func (m *MockAlphaRegionBackendServices) Insert(ctx context.Context, key meta.Ke
 		}
 		glog.V(5).Infof("MockAlphaRegionBackendServices.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
+	}
+
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionAlpha, "mock-project", "backendServices", key)
 	}
 
 	m.Objects[key] = &MockRegionBackendServicesObj{obj}
@@ -3194,6 +3229,11 @@ func (m *MockDisks) Insert(ctx context.Context, key meta.Key, obj *ga.Disk) erro
 		return err
 	}
 
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionGA, "mock-project", "disks", key)
+	}
+
 	m.Objects[key] = &MockDisksObj{obj}
 	glog.V(5).Infof("MockDisks.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
@@ -3457,6 +3497,11 @@ func (m *MockAlphaDisks) Insert(ctx context.Context, key meta.Key, obj *alpha.Di
 		}
 		glog.V(5).Infof("MockAlphaDisks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
+	}
+
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionAlpha, "mock-project", "disks", key)
 	}
 
 	m.Objects[key] = &MockDisksObj{obj}
@@ -3724,6 +3769,11 @@ func (m *MockAlphaRegionDisks) Insert(ctx context.Context, key meta.Key, obj *al
 		return err
 	}
 
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionAlpha, "mock-project", "disks", key)
+	}
+
 	m.Objects[key] = &MockRegionDisksObj{obj}
 	glog.V(5).Infof("MockAlphaRegionDisks.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
@@ -3986,6 +4036,11 @@ func (m *MockFirewalls) Insert(ctx context.Context, key meta.Key, obj *ga.Firewa
 		}
 		glog.V(5).Infof("MockFirewalls.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
+	}
+
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionGA, "mock-project", "firewalls", key)
 	}
 
 	m.Objects[key] = &MockFirewallsObj{obj}
@@ -4283,6 +4338,11 @@ func (m *MockForwardingRules) Insert(ctx context.Context, key meta.Key, obj *ga.
 		return err
 	}
 
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionGA, "mock-project", "forwardingRules", key)
+	}
+
 	m.Objects[key] = &MockForwardingRulesObj{obj}
 	glog.V(5).Infof("MockForwardingRules.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
@@ -4548,6 +4608,11 @@ func (m *MockAlphaForwardingRules) Insert(ctx context.Context, key meta.Key, obj
 		return err
 	}
 
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionAlpha, "mock-project", "forwardingRules", key)
+	}
+
 	m.Objects[key] = &MockForwardingRulesObj{obj}
 	glog.V(5).Infof("MockAlphaForwardingRules.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
@@ -4810,6 +4875,11 @@ func (m *MockGlobalForwardingRules) Insert(ctx context.Context, key meta.Key, ob
 		}
 		glog.V(5).Infof("MockGlobalForwardingRules.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
+	}
+
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionGA, "mock-project", "forwardingRules", key)
 	}
 
 	m.Objects[key] = &MockGlobalForwardingRulesObj{obj}
@@ -5106,6 +5176,11 @@ func (m *MockHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.Hea
 		return err
 	}
 
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionGA, "mock-project", "healthChecks", key)
+	}
+
 	m.Objects[key] = &MockHealthChecksObj{obj}
 	glog.V(5).Infof("MockHealthChecks.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
@@ -5398,6 +5473,11 @@ func (m *MockAlphaHealthChecks) Insert(ctx context.Context, key meta.Key, obj *a
 		}
 		glog.V(5).Infof("MockAlphaHealthChecks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
+	}
+
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionAlpha, "mock-project", "healthChecks", key)
 	}
 
 	m.Objects[key] = &MockHealthChecksObj{obj}
@@ -5694,6 +5774,11 @@ func (m *MockHttpHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga
 		return err
 	}
 
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionGA, "mock-project", "httpHealthChecks", key)
+	}
+
 	m.Objects[key] = &MockHttpHealthChecksObj{obj}
 	glog.V(5).Infof("MockHttpHealthChecks.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
@@ -5986,6 +6071,11 @@ func (m *MockHttpsHealthChecks) Insert(ctx context.Context, key meta.Key, obj *g
 		}
 		glog.V(5).Infof("MockHttpsHealthChecks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
+	}
+
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionGA, "mock-project", "httpsHealthChecks", key)
 	}
 
 	m.Objects[key] = &MockHttpsHealthChecksObj{obj}
@@ -6289,6 +6379,11 @@ func (m *MockInstanceGroups) Insert(ctx context.Context, key meta.Key, obj *ga.I
 		}
 		glog.V(5).Infof("MockInstanceGroups.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
+	}
+
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionGA, "mock-project", "instanceGroups", key)
 	}
 
 	m.Objects[key] = &MockInstanceGroupsObj{obj}
@@ -6672,6 +6767,11 @@ func (m *MockInstances) Insert(ctx context.Context, key meta.Key, obj *ga.Instan
 		return err
 	}
 
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionGA, "mock-project", "instances", key)
+	}
+
 	m.Objects[key] = &MockInstancesObj{obj}
 	glog.V(5).Infof("MockInstances.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
@@ -6997,6 +7097,11 @@ func (m *MockBetaInstances) Insert(ctx context.Context, key meta.Key, obj *beta.
 		}
 		glog.V(5).Infof("MockBetaInstances.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
+	}
+
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionBeta, "mock-project", "instances", key)
 	}
 
 	m.Objects[key] = &MockInstancesObj{obj}
@@ -7326,6 +7431,11 @@ func (m *MockAlphaInstances) Insert(ctx context.Context, key meta.Key, obj *alph
 		}
 		glog.V(5).Infof("MockAlphaInstances.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
+	}
+
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionAlpha, "mock-project", "instances", key)
 	}
 
 	m.Objects[key] = &MockInstancesObj{obj}
@@ -7685,6 +7795,11 @@ func (m *MockAlphaNetworkEndpointGroups) Insert(ctx context.Context, key meta.Ke
 		}
 		glog.V(5).Infof("MockAlphaNetworkEndpointGroups.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
+	}
+
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionAlpha, "mock-project", "networkEndpointGroups", key)
 	}
 
 	m.Objects[key] = &MockNetworkEndpointGroupsObj{obj}
@@ -8263,6 +8378,11 @@ func (m *MockRoutes) Insert(ctx context.Context, key meta.Key, obj *ga.Route) er
 		return err
 	}
 
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionGA, "mock-project", "routes", key)
+	}
+
 	m.Objects[key] = &MockRoutesObj{obj}
 	glog.V(5).Infof("MockRoutes.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
@@ -8524,6 +8644,11 @@ func (m *MockSslCertificates) Insert(ctx context.Context, key meta.Key, obj *ga.
 		}
 		glog.V(5).Infof("MockSslCertificates.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
+	}
+
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionGA, "mock-project", "sslCertificates", key)
 	}
 
 	m.Objects[key] = &MockSslCertificatesObj{obj}
@@ -8789,6 +8914,11 @@ func (m *MockTargetHttpProxies) Insert(ctx context.Context, key meta.Key, obj *g
 		}
 		glog.V(5).Infof("MockTargetHttpProxies.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
+	}
+
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionGA, "mock-project", "targetHttpProxies", key)
 	}
 
 	m.Objects[key] = &MockTargetHttpProxiesObj{obj}
@@ -9085,6 +9215,11 @@ func (m *MockTargetHttpsProxies) Insert(ctx context.Context, key meta.Key, obj *
 		}
 		glog.V(5).Infof("MockTargetHttpsProxies.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
+	}
+
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionGA, "mock-project", "targetHttpsProxies", key)
 	}
 
 	m.Objects[key] = &MockTargetHttpsProxiesObj{obj}
@@ -9415,6 +9550,11 @@ func (m *MockTargetPools) Insert(ctx context.Context, key meta.Key, obj *ga.Targ
 		return err
 	}
 
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionGA, "mock-project", "targetPools", key)
+	}
+
 	m.Objects[key] = &MockTargetPoolsObj{obj}
 	glog.V(5).Infof("MockTargetPools.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
@@ -9735,6 +9875,11 @@ func (m *MockUrlMaps) Insert(ctx context.Context, key meta.Key, obj *ga.UrlMap) 
 		}
 		glog.V(5).Infof("MockUrlMaps.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
+	}
+
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.VersionGA, "mock-project", "urlMaps", key)
 	}
 
 	m.Objects[key] = &MockUrlMapsObj{obj}

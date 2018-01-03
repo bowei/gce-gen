@@ -516,6 +516,11 @@ func (m *{{.MockWrapType}}) Insert(ctx context.Context, key meta.Key, obj *{{.FQ
 		return err
 	}
 
+	obj.Name = key.Name
+	if obj.SelfLink == "" {
+		obj.SelfLink = SelfLink(meta.Version{{.VersionTitle}}, "mock-project", "{{.Resource}}", key)
+	}
+
 	m.Objects[key] = &Mock{{.Service}}Obj{obj}
 	glog.V(5).Infof("{{.MockWrapType}}.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
