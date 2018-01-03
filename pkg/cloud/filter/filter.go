@@ -22,8 +22,9 @@ limitations under the License.
 //  // List global addresses filtering for name matching "abc.*".
 //  c.GlobalAddresses().List(ctx, filter.Regexp("name", "abc.*"))
 //
-//  // List using multiple predicates.
-//  c.GlobalAddresses().List(ctx, filter.Regexp("name", "abc.*").NotRegexp("name", "abcdef"))
+//  // List on multiple conditions.
+//  f := filter.Regexp("name", "homer.*").AndNotRegexp("name", "homers")
+//  c.GlobalAddresses().List(ctx, f)
 package filter
 
 import (
