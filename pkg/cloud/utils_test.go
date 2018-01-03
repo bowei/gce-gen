@@ -24,6 +24,8 @@ import (
 )
 
 func TestParseResourceURL(t *testing.T) {
+	t.Parallel()
+
 	for _, tc := range []struct {
 		in string
 		r  *ResourceID

@@ -83,21 +83,6 @@ func (k *Key) Valid(typeName string) bool {
 	if k.Zone != "" && k.Region != "" {
 		return false
 	}
-	/* XXX/bowei -- redo this.
-	ti, ok := meta.AllTypesMap[typeName]
-	if !ok {
-		return false
-	}
-
-	switch {
-	case ti.KeyConstraint.Global && k.Type() == Global:
-		return true
-	case ti.KeyConstraint.Regional && k.Type() == Regional:
-		return true
-	case ti.KeyConstraint.Zonal && k.Type() == Zonal:
-		return true
-	}
-	*/
 	return true
 }
 

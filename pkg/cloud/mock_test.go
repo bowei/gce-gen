@@ -35,6 +35,8 @@ func addressSelfLink(version, region, name string) string {
 }
 
 func TestMocks(t *testing.T) {
+	t.Parallel()
+
 	// This test uses Addresses, but the logic that is generated is the same for
 	// other basic objects.
 	const region = "us-central1"

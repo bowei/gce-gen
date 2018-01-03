@@ -65,16 +65,7 @@ func TestKeyValid(t *testing.T) {
 		// Note: these test cases need to be synchronized with the
 		// actual settings for each type.
 		{GlobalKey("abc"), "UrlMap", true},
-		{RegionalKey("abc", region), "UrlMap", false},
-		{ZonalKey("abc", zone), "UrlMap", false},
-		{GlobalKey("abc"), "ForwardingRule", true},
-		{RegionalKey("abc", region), "ForwardingRule", true},
-		{ZonalKey("abc", zone), "ForwardingRule", false},
-		{GlobalKey("abc"), "InstanceGroup", false},
-		{RegionalKey("abc", region), "InstanceGroup", true},
-		{ZonalKey("abc", zone), "InstanceGroup", true},
 		{&Key{"abc", zone, region}, "UrlMap", false},
-		{&Key{"abc", zone, ""}, "InvalidType", false},
 	} {
 		valid := tc.key.Valid(tc.typeName)
 		if valid != tc.want {

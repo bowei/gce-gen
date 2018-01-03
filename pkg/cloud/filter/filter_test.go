@@ -22,6 +22,8 @@ import (
 )
 
 func TestFilterToString(t *testing.T) {
+	t.Parallel()
+
 	for _, tc := range []struct {
 		f    *F
 		want string
@@ -43,6 +45,8 @@ func TestFilterToString(t *testing.T) {
 }
 
 func TestFilterMatch(t *testing.T) {
+	t.Parallel()
+
 	type inner struct {
 		X string
 	}
@@ -92,6 +96,8 @@ func TestFilterMatch(t *testing.T) {
 }
 
 func TestFilterSnakeToCamelCase(t *testing.T) {
+	t.Parallel()
+
 	for _, tc := range []struct {
 		s    string
 		want string
@@ -111,6 +117,8 @@ func TestFilterSnakeToCamelCase(t *testing.T) {
 }
 
 func TestFilterExtractValue(t *testing.T) {
+	t.Parallel()
+
 	type nest2 struct {
 		Y string
 	}
