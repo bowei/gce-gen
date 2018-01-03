@@ -198,18 +198,18 @@ func (mock *MockGCE) {{.WrapType}}() {{.WrapType}} {
 // map of mocked objects. This allows for multiple API versions to co-exist and
 // share the same "view" of the objects in the backend.
 type Mock{{.Service}}Obj struct {
-	o interface{}
+	Obj interface{}
 }
 {{- if .HasAlpha}}
 // ToAlpha retrieves the given version of the object.
 func (m *Mock{{.Service}}Obj) ToAlpha() *{{.Alpha.FQObjectType}} {
-	if ret, ok := m.o.(*{{.Alpha.FQObjectType}}); ok {
+	if ret, ok := m.Obj.(*{{.Alpha.FQObjectType}}); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &{{.Alpha.FQObjectType}}{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *{{.Alpha.FQObjectType}} via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *{{.Alpha.FQObjectType}} via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -217,13 +217,13 @@ func (m *Mock{{.Service}}Obj) ToAlpha() *{{.Alpha.FQObjectType}} {
 {{- if .HasBeta}}
 // ToBeta retrieves the given version of the object.
 func (m *Mock{{.Service}}Obj) ToBeta() *{{.Beta.FQObjectType}} {
-	if ret, ok := m.o.(*{{.Beta.FQObjectType}}); ok {
+	if ret, ok := m.Obj.(*{{.Beta.FQObjectType}}); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &{{.Beta.FQObjectType}}{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *{{.Beta.FQObjectType}} via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *{{.Beta.FQObjectType}} via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -231,13 +231,13 @@ func (m *Mock{{.Service}}Obj) ToBeta() *{{.Beta.FQObjectType}} {
 {{- if .HasGA}}
 // ToGA retrieves the given version of the object.
 func (m *Mock{{.Service}}Obj) ToGA() *{{.GA.FQObjectType}} {
-	if ret, ok := m.o.(*{{.GA.FQObjectType}}); ok {
+	if ret, ok := m.Obj.(*{{.GA.FQObjectType}}); ok {
 		return ret
 	}
 		// Convert the object via JSON copying to the type that was requested.
 	ret := &{{.GA.FQObjectType}}{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *{{.GA.FQObjectType}} via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *{{.GA.FQObjectType}} via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -380,6 +380,7 @@ type {{.MockWrapType}} struct {
 func (m *{{.MockWrapType}}) Get(ctx context.Context, key meta.Key) (*{{.FQObjectType}}, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key);  intercept {
+			glog.V(5).Infof("{{.MockWrapType}}.Get(%v, %s) = %v, %v", ctx, key, obj ,err)
 			return obj, err
 		}
 	}
@@ -388,15 +389,21 @@ func (m *{{.MockWrapType}}) Get(ctx context.Context, key meta.Key) (*{{.FQObject
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("{{.MockWrapType}}.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.To{{.VersionTitle}}(), nil
+		typedObj := obj.To{{.VersionTitle}}()
+		glog.V(5).Infof("{{.MockWrapType}}.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code: http.StatusNotFound,
 		Message: fmt.Sprintf("{{.MockWrapType}} %v not found", key),
 	}
+	glog.V(5).Infof("{{.MockWrapType}}.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 {{- end}}
 
@@ -416,12 +423,15 @@ func (m *{{.MockWrapType}}) List(ctx context.Context, zone string, fl *filter.F)
 	if m.ListHook != nil {
 		{{if .KeyIsGlobal -}}
 		if intercept, objs, err := m.ListHook(m, ctx, fl);  intercept {
+			glog.V(5).Infof("{{.MockWrapType}}.List(%v, %v) = %v, %v", ctx, fl, objs, err)
 		{{- end -}}
 		{{- if .KeyIsRegional -}}
 		if intercept, objs, err := m.ListHook(m, ctx, region, fl);  intercept {
+			glog.V(5).Infof("{{.MockWrapType}}.List(%v, %q, %v) = %v, %v", ctx, region, fl, objs, err)
 		{{- end -}}
 		{{- if .KeyIsZonal -}}
 		if intercept, objs, err := m.ListHook(m, ctx, zone, fl);  intercept {
+			glog.V(5).Infof("{{.MockWrapType}}.List(%v, %q, %v) = %v, %v", ctx, zone, fl, objs, err)
 		{{- end}}
 			return objs, err
 		}
@@ -431,6 +441,17 @@ func (m *{{.MockWrapType}}) List(ctx context.Context, zone string, fl *filter.F)
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		{{if .KeyIsGlobal -}}
+		glog.V(5).Infof("{{.MockWrapType}}.List(%v, %v) = nil, %v", ctx, fl, err)
+		{{- end -}}
+		{{- if .KeyIsRegional -}}
+		glog.V(5).Infof("{{.MockWrapType}}.List(%v, %q, %v) = nil, %v", ctx, region, fl, err)
+		{{- end -}}
+		{{- if .KeyIsZonal -}}
+		glog.V(5).Infof("{{.MockWrapType}}.List(%v, %q, %v) = nil, %v", ctx, zone, fl, err)
+		{{- end}}
+
 		return nil, *m.ListError
 	}
 
@@ -450,11 +471,21 @@ func (m *{{.MockWrapType}}) List(ctx context.Context, zone string, fl *filter.F)
 			continue
 		}
 {{- end}}
-		if ! fl.Match(obj) {
+		if ! fl.Match(obj.To{{.VersionTitle}}()) {
 			continue
 		}
 		objs = append(objs, obj.To{{.VersionTitle}}())
 	}
+
+	{{if .KeyIsGlobal -}}
+		glog.V(5).Infof("{{.MockWrapType}}.List(%v, %v) = %v, nil", ctx, fl, objs)
+	{{- end -}}
+	{{- if .KeyIsRegional -}}
+		glog.V(5).Infof("{{.MockWrapType}}.List(%v, %q, %v) = %v, nil", ctx, region, fl, objs)
+	{{- end -}}
+	{{- if .KeyIsZonal -}}
+		glog.V(5).Infof("{{.MockWrapType}}.List(%v, %q, %v) = %v, nil", ctx, zone, fl, objs)
+	{{- end}}
 	return objs, nil
 }
 {{- end}}
@@ -464,6 +495,7 @@ func (m *{{.MockWrapType}}) List(ctx context.Context, zone string, fl *filter.F)
 func (m *{{.MockWrapType}}) Insert(ctx context.Context, key meta.Key, obj *{{.FQObjectType}}) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj);  intercept {
+			glog.V(5).Infof("{{.MockWrapType}}.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -472,16 +504,20 @@ func (m *{{.MockWrapType}}) Insert(ctx context.Context, key meta.Key, obj *{{.FQ
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("{{.MockWrapType}}.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code: http.StatusConflict,
 			Message: fmt.Sprintf("{{.MockWrapType}} %v exists", key),
 		}
+		glog.V(5).Infof("{{.MockWrapType}}.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &Mock{{.Service}}Obj{obj}
+	glog.V(5).Infof("{{.MockWrapType}}.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 {{- end}}
@@ -491,6 +527,7 @@ func (m *{{.MockWrapType}}) Insert(ctx context.Context, key meta.Key, obj *{{.FQ
 func (m *{{.MockWrapType}}) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key);  intercept {
+			glog.V(5).Infof("{{.MockWrapType}}.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -499,16 +536,20 @@ func (m *{{.MockWrapType}}) Delete(ctx context.Context, key meta.Key) error {
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("{{.MockWrapType}}.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code: http.StatusNotFound,
 			Message: fmt.Sprintf("{{.MockWrapType}} %v not found", key),
 		}
+		glog.V(5).Infof("{{.MockWrapType}}.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("{{.MockWrapType}}.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 {{- end}}
@@ -517,6 +558,7 @@ func (m *{{.MockWrapType}}) Delete(ctx context.Context, key meta.Key) error {
 func (m *{{.MockWrapType}}) AggregatedList(ctx context.Context, fl *filter.F) (map[string][]*{{.FQObjectType}}, error) {
 	if m.AggregatedListHook != nil {
 		if intercept, objs, err := m.AggregatedListHook(m, ctx, fl); intercept {
+			glog.V(5).Infof("{{.MockWrapType}}.AggregatedList(%v, %v) = %+v, %v", ctx, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -525,7 +567,9 @@ func (m *{{.MockWrapType}}) AggregatedList(ctx context.Context, fl *filter.F) (m
 	defer m.Lock.Unlock()
 
 	if m.AggregatedListError != nil {
-		return nil, *m.AggregatedListError
+		err := *m.AggregatedListError
+		glog.V(5).Infof("{{.MockWrapType}}.AggregatedList(%v, %v) = nil, %v", ctx, fl, err)
+		return nil, err
 	}
 
 	objs := map[string][]*{{.FQObjectType}}{}
@@ -538,13 +582,15 @@ func (m *{{.MockWrapType}}) AggregatedList(ctx context.Context, fl *filter.F) (m
 		location := res.Key.Zone
 		{{- end}}
 		if err != nil {
+			glog.V(5).Infof("{{.MockWrapType}}.AggregatedList(%v, %v) = nil, %v", ctx, fl, err)
 			return nil, err
 		}
-		if ! fl.Match(obj) {
+		if ! fl.Match(obj.To{{.VersionTitle}}()) {
 			continue
 		}
 		objs[location] = append(objs[location], obj.To{{.VersionTitle}}())
 	}
+	glog.V(5).Infof("{{.MockWrapType}}.AggregatedList(%v, %v) = %+v, nil", ctx, fl, objs)
 	return objs, nil
 }
 {{- end}}

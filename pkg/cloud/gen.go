@@ -482,44 +482,44 @@ func (mock *MockGCE) Zones() Zones {
 // map of mocked objects. This allows for multiple API versions to co-exist and
 // share the same "view" of the objects in the backend.
 type MockAddressesObj struct {
-	o interface{}
+	Obj interface{}
 }
 
 // ToAlpha retrieves the given version of the object.
 func (m *MockAddressesObj) ToAlpha() *alpha.Address {
-	if ret, ok := m.o.(*alpha.Address); ok {
+	if ret, ok := m.Obj.(*alpha.Address); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &alpha.Address{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *alpha.Address via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *alpha.Address via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
 
 // ToBeta retrieves the given version of the object.
 func (m *MockAddressesObj) ToBeta() *beta.Address {
-	if ret, ok := m.o.(*beta.Address); ok {
+	if ret, ok := m.Obj.(*beta.Address); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &beta.Address{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *beta.Address via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *beta.Address via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
 
 // ToGA retrieves the given version of the object.
 func (m *MockAddressesObj) ToGA() *ga.Address {
-	if ret, ok := m.o.(*ga.Address); ok {
+	if ret, ok := m.Obj.(*ga.Address); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &ga.Address{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *ga.Address via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *ga.Address via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -528,31 +528,31 @@ func (m *MockAddressesObj) ToGA() *ga.Address {
 // map of mocked objects. This allows for multiple API versions to co-exist and
 // share the same "view" of the objects in the backend.
 type MockBackendServicesObj struct {
-	o interface{}
+	Obj interface{}
 }
 
 // ToAlpha retrieves the given version of the object.
 func (m *MockBackendServicesObj) ToAlpha() *alpha.BackendService {
-	if ret, ok := m.o.(*alpha.BackendService); ok {
+	if ret, ok := m.Obj.(*alpha.BackendService); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &alpha.BackendService{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *alpha.BackendService via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *alpha.BackendService via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
 
 // ToGA retrieves the given version of the object.
 func (m *MockBackendServicesObj) ToGA() *ga.BackendService {
-	if ret, ok := m.o.(*ga.BackendService); ok {
+	if ret, ok := m.Obj.(*ga.BackendService); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &ga.BackendService{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *ga.BackendService via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *ga.BackendService via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -561,31 +561,31 @@ func (m *MockBackendServicesObj) ToGA() *ga.BackendService {
 // map of mocked objects. This allows for multiple API versions to co-exist and
 // share the same "view" of the objects in the backend.
 type MockDisksObj struct {
-	o interface{}
+	Obj interface{}
 }
 
 // ToAlpha retrieves the given version of the object.
 func (m *MockDisksObj) ToAlpha() *alpha.Disk {
-	if ret, ok := m.o.(*alpha.Disk); ok {
+	if ret, ok := m.Obj.(*alpha.Disk); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &alpha.Disk{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *alpha.Disk via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *alpha.Disk via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
 
 // ToGA retrieves the given version of the object.
 func (m *MockDisksObj) ToGA() *ga.Disk {
-	if ret, ok := m.o.(*ga.Disk); ok {
+	if ret, ok := m.Obj.(*ga.Disk); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &ga.Disk{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *ga.Disk via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *ga.Disk via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -594,18 +594,18 @@ func (m *MockDisksObj) ToGA() *ga.Disk {
 // map of mocked objects. This allows for multiple API versions to co-exist and
 // share the same "view" of the objects in the backend.
 type MockFirewallsObj struct {
-	o interface{}
+	Obj interface{}
 }
 
 // ToGA retrieves the given version of the object.
 func (m *MockFirewallsObj) ToGA() *ga.Firewall {
-	if ret, ok := m.o.(*ga.Firewall); ok {
+	if ret, ok := m.Obj.(*ga.Firewall); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &ga.Firewall{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *ga.Firewall via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *ga.Firewall via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -614,31 +614,31 @@ func (m *MockFirewallsObj) ToGA() *ga.Firewall {
 // map of mocked objects. This allows for multiple API versions to co-exist and
 // share the same "view" of the objects in the backend.
 type MockForwardingRulesObj struct {
-	o interface{}
+	Obj interface{}
 }
 
 // ToAlpha retrieves the given version of the object.
 func (m *MockForwardingRulesObj) ToAlpha() *alpha.ForwardingRule {
-	if ret, ok := m.o.(*alpha.ForwardingRule); ok {
+	if ret, ok := m.Obj.(*alpha.ForwardingRule); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &alpha.ForwardingRule{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *alpha.ForwardingRule via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *alpha.ForwardingRule via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
 
 // ToGA retrieves the given version of the object.
 func (m *MockForwardingRulesObj) ToGA() *ga.ForwardingRule {
-	if ret, ok := m.o.(*ga.ForwardingRule); ok {
+	if ret, ok := m.Obj.(*ga.ForwardingRule); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &ga.ForwardingRule{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *ga.ForwardingRule via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *ga.ForwardingRule via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -647,18 +647,18 @@ func (m *MockForwardingRulesObj) ToGA() *ga.ForwardingRule {
 // map of mocked objects. This allows for multiple API versions to co-exist and
 // share the same "view" of the objects in the backend.
 type MockGlobalAddressesObj struct {
-	o interface{}
+	Obj interface{}
 }
 
 // ToGA retrieves the given version of the object.
 func (m *MockGlobalAddressesObj) ToGA() *ga.Address {
-	if ret, ok := m.o.(*ga.Address); ok {
+	if ret, ok := m.Obj.(*ga.Address); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &ga.Address{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *ga.Address via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *ga.Address via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -667,18 +667,18 @@ func (m *MockGlobalAddressesObj) ToGA() *ga.Address {
 // map of mocked objects. This allows for multiple API versions to co-exist and
 // share the same "view" of the objects in the backend.
 type MockGlobalForwardingRulesObj struct {
-	o interface{}
+	Obj interface{}
 }
 
 // ToGA retrieves the given version of the object.
 func (m *MockGlobalForwardingRulesObj) ToGA() *ga.ForwardingRule {
-	if ret, ok := m.o.(*ga.ForwardingRule); ok {
+	if ret, ok := m.Obj.(*ga.ForwardingRule); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &ga.ForwardingRule{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *ga.ForwardingRule via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *ga.ForwardingRule via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -687,31 +687,31 @@ func (m *MockGlobalForwardingRulesObj) ToGA() *ga.ForwardingRule {
 // map of mocked objects. This allows for multiple API versions to co-exist and
 // share the same "view" of the objects in the backend.
 type MockHealthChecksObj struct {
-	o interface{}
+	Obj interface{}
 }
 
 // ToAlpha retrieves the given version of the object.
 func (m *MockHealthChecksObj) ToAlpha() *alpha.HealthCheck {
-	if ret, ok := m.o.(*alpha.HealthCheck); ok {
+	if ret, ok := m.Obj.(*alpha.HealthCheck); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &alpha.HealthCheck{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *alpha.HealthCheck via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *alpha.HealthCheck via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
 
 // ToGA retrieves the given version of the object.
 func (m *MockHealthChecksObj) ToGA() *ga.HealthCheck {
-	if ret, ok := m.o.(*ga.HealthCheck); ok {
+	if ret, ok := m.Obj.(*ga.HealthCheck); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &ga.HealthCheck{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *ga.HealthCheck via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *ga.HealthCheck via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -720,18 +720,18 @@ func (m *MockHealthChecksObj) ToGA() *ga.HealthCheck {
 // map of mocked objects. This allows for multiple API versions to co-exist and
 // share the same "view" of the objects in the backend.
 type MockHttpHealthChecksObj struct {
-	o interface{}
+	Obj interface{}
 }
 
 // ToGA retrieves the given version of the object.
 func (m *MockHttpHealthChecksObj) ToGA() *ga.HttpHealthCheck {
-	if ret, ok := m.o.(*ga.HttpHealthCheck); ok {
+	if ret, ok := m.Obj.(*ga.HttpHealthCheck); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &ga.HttpHealthCheck{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *ga.HttpHealthCheck via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *ga.HttpHealthCheck via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -740,18 +740,18 @@ func (m *MockHttpHealthChecksObj) ToGA() *ga.HttpHealthCheck {
 // map of mocked objects. This allows for multiple API versions to co-exist and
 // share the same "view" of the objects in the backend.
 type MockHttpsHealthChecksObj struct {
-	o interface{}
+	Obj interface{}
 }
 
 // ToGA retrieves the given version of the object.
 func (m *MockHttpsHealthChecksObj) ToGA() *ga.HttpsHealthCheck {
-	if ret, ok := m.o.(*ga.HttpsHealthCheck); ok {
+	if ret, ok := m.Obj.(*ga.HttpsHealthCheck); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &ga.HttpsHealthCheck{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *ga.HttpsHealthCheck via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *ga.HttpsHealthCheck via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -760,18 +760,18 @@ func (m *MockHttpsHealthChecksObj) ToGA() *ga.HttpsHealthCheck {
 // map of mocked objects. This allows for multiple API versions to co-exist and
 // share the same "view" of the objects in the backend.
 type MockInstanceGroupsObj struct {
-	o interface{}
+	Obj interface{}
 }
 
 // ToGA retrieves the given version of the object.
 func (m *MockInstanceGroupsObj) ToGA() *ga.InstanceGroup {
-	if ret, ok := m.o.(*ga.InstanceGroup); ok {
+	if ret, ok := m.Obj.(*ga.InstanceGroup); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &ga.InstanceGroup{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *ga.InstanceGroup via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *ga.InstanceGroup via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -780,44 +780,44 @@ func (m *MockInstanceGroupsObj) ToGA() *ga.InstanceGroup {
 // map of mocked objects. This allows for multiple API versions to co-exist and
 // share the same "view" of the objects in the backend.
 type MockInstancesObj struct {
-	o interface{}
+	Obj interface{}
 }
 
 // ToAlpha retrieves the given version of the object.
 func (m *MockInstancesObj) ToAlpha() *alpha.Instance {
-	if ret, ok := m.o.(*alpha.Instance); ok {
+	if ret, ok := m.Obj.(*alpha.Instance); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &alpha.Instance{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *alpha.Instance via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *alpha.Instance via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
 
 // ToBeta retrieves the given version of the object.
 func (m *MockInstancesObj) ToBeta() *beta.Instance {
-	if ret, ok := m.o.(*beta.Instance); ok {
+	if ret, ok := m.Obj.(*beta.Instance); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &beta.Instance{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *beta.Instance via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *beta.Instance via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
 
 // ToGA retrieves the given version of the object.
 func (m *MockInstancesObj) ToGA() *ga.Instance {
-	if ret, ok := m.o.(*ga.Instance); ok {
+	if ret, ok := m.Obj.(*ga.Instance); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &ga.Instance{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *ga.Instance via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *ga.Instance via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -826,18 +826,18 @@ func (m *MockInstancesObj) ToGA() *ga.Instance {
 // map of mocked objects. This allows for multiple API versions to co-exist and
 // share the same "view" of the objects in the backend.
 type MockNetworkEndpointGroupsObj struct {
-	o interface{}
+	Obj interface{}
 }
 
 // ToAlpha retrieves the given version of the object.
 func (m *MockNetworkEndpointGroupsObj) ToAlpha() *alpha.NetworkEndpointGroup {
-	if ret, ok := m.o.(*alpha.NetworkEndpointGroup); ok {
+	if ret, ok := m.Obj.(*alpha.NetworkEndpointGroup); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &alpha.NetworkEndpointGroup{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *alpha.NetworkEndpointGroup via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *alpha.NetworkEndpointGroup via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -846,18 +846,18 @@ func (m *MockNetworkEndpointGroupsObj) ToAlpha() *alpha.NetworkEndpointGroup {
 // map of mocked objects. This allows for multiple API versions to co-exist and
 // share the same "view" of the objects in the backend.
 type MockProjectsObj struct {
-	o interface{}
+	Obj interface{}
 }
 
 // ToGA retrieves the given version of the object.
 func (m *MockProjectsObj) ToGA() *ga.Project {
-	if ret, ok := m.o.(*ga.Project); ok {
+	if ret, ok := m.Obj.(*ga.Project); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &ga.Project{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *ga.Project via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *ga.Project via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -866,18 +866,18 @@ func (m *MockProjectsObj) ToGA() *ga.Project {
 // map of mocked objects. This allows for multiple API versions to co-exist and
 // share the same "view" of the objects in the backend.
 type MockRegionBackendServicesObj struct {
-	o interface{}
+	Obj interface{}
 }
 
 // ToAlpha retrieves the given version of the object.
 func (m *MockRegionBackendServicesObj) ToAlpha() *alpha.BackendService {
-	if ret, ok := m.o.(*alpha.BackendService); ok {
+	if ret, ok := m.Obj.(*alpha.BackendService); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &alpha.BackendService{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *alpha.BackendService via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *alpha.BackendService via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -886,18 +886,18 @@ func (m *MockRegionBackendServicesObj) ToAlpha() *alpha.BackendService {
 // map of mocked objects. This allows for multiple API versions to co-exist and
 // share the same "view" of the objects in the backend.
 type MockRegionDisksObj struct {
-	o interface{}
+	Obj interface{}
 }
 
 // ToAlpha retrieves the given version of the object.
 func (m *MockRegionDisksObj) ToAlpha() *alpha.Disk {
-	if ret, ok := m.o.(*alpha.Disk); ok {
+	if ret, ok := m.Obj.(*alpha.Disk); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &alpha.Disk{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *alpha.Disk via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *alpha.Disk via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -906,18 +906,18 @@ func (m *MockRegionDisksObj) ToAlpha() *alpha.Disk {
 // map of mocked objects. This allows for multiple API versions to co-exist and
 // share the same "view" of the objects in the backend.
 type MockRegionsObj struct {
-	o interface{}
+	Obj interface{}
 }
 
 // ToGA retrieves the given version of the object.
 func (m *MockRegionsObj) ToGA() *ga.Region {
-	if ret, ok := m.o.(*ga.Region); ok {
+	if ret, ok := m.Obj.(*ga.Region); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &ga.Region{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *ga.Region via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *ga.Region via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -926,18 +926,18 @@ func (m *MockRegionsObj) ToGA() *ga.Region {
 // map of mocked objects. This allows for multiple API versions to co-exist and
 // share the same "view" of the objects in the backend.
 type MockRoutesObj struct {
-	o interface{}
+	Obj interface{}
 }
 
 // ToGA retrieves the given version of the object.
 func (m *MockRoutesObj) ToGA() *ga.Route {
-	if ret, ok := m.o.(*ga.Route); ok {
+	if ret, ok := m.Obj.(*ga.Route); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &ga.Route{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *ga.Route via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *ga.Route via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -946,18 +946,18 @@ func (m *MockRoutesObj) ToGA() *ga.Route {
 // map of mocked objects. This allows for multiple API versions to co-exist and
 // share the same "view" of the objects in the backend.
 type MockSslCertificatesObj struct {
-	o interface{}
+	Obj interface{}
 }
 
 // ToGA retrieves the given version of the object.
 func (m *MockSslCertificatesObj) ToGA() *ga.SslCertificate {
-	if ret, ok := m.o.(*ga.SslCertificate); ok {
+	if ret, ok := m.Obj.(*ga.SslCertificate); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &ga.SslCertificate{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *ga.SslCertificate via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *ga.SslCertificate via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -966,18 +966,18 @@ func (m *MockSslCertificatesObj) ToGA() *ga.SslCertificate {
 // map of mocked objects. This allows for multiple API versions to co-exist and
 // share the same "view" of the objects in the backend.
 type MockTargetHttpProxiesObj struct {
-	o interface{}
+	Obj interface{}
 }
 
 // ToGA retrieves the given version of the object.
 func (m *MockTargetHttpProxiesObj) ToGA() *ga.TargetHttpProxy {
-	if ret, ok := m.o.(*ga.TargetHttpProxy); ok {
+	if ret, ok := m.Obj.(*ga.TargetHttpProxy); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &ga.TargetHttpProxy{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *ga.TargetHttpProxy via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *ga.TargetHttpProxy via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -986,18 +986,18 @@ func (m *MockTargetHttpProxiesObj) ToGA() *ga.TargetHttpProxy {
 // map of mocked objects. This allows for multiple API versions to co-exist and
 // share the same "view" of the objects in the backend.
 type MockTargetHttpsProxiesObj struct {
-	o interface{}
+	Obj interface{}
 }
 
 // ToGA retrieves the given version of the object.
 func (m *MockTargetHttpsProxiesObj) ToGA() *ga.TargetHttpsProxy {
-	if ret, ok := m.o.(*ga.TargetHttpsProxy); ok {
+	if ret, ok := m.Obj.(*ga.TargetHttpsProxy); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &ga.TargetHttpsProxy{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *ga.TargetHttpsProxy via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *ga.TargetHttpsProxy via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -1006,18 +1006,18 @@ func (m *MockTargetHttpsProxiesObj) ToGA() *ga.TargetHttpsProxy {
 // map of mocked objects. This allows for multiple API versions to co-exist and
 // share the same "view" of the objects in the backend.
 type MockTargetPoolsObj struct {
-	o interface{}
+	Obj interface{}
 }
 
 // ToGA retrieves the given version of the object.
 func (m *MockTargetPoolsObj) ToGA() *ga.TargetPool {
-	if ret, ok := m.o.(*ga.TargetPool); ok {
+	if ret, ok := m.Obj.(*ga.TargetPool); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &ga.TargetPool{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *ga.TargetPool via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *ga.TargetPool via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -1026,18 +1026,18 @@ func (m *MockTargetPoolsObj) ToGA() *ga.TargetPool {
 // map of mocked objects. This allows for multiple API versions to co-exist and
 // share the same "view" of the objects in the backend.
 type MockUrlMapsObj struct {
-	o interface{}
+	Obj interface{}
 }
 
 // ToGA retrieves the given version of the object.
 func (m *MockUrlMapsObj) ToGA() *ga.UrlMap {
-	if ret, ok := m.o.(*ga.UrlMap); ok {
+	if ret, ok := m.Obj.(*ga.UrlMap); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &ga.UrlMap{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *ga.UrlMap via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *ga.UrlMap via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -1046,18 +1046,18 @@ func (m *MockUrlMapsObj) ToGA() *ga.UrlMap {
 // map of mocked objects. This allows for multiple API versions to co-exist and
 // share the same "view" of the objects in the backend.
 type MockZonesObj struct {
-	o interface{}
+	Obj interface{}
 }
 
 // ToGA retrieves the given version of the object.
 func (m *MockZonesObj) ToGA() *ga.Zone {
-	if ret, ok := m.o.(*ga.Zone); ok {
+	if ret, ok := m.Obj.(*ga.Zone); ok {
 		return ret
 	}
 	// Convert the object via JSON copying to the type that was requested.
 	ret := &ga.Zone{}
-	if err := copyViaJSON(ret, m.o); err != nil {
-		glog.Errorf("Could not convert %T to *ga.Zone via JSON: %v", m.o, err)
+	if err := copyViaJSON(ret, m.Obj); err != nil {
+		glog.Errorf("Could not convert %T to *ga.Zone via JSON: %v", m.Obj, err)
 	}
 	return ret
 }
@@ -1113,6 +1113,7 @@ type MockAddresses struct {
 func (m *MockAddresses) Get(ctx context.Context, key meta.Key) (*ga.Address, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockAddresses.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -1121,21 +1122,28 @@ func (m *MockAddresses) Get(ctx context.Context, key meta.Key) (*ga.Address, err
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockAddresses.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToGA(), nil
+		typedObj := obj.ToGA()
+		glog.V(5).Infof("MockAddresses.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockAddresses %v not found", key),
 	}
+	glog.V(5).Infof("MockAddresses.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock in the given region.
 func (m *MockAddresses) List(ctx context.Context, region string, fl *filter.F) ([]*ga.Address, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, region, fl); intercept {
+			glog.V(5).Infof("MockAddresses.List(%v, %q, %v) = %v, %v", ctx, region, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -1144,6 +1152,9 @@ func (m *MockAddresses) List(ctx context.Context, region string, fl *filter.F) (
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockAddresses.List(%v, %q, %v) = nil, %v", ctx, region, fl, err)
+
 		return nil, *m.ListError
 	}
 
@@ -1152,11 +1163,13 @@ func (m *MockAddresses) List(ctx context.Context, region string, fl *filter.F) (
 		if key.Region != region {
 			continue
 		}
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToGA()) {
 			continue
 		}
 		objs = append(objs, obj.ToGA())
 	}
+
+	glog.V(5).Infof("MockAddresses.List(%v, %q, %v) = %v, nil", ctx, region, fl, objs)
 	return objs, nil
 }
 
@@ -1164,6 +1177,7 @@ func (m *MockAddresses) List(ctx context.Context, region string, fl *filter.F) (
 func (m *MockAddresses) Insert(ctx context.Context, key meta.Key, obj *ga.Address) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockAddresses.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -1172,16 +1186,20 @@ func (m *MockAddresses) Insert(ctx context.Context, key meta.Key, obj *ga.Addres
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockAddresses.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockAddresses %v exists", key),
 		}
+		glog.V(5).Infof("MockAddresses.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockAddressesObj{obj}
+	glog.V(5).Infof("MockAddresses.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -1189,6 +1207,7 @@ func (m *MockAddresses) Insert(ctx context.Context, key meta.Key, obj *ga.Addres
 func (m *MockAddresses) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockAddresses.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -1197,16 +1216,20 @@ func (m *MockAddresses) Delete(ctx context.Context, key meta.Key) error {
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockAddresses.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockAddresses %v not found", key),
 		}
+		glog.V(5).Infof("MockAddresses.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockAddresses.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -1355,6 +1378,7 @@ type MockAlphaAddresses struct {
 func (m *MockAlphaAddresses) Get(ctx context.Context, key meta.Key) (*alpha.Address, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockAlphaAddresses.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -1363,21 +1387,28 @@ func (m *MockAlphaAddresses) Get(ctx context.Context, key meta.Key) (*alpha.Addr
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockAlphaAddresses.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToAlpha(), nil
+		typedObj := obj.ToAlpha()
+		glog.V(5).Infof("MockAlphaAddresses.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockAlphaAddresses %v not found", key),
 	}
+	glog.V(5).Infof("MockAlphaAddresses.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock in the given region.
 func (m *MockAlphaAddresses) List(ctx context.Context, region string, fl *filter.F) ([]*alpha.Address, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, region, fl); intercept {
+			glog.V(5).Infof("MockAlphaAddresses.List(%v, %q, %v) = %v, %v", ctx, region, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -1386,6 +1417,9 @@ func (m *MockAlphaAddresses) List(ctx context.Context, region string, fl *filter
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockAlphaAddresses.List(%v, %q, %v) = nil, %v", ctx, region, fl, err)
+
 		return nil, *m.ListError
 	}
 
@@ -1394,11 +1428,13 @@ func (m *MockAlphaAddresses) List(ctx context.Context, region string, fl *filter
 		if key.Region != region {
 			continue
 		}
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToAlpha()) {
 			continue
 		}
 		objs = append(objs, obj.ToAlpha())
 	}
+
+	glog.V(5).Infof("MockAlphaAddresses.List(%v, %q, %v) = %v, nil", ctx, region, fl, objs)
 	return objs, nil
 }
 
@@ -1406,6 +1442,7 @@ func (m *MockAlphaAddresses) List(ctx context.Context, region string, fl *filter
 func (m *MockAlphaAddresses) Insert(ctx context.Context, key meta.Key, obj *alpha.Address) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockAlphaAddresses.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -1414,16 +1451,20 @@ func (m *MockAlphaAddresses) Insert(ctx context.Context, key meta.Key, obj *alph
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockAlphaAddresses.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockAlphaAddresses %v exists", key),
 		}
+		glog.V(5).Infof("MockAlphaAddresses.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockAddressesObj{obj}
+	glog.V(5).Infof("MockAlphaAddresses.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -1431,6 +1472,7 @@ func (m *MockAlphaAddresses) Insert(ctx context.Context, key meta.Key, obj *alph
 func (m *MockAlphaAddresses) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockAlphaAddresses.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -1439,16 +1481,20 @@ func (m *MockAlphaAddresses) Delete(ctx context.Context, key meta.Key) error {
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockAlphaAddresses.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockAlphaAddresses %v not found", key),
 		}
+		glog.V(5).Infof("MockAlphaAddresses.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockAlphaAddresses.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -1597,6 +1643,7 @@ type MockBetaAddresses struct {
 func (m *MockBetaAddresses) Get(ctx context.Context, key meta.Key) (*beta.Address, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockBetaAddresses.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -1605,21 +1652,28 @@ func (m *MockBetaAddresses) Get(ctx context.Context, key meta.Key) (*beta.Addres
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockBetaAddresses.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToBeta(), nil
+		typedObj := obj.ToBeta()
+		glog.V(5).Infof("MockBetaAddresses.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockBetaAddresses %v not found", key),
 	}
+	glog.V(5).Infof("MockBetaAddresses.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock in the given region.
 func (m *MockBetaAddresses) List(ctx context.Context, region string, fl *filter.F) ([]*beta.Address, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, region, fl); intercept {
+			glog.V(5).Infof("MockBetaAddresses.List(%v, %q, %v) = %v, %v", ctx, region, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -1628,6 +1682,9 @@ func (m *MockBetaAddresses) List(ctx context.Context, region string, fl *filter.
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockBetaAddresses.List(%v, %q, %v) = nil, %v", ctx, region, fl, err)
+
 		return nil, *m.ListError
 	}
 
@@ -1636,11 +1693,13 @@ func (m *MockBetaAddresses) List(ctx context.Context, region string, fl *filter.
 		if key.Region != region {
 			continue
 		}
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToBeta()) {
 			continue
 		}
 		objs = append(objs, obj.ToBeta())
 	}
+
+	glog.V(5).Infof("MockBetaAddresses.List(%v, %q, %v) = %v, nil", ctx, region, fl, objs)
 	return objs, nil
 }
 
@@ -1648,6 +1707,7 @@ func (m *MockBetaAddresses) List(ctx context.Context, region string, fl *filter.
 func (m *MockBetaAddresses) Insert(ctx context.Context, key meta.Key, obj *beta.Address) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockBetaAddresses.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -1656,16 +1716,20 @@ func (m *MockBetaAddresses) Insert(ctx context.Context, key meta.Key, obj *beta.
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockBetaAddresses.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockBetaAddresses %v exists", key),
 		}
+		glog.V(5).Infof("MockBetaAddresses.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockAddressesObj{obj}
+	glog.V(5).Infof("MockBetaAddresses.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -1673,6 +1737,7 @@ func (m *MockBetaAddresses) Insert(ctx context.Context, key meta.Key, obj *beta.
 func (m *MockBetaAddresses) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockBetaAddresses.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -1681,16 +1746,20 @@ func (m *MockBetaAddresses) Delete(ctx context.Context, key meta.Key) error {
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockBetaAddresses.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockBetaAddresses %v not found", key),
 		}
+		glog.V(5).Infof("MockBetaAddresses.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockBetaAddresses.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -1839,6 +1908,7 @@ type MockGlobalAddresses struct {
 func (m *MockGlobalAddresses) Get(ctx context.Context, key meta.Key) (*ga.Address, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockGlobalAddresses.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -1847,21 +1917,28 @@ func (m *MockGlobalAddresses) Get(ctx context.Context, key meta.Key) (*ga.Addres
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockGlobalAddresses.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToGA(), nil
+		typedObj := obj.ToGA()
+		glog.V(5).Infof("MockGlobalAddresses.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockGlobalAddresses %v not found", key),
 	}
+	glog.V(5).Infof("MockGlobalAddresses.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock.
 func (m *MockGlobalAddresses) List(ctx context.Context, fl *filter.F) ([]*ga.Address, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
+			glog.V(5).Infof("MockGlobalAddresses.List(%v, %v) = %v, %v", ctx, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -1870,16 +1947,21 @@ func (m *MockGlobalAddresses) List(ctx context.Context, fl *filter.F) ([]*ga.Add
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockGlobalAddresses.List(%v, %v) = nil, %v", ctx, fl, err)
+
 		return nil, *m.ListError
 	}
 
 	var objs []*ga.Address
 	for _, obj := range m.Objects {
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToGA()) {
 			continue
 		}
 		objs = append(objs, obj.ToGA())
 	}
+
+	glog.V(5).Infof("MockGlobalAddresses.List(%v, %v) = %v, nil", ctx, fl, objs)
 	return objs, nil
 }
 
@@ -1887,6 +1969,7 @@ func (m *MockGlobalAddresses) List(ctx context.Context, fl *filter.F) ([]*ga.Add
 func (m *MockGlobalAddresses) Insert(ctx context.Context, key meta.Key, obj *ga.Address) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockGlobalAddresses.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -1895,16 +1978,20 @@ func (m *MockGlobalAddresses) Insert(ctx context.Context, key meta.Key, obj *ga.
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockGlobalAddresses.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockGlobalAddresses %v exists", key),
 		}
+		glog.V(5).Infof("MockGlobalAddresses.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockGlobalAddressesObj{obj}
+	glog.V(5).Infof("MockGlobalAddresses.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -1912,6 +1999,7 @@ func (m *MockGlobalAddresses) Insert(ctx context.Context, key meta.Key, obj *ga.
 func (m *MockGlobalAddresses) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockGlobalAddresses.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -1920,16 +2008,20 @@ func (m *MockGlobalAddresses) Delete(ctx context.Context, key meta.Key) error {
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockGlobalAddresses.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockGlobalAddresses %v not found", key),
 		}
+		glog.V(5).Infof("MockGlobalAddresses.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockGlobalAddresses.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -2083,6 +2175,7 @@ type MockBackendServices struct {
 func (m *MockBackendServices) Get(ctx context.Context, key meta.Key) (*ga.BackendService, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockBackendServices.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -2091,21 +2184,28 @@ func (m *MockBackendServices) Get(ctx context.Context, key meta.Key) (*ga.Backen
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockBackendServices.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToGA(), nil
+		typedObj := obj.ToGA()
+		glog.V(5).Infof("MockBackendServices.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockBackendServices %v not found", key),
 	}
+	glog.V(5).Infof("MockBackendServices.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock.
 func (m *MockBackendServices) List(ctx context.Context, fl *filter.F) ([]*ga.BackendService, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
+			glog.V(5).Infof("MockBackendServices.List(%v, %v) = %v, %v", ctx, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -2114,16 +2214,21 @@ func (m *MockBackendServices) List(ctx context.Context, fl *filter.F) ([]*ga.Bac
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockBackendServices.List(%v, %v) = nil, %v", ctx, fl, err)
+
 		return nil, *m.ListError
 	}
 
 	var objs []*ga.BackendService
 	for _, obj := range m.Objects {
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToGA()) {
 			continue
 		}
 		objs = append(objs, obj.ToGA())
 	}
+
+	glog.V(5).Infof("MockBackendServices.List(%v, %v) = %v, nil", ctx, fl, objs)
 	return objs, nil
 }
 
@@ -2131,6 +2236,7 @@ func (m *MockBackendServices) List(ctx context.Context, fl *filter.F) ([]*ga.Bac
 func (m *MockBackendServices) Insert(ctx context.Context, key meta.Key, obj *ga.BackendService) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockBackendServices.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -2139,16 +2245,20 @@ func (m *MockBackendServices) Insert(ctx context.Context, key meta.Key, obj *ga.
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockBackendServices.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockBackendServices %v exists", key),
 		}
+		glog.V(5).Infof("MockBackendServices.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockBackendServicesObj{obj}
+	glog.V(5).Infof("MockBackendServices.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -2156,6 +2266,7 @@ func (m *MockBackendServices) Insert(ctx context.Context, key meta.Key, obj *ga.
 func (m *MockBackendServices) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockBackendServices.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -2164,16 +2275,20 @@ func (m *MockBackendServices) Delete(ctx context.Context, key meta.Key) error {
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockBackendServices.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockBackendServices %v not found", key),
 		}
+		glog.V(5).Infof("MockBackendServices.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockBackendServices.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -2379,6 +2494,7 @@ type MockAlphaBackendServices struct {
 func (m *MockAlphaBackendServices) Get(ctx context.Context, key meta.Key) (*alpha.BackendService, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockAlphaBackendServices.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -2387,21 +2503,28 @@ func (m *MockAlphaBackendServices) Get(ctx context.Context, key meta.Key) (*alph
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockAlphaBackendServices.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToAlpha(), nil
+		typedObj := obj.ToAlpha()
+		glog.V(5).Infof("MockAlphaBackendServices.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockAlphaBackendServices %v not found", key),
 	}
+	glog.V(5).Infof("MockAlphaBackendServices.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock.
 func (m *MockAlphaBackendServices) List(ctx context.Context, fl *filter.F) ([]*alpha.BackendService, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
+			glog.V(5).Infof("MockAlphaBackendServices.List(%v, %v) = %v, %v", ctx, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -2410,16 +2533,21 @@ func (m *MockAlphaBackendServices) List(ctx context.Context, fl *filter.F) ([]*a
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockAlphaBackendServices.List(%v, %v) = nil, %v", ctx, fl, err)
+
 		return nil, *m.ListError
 	}
 
 	var objs []*alpha.BackendService
 	for _, obj := range m.Objects {
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToAlpha()) {
 			continue
 		}
 		objs = append(objs, obj.ToAlpha())
 	}
+
+	glog.V(5).Infof("MockAlphaBackendServices.List(%v, %v) = %v, nil", ctx, fl, objs)
 	return objs, nil
 }
 
@@ -2427,6 +2555,7 @@ func (m *MockAlphaBackendServices) List(ctx context.Context, fl *filter.F) ([]*a
 func (m *MockAlphaBackendServices) Insert(ctx context.Context, key meta.Key, obj *alpha.BackendService) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockAlphaBackendServices.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -2435,16 +2564,20 @@ func (m *MockAlphaBackendServices) Insert(ctx context.Context, key meta.Key, obj
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockAlphaBackendServices.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockAlphaBackendServices %v exists", key),
 		}
+		glog.V(5).Infof("MockAlphaBackendServices.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockBackendServicesObj{obj}
+	glog.V(5).Infof("MockAlphaBackendServices.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -2452,6 +2585,7 @@ func (m *MockAlphaBackendServices) Insert(ctx context.Context, key meta.Key, obj
 func (m *MockAlphaBackendServices) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockAlphaBackendServices.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -2460,16 +2594,20 @@ func (m *MockAlphaBackendServices) Delete(ctx context.Context, key meta.Key) err
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockAlphaBackendServices.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockAlphaBackendServices %v not found", key),
 		}
+		glog.V(5).Infof("MockAlphaBackendServices.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockAlphaBackendServices.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -2652,6 +2790,7 @@ type MockAlphaRegionBackendServices struct {
 func (m *MockAlphaRegionBackendServices) Get(ctx context.Context, key meta.Key) (*alpha.BackendService, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockAlphaRegionBackendServices.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -2660,21 +2799,28 @@ func (m *MockAlphaRegionBackendServices) Get(ctx context.Context, key meta.Key) 
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockAlphaRegionBackendServices.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToAlpha(), nil
+		typedObj := obj.ToAlpha()
+		glog.V(5).Infof("MockAlphaRegionBackendServices.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockAlphaRegionBackendServices %v not found", key),
 	}
+	glog.V(5).Infof("MockAlphaRegionBackendServices.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock in the given region.
 func (m *MockAlphaRegionBackendServices) List(ctx context.Context, region string, fl *filter.F) ([]*alpha.BackendService, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, region, fl); intercept {
+			glog.V(5).Infof("MockAlphaRegionBackendServices.List(%v, %q, %v) = %v, %v", ctx, region, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -2683,6 +2829,9 @@ func (m *MockAlphaRegionBackendServices) List(ctx context.Context, region string
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockAlphaRegionBackendServices.List(%v, %q, %v) = nil, %v", ctx, region, fl, err)
+
 		return nil, *m.ListError
 	}
 
@@ -2691,11 +2840,13 @@ func (m *MockAlphaRegionBackendServices) List(ctx context.Context, region string
 		if key.Region != region {
 			continue
 		}
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToAlpha()) {
 			continue
 		}
 		objs = append(objs, obj.ToAlpha())
 	}
+
+	glog.V(5).Infof("MockAlphaRegionBackendServices.List(%v, %q, %v) = %v, nil", ctx, region, fl, objs)
 	return objs, nil
 }
 
@@ -2703,6 +2854,7 @@ func (m *MockAlphaRegionBackendServices) List(ctx context.Context, region string
 func (m *MockAlphaRegionBackendServices) Insert(ctx context.Context, key meta.Key, obj *alpha.BackendService) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockAlphaRegionBackendServices.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -2711,16 +2863,20 @@ func (m *MockAlphaRegionBackendServices) Insert(ctx context.Context, key meta.Ke
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockAlphaRegionBackendServices.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockAlphaRegionBackendServices %v exists", key),
 		}
+		glog.V(5).Infof("MockAlphaRegionBackendServices.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockRegionBackendServicesObj{obj}
+	glog.V(5).Infof("MockAlphaRegionBackendServices.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -2728,6 +2884,7 @@ func (m *MockAlphaRegionBackendServices) Insert(ctx context.Context, key meta.Ke
 func (m *MockAlphaRegionBackendServices) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockAlphaRegionBackendServices.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -2736,16 +2893,20 @@ func (m *MockAlphaRegionBackendServices) Delete(ctx context.Context, key meta.Ke
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockAlphaRegionBackendServices.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockAlphaRegionBackendServices %v not found", key),
 		}
+		glog.V(5).Infof("MockAlphaRegionBackendServices.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockAlphaRegionBackendServices.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -2948,6 +3109,7 @@ type MockDisks struct {
 func (m *MockDisks) Get(ctx context.Context, key meta.Key) (*ga.Disk, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockDisks.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -2956,21 +3118,28 @@ func (m *MockDisks) Get(ctx context.Context, key meta.Key) (*ga.Disk, error) {
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockDisks.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToGA(), nil
+		typedObj := obj.ToGA()
+		glog.V(5).Infof("MockDisks.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockDisks %v not found", key),
 	}
+	glog.V(5).Infof("MockDisks.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock in the given zone.
 func (m *MockDisks) List(ctx context.Context, zone string, fl *filter.F) ([]*ga.Disk, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, zone, fl); intercept {
+			glog.V(5).Infof("MockDisks.List(%v, %q, %v) = %v, %v", ctx, zone, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -2979,6 +3148,9 @@ func (m *MockDisks) List(ctx context.Context, zone string, fl *filter.F) ([]*ga.
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockDisks.List(%v, %q, %v) = nil, %v", ctx, zone, fl, err)
+
 		return nil, *m.ListError
 	}
 
@@ -2987,11 +3159,13 @@ func (m *MockDisks) List(ctx context.Context, zone string, fl *filter.F) ([]*ga.
 		if key.Zone != zone {
 			continue
 		}
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToGA()) {
 			continue
 		}
 		objs = append(objs, obj.ToGA())
 	}
+
+	glog.V(5).Infof("MockDisks.List(%v, %q, %v) = %v, nil", ctx, zone, fl, objs)
 	return objs, nil
 }
 
@@ -2999,6 +3173,7 @@ func (m *MockDisks) List(ctx context.Context, zone string, fl *filter.F) ([]*ga.
 func (m *MockDisks) Insert(ctx context.Context, key meta.Key, obj *ga.Disk) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockDisks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -3007,16 +3182,20 @@ func (m *MockDisks) Insert(ctx context.Context, key meta.Key, obj *ga.Disk) erro
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockDisks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockDisks %v exists", key),
 		}
+		glog.V(5).Infof("MockDisks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockDisksObj{obj}
+	glog.V(5).Infof("MockDisks.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -3024,6 +3203,7 @@ func (m *MockDisks) Insert(ctx context.Context, key meta.Key, obj *ga.Disk) erro
 func (m *MockDisks) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockDisks.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -3032,16 +3212,20 @@ func (m *MockDisks) Delete(ctx context.Context, key meta.Key) error {
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockDisks.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockDisks %v not found", key),
 		}
+		glog.V(5).Infof("MockDisks.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockDisks.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -3190,6 +3374,7 @@ type MockAlphaDisks struct {
 func (m *MockAlphaDisks) Get(ctx context.Context, key meta.Key) (*alpha.Disk, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockAlphaDisks.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -3198,21 +3383,28 @@ func (m *MockAlphaDisks) Get(ctx context.Context, key meta.Key) (*alpha.Disk, er
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockAlphaDisks.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToAlpha(), nil
+		typedObj := obj.ToAlpha()
+		glog.V(5).Infof("MockAlphaDisks.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockAlphaDisks %v not found", key),
 	}
+	glog.V(5).Infof("MockAlphaDisks.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock in the given zone.
 func (m *MockAlphaDisks) List(ctx context.Context, zone string, fl *filter.F) ([]*alpha.Disk, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, zone, fl); intercept {
+			glog.V(5).Infof("MockAlphaDisks.List(%v, %q, %v) = %v, %v", ctx, zone, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -3221,6 +3413,9 @@ func (m *MockAlphaDisks) List(ctx context.Context, zone string, fl *filter.F) ([
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockAlphaDisks.List(%v, %q, %v) = nil, %v", ctx, zone, fl, err)
+
 		return nil, *m.ListError
 	}
 
@@ -3229,11 +3424,13 @@ func (m *MockAlphaDisks) List(ctx context.Context, zone string, fl *filter.F) ([
 		if key.Zone != zone {
 			continue
 		}
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToAlpha()) {
 			continue
 		}
 		objs = append(objs, obj.ToAlpha())
 	}
+
+	glog.V(5).Infof("MockAlphaDisks.List(%v, %q, %v) = %v, nil", ctx, zone, fl, objs)
 	return objs, nil
 }
 
@@ -3241,6 +3438,7 @@ func (m *MockAlphaDisks) List(ctx context.Context, zone string, fl *filter.F) ([
 func (m *MockAlphaDisks) Insert(ctx context.Context, key meta.Key, obj *alpha.Disk) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockAlphaDisks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -3249,16 +3447,20 @@ func (m *MockAlphaDisks) Insert(ctx context.Context, key meta.Key, obj *alpha.Di
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockAlphaDisks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockAlphaDisks %v exists", key),
 		}
+		glog.V(5).Infof("MockAlphaDisks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockDisksObj{obj}
+	glog.V(5).Infof("MockAlphaDisks.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -3266,6 +3468,7 @@ func (m *MockAlphaDisks) Insert(ctx context.Context, key meta.Key, obj *alpha.Di
 func (m *MockAlphaDisks) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockAlphaDisks.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -3274,16 +3477,20 @@ func (m *MockAlphaDisks) Delete(ctx context.Context, key meta.Key) error {
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockAlphaDisks.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockAlphaDisks %v not found", key),
 		}
+		glog.V(5).Infof("MockAlphaDisks.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockAlphaDisks.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -3432,6 +3639,7 @@ type MockAlphaRegionDisks struct {
 func (m *MockAlphaRegionDisks) Get(ctx context.Context, key meta.Key) (*alpha.Disk, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockAlphaRegionDisks.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -3440,21 +3648,28 @@ func (m *MockAlphaRegionDisks) Get(ctx context.Context, key meta.Key) (*alpha.Di
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockAlphaRegionDisks.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToAlpha(), nil
+		typedObj := obj.ToAlpha()
+		glog.V(5).Infof("MockAlphaRegionDisks.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockAlphaRegionDisks %v not found", key),
 	}
+	glog.V(5).Infof("MockAlphaRegionDisks.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock in the given region.
 func (m *MockAlphaRegionDisks) List(ctx context.Context, region string, fl *filter.F) ([]*alpha.Disk, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, region, fl); intercept {
+			glog.V(5).Infof("MockAlphaRegionDisks.List(%v, %q, %v) = %v, %v", ctx, region, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -3463,6 +3678,9 @@ func (m *MockAlphaRegionDisks) List(ctx context.Context, region string, fl *filt
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockAlphaRegionDisks.List(%v, %q, %v) = nil, %v", ctx, region, fl, err)
+
 		return nil, *m.ListError
 	}
 
@@ -3471,11 +3689,13 @@ func (m *MockAlphaRegionDisks) List(ctx context.Context, region string, fl *filt
 		if key.Region != region {
 			continue
 		}
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToAlpha()) {
 			continue
 		}
 		objs = append(objs, obj.ToAlpha())
 	}
+
+	glog.V(5).Infof("MockAlphaRegionDisks.List(%v, %q, %v) = %v, nil", ctx, region, fl, objs)
 	return objs, nil
 }
 
@@ -3483,6 +3703,7 @@ func (m *MockAlphaRegionDisks) List(ctx context.Context, region string, fl *filt
 func (m *MockAlphaRegionDisks) Insert(ctx context.Context, key meta.Key, obj *alpha.Disk) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockAlphaRegionDisks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -3491,16 +3712,20 @@ func (m *MockAlphaRegionDisks) Insert(ctx context.Context, key meta.Key, obj *al
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockAlphaRegionDisks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockAlphaRegionDisks %v exists", key),
 		}
+		glog.V(5).Infof("MockAlphaRegionDisks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockRegionDisksObj{obj}
+	glog.V(5).Infof("MockAlphaRegionDisks.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -3508,6 +3733,7 @@ func (m *MockAlphaRegionDisks) Insert(ctx context.Context, key meta.Key, obj *al
 func (m *MockAlphaRegionDisks) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockAlphaRegionDisks.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -3516,16 +3742,20 @@ func (m *MockAlphaRegionDisks) Delete(ctx context.Context, key meta.Key) error {
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockAlphaRegionDisks.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockAlphaRegionDisks %v not found", key),
 		}
+		glog.V(5).Infof("MockAlphaRegionDisks.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockAlphaRegionDisks.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -3676,6 +3906,7 @@ type MockFirewalls struct {
 func (m *MockFirewalls) Get(ctx context.Context, key meta.Key) (*ga.Firewall, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockFirewalls.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -3684,21 +3915,28 @@ func (m *MockFirewalls) Get(ctx context.Context, key meta.Key) (*ga.Firewall, er
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockFirewalls.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToGA(), nil
+		typedObj := obj.ToGA()
+		glog.V(5).Infof("MockFirewalls.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockFirewalls %v not found", key),
 	}
+	glog.V(5).Infof("MockFirewalls.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock.
 func (m *MockFirewalls) List(ctx context.Context, fl *filter.F) ([]*ga.Firewall, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
+			glog.V(5).Infof("MockFirewalls.List(%v, %v) = %v, %v", ctx, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -3707,16 +3945,21 @@ func (m *MockFirewalls) List(ctx context.Context, fl *filter.F) ([]*ga.Firewall,
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockFirewalls.List(%v, %v) = nil, %v", ctx, fl, err)
+
 		return nil, *m.ListError
 	}
 
 	var objs []*ga.Firewall
 	for _, obj := range m.Objects {
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToGA()) {
 			continue
 		}
 		objs = append(objs, obj.ToGA())
 	}
+
+	glog.V(5).Infof("MockFirewalls.List(%v, %v) = %v, nil", ctx, fl, objs)
 	return objs, nil
 }
 
@@ -3724,6 +3967,7 @@ func (m *MockFirewalls) List(ctx context.Context, fl *filter.F) ([]*ga.Firewall,
 func (m *MockFirewalls) Insert(ctx context.Context, key meta.Key, obj *ga.Firewall) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockFirewalls.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -3732,16 +3976,20 @@ func (m *MockFirewalls) Insert(ctx context.Context, key meta.Key, obj *ga.Firewa
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockFirewalls.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockFirewalls %v exists", key),
 		}
+		glog.V(5).Infof("MockFirewalls.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockFirewallsObj{obj}
+	glog.V(5).Infof("MockFirewalls.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -3749,6 +3997,7 @@ func (m *MockFirewalls) Insert(ctx context.Context, key meta.Key, obj *ga.Firewa
 func (m *MockFirewalls) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockFirewalls.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -3757,16 +4006,20 @@ func (m *MockFirewalls) Delete(ctx context.Context, key meta.Key) error {
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockFirewalls.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockFirewalls %v not found", key),
 		}
+		glog.V(5).Infof("MockFirewalls.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockFirewalls.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -3945,6 +4198,7 @@ type MockForwardingRules struct {
 func (m *MockForwardingRules) Get(ctx context.Context, key meta.Key) (*ga.ForwardingRule, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockForwardingRules.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -3953,21 +4207,28 @@ func (m *MockForwardingRules) Get(ctx context.Context, key meta.Key) (*ga.Forwar
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockForwardingRules.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToGA(), nil
+		typedObj := obj.ToGA()
+		glog.V(5).Infof("MockForwardingRules.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockForwardingRules %v not found", key),
 	}
+	glog.V(5).Infof("MockForwardingRules.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock in the given region.
 func (m *MockForwardingRules) List(ctx context.Context, region string, fl *filter.F) ([]*ga.ForwardingRule, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, region, fl); intercept {
+			glog.V(5).Infof("MockForwardingRules.List(%v, %q, %v) = %v, %v", ctx, region, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -3976,6 +4237,9 @@ func (m *MockForwardingRules) List(ctx context.Context, region string, fl *filte
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockForwardingRules.List(%v, %q, %v) = nil, %v", ctx, region, fl, err)
+
 		return nil, *m.ListError
 	}
 
@@ -3984,11 +4248,13 @@ func (m *MockForwardingRules) List(ctx context.Context, region string, fl *filte
 		if key.Region != region {
 			continue
 		}
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToGA()) {
 			continue
 		}
 		objs = append(objs, obj.ToGA())
 	}
+
+	glog.V(5).Infof("MockForwardingRules.List(%v, %q, %v) = %v, nil", ctx, region, fl, objs)
 	return objs, nil
 }
 
@@ -3996,6 +4262,7 @@ func (m *MockForwardingRules) List(ctx context.Context, region string, fl *filte
 func (m *MockForwardingRules) Insert(ctx context.Context, key meta.Key, obj *ga.ForwardingRule) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockForwardingRules.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -4004,16 +4271,20 @@ func (m *MockForwardingRules) Insert(ctx context.Context, key meta.Key, obj *ga.
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockForwardingRules.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockForwardingRules %v exists", key),
 		}
+		glog.V(5).Infof("MockForwardingRules.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockForwardingRulesObj{obj}
+	glog.V(5).Infof("MockForwardingRules.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -4021,6 +4292,7 @@ func (m *MockForwardingRules) Insert(ctx context.Context, key meta.Key, obj *ga.
 func (m *MockForwardingRules) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockForwardingRules.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -4029,16 +4301,20 @@ func (m *MockForwardingRules) Delete(ctx context.Context, key meta.Key) error {
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockForwardingRules.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockForwardingRules %v not found", key),
 		}
+		glog.V(5).Infof("MockForwardingRules.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockForwardingRules.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -4187,6 +4463,7 @@ type MockAlphaForwardingRules struct {
 func (m *MockAlphaForwardingRules) Get(ctx context.Context, key meta.Key) (*alpha.ForwardingRule, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockAlphaForwardingRules.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -4195,21 +4472,28 @@ func (m *MockAlphaForwardingRules) Get(ctx context.Context, key meta.Key) (*alph
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockAlphaForwardingRules.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToAlpha(), nil
+		typedObj := obj.ToAlpha()
+		glog.V(5).Infof("MockAlphaForwardingRules.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockAlphaForwardingRules %v not found", key),
 	}
+	glog.V(5).Infof("MockAlphaForwardingRules.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock in the given region.
 func (m *MockAlphaForwardingRules) List(ctx context.Context, region string, fl *filter.F) ([]*alpha.ForwardingRule, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, region, fl); intercept {
+			glog.V(5).Infof("MockAlphaForwardingRules.List(%v, %q, %v) = %v, %v", ctx, region, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -4218,6 +4502,9 @@ func (m *MockAlphaForwardingRules) List(ctx context.Context, region string, fl *
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockAlphaForwardingRules.List(%v, %q, %v) = nil, %v", ctx, region, fl, err)
+
 		return nil, *m.ListError
 	}
 
@@ -4226,11 +4513,13 @@ func (m *MockAlphaForwardingRules) List(ctx context.Context, region string, fl *
 		if key.Region != region {
 			continue
 		}
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToAlpha()) {
 			continue
 		}
 		objs = append(objs, obj.ToAlpha())
 	}
+
+	glog.V(5).Infof("MockAlphaForwardingRules.List(%v, %q, %v) = %v, nil", ctx, region, fl, objs)
 	return objs, nil
 }
 
@@ -4238,6 +4527,7 @@ func (m *MockAlphaForwardingRules) List(ctx context.Context, region string, fl *
 func (m *MockAlphaForwardingRules) Insert(ctx context.Context, key meta.Key, obj *alpha.ForwardingRule) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockAlphaForwardingRules.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -4246,16 +4536,20 @@ func (m *MockAlphaForwardingRules) Insert(ctx context.Context, key meta.Key, obj
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockAlphaForwardingRules.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockAlphaForwardingRules %v exists", key),
 		}
+		glog.V(5).Infof("MockAlphaForwardingRules.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockForwardingRulesObj{obj}
+	glog.V(5).Infof("MockAlphaForwardingRules.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -4263,6 +4557,7 @@ func (m *MockAlphaForwardingRules) Insert(ctx context.Context, key meta.Key, obj
 func (m *MockAlphaForwardingRules) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockAlphaForwardingRules.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -4271,16 +4566,20 @@ func (m *MockAlphaForwardingRules) Delete(ctx context.Context, key meta.Key) err
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockAlphaForwardingRules.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockAlphaForwardingRules %v not found", key),
 		}
+		glog.V(5).Infof("MockAlphaForwardingRules.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockAlphaForwardingRules.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -4431,6 +4730,7 @@ type MockGlobalForwardingRules struct {
 func (m *MockGlobalForwardingRules) Get(ctx context.Context, key meta.Key) (*ga.ForwardingRule, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockGlobalForwardingRules.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -4439,21 +4739,28 @@ func (m *MockGlobalForwardingRules) Get(ctx context.Context, key meta.Key) (*ga.
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockGlobalForwardingRules.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToGA(), nil
+		typedObj := obj.ToGA()
+		glog.V(5).Infof("MockGlobalForwardingRules.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockGlobalForwardingRules %v not found", key),
 	}
+	glog.V(5).Infof("MockGlobalForwardingRules.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock.
 func (m *MockGlobalForwardingRules) List(ctx context.Context, fl *filter.F) ([]*ga.ForwardingRule, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
+			glog.V(5).Infof("MockGlobalForwardingRules.List(%v, %v) = %v, %v", ctx, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -4462,16 +4769,21 @@ func (m *MockGlobalForwardingRules) List(ctx context.Context, fl *filter.F) ([]*
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockGlobalForwardingRules.List(%v, %v) = nil, %v", ctx, fl, err)
+
 		return nil, *m.ListError
 	}
 
 	var objs []*ga.ForwardingRule
 	for _, obj := range m.Objects {
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToGA()) {
 			continue
 		}
 		objs = append(objs, obj.ToGA())
 	}
+
+	glog.V(5).Infof("MockGlobalForwardingRules.List(%v, %v) = %v, nil", ctx, fl, objs)
 	return objs, nil
 }
 
@@ -4479,6 +4791,7 @@ func (m *MockGlobalForwardingRules) List(ctx context.Context, fl *filter.F) ([]*
 func (m *MockGlobalForwardingRules) Insert(ctx context.Context, key meta.Key, obj *ga.ForwardingRule) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockGlobalForwardingRules.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -4487,16 +4800,20 @@ func (m *MockGlobalForwardingRules) Insert(ctx context.Context, key meta.Key, ob
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockGlobalForwardingRules.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockGlobalForwardingRules %v exists", key),
 		}
+		glog.V(5).Infof("MockGlobalForwardingRules.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockGlobalForwardingRulesObj{obj}
+	glog.V(5).Infof("MockGlobalForwardingRules.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -4504,6 +4821,7 @@ func (m *MockGlobalForwardingRules) Insert(ctx context.Context, key meta.Key, ob
 func (m *MockGlobalForwardingRules) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockGlobalForwardingRules.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -4512,16 +4830,20 @@ func (m *MockGlobalForwardingRules) Delete(ctx context.Context, key meta.Key) er
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockGlobalForwardingRules.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockGlobalForwardingRules %v not found", key),
 		}
+		glog.V(5).Infof("MockGlobalForwardingRules.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockGlobalForwardingRules.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -4702,6 +5024,7 @@ type MockHealthChecks struct {
 func (m *MockHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HealthCheck, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockHealthChecks.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -4710,21 +5033,28 @@ func (m *MockHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HealthChe
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockHealthChecks.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToGA(), nil
+		typedObj := obj.ToGA()
+		glog.V(5).Infof("MockHealthChecks.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockHealthChecks %v not found", key),
 	}
+	glog.V(5).Infof("MockHealthChecks.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock.
 func (m *MockHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.HealthCheck, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
+			glog.V(5).Infof("MockHealthChecks.List(%v, %v) = %v, %v", ctx, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -4733,16 +5063,21 @@ func (m *MockHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.Health
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockHealthChecks.List(%v, %v) = nil, %v", ctx, fl, err)
+
 		return nil, *m.ListError
 	}
 
 	var objs []*ga.HealthCheck
 	for _, obj := range m.Objects {
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToGA()) {
 			continue
 		}
 		objs = append(objs, obj.ToGA())
 	}
+
+	glog.V(5).Infof("MockHealthChecks.List(%v, %v) = %v, nil", ctx, fl, objs)
 	return objs, nil
 }
 
@@ -4750,6 +5085,7 @@ func (m *MockHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.Health
 func (m *MockHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.HealthCheck) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockHealthChecks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -4758,16 +5094,20 @@ func (m *MockHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.Hea
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockHealthChecks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockHealthChecks %v exists", key),
 		}
+		glog.V(5).Infof("MockHealthChecks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockHealthChecksObj{obj}
+	glog.V(5).Infof("MockHealthChecks.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -4775,6 +5115,7 @@ func (m *MockHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.Hea
 func (m *MockHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockHealthChecks.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -4783,16 +5124,20 @@ func (m *MockHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockHealthChecks.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockHealthChecks %v not found", key),
 		}
+		glog.V(5).Infof("MockHealthChecks.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockHealthChecks.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -4973,6 +5318,7 @@ type MockAlphaHealthChecks struct {
 func (m *MockAlphaHealthChecks) Get(ctx context.Context, key meta.Key) (*alpha.HealthCheck, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockAlphaHealthChecks.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -4981,21 +5327,28 @@ func (m *MockAlphaHealthChecks) Get(ctx context.Context, key meta.Key) (*alpha.H
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockAlphaHealthChecks.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToAlpha(), nil
+		typedObj := obj.ToAlpha()
+		glog.V(5).Infof("MockAlphaHealthChecks.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockAlphaHealthChecks %v not found", key),
 	}
+	glog.V(5).Infof("MockAlphaHealthChecks.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock.
 func (m *MockAlphaHealthChecks) List(ctx context.Context, fl *filter.F) ([]*alpha.HealthCheck, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
+			glog.V(5).Infof("MockAlphaHealthChecks.List(%v, %v) = %v, %v", ctx, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -5004,16 +5357,21 @@ func (m *MockAlphaHealthChecks) List(ctx context.Context, fl *filter.F) ([]*alph
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockAlphaHealthChecks.List(%v, %v) = nil, %v", ctx, fl, err)
+
 		return nil, *m.ListError
 	}
 
 	var objs []*alpha.HealthCheck
 	for _, obj := range m.Objects {
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToAlpha()) {
 			continue
 		}
 		objs = append(objs, obj.ToAlpha())
 	}
+
+	glog.V(5).Infof("MockAlphaHealthChecks.List(%v, %v) = %v, nil", ctx, fl, objs)
 	return objs, nil
 }
 
@@ -5021,6 +5379,7 @@ func (m *MockAlphaHealthChecks) List(ctx context.Context, fl *filter.F) ([]*alph
 func (m *MockAlphaHealthChecks) Insert(ctx context.Context, key meta.Key, obj *alpha.HealthCheck) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockAlphaHealthChecks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -5029,16 +5388,20 @@ func (m *MockAlphaHealthChecks) Insert(ctx context.Context, key meta.Key, obj *a
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockAlphaHealthChecks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockAlphaHealthChecks %v exists", key),
 		}
+		glog.V(5).Infof("MockAlphaHealthChecks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockHealthChecksObj{obj}
+	glog.V(5).Infof("MockAlphaHealthChecks.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -5046,6 +5409,7 @@ func (m *MockAlphaHealthChecks) Insert(ctx context.Context, key meta.Key, obj *a
 func (m *MockAlphaHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockAlphaHealthChecks.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -5054,16 +5418,20 @@ func (m *MockAlphaHealthChecks) Delete(ctx context.Context, key meta.Key) error 
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockAlphaHealthChecks.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockAlphaHealthChecks %v not found", key),
 		}
+		glog.V(5).Infof("MockAlphaHealthChecks.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockAlphaHealthChecks.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -5244,6 +5612,7 @@ type MockHttpHealthChecks struct {
 func (m *MockHttpHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HttpHealthCheck, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockHttpHealthChecks.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -5252,21 +5621,28 @@ func (m *MockHttpHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HttpH
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockHttpHealthChecks.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToGA(), nil
+		typedObj := obj.ToGA()
+		glog.V(5).Infof("MockHttpHealthChecks.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockHttpHealthChecks %v not found", key),
 	}
+	glog.V(5).Infof("MockHttpHealthChecks.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock.
 func (m *MockHttpHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.HttpHealthCheck, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
+			glog.V(5).Infof("MockHttpHealthChecks.List(%v, %v) = %v, %v", ctx, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -5275,16 +5651,21 @@ func (m *MockHttpHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.Ht
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockHttpHealthChecks.List(%v, %v) = nil, %v", ctx, fl, err)
+
 		return nil, *m.ListError
 	}
 
 	var objs []*ga.HttpHealthCheck
 	for _, obj := range m.Objects {
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToGA()) {
 			continue
 		}
 		objs = append(objs, obj.ToGA())
 	}
+
+	glog.V(5).Infof("MockHttpHealthChecks.List(%v, %v) = %v, nil", ctx, fl, objs)
 	return objs, nil
 }
 
@@ -5292,6 +5673,7 @@ func (m *MockHttpHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.Ht
 func (m *MockHttpHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.HttpHealthCheck) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockHttpHealthChecks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -5300,16 +5682,20 @@ func (m *MockHttpHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockHttpHealthChecks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockHttpHealthChecks %v exists", key),
 		}
+		glog.V(5).Infof("MockHttpHealthChecks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockHttpHealthChecksObj{obj}
+	glog.V(5).Infof("MockHttpHealthChecks.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -5317,6 +5703,7 @@ func (m *MockHttpHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga
 func (m *MockHttpHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockHttpHealthChecks.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -5325,16 +5712,20 @@ func (m *MockHttpHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockHttpHealthChecks.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockHttpHealthChecks %v not found", key),
 		}
+		glog.V(5).Infof("MockHttpHealthChecks.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockHttpHealthChecks.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -5515,6 +5906,7 @@ type MockHttpsHealthChecks struct {
 func (m *MockHttpsHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HttpsHealthCheck, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockHttpsHealthChecks.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -5523,21 +5915,28 @@ func (m *MockHttpsHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.Http
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockHttpsHealthChecks.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToGA(), nil
+		typedObj := obj.ToGA()
+		glog.V(5).Infof("MockHttpsHealthChecks.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockHttpsHealthChecks %v not found", key),
 	}
+	glog.V(5).Infof("MockHttpsHealthChecks.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock.
 func (m *MockHttpsHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.HttpsHealthCheck, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
+			glog.V(5).Infof("MockHttpsHealthChecks.List(%v, %v) = %v, %v", ctx, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -5546,16 +5945,21 @@ func (m *MockHttpsHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.H
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockHttpsHealthChecks.List(%v, %v) = nil, %v", ctx, fl, err)
+
 		return nil, *m.ListError
 	}
 
 	var objs []*ga.HttpsHealthCheck
 	for _, obj := range m.Objects {
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToGA()) {
 			continue
 		}
 		objs = append(objs, obj.ToGA())
 	}
+
+	glog.V(5).Infof("MockHttpsHealthChecks.List(%v, %v) = %v, nil", ctx, fl, objs)
 	return objs, nil
 }
 
@@ -5563,6 +5967,7 @@ func (m *MockHttpsHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.H
 func (m *MockHttpsHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.HttpsHealthCheck) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockHttpsHealthChecks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -5571,16 +5976,20 @@ func (m *MockHttpsHealthChecks) Insert(ctx context.Context, key meta.Key, obj *g
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockHttpsHealthChecks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockHttpsHealthChecks %v exists", key),
 		}
+		glog.V(5).Infof("MockHttpsHealthChecks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockHttpsHealthChecksObj{obj}
+	glog.V(5).Infof("MockHttpsHealthChecks.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -5588,6 +5997,7 @@ func (m *MockHttpsHealthChecks) Insert(ctx context.Context, key meta.Key, obj *g
 func (m *MockHttpsHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockHttpsHealthChecks.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -5596,16 +6006,20 @@ func (m *MockHttpsHealthChecks) Delete(ctx context.Context, key meta.Key) error 
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockHttpsHealthChecks.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockHttpsHealthChecks %v not found", key),
 		}
+		glog.V(5).Infof("MockHttpsHealthChecks.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockHttpsHealthChecks.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -5792,6 +6206,7 @@ type MockInstanceGroups struct {
 func (m *MockInstanceGroups) Get(ctx context.Context, key meta.Key) (*ga.InstanceGroup, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockInstanceGroups.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -5800,21 +6215,28 @@ func (m *MockInstanceGroups) Get(ctx context.Context, key meta.Key) (*ga.Instanc
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockInstanceGroups.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToGA(), nil
+		typedObj := obj.ToGA()
+		glog.V(5).Infof("MockInstanceGroups.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockInstanceGroups %v not found", key),
 	}
+	glog.V(5).Infof("MockInstanceGroups.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock in the given zone.
 func (m *MockInstanceGroups) List(ctx context.Context, zone string, fl *filter.F) ([]*ga.InstanceGroup, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, zone, fl); intercept {
+			glog.V(5).Infof("MockInstanceGroups.List(%v, %q, %v) = %v, %v", ctx, zone, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -5823,6 +6245,9 @@ func (m *MockInstanceGroups) List(ctx context.Context, zone string, fl *filter.F
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockInstanceGroups.List(%v, %q, %v) = nil, %v", ctx, zone, fl, err)
+
 		return nil, *m.ListError
 	}
 
@@ -5831,11 +6256,13 @@ func (m *MockInstanceGroups) List(ctx context.Context, zone string, fl *filter.F
 		if key.Zone != zone {
 			continue
 		}
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToGA()) {
 			continue
 		}
 		objs = append(objs, obj.ToGA())
 	}
+
+	glog.V(5).Infof("MockInstanceGroups.List(%v, %q, %v) = %v, nil", ctx, zone, fl, objs)
 	return objs, nil
 }
 
@@ -5843,6 +6270,7 @@ func (m *MockInstanceGroups) List(ctx context.Context, zone string, fl *filter.F
 func (m *MockInstanceGroups) Insert(ctx context.Context, key meta.Key, obj *ga.InstanceGroup) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockInstanceGroups.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -5851,16 +6279,20 @@ func (m *MockInstanceGroups) Insert(ctx context.Context, key meta.Key, obj *ga.I
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockInstanceGroups.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockInstanceGroups %v exists", key),
 		}
+		glog.V(5).Infof("MockInstanceGroups.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockInstanceGroupsObj{obj}
+	glog.V(5).Infof("MockInstanceGroups.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -5868,6 +6300,7 @@ func (m *MockInstanceGroups) Insert(ctx context.Context, key meta.Key, obj *ga.I
 func (m *MockInstanceGroups) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockInstanceGroups.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -5876,16 +6309,20 @@ func (m *MockInstanceGroups) Delete(ctx context.Context, key meta.Key) error {
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockInstanceGroups.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockInstanceGroups %v not found", key),
 		}
+		glog.V(5).Infof("MockInstanceGroups.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockInstanceGroups.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -6150,6 +6587,7 @@ type MockInstances struct {
 func (m *MockInstances) Get(ctx context.Context, key meta.Key) (*ga.Instance, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockInstances.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -6158,21 +6596,28 @@ func (m *MockInstances) Get(ctx context.Context, key meta.Key) (*ga.Instance, er
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockInstances.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToGA(), nil
+		typedObj := obj.ToGA()
+		glog.V(5).Infof("MockInstances.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockInstances %v not found", key),
 	}
+	glog.V(5).Infof("MockInstances.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock in the given zone.
 func (m *MockInstances) List(ctx context.Context, zone string, fl *filter.F) ([]*ga.Instance, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, zone, fl); intercept {
+			glog.V(5).Infof("MockInstances.List(%v, %q, %v) = %v, %v", ctx, zone, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -6181,6 +6626,9 @@ func (m *MockInstances) List(ctx context.Context, zone string, fl *filter.F) ([]
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockInstances.List(%v, %q, %v) = nil, %v", ctx, zone, fl, err)
+
 		return nil, *m.ListError
 	}
 
@@ -6189,11 +6637,13 @@ func (m *MockInstances) List(ctx context.Context, zone string, fl *filter.F) ([]
 		if key.Zone != zone {
 			continue
 		}
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToGA()) {
 			continue
 		}
 		objs = append(objs, obj.ToGA())
 	}
+
+	glog.V(5).Infof("MockInstances.List(%v, %q, %v) = %v, nil", ctx, zone, fl, objs)
 	return objs, nil
 }
 
@@ -6201,6 +6651,7 @@ func (m *MockInstances) List(ctx context.Context, zone string, fl *filter.F) ([]
 func (m *MockInstances) Insert(ctx context.Context, key meta.Key, obj *ga.Instance) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockInstances.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -6209,16 +6660,20 @@ func (m *MockInstances) Insert(ctx context.Context, key meta.Key, obj *ga.Instan
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockInstances.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockInstances %v exists", key),
 		}
+		glog.V(5).Infof("MockInstances.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockInstancesObj{obj}
+	glog.V(5).Infof("MockInstances.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -6226,6 +6681,7 @@ func (m *MockInstances) Insert(ctx context.Context, key meta.Key, obj *ga.Instan
 func (m *MockInstances) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockInstances.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -6234,16 +6690,20 @@ func (m *MockInstances) Delete(ctx context.Context, key meta.Key) error {
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockInstances.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockInstances %v not found", key),
 		}
+		glog.V(5).Infof("MockInstances.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockInstances.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -6454,6 +6914,7 @@ type MockBetaInstances struct {
 func (m *MockBetaInstances) Get(ctx context.Context, key meta.Key) (*beta.Instance, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockBetaInstances.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -6462,21 +6923,28 @@ func (m *MockBetaInstances) Get(ctx context.Context, key meta.Key) (*beta.Instan
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockBetaInstances.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToBeta(), nil
+		typedObj := obj.ToBeta()
+		glog.V(5).Infof("MockBetaInstances.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockBetaInstances %v not found", key),
 	}
+	glog.V(5).Infof("MockBetaInstances.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock in the given zone.
 func (m *MockBetaInstances) List(ctx context.Context, zone string, fl *filter.F) ([]*beta.Instance, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, zone, fl); intercept {
+			glog.V(5).Infof("MockBetaInstances.List(%v, %q, %v) = %v, %v", ctx, zone, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -6485,6 +6953,9 @@ func (m *MockBetaInstances) List(ctx context.Context, zone string, fl *filter.F)
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockBetaInstances.List(%v, %q, %v) = nil, %v", ctx, zone, fl, err)
+
 		return nil, *m.ListError
 	}
 
@@ -6493,11 +6964,13 @@ func (m *MockBetaInstances) List(ctx context.Context, zone string, fl *filter.F)
 		if key.Zone != zone {
 			continue
 		}
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToBeta()) {
 			continue
 		}
 		objs = append(objs, obj.ToBeta())
 	}
+
+	glog.V(5).Infof("MockBetaInstances.List(%v, %q, %v) = %v, nil", ctx, zone, fl, objs)
 	return objs, nil
 }
 
@@ -6505,6 +6978,7 @@ func (m *MockBetaInstances) List(ctx context.Context, zone string, fl *filter.F)
 func (m *MockBetaInstances) Insert(ctx context.Context, key meta.Key, obj *beta.Instance) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockBetaInstances.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -6513,16 +6987,20 @@ func (m *MockBetaInstances) Insert(ctx context.Context, key meta.Key, obj *beta.
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockBetaInstances.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockBetaInstances %v exists", key),
 		}
+		glog.V(5).Infof("MockBetaInstances.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockInstancesObj{obj}
+	glog.V(5).Infof("MockBetaInstances.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -6530,6 +7008,7 @@ func (m *MockBetaInstances) Insert(ctx context.Context, key meta.Key, obj *beta.
 func (m *MockBetaInstances) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockBetaInstances.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -6538,16 +7017,20 @@ func (m *MockBetaInstances) Delete(ctx context.Context, key meta.Key) error {
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockBetaInstances.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockBetaInstances %v not found", key),
 		}
+		glog.V(5).Infof("MockBetaInstances.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockBetaInstances.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -6760,6 +7243,7 @@ type MockAlphaInstances struct {
 func (m *MockAlphaInstances) Get(ctx context.Context, key meta.Key) (*alpha.Instance, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockAlphaInstances.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -6768,21 +7252,28 @@ func (m *MockAlphaInstances) Get(ctx context.Context, key meta.Key) (*alpha.Inst
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockAlphaInstances.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToAlpha(), nil
+		typedObj := obj.ToAlpha()
+		glog.V(5).Infof("MockAlphaInstances.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockAlphaInstances %v not found", key),
 	}
+	glog.V(5).Infof("MockAlphaInstances.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock in the given zone.
 func (m *MockAlphaInstances) List(ctx context.Context, zone string, fl *filter.F) ([]*alpha.Instance, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, zone, fl); intercept {
+			glog.V(5).Infof("MockAlphaInstances.List(%v, %q, %v) = %v, %v", ctx, zone, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -6791,6 +7282,9 @@ func (m *MockAlphaInstances) List(ctx context.Context, zone string, fl *filter.F
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockAlphaInstances.List(%v, %q, %v) = nil, %v", ctx, zone, fl, err)
+
 		return nil, *m.ListError
 	}
 
@@ -6799,11 +7293,13 @@ func (m *MockAlphaInstances) List(ctx context.Context, zone string, fl *filter.F
 		if key.Zone != zone {
 			continue
 		}
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToAlpha()) {
 			continue
 		}
 		objs = append(objs, obj.ToAlpha())
 	}
+
+	glog.V(5).Infof("MockAlphaInstances.List(%v, %q, %v) = %v, nil", ctx, zone, fl, objs)
 	return objs, nil
 }
 
@@ -6811,6 +7307,7 @@ func (m *MockAlphaInstances) List(ctx context.Context, zone string, fl *filter.F
 func (m *MockAlphaInstances) Insert(ctx context.Context, key meta.Key, obj *alpha.Instance) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockAlphaInstances.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -6819,16 +7316,20 @@ func (m *MockAlphaInstances) Insert(ctx context.Context, key meta.Key, obj *alph
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockAlphaInstances.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockAlphaInstances %v exists", key),
 		}
+		glog.V(5).Infof("MockAlphaInstances.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockInstancesObj{obj}
+	glog.V(5).Infof("MockAlphaInstances.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -6836,6 +7337,7 @@ func (m *MockAlphaInstances) Insert(ctx context.Context, key meta.Key, obj *alph
 func (m *MockAlphaInstances) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockAlphaInstances.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -6844,16 +7346,20 @@ func (m *MockAlphaInstances) Delete(ctx context.Context, key meta.Key) error {
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockAlphaInstances.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockAlphaInstances %v not found", key),
 		}
+		glog.V(5).Infof("MockAlphaInstances.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockAlphaInstances.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -7096,6 +7602,7 @@ type MockAlphaNetworkEndpointGroups struct {
 func (m *MockAlphaNetworkEndpointGroups) Get(ctx context.Context, key meta.Key) (*alpha.NetworkEndpointGroup, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockAlphaNetworkEndpointGroups.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -7104,21 +7611,28 @@ func (m *MockAlphaNetworkEndpointGroups) Get(ctx context.Context, key meta.Key) 
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockAlphaNetworkEndpointGroups.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToAlpha(), nil
+		typedObj := obj.ToAlpha()
+		glog.V(5).Infof("MockAlphaNetworkEndpointGroups.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockAlphaNetworkEndpointGroups %v not found", key),
 	}
+	glog.V(5).Infof("MockAlphaNetworkEndpointGroups.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock in the given zone.
 func (m *MockAlphaNetworkEndpointGroups) List(ctx context.Context, zone string, fl *filter.F) ([]*alpha.NetworkEndpointGroup, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, zone, fl); intercept {
+			glog.V(5).Infof("MockAlphaNetworkEndpointGroups.List(%v, %q, %v) = %v, %v", ctx, zone, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -7127,6 +7641,9 @@ func (m *MockAlphaNetworkEndpointGroups) List(ctx context.Context, zone string, 
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockAlphaNetworkEndpointGroups.List(%v, %q, %v) = nil, %v", ctx, zone, fl, err)
+
 		return nil, *m.ListError
 	}
 
@@ -7135,11 +7652,13 @@ func (m *MockAlphaNetworkEndpointGroups) List(ctx context.Context, zone string, 
 		if key.Zone != zone {
 			continue
 		}
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToAlpha()) {
 			continue
 		}
 		objs = append(objs, obj.ToAlpha())
 	}
+
+	glog.V(5).Infof("MockAlphaNetworkEndpointGroups.List(%v, %q, %v) = %v, nil", ctx, zone, fl, objs)
 	return objs, nil
 }
 
@@ -7147,6 +7666,7 @@ func (m *MockAlphaNetworkEndpointGroups) List(ctx context.Context, zone string, 
 func (m *MockAlphaNetworkEndpointGroups) Insert(ctx context.Context, key meta.Key, obj *alpha.NetworkEndpointGroup) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockAlphaNetworkEndpointGroups.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -7155,16 +7675,20 @@ func (m *MockAlphaNetworkEndpointGroups) Insert(ctx context.Context, key meta.Ke
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockAlphaNetworkEndpointGroups.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockAlphaNetworkEndpointGroups %v exists", key),
 		}
+		glog.V(5).Infof("MockAlphaNetworkEndpointGroups.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockNetworkEndpointGroupsObj{obj}
+	glog.V(5).Infof("MockAlphaNetworkEndpointGroups.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -7172,6 +7696,7 @@ func (m *MockAlphaNetworkEndpointGroups) Insert(ctx context.Context, key meta.Ke
 func (m *MockAlphaNetworkEndpointGroups) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockAlphaNetworkEndpointGroups.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -7180,21 +7705,26 @@ func (m *MockAlphaNetworkEndpointGroups) Delete(ctx context.Context, key meta.Ke
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockAlphaNetworkEndpointGroups.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockAlphaNetworkEndpointGroups %v not found", key),
 		}
+		glog.V(5).Infof("MockAlphaNetworkEndpointGroups.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockAlphaNetworkEndpointGroups.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 func (m *MockAlphaNetworkEndpointGroups) AggregatedList(ctx context.Context, fl *filter.F) (map[string][]*alpha.NetworkEndpointGroup, error) {
 	if m.AggregatedListHook != nil {
 		if intercept, objs, err := m.AggregatedListHook(m, ctx, fl); intercept {
+			glog.V(5).Infof("MockAlphaNetworkEndpointGroups.AggregatedList(%v, %v) = %+v, %v", ctx, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -7203,7 +7733,9 @@ func (m *MockAlphaNetworkEndpointGroups) AggregatedList(ctx context.Context, fl 
 	defer m.Lock.Unlock()
 
 	if m.AggregatedListError != nil {
-		return nil, *m.AggregatedListError
+		err := *m.AggregatedListError
+		glog.V(5).Infof("MockAlphaNetworkEndpointGroups.AggregatedList(%v, %v) = nil, %v", ctx, fl, err)
+		return nil, err
 	}
 
 	objs := map[string][]*alpha.NetworkEndpointGroup{}
@@ -7211,13 +7743,15 @@ func (m *MockAlphaNetworkEndpointGroups) AggregatedList(ctx context.Context, fl 
 		res, err := ParseResourceURL(obj.ToAlpha().SelfLink)
 		location := res.Key.Zone
 		if err != nil {
+			glog.V(5).Infof("MockAlphaNetworkEndpointGroups.AggregatedList(%v, %v) = nil, %v", ctx, fl, err)
 			return nil, err
 		}
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToAlpha()) {
 			continue
 		}
 		objs[location] = append(objs[location], obj.ToAlpha())
 	}
+	glog.V(5).Infof("MockAlphaNetworkEndpointGroups.AggregatedList(%v, %v) = %+v, nil", ctx, fl, objs)
 	return objs, nil
 }
 
@@ -7487,6 +8021,7 @@ type MockRegions struct {
 func (m *MockRegions) Get(ctx context.Context, key meta.Key) (*ga.Region, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockRegions.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -7495,21 +8030,28 @@ func (m *MockRegions) Get(ctx context.Context, key meta.Key) (*ga.Region, error)
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockRegions.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToGA(), nil
+		typedObj := obj.ToGA()
+		glog.V(5).Infof("MockRegions.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockRegions %v not found", key),
 	}
+	glog.V(5).Infof("MockRegions.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock.
 func (m *MockRegions) List(ctx context.Context, fl *filter.F) ([]*ga.Region, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
+			glog.V(5).Infof("MockRegions.List(%v, %v) = %v, %v", ctx, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -7518,16 +8060,21 @@ func (m *MockRegions) List(ctx context.Context, fl *filter.F) ([]*ga.Region, err
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockRegions.List(%v, %v) = nil, %v", ctx, fl, err)
+
 		return nil, *m.ListError
 	}
 
 	var objs []*ga.Region
 	for _, obj := range m.Objects {
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToGA()) {
 			continue
 		}
 		objs = append(objs, obj.ToGA())
 	}
+
+	glog.V(5).Infof("MockRegions.List(%v, %v) = %v, nil", ctx, fl, objs)
 	return objs, nil
 }
 
@@ -7631,6 +8178,7 @@ type MockRoutes struct {
 func (m *MockRoutes) Get(ctx context.Context, key meta.Key) (*ga.Route, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockRoutes.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -7639,21 +8187,28 @@ func (m *MockRoutes) Get(ctx context.Context, key meta.Key) (*ga.Route, error) {
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockRoutes.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToGA(), nil
+		typedObj := obj.ToGA()
+		glog.V(5).Infof("MockRoutes.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockRoutes %v not found", key),
 	}
+	glog.V(5).Infof("MockRoutes.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock.
 func (m *MockRoutes) List(ctx context.Context, fl *filter.F) ([]*ga.Route, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
+			glog.V(5).Infof("MockRoutes.List(%v, %v) = %v, %v", ctx, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -7662,16 +8217,21 @@ func (m *MockRoutes) List(ctx context.Context, fl *filter.F) ([]*ga.Route, error
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockRoutes.List(%v, %v) = nil, %v", ctx, fl, err)
+
 		return nil, *m.ListError
 	}
 
 	var objs []*ga.Route
 	for _, obj := range m.Objects {
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToGA()) {
 			continue
 		}
 		objs = append(objs, obj.ToGA())
 	}
+
+	glog.V(5).Infof("MockRoutes.List(%v, %v) = %v, nil", ctx, fl, objs)
 	return objs, nil
 }
 
@@ -7679,6 +8239,7 @@ func (m *MockRoutes) List(ctx context.Context, fl *filter.F) ([]*ga.Route, error
 func (m *MockRoutes) Insert(ctx context.Context, key meta.Key, obj *ga.Route) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockRoutes.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -7687,16 +8248,20 @@ func (m *MockRoutes) Insert(ctx context.Context, key meta.Key, obj *ga.Route) er
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockRoutes.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockRoutes %v exists", key),
 		}
+		glog.V(5).Infof("MockRoutes.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockRoutesObj{obj}
+	glog.V(5).Infof("MockRoutes.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -7704,6 +8269,7 @@ func (m *MockRoutes) Insert(ctx context.Context, key meta.Key, obj *ga.Route) er
 func (m *MockRoutes) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockRoutes.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -7712,16 +8278,20 @@ func (m *MockRoutes) Delete(ctx context.Context, key meta.Key) error {
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockRoutes.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockRoutes %v not found", key),
 		}
+		glog.V(5).Infof("MockRoutes.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockRoutes.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -7871,6 +8441,7 @@ type MockSslCertificates struct {
 func (m *MockSslCertificates) Get(ctx context.Context, key meta.Key) (*ga.SslCertificate, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockSslCertificates.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -7879,21 +8450,28 @@ func (m *MockSslCertificates) Get(ctx context.Context, key meta.Key) (*ga.SslCer
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockSslCertificates.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToGA(), nil
+		typedObj := obj.ToGA()
+		glog.V(5).Infof("MockSslCertificates.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockSslCertificates %v not found", key),
 	}
+	glog.V(5).Infof("MockSslCertificates.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock.
 func (m *MockSslCertificates) List(ctx context.Context, fl *filter.F) ([]*ga.SslCertificate, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
+			glog.V(5).Infof("MockSslCertificates.List(%v, %v) = %v, %v", ctx, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -7902,16 +8480,21 @@ func (m *MockSslCertificates) List(ctx context.Context, fl *filter.F) ([]*ga.Ssl
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockSslCertificates.List(%v, %v) = nil, %v", ctx, fl, err)
+
 		return nil, *m.ListError
 	}
 
 	var objs []*ga.SslCertificate
 	for _, obj := range m.Objects {
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToGA()) {
 			continue
 		}
 		objs = append(objs, obj.ToGA())
 	}
+
+	glog.V(5).Infof("MockSslCertificates.List(%v, %v) = %v, nil", ctx, fl, objs)
 	return objs, nil
 }
 
@@ -7919,6 +8502,7 @@ func (m *MockSslCertificates) List(ctx context.Context, fl *filter.F) ([]*ga.Ssl
 func (m *MockSslCertificates) Insert(ctx context.Context, key meta.Key, obj *ga.SslCertificate) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockSslCertificates.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -7927,16 +8511,20 @@ func (m *MockSslCertificates) Insert(ctx context.Context, key meta.Key, obj *ga.
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockSslCertificates.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockSslCertificates %v exists", key),
 		}
+		glog.V(5).Infof("MockSslCertificates.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockSslCertificatesObj{obj}
+	glog.V(5).Infof("MockSslCertificates.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -7944,6 +8532,7 @@ func (m *MockSslCertificates) Insert(ctx context.Context, key meta.Key, obj *ga.
 func (m *MockSslCertificates) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockSslCertificates.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -7952,16 +8541,20 @@ func (m *MockSslCertificates) Delete(ctx context.Context, key meta.Key) error {
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockSslCertificates.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockSslCertificates %v not found", key),
 		}
+		glog.V(5).Infof("MockSslCertificates.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockSslCertificates.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -8113,6 +8706,7 @@ type MockTargetHttpProxies struct {
 func (m *MockTargetHttpProxies) Get(ctx context.Context, key meta.Key) (*ga.TargetHttpProxy, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockTargetHttpProxies.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -8121,21 +8715,28 @@ func (m *MockTargetHttpProxies) Get(ctx context.Context, key meta.Key) (*ga.Targ
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockTargetHttpProxies.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToGA(), nil
+		typedObj := obj.ToGA()
+		glog.V(5).Infof("MockTargetHttpProxies.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockTargetHttpProxies %v not found", key),
 	}
+	glog.V(5).Infof("MockTargetHttpProxies.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock.
 func (m *MockTargetHttpProxies) List(ctx context.Context, fl *filter.F) ([]*ga.TargetHttpProxy, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
+			glog.V(5).Infof("MockTargetHttpProxies.List(%v, %v) = %v, %v", ctx, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -8144,16 +8745,21 @@ func (m *MockTargetHttpProxies) List(ctx context.Context, fl *filter.F) ([]*ga.T
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockTargetHttpProxies.List(%v, %v) = nil, %v", ctx, fl, err)
+
 		return nil, *m.ListError
 	}
 
 	var objs []*ga.TargetHttpProxy
 	for _, obj := range m.Objects {
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToGA()) {
 			continue
 		}
 		objs = append(objs, obj.ToGA())
 	}
+
+	glog.V(5).Infof("MockTargetHttpProxies.List(%v, %v) = %v, nil", ctx, fl, objs)
 	return objs, nil
 }
 
@@ -8161,6 +8767,7 @@ func (m *MockTargetHttpProxies) List(ctx context.Context, fl *filter.F) ([]*ga.T
 func (m *MockTargetHttpProxies) Insert(ctx context.Context, key meta.Key, obj *ga.TargetHttpProxy) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockTargetHttpProxies.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -8169,16 +8776,20 @@ func (m *MockTargetHttpProxies) Insert(ctx context.Context, key meta.Key, obj *g
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockTargetHttpProxies.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockTargetHttpProxies %v exists", key),
 		}
+		glog.V(5).Infof("MockTargetHttpProxies.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockTargetHttpProxiesObj{obj}
+	glog.V(5).Infof("MockTargetHttpProxies.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -8186,6 +8797,7 @@ func (m *MockTargetHttpProxies) Insert(ctx context.Context, key meta.Key, obj *g
 func (m *MockTargetHttpProxies) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockTargetHttpProxies.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -8194,16 +8806,20 @@ func (m *MockTargetHttpProxies) Delete(ctx context.Context, key meta.Key) error 
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockTargetHttpProxies.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockTargetHttpProxies %v not found", key),
 		}
+		glog.V(5).Infof("MockTargetHttpProxies.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockTargetHttpProxies.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -8386,6 +9002,7 @@ type MockTargetHttpsProxies struct {
 func (m *MockTargetHttpsProxies) Get(ctx context.Context, key meta.Key) (*ga.TargetHttpsProxy, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockTargetHttpsProxies.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -8394,21 +9011,28 @@ func (m *MockTargetHttpsProxies) Get(ctx context.Context, key meta.Key) (*ga.Tar
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockTargetHttpsProxies.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToGA(), nil
+		typedObj := obj.ToGA()
+		glog.V(5).Infof("MockTargetHttpsProxies.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockTargetHttpsProxies %v not found", key),
 	}
+	glog.V(5).Infof("MockTargetHttpsProxies.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock.
 func (m *MockTargetHttpsProxies) List(ctx context.Context, fl *filter.F) ([]*ga.TargetHttpsProxy, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
+			glog.V(5).Infof("MockTargetHttpsProxies.List(%v, %v) = %v, %v", ctx, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -8417,16 +9041,21 @@ func (m *MockTargetHttpsProxies) List(ctx context.Context, fl *filter.F) ([]*ga.
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockTargetHttpsProxies.List(%v, %v) = nil, %v", ctx, fl, err)
+
 		return nil, *m.ListError
 	}
 
 	var objs []*ga.TargetHttpsProxy
 	for _, obj := range m.Objects {
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToGA()) {
 			continue
 		}
 		objs = append(objs, obj.ToGA())
 	}
+
+	glog.V(5).Infof("MockTargetHttpsProxies.List(%v, %v) = %v, nil", ctx, fl, objs)
 	return objs, nil
 }
 
@@ -8434,6 +9063,7 @@ func (m *MockTargetHttpsProxies) List(ctx context.Context, fl *filter.F) ([]*ga.
 func (m *MockTargetHttpsProxies) Insert(ctx context.Context, key meta.Key, obj *ga.TargetHttpsProxy) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockTargetHttpsProxies.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -8442,16 +9072,20 @@ func (m *MockTargetHttpsProxies) Insert(ctx context.Context, key meta.Key, obj *
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockTargetHttpsProxies.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockTargetHttpsProxies %v exists", key),
 		}
+		glog.V(5).Infof("MockTargetHttpsProxies.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockTargetHttpsProxiesObj{obj}
+	glog.V(5).Infof("MockTargetHttpsProxies.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -8459,6 +9093,7 @@ func (m *MockTargetHttpsProxies) Insert(ctx context.Context, key meta.Key, obj *
 func (m *MockTargetHttpsProxies) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockTargetHttpsProxies.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -8467,16 +9102,20 @@ func (m *MockTargetHttpsProxies) Delete(ctx context.Context, key meta.Key) error
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockTargetHttpsProxies.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockTargetHttpsProxies %v not found", key),
 		}
+		glog.V(5).Infof("MockTargetHttpsProxies.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockTargetHttpsProxies.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -8688,6 +9327,7 @@ type MockTargetPools struct {
 func (m *MockTargetPools) Get(ctx context.Context, key meta.Key) (*ga.TargetPool, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockTargetPools.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -8696,21 +9336,28 @@ func (m *MockTargetPools) Get(ctx context.Context, key meta.Key) (*ga.TargetPool
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockTargetPools.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToGA(), nil
+		typedObj := obj.ToGA()
+		glog.V(5).Infof("MockTargetPools.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockTargetPools %v not found", key),
 	}
+	glog.V(5).Infof("MockTargetPools.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock in the given region.
 func (m *MockTargetPools) List(ctx context.Context, region string, fl *filter.F) ([]*ga.TargetPool, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, region, fl); intercept {
+			glog.V(5).Infof("MockTargetPools.List(%v, %q, %v) = %v, %v", ctx, region, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -8719,6 +9366,9 @@ func (m *MockTargetPools) List(ctx context.Context, region string, fl *filter.F)
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockTargetPools.List(%v, %q, %v) = nil, %v", ctx, region, fl, err)
+
 		return nil, *m.ListError
 	}
 
@@ -8727,11 +9377,13 @@ func (m *MockTargetPools) List(ctx context.Context, region string, fl *filter.F)
 		if key.Region != region {
 			continue
 		}
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToGA()) {
 			continue
 		}
 		objs = append(objs, obj.ToGA())
 	}
+
+	glog.V(5).Infof("MockTargetPools.List(%v, %q, %v) = %v, nil", ctx, region, fl, objs)
 	return objs, nil
 }
 
@@ -8739,6 +9391,7 @@ func (m *MockTargetPools) List(ctx context.Context, region string, fl *filter.F)
 func (m *MockTargetPools) Insert(ctx context.Context, key meta.Key, obj *ga.TargetPool) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockTargetPools.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -8747,16 +9400,20 @@ func (m *MockTargetPools) Insert(ctx context.Context, key meta.Key, obj *ga.Targ
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockTargetPools.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockTargetPools %v exists", key),
 		}
+		glog.V(5).Infof("MockTargetPools.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockTargetPoolsObj{obj}
+	glog.V(5).Infof("MockTargetPools.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -8764,6 +9421,7 @@ func (m *MockTargetPools) Insert(ctx context.Context, key meta.Key, obj *ga.Targ
 func (m *MockTargetPools) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockTargetPools.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -8772,16 +9430,20 @@ func (m *MockTargetPools) Delete(ctx context.Context, key meta.Key) error {
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockTargetPools.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockTargetPools %v not found", key),
 		}
+		glog.V(5).Infof("MockTargetPools.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockTargetPools.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -8990,6 +9652,7 @@ type MockUrlMaps struct {
 func (m *MockUrlMaps) Get(ctx context.Context, key meta.Key) (*ga.UrlMap, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockUrlMaps.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -8998,21 +9661,28 @@ func (m *MockUrlMaps) Get(ctx context.Context, key meta.Key) (*ga.UrlMap, error)
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockUrlMaps.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToGA(), nil
+		typedObj := obj.ToGA()
+		glog.V(5).Infof("MockUrlMaps.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockUrlMaps %v not found", key),
 	}
+	glog.V(5).Infof("MockUrlMaps.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock.
 func (m *MockUrlMaps) List(ctx context.Context, fl *filter.F) ([]*ga.UrlMap, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
+			glog.V(5).Infof("MockUrlMaps.List(%v, %v) = %v, %v", ctx, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -9021,16 +9691,21 @@ func (m *MockUrlMaps) List(ctx context.Context, fl *filter.F) ([]*ga.UrlMap, err
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockUrlMaps.List(%v, %v) = nil, %v", ctx, fl, err)
+
 		return nil, *m.ListError
 	}
 
 	var objs []*ga.UrlMap
 	for _, obj := range m.Objects {
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToGA()) {
 			continue
 		}
 		objs = append(objs, obj.ToGA())
 	}
+
+	glog.V(5).Infof("MockUrlMaps.List(%v, %v) = %v, nil", ctx, fl, objs)
 	return objs, nil
 }
 
@@ -9038,6 +9713,7 @@ func (m *MockUrlMaps) List(ctx context.Context, fl *filter.F) ([]*ga.UrlMap, err
 func (m *MockUrlMaps) Insert(ctx context.Context, key meta.Key, obj *ga.UrlMap) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
+			glog.V(5).Infof("MockUrlMaps.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -9046,16 +9722,20 @@ func (m *MockUrlMaps) Insert(ctx context.Context, key meta.Key, obj *ga.UrlMap) 
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
+		glog.V(5).Infof("MockUrlMaps.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockUrlMaps %v exists", key),
 		}
+		glog.V(5).Infof("MockUrlMaps.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		return err
 	}
 
 	m.Objects[key] = &MockUrlMapsObj{obj}
+	glog.V(5).Infof("MockUrlMaps.Insert(%v, %v, %v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -9063,6 +9743,7 @@ func (m *MockUrlMaps) Insert(ctx context.Context, key meta.Key, obj *ga.UrlMap) 
 func (m *MockUrlMaps) Delete(ctx context.Context, key meta.Key) error {
 	if m.DeleteHook != nil {
 		if intercept, err := m.DeleteHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockUrlMaps.Delete(%v, %v) = %v", ctx, key, err)
 			return err
 		}
 	}
@@ -9071,16 +9752,20 @@ func (m *MockUrlMaps) Delete(ctx context.Context, key meta.Key) error {
 	defer m.Lock.Unlock()
 
 	if err, ok := m.DeleteError[key]; ok {
+		glog.V(5).Infof("MockUrlMaps.Delete(%v, %v) = %v", ctx, key, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; !ok {
-		return &googleapi.Error{
+		err := &googleapi.Error{
 			Code:    http.StatusNotFound,
 			Message: fmt.Sprintf("MockUrlMaps %v not found", key),
 		}
+		glog.V(5).Infof("MockUrlMaps.Delete(%v, %v) = %v", ctx, key, err)
+		return err
 	}
 
 	delete(m.Objects, key)
+	glog.V(5).Infof("MockUrlMaps.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
 
@@ -9251,6 +9936,7 @@ type MockZones struct {
 func (m *MockZones) Get(ctx context.Context, key meta.Key) (*ga.Zone, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
+			glog.V(5).Infof("MockZones.Get(%v, %s) = %v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -9259,21 +9945,28 @@ func (m *MockZones) Get(ctx context.Context, key meta.Key) (*ga.Zone, error) {
 	defer m.Lock.Unlock()
 
 	if err, ok := m.GetError[key]; ok {
+		glog.V(5).Infof("MockZones.Get(%v, %s) = nil, %v", ctx, key, err)
 		return nil, err
 	}
 	if obj, ok := m.Objects[key]; ok {
-		return obj.ToGA(), nil
+		typedObj := obj.ToGA()
+		glog.V(5).Infof("MockZones.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		return typedObj, nil
 	}
-	return nil, &googleapi.Error{
+
+	err := &googleapi.Error{
 		Code:    http.StatusNotFound,
 		Message: fmt.Sprintf("MockZones %v not found", key),
 	}
+	glog.V(5).Infof("MockZones.Get(%v, %s) = nil, %v", ctx, key, err)
+	return nil, err
 }
 
 // List all of the objects in the mock.
 func (m *MockZones) List(ctx context.Context, fl *filter.F) ([]*ga.Zone, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
+			glog.V(5).Infof("MockZones.List(%v, %v) = %v, %v", ctx, fl, objs, err)
 			return objs, err
 		}
 	}
@@ -9282,16 +9975,21 @@ func (m *MockZones) List(ctx context.Context, fl *filter.F) ([]*ga.Zone, error) 
 	defer m.Lock.Unlock()
 
 	if m.ListError != nil {
+		err := *m.ListError
+		glog.V(5).Infof("MockZones.List(%v, %v) = nil, %v", ctx, fl, err)
+
 		return nil, *m.ListError
 	}
 
 	var objs []*ga.Zone
 	for _, obj := range m.Objects {
-		if !fl.Match(obj) {
+		if !fl.Match(obj.ToGA()) {
 			continue
 		}
 		objs = append(objs, obj.ToGA())
 	}
+
+	glog.V(5).Infof("MockZones.List(%v, %v) = %v, nil", ctx, fl, objs)
 	return objs, nil
 }
 

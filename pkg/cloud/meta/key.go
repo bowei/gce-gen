@@ -67,7 +67,7 @@ func (k *Key) Type() KeyType {
 }
 
 // String returns a string representation of the key.
-func (k *Key) String() string {
+func (k Key) String() string {
 	switch k.Type() {
 	case Zonal:
 		return fmt.Sprintf("ZonalKey(%q,%q)", k.Name, k.Zone)

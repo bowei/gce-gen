@@ -43,8 +43,8 @@ func init() {
 
 func mockCloud() cloud.Cloud {
 	mock := cloud.NewMockGCE()
-	mock.MockZones.Objects[*meta.ZonalKey("abc", "us-central1-b")] = &ga.Zone{
-		Name: "us-central1-b",
+	mock.MockZones.Objects[*meta.ZonalKey("abc", "us-central1-b")] = &cloud.MockZonesObj{
+		ga.Zone{Name: "us-central1-b"},
 	}
 	return mock
 }
