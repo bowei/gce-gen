@@ -44,32 +44,32 @@ var (
 
 // Regexp returns a filter for fieldName matches regexp v.
 func Regexp(fieldName, v string) *F {
-	return (&F{}).Regexp(fieldName, v)
+	return (&F{}).AndRegexp(fieldName, v)
 }
 
 // NotRegexp returns a filter for fieldName not matches regexp v.
 func NotRegexp(fieldName, v string) *F {
-	return (&F{}).NotRegexp(fieldName, v)
+	return (&F{}).AndNotRegexp(fieldName, v)
 }
 
 // EqualInt returns a filter for fieldName ~ v.
 func EqualInt(fieldName string, v int) *F {
-	return (&F{}).EqualInt(fieldName, v)
+	return (&F{}).AndEqualInt(fieldName, v)
 }
 
 // NotEqualInt returns a filter for fieldName != v.
 func NotEqualInt(fieldName string, v int) *F {
-	return (&F{}).NotEqualInt(fieldName, v)
+	return (&F{}).AndNotEqualInt(fieldName, v)
 }
 
 // EqualBool returns a filter for fieldName == v.
 func EqualBool(fieldName string, v bool) *F {
-	return (&F{}).EqualBool(fieldName, v)
+	return (&F{}).AndEqualBool(fieldName, v)
 }
 
 // NotEqualBool returns a filter for fieldName != v.
 func NotEqualBool(fieldName string, v bool) *F {
-	return (&F{}).NotEqualBool(fieldName, v)
+	return (&F{}).AndNotEqualBool(fieldName, v)
 }
 
 // F is a filter to be used with List() operations.
@@ -109,38 +109,38 @@ func (fl *F) And(rest *F) *F {
 	return fl
 }
 
-// Regexp adds a field match string predicate.
-func (fl *F) Regexp(fieldName, v string) *F {
+// AndRegexp adds a field match string predicate.
+func (fl *F) AndRegexp(fieldName, v string) *F {
 	fl.predicates = append(fl.predicates, filterPredicate{fieldName: fieldName, op: equals, s: &v})
 	return fl
 }
 
-// NotRegexp adds a field not match string predicate.
-func (fl *F) NotRegexp(fieldName, v string) *F {
+// AndNotRegexp adds a field not match string predicate.
+func (fl *F) AndNotRegexp(fieldName, v string) *F {
 	fl.predicates = append(fl.predicates, filterPredicate{fieldName: fieldName, op: notEquals, s: &v})
 	return fl
 }
 
-// EqualInt adds a field == int predicate.
-func (fl *F) EqualInt(fieldName string, v int) *F {
+// AndEqualInt adds a field == int predicate.
+func (fl *F) AndEqualInt(fieldName string, v int) *F {
 	fl.predicates = append(fl.predicates, filterPredicate{fieldName: fieldName, op: equals, i: &v})
 	return fl
 }
 
-// NotEqualInt adds a field != int predicate.
-func (fl *F) NotEqualInt(fieldName string, v int) *F {
+// AndNotEqualInt adds a field != int predicate.
+func (fl *F) AndNotEqualInt(fieldName string, v int) *F {
 	fl.predicates = append(fl.predicates, filterPredicate{fieldName: fieldName, op: notEquals, i: &v})
 	return fl
 }
 
-// EqualBool adds a field == bool predicate.
-func (fl *F) EqualBool(fieldName string, v bool) *F {
+// AndEqualBool adds a field == bool predicate.
+func (fl *F) AndEqualBool(fieldName string, v bool) *F {
 	fl.predicates = append(fl.predicates, filterPredicate{fieldName: fieldName, op: equals, b: &v})
 	return fl
 }
 
-// NotEqualBool adds a field != bool predicate.
-func (fl *F) NotEqualBool(fieldName string, v bool) *F {
+// AndNotEqualBool adds a field != bool predicate.
+func (fl *F) AndNotEqualBool(fieldName string, v bool) *F {
 	fl.predicates = append(fl.predicates, filterPredicate{fieldName: fieldName, op: notEquals, b: &v})
 	return fl
 }
