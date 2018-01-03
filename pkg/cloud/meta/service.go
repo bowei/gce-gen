@@ -17,6 +17,7 @@ limitations under the License.
 package meta
 
 import (
+	"errors"
 	"fmt"
 	"reflect"
 )
@@ -43,7 +44,8 @@ func (i *ServiceInfo) Version() Version {
 	return i.version
 }
 
-func (i *ServiceInfo) VersionField() string {
+// VersionTitle returns the capitalized golang CamelCase name for the version.
+func (i *ServiceInfo) VersionTitle() string {
 	switch i.Version() {
 	case VersionGA:
 		return "GA"
@@ -144,18 +146,22 @@ func (i *ServiceInfo) KeyIsZonal() bool {
 	return i.keyType == Zonal
 }
 
+// GenerateGet is true if the method is to be generated.
 func (i *ServiceInfo) GenerateGet() bool {
 	return i.options&NoGet == 0
 }
 
+// GenerateList is true if the method is to be generated.
 func (i *ServiceInfo) GenerateList() bool {
 	return i.options&NoList == 0
 }
 
+// GenerateDelete is true if the method is to be generated.
 func (i *ServiceInfo) GenerateDelete() bool {
 	return i.options&NoDelete == 0
 }
 
+// GenerateInsert is true if the method is to be generated.
 func (i *ServiceInfo) GenerateInsert() bool {
 	return i.options&NoInsert == 0
 }
@@ -164,4 +170,63 @@ func (i *ServiceInfo) GenerateInsert() bool {
 // adding additional methods to the generated interface.
 func (i *ServiceInfo) GenerateCustomOps() bool {
 	return i.options&CustomOps != 0
+}
+
+// ServicesGroup is a grouping of the same service but at different API versions.
+type ServiceGroup struct {
+	Alpha *ServiceInfo
+	Beta  *ServiceInfo
+	GA    *ServiceInfo
+}
+
+func (sg *ServiceGroup) Service() string {
+	switch {
+	case sg.GA != nil:
+		return sg.GA.Service
+	case sg.Alpha != nil:
+		return sg.Alpha.Service
+	case sg.Beta != nil:
+		return sg.Beta.Service
+	default:
+		panic(errors.New("service group is empty"))
+	}
+}
+
+func (sg *ServiceGroup) HasGA() bool {
+	return sg.GA != nil
+}
+
+func (sg *ServiceGroup) HasAlpha() bool {
+	return sg.Alpha != nil
+}
+
+func (sg *ServiceGroup) HasBeta() bool {
+	return sg.Beta != nil
+}
+
+// groupServices together by version.
+func groupServices(services []*ServiceInfo) map[string]*ServiceGroup {
+	ret := map[string]*ServiceGroup{}
+	for _, si := range services {
+		if _, ok := ret[si.Service]; !ok {
+			ret[si.Service] = &ServiceGroup{}
+		}
+		group := ret[si.Service]
+		switch si.Version() {
+		case VersionAlpha:
+			group.Alpha = si
+		case VersionBeta:
+			group.Beta = si
+		case VersionGA:
+			group.GA = si
+		}
+	}
+	return ret
+}
+
+// AllServicesByGroup is a map of service name to ServicesGroup.
+var AllServicesByGroup map[string]*ServiceGroup
+
+func init() {
+	AllServicesByGroup = groupServices(AllServices)
 }
