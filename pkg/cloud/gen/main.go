@@ -555,6 +555,7 @@ func (m *{{.MockWrapType}}) Delete(ctx context.Context, key meta.Key) error {
 {{- end}}
 
 {{- if .AggregatedList}}
+// AggregatedList is a mock for AggregatedList.
 func (m *{{.MockWrapType}}) AggregatedList(ctx context.Context, fl *filter.F) (map[string][]*{{.FQObjectType}}, error) {
 	if m.AggregatedListHook != nil {
 		if intercept, objs, err := m.AggregatedListHook(m, ctx, fl); intercept {
@@ -756,6 +757,7 @@ func (g *{{.GCEWrapType}}) Delete(ctx context.Context, key meta.Key) error {
 {{end -}}
 
 {{- if .AggregatedList}}
+// AggregatedList lists all resources of the given type across all locations.
 func (g *{{.GCEWrapType}}) AggregatedList(ctx context.Context, fl *filter.F) (map[string][]*{{.FQObjectType}}, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "{{.Version}}", "{{.Service}}")
 	rk := &RateLimitKey{

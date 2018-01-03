@@ -7721,6 +7721,8 @@ func (m *MockAlphaNetworkEndpointGroups) Delete(ctx context.Context, key meta.Ke
 	glog.V(5).Infof("MockAlphaNetworkEndpointGroups.Delete(%v, %v) = nil", ctx, key)
 	return nil
 }
+
+// AggregatedList is a mock for AggregatedList.
 func (m *MockAlphaNetworkEndpointGroups) AggregatedList(ctx context.Context, fl *filter.F) (map[string][]*alpha.NetworkEndpointGroup, error) {
 	if m.AggregatedListHook != nil {
 		if intercept, objs, err := m.AggregatedListHook(m, ctx, fl); intercept {
@@ -7865,6 +7867,7 @@ func (g *GCEAlphaNetworkEndpointGroups) Delete(ctx context.Context, key meta.Key
 	return g.s.WaitForCompletion(ctx, op)
 }
 
+// AggregatedList lists all resources of the given type across all locations.
 func (g *GCEAlphaNetworkEndpointGroups) AggregatedList(ctx context.Context, fl *filter.F) (map[string][]*alpha.NetworkEndpointGroup, error) {
 	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "NetworkEndpointGroups")
 	rk := &RateLimitKey{
