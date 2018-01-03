@@ -70,11 +70,11 @@ func (k *Key) Type() KeyType {
 func (k Key) String() string {
 	switch k.Type() {
 	case Zonal:
-		return fmt.Sprintf("ZonalKey(%q,%q)", k.Name, k.Zone)
+		return fmt.Sprintf("Key{%q, zone: %q}", k.Name, k.Zone)
 	case Regional:
-		return fmt.Sprintf("RegionalKey(%q,%q)", k.Name, k.Region)
+		return fmt.Sprintf("Key{%q, region: %q}", k.Name, k.Region)
 	default:
-		return fmt.Sprintf("GlobalKey(%q)", k.Name)
+		return fmt.Sprintf("Key{%q}", k.Name)
 	}
 }
 
