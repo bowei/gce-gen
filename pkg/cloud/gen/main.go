@@ -380,7 +380,7 @@ type {{.MockWrapType}} struct {
 func (m *{{.MockWrapType}}) Get(ctx context.Context, key meta.Key) (*{{.FQObjectType}}, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key);  intercept {
-			glog.V(5).Infof("{{.MockWrapType}}.Get(%v, %s) = %v, %v", ctx, key, obj ,err)
+			glog.V(5).Infof("{{.MockWrapType}}.Get(%v, %s) = %+v, %v", ctx, key, obj ,err)
 			return obj, err
 		}
 	}
@@ -394,7 +394,7 @@ func (m *{{.MockWrapType}}) Get(ctx context.Context, key meta.Key) (*{{.FQObject
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.To{{.VersionTitle}}()
-		glog.V(5).Infof("{{.MockWrapType}}.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("{{.MockWrapType}}.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -423,15 +423,15 @@ func (m *{{.MockWrapType}}) List(ctx context.Context, zone string, fl *filter.F)
 	if m.ListHook != nil {
 		{{if .KeyIsGlobal -}}
 		if intercept, objs, err := m.ListHook(m, ctx, fl);  intercept {
-			glog.V(5).Infof("{{.MockWrapType}}.List(%v, %v) = %v, %v", ctx, fl, objs, err)
+			glog.V(5).Infof("{{.MockWrapType}}.List(%v, %v) = [%v items], %v", ctx, fl, len(objs), err)
 		{{- end -}}
 		{{- if .KeyIsRegional -}}
 		if intercept, objs, err := m.ListHook(m, ctx, region, fl);  intercept {
-			glog.V(5).Infof("{{.MockWrapType}}.List(%v, %q, %v) = %v, %v", ctx, region, fl, objs, err)
+			glog.V(5).Infof("{{.MockWrapType}}.List(%v, %q, %v) = [%v items], %v", ctx, region, fl, len(objs), err)
 		{{- end -}}
 		{{- if .KeyIsZonal -}}
 		if intercept, objs, err := m.ListHook(m, ctx, zone, fl);  intercept {
-			glog.V(5).Infof("{{.MockWrapType}}.List(%v, %q, %v) = %v, %v", ctx, zone, fl, objs, err)
+			glog.V(5).Infof("{{.MockWrapType}}.List(%v, %q, %v) = [%v items], %v", ctx, zone, fl, len(objs), err)
 		{{- end}}
 			return objs, err
 		}
@@ -478,13 +478,13 @@ func (m *{{.MockWrapType}}) List(ctx context.Context, zone string, fl *filter.F)
 	}
 
 	{{if .KeyIsGlobal -}}
-		glog.V(5).Infof("{{.MockWrapType}}.List(%v, %v) = %v, nil", ctx, fl, objs)
+		glog.V(5).Infof("{{.MockWrapType}}.List(%v, %v) = [%v items], nil", ctx, fl, len(objs))
 	{{- end -}}
 	{{- if .KeyIsRegional -}}
-		glog.V(5).Infof("{{.MockWrapType}}.List(%v, %q, %v) = %v, nil", ctx, region, fl, objs)
+		glog.V(5).Infof("{{.MockWrapType}}.List(%v, %q, %v) = [%v items], nil", ctx, region, fl, len(objs))
 	{{- end -}}
 	{{- if .KeyIsZonal -}}
-		glog.V(5).Infof("{{.MockWrapType}}.List(%v, %q, %v) = %v, nil", ctx, zone, fl, objs)
+		glog.V(5).Infof("{{.MockWrapType}}.List(%v, %q, %v) = [%v items], nil", ctx, zone, fl, len(objs))
 	{{- end}}
 	return objs, nil
 }
@@ -495,7 +495,7 @@ func (m *{{.MockWrapType}}) List(ctx context.Context, zone string, fl *filter.F)
 func (m *{{.MockWrapType}}) Insert(ctx context.Context, key meta.Key, obj *{{.FQObjectType}}) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj);  intercept {
-			glog.V(5).Infof("{{.MockWrapType}}.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("{{.MockWrapType}}.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -504,7 +504,7 @@ func (m *{{.MockWrapType}}) Insert(ctx context.Context, key meta.Key, obj *{{.FQ
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("{{.MockWrapType}}.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("{{.MockWrapType}}.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -512,7 +512,7 @@ func (m *{{.MockWrapType}}) Insert(ctx context.Context, key meta.Key, obj *{{.FQ
 			Code: http.StatusConflict,
 			Message: fmt.Sprintf("{{.MockWrapType}} %v exists", key),
 		}
-		glog.V(5).Infof("{{.MockWrapType}}.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("{{.MockWrapType}}.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -522,7 +522,7 @@ func (m *{{.MockWrapType}}) Insert(ctx context.Context, key meta.Key, obj *{{.FQ
 	}
 
 	m.Objects[key] = &Mock{{.Service}}Obj{obj}
-	glog.V(5).Infof("{{.MockWrapType}}.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("{{.MockWrapType}}.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 {{- end}}
@@ -564,7 +564,7 @@ func (m *{{.MockWrapType}}) Delete(ctx context.Context, key meta.Key) error {
 func (m *{{.MockWrapType}}) AggregatedList(ctx context.Context, fl *filter.F) (map[string][]*{{.FQObjectType}}, error) {
 	if m.AggregatedListHook != nil {
 		if intercept, objs, err := m.AggregatedListHook(m, ctx, fl); intercept {
-			glog.V(5).Infof("{{.MockWrapType}}.AggregatedList(%v, %v) = %+v, %v", ctx, fl, objs, err)
+			glog.V(5).Infof("{{.MockWrapType}}.AggregatedList(%v, %v) = [%v items], %v", ctx, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -596,7 +596,7 @@ func (m *{{.MockWrapType}}) AggregatedList(ctx context.Context, fl *filter.F) (m
 		}
 		objs[location] = append(objs[location], obj.To{{.VersionTitle}}())
 	}
-	glog.V(5).Infof("{{.MockWrapType}}.AggregatedList(%v, %v) = %+v, nil", ctx, fl, objs)
+	glog.V(5).Infof("{{.MockWrapType}}.AggregatedList(%v, %v) = [%v items], nil", ctx, fl, len(objs))
 	return objs, nil
 }
 {{- end}}

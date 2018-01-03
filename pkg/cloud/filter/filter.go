@@ -221,7 +221,7 @@ func (fp *filterPredicate) String() string {
 
 func (fp *filterPredicate) match(o interface{}) bool {
 	v, err := extractValue(fp.fieldName, o)
-	glog.V(5).Infof("extractValue(%q, %#v) = %v, %v", fp.fieldName, o, v, err)
+	glog.V(6).Infof("extractValue(%q, %#v) = %v, %v", fp.fieldName, o, v, err)
 	if err != nil {
 		return false
 	}

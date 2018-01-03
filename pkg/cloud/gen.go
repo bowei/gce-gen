@@ -1113,7 +1113,7 @@ type MockAddresses struct {
 func (m *MockAddresses) Get(ctx context.Context, key meta.Key) (*ga.Address, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockAddresses.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockAddresses.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -1127,7 +1127,7 @@ func (m *MockAddresses) Get(ctx context.Context, key meta.Key) (*ga.Address, err
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToGA()
-		glog.V(5).Infof("MockAddresses.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockAddresses.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -1143,7 +1143,7 @@ func (m *MockAddresses) Get(ctx context.Context, key meta.Key) (*ga.Address, err
 func (m *MockAddresses) List(ctx context.Context, region string, fl *filter.F) ([]*ga.Address, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, region, fl); intercept {
-			glog.V(5).Infof("MockAddresses.List(%v, %q, %v) = %v, %v", ctx, region, fl, objs, err)
+			glog.V(5).Infof("MockAddresses.List(%v, %q, %v) = [%v items], %v", ctx, region, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -1169,7 +1169,7 @@ func (m *MockAddresses) List(ctx context.Context, region string, fl *filter.F) (
 		objs = append(objs, obj.ToGA())
 	}
 
-	glog.V(5).Infof("MockAddresses.List(%v, %q, %v) = %v, nil", ctx, region, fl, objs)
+	glog.V(5).Infof("MockAddresses.List(%v, %q, %v) = [%v items], nil", ctx, region, fl, len(objs))
 	return objs, nil
 }
 
@@ -1177,7 +1177,7 @@ func (m *MockAddresses) List(ctx context.Context, region string, fl *filter.F) (
 func (m *MockAddresses) Insert(ctx context.Context, key meta.Key, obj *ga.Address) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockAddresses.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockAddresses.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -1186,7 +1186,7 @@ func (m *MockAddresses) Insert(ctx context.Context, key meta.Key, obj *ga.Addres
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockAddresses.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockAddresses.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -1194,7 +1194,7 @@ func (m *MockAddresses) Insert(ctx context.Context, key meta.Key, obj *ga.Addres
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockAddresses %v exists", key),
 		}
-		glog.V(5).Infof("MockAddresses.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockAddresses.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -1204,7 +1204,7 @@ func (m *MockAddresses) Insert(ctx context.Context, key meta.Key, obj *ga.Addres
 	}
 
 	m.Objects[key] = &MockAddressesObj{obj}
-	glog.V(5).Infof("MockAddresses.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockAddresses.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -1383,7 +1383,7 @@ type MockAlphaAddresses struct {
 func (m *MockAlphaAddresses) Get(ctx context.Context, key meta.Key) (*alpha.Address, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockAlphaAddresses.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockAlphaAddresses.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -1397,7 +1397,7 @@ func (m *MockAlphaAddresses) Get(ctx context.Context, key meta.Key) (*alpha.Addr
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToAlpha()
-		glog.V(5).Infof("MockAlphaAddresses.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockAlphaAddresses.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -1413,7 +1413,7 @@ func (m *MockAlphaAddresses) Get(ctx context.Context, key meta.Key) (*alpha.Addr
 func (m *MockAlphaAddresses) List(ctx context.Context, region string, fl *filter.F) ([]*alpha.Address, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, region, fl); intercept {
-			glog.V(5).Infof("MockAlphaAddresses.List(%v, %q, %v) = %v, %v", ctx, region, fl, objs, err)
+			glog.V(5).Infof("MockAlphaAddresses.List(%v, %q, %v) = [%v items], %v", ctx, region, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -1439,7 +1439,7 @@ func (m *MockAlphaAddresses) List(ctx context.Context, region string, fl *filter
 		objs = append(objs, obj.ToAlpha())
 	}
 
-	glog.V(5).Infof("MockAlphaAddresses.List(%v, %q, %v) = %v, nil", ctx, region, fl, objs)
+	glog.V(5).Infof("MockAlphaAddresses.List(%v, %q, %v) = [%v items], nil", ctx, region, fl, len(objs))
 	return objs, nil
 }
 
@@ -1447,7 +1447,7 @@ func (m *MockAlphaAddresses) List(ctx context.Context, region string, fl *filter
 func (m *MockAlphaAddresses) Insert(ctx context.Context, key meta.Key, obj *alpha.Address) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockAlphaAddresses.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockAlphaAddresses.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -1456,7 +1456,7 @@ func (m *MockAlphaAddresses) Insert(ctx context.Context, key meta.Key, obj *alph
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockAlphaAddresses.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockAlphaAddresses.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -1464,7 +1464,7 @@ func (m *MockAlphaAddresses) Insert(ctx context.Context, key meta.Key, obj *alph
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockAlphaAddresses %v exists", key),
 		}
-		glog.V(5).Infof("MockAlphaAddresses.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockAlphaAddresses.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -1474,7 +1474,7 @@ func (m *MockAlphaAddresses) Insert(ctx context.Context, key meta.Key, obj *alph
 	}
 
 	m.Objects[key] = &MockAddressesObj{obj}
-	glog.V(5).Infof("MockAlphaAddresses.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockAlphaAddresses.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -1653,7 +1653,7 @@ type MockBetaAddresses struct {
 func (m *MockBetaAddresses) Get(ctx context.Context, key meta.Key) (*beta.Address, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockBetaAddresses.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockBetaAddresses.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -1667,7 +1667,7 @@ func (m *MockBetaAddresses) Get(ctx context.Context, key meta.Key) (*beta.Addres
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToBeta()
-		glog.V(5).Infof("MockBetaAddresses.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockBetaAddresses.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -1683,7 +1683,7 @@ func (m *MockBetaAddresses) Get(ctx context.Context, key meta.Key) (*beta.Addres
 func (m *MockBetaAddresses) List(ctx context.Context, region string, fl *filter.F) ([]*beta.Address, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, region, fl); intercept {
-			glog.V(5).Infof("MockBetaAddresses.List(%v, %q, %v) = %v, %v", ctx, region, fl, objs, err)
+			glog.V(5).Infof("MockBetaAddresses.List(%v, %q, %v) = [%v items], %v", ctx, region, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -1709,7 +1709,7 @@ func (m *MockBetaAddresses) List(ctx context.Context, region string, fl *filter.
 		objs = append(objs, obj.ToBeta())
 	}
 
-	glog.V(5).Infof("MockBetaAddresses.List(%v, %q, %v) = %v, nil", ctx, region, fl, objs)
+	glog.V(5).Infof("MockBetaAddresses.List(%v, %q, %v) = [%v items], nil", ctx, region, fl, len(objs))
 	return objs, nil
 }
 
@@ -1717,7 +1717,7 @@ func (m *MockBetaAddresses) List(ctx context.Context, region string, fl *filter.
 func (m *MockBetaAddresses) Insert(ctx context.Context, key meta.Key, obj *beta.Address) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockBetaAddresses.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockBetaAddresses.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -1726,7 +1726,7 @@ func (m *MockBetaAddresses) Insert(ctx context.Context, key meta.Key, obj *beta.
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockBetaAddresses.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockBetaAddresses.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -1734,7 +1734,7 @@ func (m *MockBetaAddresses) Insert(ctx context.Context, key meta.Key, obj *beta.
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockBetaAddresses %v exists", key),
 		}
-		glog.V(5).Infof("MockBetaAddresses.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockBetaAddresses.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -1744,7 +1744,7 @@ func (m *MockBetaAddresses) Insert(ctx context.Context, key meta.Key, obj *beta.
 	}
 
 	m.Objects[key] = &MockAddressesObj{obj}
-	glog.V(5).Infof("MockBetaAddresses.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockBetaAddresses.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -1923,7 +1923,7 @@ type MockGlobalAddresses struct {
 func (m *MockGlobalAddresses) Get(ctx context.Context, key meta.Key) (*ga.Address, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockGlobalAddresses.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockGlobalAddresses.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -1937,7 +1937,7 @@ func (m *MockGlobalAddresses) Get(ctx context.Context, key meta.Key) (*ga.Addres
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToGA()
-		glog.V(5).Infof("MockGlobalAddresses.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockGlobalAddresses.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -1953,7 +1953,7 @@ func (m *MockGlobalAddresses) Get(ctx context.Context, key meta.Key) (*ga.Addres
 func (m *MockGlobalAddresses) List(ctx context.Context, fl *filter.F) ([]*ga.Address, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
-			glog.V(5).Infof("MockGlobalAddresses.List(%v, %v) = %v, %v", ctx, fl, objs, err)
+			glog.V(5).Infof("MockGlobalAddresses.List(%v, %v) = [%v items], %v", ctx, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -1976,7 +1976,7 @@ func (m *MockGlobalAddresses) List(ctx context.Context, fl *filter.F) ([]*ga.Add
 		objs = append(objs, obj.ToGA())
 	}
 
-	glog.V(5).Infof("MockGlobalAddresses.List(%v, %v) = %v, nil", ctx, fl, objs)
+	glog.V(5).Infof("MockGlobalAddresses.List(%v, %v) = [%v items], nil", ctx, fl, len(objs))
 	return objs, nil
 }
 
@@ -1984,7 +1984,7 @@ func (m *MockGlobalAddresses) List(ctx context.Context, fl *filter.F) ([]*ga.Add
 func (m *MockGlobalAddresses) Insert(ctx context.Context, key meta.Key, obj *ga.Address) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockGlobalAddresses.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockGlobalAddresses.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -1993,7 +1993,7 @@ func (m *MockGlobalAddresses) Insert(ctx context.Context, key meta.Key, obj *ga.
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockGlobalAddresses.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockGlobalAddresses.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -2001,7 +2001,7 @@ func (m *MockGlobalAddresses) Insert(ctx context.Context, key meta.Key, obj *ga.
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockGlobalAddresses %v exists", key),
 		}
-		glog.V(5).Infof("MockGlobalAddresses.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockGlobalAddresses.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -2011,7 +2011,7 @@ func (m *MockGlobalAddresses) Insert(ctx context.Context, key meta.Key, obj *ga.
 	}
 
 	m.Objects[key] = &MockGlobalAddressesObj{obj}
-	glog.V(5).Infof("MockGlobalAddresses.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockGlobalAddresses.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -2195,7 +2195,7 @@ type MockBackendServices struct {
 func (m *MockBackendServices) Get(ctx context.Context, key meta.Key) (*ga.BackendService, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockBackendServices.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockBackendServices.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -2209,7 +2209,7 @@ func (m *MockBackendServices) Get(ctx context.Context, key meta.Key) (*ga.Backen
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToGA()
-		glog.V(5).Infof("MockBackendServices.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockBackendServices.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -2225,7 +2225,7 @@ func (m *MockBackendServices) Get(ctx context.Context, key meta.Key) (*ga.Backen
 func (m *MockBackendServices) List(ctx context.Context, fl *filter.F) ([]*ga.BackendService, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
-			glog.V(5).Infof("MockBackendServices.List(%v, %v) = %v, %v", ctx, fl, objs, err)
+			glog.V(5).Infof("MockBackendServices.List(%v, %v) = [%v items], %v", ctx, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -2248,7 +2248,7 @@ func (m *MockBackendServices) List(ctx context.Context, fl *filter.F) ([]*ga.Bac
 		objs = append(objs, obj.ToGA())
 	}
 
-	glog.V(5).Infof("MockBackendServices.List(%v, %v) = %v, nil", ctx, fl, objs)
+	glog.V(5).Infof("MockBackendServices.List(%v, %v) = [%v items], nil", ctx, fl, len(objs))
 	return objs, nil
 }
 
@@ -2256,7 +2256,7 @@ func (m *MockBackendServices) List(ctx context.Context, fl *filter.F) ([]*ga.Bac
 func (m *MockBackendServices) Insert(ctx context.Context, key meta.Key, obj *ga.BackendService) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockBackendServices.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockBackendServices.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -2265,7 +2265,7 @@ func (m *MockBackendServices) Insert(ctx context.Context, key meta.Key, obj *ga.
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockBackendServices.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockBackendServices.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -2273,7 +2273,7 @@ func (m *MockBackendServices) Insert(ctx context.Context, key meta.Key, obj *ga.
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockBackendServices %v exists", key),
 		}
-		glog.V(5).Infof("MockBackendServices.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockBackendServices.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -2283,7 +2283,7 @@ func (m *MockBackendServices) Insert(ctx context.Context, key meta.Key, obj *ga.
 	}
 
 	m.Objects[key] = &MockBackendServicesObj{obj}
-	glog.V(5).Infof("MockBackendServices.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockBackendServices.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -2519,7 +2519,7 @@ type MockAlphaBackendServices struct {
 func (m *MockAlphaBackendServices) Get(ctx context.Context, key meta.Key) (*alpha.BackendService, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockAlphaBackendServices.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockAlphaBackendServices.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -2533,7 +2533,7 @@ func (m *MockAlphaBackendServices) Get(ctx context.Context, key meta.Key) (*alph
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToAlpha()
-		glog.V(5).Infof("MockAlphaBackendServices.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockAlphaBackendServices.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -2549,7 +2549,7 @@ func (m *MockAlphaBackendServices) Get(ctx context.Context, key meta.Key) (*alph
 func (m *MockAlphaBackendServices) List(ctx context.Context, fl *filter.F) ([]*alpha.BackendService, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
-			glog.V(5).Infof("MockAlphaBackendServices.List(%v, %v) = %v, %v", ctx, fl, objs, err)
+			glog.V(5).Infof("MockAlphaBackendServices.List(%v, %v) = [%v items], %v", ctx, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -2572,7 +2572,7 @@ func (m *MockAlphaBackendServices) List(ctx context.Context, fl *filter.F) ([]*a
 		objs = append(objs, obj.ToAlpha())
 	}
 
-	glog.V(5).Infof("MockAlphaBackendServices.List(%v, %v) = %v, nil", ctx, fl, objs)
+	glog.V(5).Infof("MockAlphaBackendServices.List(%v, %v) = [%v items], nil", ctx, fl, len(objs))
 	return objs, nil
 }
 
@@ -2580,7 +2580,7 @@ func (m *MockAlphaBackendServices) List(ctx context.Context, fl *filter.F) ([]*a
 func (m *MockAlphaBackendServices) Insert(ctx context.Context, key meta.Key, obj *alpha.BackendService) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockAlphaBackendServices.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockAlphaBackendServices.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -2589,7 +2589,7 @@ func (m *MockAlphaBackendServices) Insert(ctx context.Context, key meta.Key, obj
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockAlphaBackendServices.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockAlphaBackendServices.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -2597,7 +2597,7 @@ func (m *MockAlphaBackendServices) Insert(ctx context.Context, key meta.Key, obj
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockAlphaBackendServices %v exists", key),
 		}
-		glog.V(5).Infof("MockAlphaBackendServices.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockAlphaBackendServices.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -2607,7 +2607,7 @@ func (m *MockAlphaBackendServices) Insert(ctx context.Context, key meta.Key, obj
 	}
 
 	m.Objects[key] = &MockBackendServicesObj{obj}
-	glog.V(5).Infof("MockAlphaBackendServices.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockAlphaBackendServices.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -2820,7 +2820,7 @@ type MockAlphaRegionBackendServices struct {
 func (m *MockAlphaRegionBackendServices) Get(ctx context.Context, key meta.Key) (*alpha.BackendService, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockAlphaRegionBackendServices.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockAlphaRegionBackendServices.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -2834,7 +2834,7 @@ func (m *MockAlphaRegionBackendServices) Get(ctx context.Context, key meta.Key) 
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToAlpha()
-		glog.V(5).Infof("MockAlphaRegionBackendServices.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockAlphaRegionBackendServices.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -2850,7 +2850,7 @@ func (m *MockAlphaRegionBackendServices) Get(ctx context.Context, key meta.Key) 
 func (m *MockAlphaRegionBackendServices) List(ctx context.Context, region string, fl *filter.F) ([]*alpha.BackendService, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, region, fl); intercept {
-			glog.V(5).Infof("MockAlphaRegionBackendServices.List(%v, %q, %v) = %v, %v", ctx, region, fl, objs, err)
+			glog.V(5).Infof("MockAlphaRegionBackendServices.List(%v, %q, %v) = [%v items], %v", ctx, region, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -2876,7 +2876,7 @@ func (m *MockAlphaRegionBackendServices) List(ctx context.Context, region string
 		objs = append(objs, obj.ToAlpha())
 	}
 
-	glog.V(5).Infof("MockAlphaRegionBackendServices.List(%v, %q, %v) = %v, nil", ctx, region, fl, objs)
+	glog.V(5).Infof("MockAlphaRegionBackendServices.List(%v, %q, %v) = [%v items], nil", ctx, region, fl, len(objs))
 	return objs, nil
 }
 
@@ -2884,7 +2884,7 @@ func (m *MockAlphaRegionBackendServices) List(ctx context.Context, region string
 func (m *MockAlphaRegionBackendServices) Insert(ctx context.Context, key meta.Key, obj *alpha.BackendService) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockAlphaRegionBackendServices.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockAlphaRegionBackendServices.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -2893,7 +2893,7 @@ func (m *MockAlphaRegionBackendServices) Insert(ctx context.Context, key meta.Ke
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockAlphaRegionBackendServices.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockAlphaRegionBackendServices.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -2901,7 +2901,7 @@ func (m *MockAlphaRegionBackendServices) Insert(ctx context.Context, key meta.Ke
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockAlphaRegionBackendServices %v exists", key),
 		}
-		glog.V(5).Infof("MockAlphaRegionBackendServices.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockAlphaRegionBackendServices.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -2911,7 +2911,7 @@ func (m *MockAlphaRegionBackendServices) Insert(ctx context.Context, key meta.Ke
 	}
 
 	m.Objects[key] = &MockRegionBackendServicesObj{obj}
-	glog.V(5).Infof("MockAlphaRegionBackendServices.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockAlphaRegionBackendServices.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -3144,7 +3144,7 @@ type MockDisks struct {
 func (m *MockDisks) Get(ctx context.Context, key meta.Key) (*ga.Disk, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockDisks.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockDisks.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -3158,7 +3158,7 @@ func (m *MockDisks) Get(ctx context.Context, key meta.Key) (*ga.Disk, error) {
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToGA()
-		glog.V(5).Infof("MockDisks.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockDisks.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -3174,7 +3174,7 @@ func (m *MockDisks) Get(ctx context.Context, key meta.Key) (*ga.Disk, error) {
 func (m *MockDisks) List(ctx context.Context, zone string, fl *filter.F) ([]*ga.Disk, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, zone, fl); intercept {
-			glog.V(5).Infof("MockDisks.List(%v, %q, %v) = %v, %v", ctx, zone, fl, objs, err)
+			glog.V(5).Infof("MockDisks.List(%v, %q, %v) = [%v items], %v", ctx, zone, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -3200,7 +3200,7 @@ func (m *MockDisks) List(ctx context.Context, zone string, fl *filter.F) ([]*ga.
 		objs = append(objs, obj.ToGA())
 	}
 
-	glog.V(5).Infof("MockDisks.List(%v, %q, %v) = %v, nil", ctx, zone, fl, objs)
+	glog.V(5).Infof("MockDisks.List(%v, %q, %v) = [%v items], nil", ctx, zone, fl, len(objs))
 	return objs, nil
 }
 
@@ -3208,7 +3208,7 @@ func (m *MockDisks) List(ctx context.Context, zone string, fl *filter.F) ([]*ga.
 func (m *MockDisks) Insert(ctx context.Context, key meta.Key, obj *ga.Disk) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockDisks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockDisks.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -3217,7 +3217,7 @@ func (m *MockDisks) Insert(ctx context.Context, key meta.Key, obj *ga.Disk) erro
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockDisks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockDisks.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -3225,7 +3225,7 @@ func (m *MockDisks) Insert(ctx context.Context, key meta.Key, obj *ga.Disk) erro
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockDisks %v exists", key),
 		}
-		glog.V(5).Infof("MockDisks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockDisks.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -3235,7 +3235,7 @@ func (m *MockDisks) Insert(ctx context.Context, key meta.Key, obj *ga.Disk) erro
 	}
 
 	m.Objects[key] = &MockDisksObj{obj}
-	glog.V(5).Infof("MockDisks.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockDisks.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -3414,7 +3414,7 @@ type MockAlphaDisks struct {
 func (m *MockAlphaDisks) Get(ctx context.Context, key meta.Key) (*alpha.Disk, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockAlphaDisks.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockAlphaDisks.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -3428,7 +3428,7 @@ func (m *MockAlphaDisks) Get(ctx context.Context, key meta.Key) (*alpha.Disk, er
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToAlpha()
-		glog.V(5).Infof("MockAlphaDisks.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockAlphaDisks.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -3444,7 +3444,7 @@ func (m *MockAlphaDisks) Get(ctx context.Context, key meta.Key) (*alpha.Disk, er
 func (m *MockAlphaDisks) List(ctx context.Context, zone string, fl *filter.F) ([]*alpha.Disk, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, zone, fl); intercept {
-			glog.V(5).Infof("MockAlphaDisks.List(%v, %q, %v) = %v, %v", ctx, zone, fl, objs, err)
+			glog.V(5).Infof("MockAlphaDisks.List(%v, %q, %v) = [%v items], %v", ctx, zone, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -3470,7 +3470,7 @@ func (m *MockAlphaDisks) List(ctx context.Context, zone string, fl *filter.F) ([
 		objs = append(objs, obj.ToAlpha())
 	}
 
-	glog.V(5).Infof("MockAlphaDisks.List(%v, %q, %v) = %v, nil", ctx, zone, fl, objs)
+	glog.V(5).Infof("MockAlphaDisks.List(%v, %q, %v) = [%v items], nil", ctx, zone, fl, len(objs))
 	return objs, nil
 }
 
@@ -3478,7 +3478,7 @@ func (m *MockAlphaDisks) List(ctx context.Context, zone string, fl *filter.F) ([
 func (m *MockAlphaDisks) Insert(ctx context.Context, key meta.Key, obj *alpha.Disk) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockAlphaDisks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockAlphaDisks.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -3487,7 +3487,7 @@ func (m *MockAlphaDisks) Insert(ctx context.Context, key meta.Key, obj *alpha.Di
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockAlphaDisks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockAlphaDisks.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -3495,7 +3495,7 @@ func (m *MockAlphaDisks) Insert(ctx context.Context, key meta.Key, obj *alpha.Di
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockAlphaDisks %v exists", key),
 		}
-		glog.V(5).Infof("MockAlphaDisks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockAlphaDisks.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -3505,7 +3505,7 @@ func (m *MockAlphaDisks) Insert(ctx context.Context, key meta.Key, obj *alpha.Di
 	}
 
 	m.Objects[key] = &MockDisksObj{obj}
-	glog.V(5).Infof("MockAlphaDisks.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockAlphaDisks.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -3684,7 +3684,7 @@ type MockAlphaRegionDisks struct {
 func (m *MockAlphaRegionDisks) Get(ctx context.Context, key meta.Key) (*alpha.Disk, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockAlphaRegionDisks.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockAlphaRegionDisks.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -3698,7 +3698,7 @@ func (m *MockAlphaRegionDisks) Get(ctx context.Context, key meta.Key) (*alpha.Di
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToAlpha()
-		glog.V(5).Infof("MockAlphaRegionDisks.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockAlphaRegionDisks.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -3714,7 +3714,7 @@ func (m *MockAlphaRegionDisks) Get(ctx context.Context, key meta.Key) (*alpha.Di
 func (m *MockAlphaRegionDisks) List(ctx context.Context, region string, fl *filter.F) ([]*alpha.Disk, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, region, fl); intercept {
-			glog.V(5).Infof("MockAlphaRegionDisks.List(%v, %q, %v) = %v, %v", ctx, region, fl, objs, err)
+			glog.V(5).Infof("MockAlphaRegionDisks.List(%v, %q, %v) = [%v items], %v", ctx, region, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -3740,7 +3740,7 @@ func (m *MockAlphaRegionDisks) List(ctx context.Context, region string, fl *filt
 		objs = append(objs, obj.ToAlpha())
 	}
 
-	glog.V(5).Infof("MockAlphaRegionDisks.List(%v, %q, %v) = %v, nil", ctx, region, fl, objs)
+	glog.V(5).Infof("MockAlphaRegionDisks.List(%v, %q, %v) = [%v items], nil", ctx, region, fl, len(objs))
 	return objs, nil
 }
 
@@ -3748,7 +3748,7 @@ func (m *MockAlphaRegionDisks) List(ctx context.Context, region string, fl *filt
 func (m *MockAlphaRegionDisks) Insert(ctx context.Context, key meta.Key, obj *alpha.Disk) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockAlphaRegionDisks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockAlphaRegionDisks.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -3757,7 +3757,7 @@ func (m *MockAlphaRegionDisks) Insert(ctx context.Context, key meta.Key, obj *al
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockAlphaRegionDisks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockAlphaRegionDisks.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -3765,7 +3765,7 @@ func (m *MockAlphaRegionDisks) Insert(ctx context.Context, key meta.Key, obj *al
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockAlphaRegionDisks %v exists", key),
 		}
-		glog.V(5).Infof("MockAlphaRegionDisks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockAlphaRegionDisks.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -3775,7 +3775,7 @@ func (m *MockAlphaRegionDisks) Insert(ctx context.Context, key meta.Key, obj *al
 	}
 
 	m.Objects[key] = &MockRegionDisksObj{obj}
-	glog.V(5).Infof("MockAlphaRegionDisks.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockAlphaRegionDisks.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -3956,7 +3956,7 @@ type MockFirewalls struct {
 func (m *MockFirewalls) Get(ctx context.Context, key meta.Key) (*ga.Firewall, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockFirewalls.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockFirewalls.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -3970,7 +3970,7 @@ func (m *MockFirewalls) Get(ctx context.Context, key meta.Key) (*ga.Firewall, er
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToGA()
-		glog.V(5).Infof("MockFirewalls.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockFirewalls.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -3986,7 +3986,7 @@ func (m *MockFirewalls) Get(ctx context.Context, key meta.Key) (*ga.Firewall, er
 func (m *MockFirewalls) List(ctx context.Context, fl *filter.F) ([]*ga.Firewall, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
-			glog.V(5).Infof("MockFirewalls.List(%v, %v) = %v, %v", ctx, fl, objs, err)
+			glog.V(5).Infof("MockFirewalls.List(%v, %v) = [%v items], %v", ctx, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -4009,7 +4009,7 @@ func (m *MockFirewalls) List(ctx context.Context, fl *filter.F) ([]*ga.Firewall,
 		objs = append(objs, obj.ToGA())
 	}
 
-	glog.V(5).Infof("MockFirewalls.List(%v, %v) = %v, nil", ctx, fl, objs)
+	glog.V(5).Infof("MockFirewalls.List(%v, %v) = [%v items], nil", ctx, fl, len(objs))
 	return objs, nil
 }
 
@@ -4017,7 +4017,7 @@ func (m *MockFirewalls) List(ctx context.Context, fl *filter.F) ([]*ga.Firewall,
 func (m *MockFirewalls) Insert(ctx context.Context, key meta.Key, obj *ga.Firewall) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockFirewalls.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockFirewalls.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -4026,7 +4026,7 @@ func (m *MockFirewalls) Insert(ctx context.Context, key meta.Key, obj *ga.Firewa
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockFirewalls.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockFirewalls.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -4034,7 +4034,7 @@ func (m *MockFirewalls) Insert(ctx context.Context, key meta.Key, obj *ga.Firewa
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockFirewalls %v exists", key),
 		}
-		glog.V(5).Infof("MockFirewalls.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockFirewalls.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -4044,7 +4044,7 @@ func (m *MockFirewalls) Insert(ctx context.Context, key meta.Key, obj *ga.Firewa
 	}
 
 	m.Objects[key] = &MockFirewallsObj{obj}
-	glog.V(5).Infof("MockFirewalls.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockFirewalls.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -4253,7 +4253,7 @@ type MockForwardingRules struct {
 func (m *MockForwardingRules) Get(ctx context.Context, key meta.Key) (*ga.ForwardingRule, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockForwardingRules.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockForwardingRules.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -4267,7 +4267,7 @@ func (m *MockForwardingRules) Get(ctx context.Context, key meta.Key) (*ga.Forwar
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToGA()
-		glog.V(5).Infof("MockForwardingRules.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockForwardingRules.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -4283,7 +4283,7 @@ func (m *MockForwardingRules) Get(ctx context.Context, key meta.Key) (*ga.Forwar
 func (m *MockForwardingRules) List(ctx context.Context, region string, fl *filter.F) ([]*ga.ForwardingRule, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, region, fl); intercept {
-			glog.V(5).Infof("MockForwardingRules.List(%v, %q, %v) = %v, %v", ctx, region, fl, objs, err)
+			glog.V(5).Infof("MockForwardingRules.List(%v, %q, %v) = [%v items], %v", ctx, region, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -4309,7 +4309,7 @@ func (m *MockForwardingRules) List(ctx context.Context, region string, fl *filte
 		objs = append(objs, obj.ToGA())
 	}
 
-	glog.V(5).Infof("MockForwardingRules.List(%v, %q, %v) = %v, nil", ctx, region, fl, objs)
+	glog.V(5).Infof("MockForwardingRules.List(%v, %q, %v) = [%v items], nil", ctx, region, fl, len(objs))
 	return objs, nil
 }
 
@@ -4317,7 +4317,7 @@ func (m *MockForwardingRules) List(ctx context.Context, region string, fl *filte
 func (m *MockForwardingRules) Insert(ctx context.Context, key meta.Key, obj *ga.ForwardingRule) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockForwardingRules.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockForwardingRules.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -4326,7 +4326,7 @@ func (m *MockForwardingRules) Insert(ctx context.Context, key meta.Key, obj *ga.
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockForwardingRules.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockForwardingRules.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -4334,7 +4334,7 @@ func (m *MockForwardingRules) Insert(ctx context.Context, key meta.Key, obj *ga.
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockForwardingRules %v exists", key),
 		}
-		glog.V(5).Infof("MockForwardingRules.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockForwardingRules.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -4344,7 +4344,7 @@ func (m *MockForwardingRules) Insert(ctx context.Context, key meta.Key, obj *ga.
 	}
 
 	m.Objects[key] = &MockForwardingRulesObj{obj}
-	glog.V(5).Infof("MockForwardingRules.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockForwardingRules.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -4523,7 +4523,7 @@ type MockAlphaForwardingRules struct {
 func (m *MockAlphaForwardingRules) Get(ctx context.Context, key meta.Key) (*alpha.ForwardingRule, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockAlphaForwardingRules.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockAlphaForwardingRules.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -4537,7 +4537,7 @@ func (m *MockAlphaForwardingRules) Get(ctx context.Context, key meta.Key) (*alph
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToAlpha()
-		glog.V(5).Infof("MockAlphaForwardingRules.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockAlphaForwardingRules.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -4553,7 +4553,7 @@ func (m *MockAlphaForwardingRules) Get(ctx context.Context, key meta.Key) (*alph
 func (m *MockAlphaForwardingRules) List(ctx context.Context, region string, fl *filter.F) ([]*alpha.ForwardingRule, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, region, fl); intercept {
-			glog.V(5).Infof("MockAlphaForwardingRules.List(%v, %q, %v) = %v, %v", ctx, region, fl, objs, err)
+			glog.V(5).Infof("MockAlphaForwardingRules.List(%v, %q, %v) = [%v items], %v", ctx, region, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -4579,7 +4579,7 @@ func (m *MockAlphaForwardingRules) List(ctx context.Context, region string, fl *
 		objs = append(objs, obj.ToAlpha())
 	}
 
-	glog.V(5).Infof("MockAlphaForwardingRules.List(%v, %q, %v) = %v, nil", ctx, region, fl, objs)
+	glog.V(5).Infof("MockAlphaForwardingRules.List(%v, %q, %v) = [%v items], nil", ctx, region, fl, len(objs))
 	return objs, nil
 }
 
@@ -4587,7 +4587,7 @@ func (m *MockAlphaForwardingRules) List(ctx context.Context, region string, fl *
 func (m *MockAlphaForwardingRules) Insert(ctx context.Context, key meta.Key, obj *alpha.ForwardingRule) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockAlphaForwardingRules.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockAlphaForwardingRules.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -4596,7 +4596,7 @@ func (m *MockAlphaForwardingRules) Insert(ctx context.Context, key meta.Key, obj
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockAlphaForwardingRules.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockAlphaForwardingRules.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -4604,7 +4604,7 @@ func (m *MockAlphaForwardingRules) Insert(ctx context.Context, key meta.Key, obj
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockAlphaForwardingRules %v exists", key),
 		}
-		glog.V(5).Infof("MockAlphaForwardingRules.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockAlphaForwardingRules.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -4614,7 +4614,7 @@ func (m *MockAlphaForwardingRules) Insert(ctx context.Context, key meta.Key, obj
 	}
 
 	m.Objects[key] = &MockForwardingRulesObj{obj}
-	glog.V(5).Infof("MockAlphaForwardingRules.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockAlphaForwardingRules.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -4795,7 +4795,7 @@ type MockGlobalForwardingRules struct {
 func (m *MockGlobalForwardingRules) Get(ctx context.Context, key meta.Key) (*ga.ForwardingRule, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockGlobalForwardingRules.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockGlobalForwardingRules.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -4809,7 +4809,7 @@ func (m *MockGlobalForwardingRules) Get(ctx context.Context, key meta.Key) (*ga.
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToGA()
-		glog.V(5).Infof("MockGlobalForwardingRules.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockGlobalForwardingRules.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -4825,7 +4825,7 @@ func (m *MockGlobalForwardingRules) Get(ctx context.Context, key meta.Key) (*ga.
 func (m *MockGlobalForwardingRules) List(ctx context.Context, fl *filter.F) ([]*ga.ForwardingRule, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
-			glog.V(5).Infof("MockGlobalForwardingRules.List(%v, %v) = %v, %v", ctx, fl, objs, err)
+			glog.V(5).Infof("MockGlobalForwardingRules.List(%v, %v) = [%v items], %v", ctx, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -4848,7 +4848,7 @@ func (m *MockGlobalForwardingRules) List(ctx context.Context, fl *filter.F) ([]*
 		objs = append(objs, obj.ToGA())
 	}
 
-	glog.V(5).Infof("MockGlobalForwardingRules.List(%v, %v) = %v, nil", ctx, fl, objs)
+	glog.V(5).Infof("MockGlobalForwardingRules.List(%v, %v) = [%v items], nil", ctx, fl, len(objs))
 	return objs, nil
 }
 
@@ -4856,7 +4856,7 @@ func (m *MockGlobalForwardingRules) List(ctx context.Context, fl *filter.F) ([]*
 func (m *MockGlobalForwardingRules) Insert(ctx context.Context, key meta.Key, obj *ga.ForwardingRule) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockGlobalForwardingRules.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockGlobalForwardingRules.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -4865,7 +4865,7 @@ func (m *MockGlobalForwardingRules) Insert(ctx context.Context, key meta.Key, ob
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockGlobalForwardingRules.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockGlobalForwardingRules.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -4873,7 +4873,7 @@ func (m *MockGlobalForwardingRules) Insert(ctx context.Context, key meta.Key, ob
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockGlobalForwardingRules %v exists", key),
 		}
-		glog.V(5).Infof("MockGlobalForwardingRules.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockGlobalForwardingRules.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -4883,7 +4883,7 @@ func (m *MockGlobalForwardingRules) Insert(ctx context.Context, key meta.Key, ob
 	}
 
 	m.Objects[key] = &MockGlobalForwardingRulesObj{obj}
-	glog.V(5).Infof("MockGlobalForwardingRules.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockGlobalForwardingRules.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -5094,7 +5094,7 @@ type MockHealthChecks struct {
 func (m *MockHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HealthCheck, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockHealthChecks.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockHealthChecks.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -5108,7 +5108,7 @@ func (m *MockHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HealthChe
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToGA()
-		glog.V(5).Infof("MockHealthChecks.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockHealthChecks.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -5124,7 +5124,7 @@ func (m *MockHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HealthChe
 func (m *MockHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.HealthCheck, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
-			glog.V(5).Infof("MockHealthChecks.List(%v, %v) = %v, %v", ctx, fl, objs, err)
+			glog.V(5).Infof("MockHealthChecks.List(%v, %v) = [%v items], %v", ctx, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -5147,7 +5147,7 @@ func (m *MockHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.Health
 		objs = append(objs, obj.ToGA())
 	}
 
-	glog.V(5).Infof("MockHealthChecks.List(%v, %v) = %v, nil", ctx, fl, objs)
+	glog.V(5).Infof("MockHealthChecks.List(%v, %v) = [%v items], nil", ctx, fl, len(objs))
 	return objs, nil
 }
 
@@ -5155,7 +5155,7 @@ func (m *MockHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.Health
 func (m *MockHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.HealthCheck) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockHealthChecks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockHealthChecks.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -5164,7 +5164,7 @@ func (m *MockHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.Hea
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockHealthChecks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockHealthChecks.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -5172,7 +5172,7 @@ func (m *MockHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.Hea
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockHealthChecks %v exists", key),
 		}
-		glog.V(5).Infof("MockHealthChecks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockHealthChecks.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -5182,7 +5182,7 @@ func (m *MockHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.Hea
 	}
 
 	m.Objects[key] = &MockHealthChecksObj{obj}
-	glog.V(5).Infof("MockHealthChecks.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockHealthChecks.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -5393,7 +5393,7 @@ type MockAlphaHealthChecks struct {
 func (m *MockAlphaHealthChecks) Get(ctx context.Context, key meta.Key) (*alpha.HealthCheck, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockAlphaHealthChecks.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockAlphaHealthChecks.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -5407,7 +5407,7 @@ func (m *MockAlphaHealthChecks) Get(ctx context.Context, key meta.Key) (*alpha.H
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToAlpha()
-		glog.V(5).Infof("MockAlphaHealthChecks.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockAlphaHealthChecks.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -5423,7 +5423,7 @@ func (m *MockAlphaHealthChecks) Get(ctx context.Context, key meta.Key) (*alpha.H
 func (m *MockAlphaHealthChecks) List(ctx context.Context, fl *filter.F) ([]*alpha.HealthCheck, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
-			glog.V(5).Infof("MockAlphaHealthChecks.List(%v, %v) = %v, %v", ctx, fl, objs, err)
+			glog.V(5).Infof("MockAlphaHealthChecks.List(%v, %v) = [%v items], %v", ctx, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -5446,7 +5446,7 @@ func (m *MockAlphaHealthChecks) List(ctx context.Context, fl *filter.F) ([]*alph
 		objs = append(objs, obj.ToAlpha())
 	}
 
-	glog.V(5).Infof("MockAlphaHealthChecks.List(%v, %v) = %v, nil", ctx, fl, objs)
+	glog.V(5).Infof("MockAlphaHealthChecks.List(%v, %v) = [%v items], nil", ctx, fl, len(objs))
 	return objs, nil
 }
 
@@ -5454,7 +5454,7 @@ func (m *MockAlphaHealthChecks) List(ctx context.Context, fl *filter.F) ([]*alph
 func (m *MockAlphaHealthChecks) Insert(ctx context.Context, key meta.Key, obj *alpha.HealthCheck) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockAlphaHealthChecks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockAlphaHealthChecks.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -5463,7 +5463,7 @@ func (m *MockAlphaHealthChecks) Insert(ctx context.Context, key meta.Key, obj *a
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockAlphaHealthChecks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockAlphaHealthChecks.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -5471,7 +5471,7 @@ func (m *MockAlphaHealthChecks) Insert(ctx context.Context, key meta.Key, obj *a
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockAlphaHealthChecks %v exists", key),
 		}
-		glog.V(5).Infof("MockAlphaHealthChecks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockAlphaHealthChecks.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -5481,7 +5481,7 @@ func (m *MockAlphaHealthChecks) Insert(ctx context.Context, key meta.Key, obj *a
 	}
 
 	m.Objects[key] = &MockHealthChecksObj{obj}
-	glog.V(5).Infof("MockAlphaHealthChecks.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockAlphaHealthChecks.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -5692,7 +5692,7 @@ type MockHttpHealthChecks struct {
 func (m *MockHttpHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HttpHealthCheck, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockHttpHealthChecks.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockHttpHealthChecks.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -5706,7 +5706,7 @@ func (m *MockHttpHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HttpH
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToGA()
-		glog.V(5).Infof("MockHttpHealthChecks.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockHttpHealthChecks.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -5722,7 +5722,7 @@ func (m *MockHttpHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HttpH
 func (m *MockHttpHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.HttpHealthCheck, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
-			glog.V(5).Infof("MockHttpHealthChecks.List(%v, %v) = %v, %v", ctx, fl, objs, err)
+			glog.V(5).Infof("MockHttpHealthChecks.List(%v, %v) = [%v items], %v", ctx, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -5745,7 +5745,7 @@ func (m *MockHttpHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.Ht
 		objs = append(objs, obj.ToGA())
 	}
 
-	glog.V(5).Infof("MockHttpHealthChecks.List(%v, %v) = %v, nil", ctx, fl, objs)
+	glog.V(5).Infof("MockHttpHealthChecks.List(%v, %v) = [%v items], nil", ctx, fl, len(objs))
 	return objs, nil
 }
 
@@ -5753,7 +5753,7 @@ func (m *MockHttpHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.Ht
 func (m *MockHttpHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.HttpHealthCheck) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockHttpHealthChecks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockHttpHealthChecks.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -5762,7 +5762,7 @@ func (m *MockHttpHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockHttpHealthChecks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockHttpHealthChecks.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -5770,7 +5770,7 @@ func (m *MockHttpHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockHttpHealthChecks %v exists", key),
 		}
-		glog.V(5).Infof("MockHttpHealthChecks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockHttpHealthChecks.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -5780,7 +5780,7 @@ func (m *MockHttpHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga
 	}
 
 	m.Objects[key] = &MockHttpHealthChecksObj{obj}
-	glog.V(5).Infof("MockHttpHealthChecks.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockHttpHealthChecks.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -5991,7 +5991,7 @@ type MockHttpsHealthChecks struct {
 func (m *MockHttpsHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.HttpsHealthCheck, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockHttpsHealthChecks.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockHttpsHealthChecks.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -6005,7 +6005,7 @@ func (m *MockHttpsHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.Http
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToGA()
-		glog.V(5).Infof("MockHttpsHealthChecks.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockHttpsHealthChecks.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -6021,7 +6021,7 @@ func (m *MockHttpsHealthChecks) Get(ctx context.Context, key meta.Key) (*ga.Http
 func (m *MockHttpsHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.HttpsHealthCheck, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
-			glog.V(5).Infof("MockHttpsHealthChecks.List(%v, %v) = %v, %v", ctx, fl, objs, err)
+			glog.V(5).Infof("MockHttpsHealthChecks.List(%v, %v) = [%v items], %v", ctx, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -6044,7 +6044,7 @@ func (m *MockHttpsHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.H
 		objs = append(objs, obj.ToGA())
 	}
 
-	glog.V(5).Infof("MockHttpsHealthChecks.List(%v, %v) = %v, nil", ctx, fl, objs)
+	glog.V(5).Infof("MockHttpsHealthChecks.List(%v, %v) = [%v items], nil", ctx, fl, len(objs))
 	return objs, nil
 }
 
@@ -6052,7 +6052,7 @@ func (m *MockHttpsHealthChecks) List(ctx context.Context, fl *filter.F) ([]*ga.H
 func (m *MockHttpsHealthChecks) Insert(ctx context.Context, key meta.Key, obj *ga.HttpsHealthCheck) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockHttpsHealthChecks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockHttpsHealthChecks.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -6061,7 +6061,7 @@ func (m *MockHttpsHealthChecks) Insert(ctx context.Context, key meta.Key, obj *g
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockHttpsHealthChecks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockHttpsHealthChecks.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -6069,7 +6069,7 @@ func (m *MockHttpsHealthChecks) Insert(ctx context.Context, key meta.Key, obj *g
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockHttpsHealthChecks %v exists", key),
 		}
-		glog.V(5).Infof("MockHttpsHealthChecks.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockHttpsHealthChecks.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -6079,7 +6079,7 @@ func (m *MockHttpsHealthChecks) Insert(ctx context.Context, key meta.Key, obj *g
 	}
 
 	m.Objects[key] = &MockHttpsHealthChecksObj{obj}
-	glog.V(5).Infof("MockHttpsHealthChecks.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockHttpsHealthChecks.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -6296,7 +6296,7 @@ type MockInstanceGroups struct {
 func (m *MockInstanceGroups) Get(ctx context.Context, key meta.Key) (*ga.InstanceGroup, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockInstanceGroups.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockInstanceGroups.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -6310,7 +6310,7 @@ func (m *MockInstanceGroups) Get(ctx context.Context, key meta.Key) (*ga.Instanc
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToGA()
-		glog.V(5).Infof("MockInstanceGroups.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockInstanceGroups.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -6326,7 +6326,7 @@ func (m *MockInstanceGroups) Get(ctx context.Context, key meta.Key) (*ga.Instanc
 func (m *MockInstanceGroups) List(ctx context.Context, zone string, fl *filter.F) ([]*ga.InstanceGroup, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, zone, fl); intercept {
-			glog.V(5).Infof("MockInstanceGroups.List(%v, %q, %v) = %v, %v", ctx, zone, fl, objs, err)
+			glog.V(5).Infof("MockInstanceGroups.List(%v, %q, %v) = [%v items], %v", ctx, zone, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -6352,7 +6352,7 @@ func (m *MockInstanceGroups) List(ctx context.Context, zone string, fl *filter.F
 		objs = append(objs, obj.ToGA())
 	}
 
-	glog.V(5).Infof("MockInstanceGroups.List(%v, %q, %v) = %v, nil", ctx, zone, fl, objs)
+	glog.V(5).Infof("MockInstanceGroups.List(%v, %q, %v) = [%v items], nil", ctx, zone, fl, len(objs))
 	return objs, nil
 }
 
@@ -6360,7 +6360,7 @@ func (m *MockInstanceGroups) List(ctx context.Context, zone string, fl *filter.F
 func (m *MockInstanceGroups) Insert(ctx context.Context, key meta.Key, obj *ga.InstanceGroup) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockInstanceGroups.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockInstanceGroups.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -6369,7 +6369,7 @@ func (m *MockInstanceGroups) Insert(ctx context.Context, key meta.Key, obj *ga.I
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockInstanceGroups.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockInstanceGroups.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -6377,7 +6377,7 @@ func (m *MockInstanceGroups) Insert(ctx context.Context, key meta.Key, obj *ga.I
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockInstanceGroups %v exists", key),
 		}
-		glog.V(5).Infof("MockInstanceGroups.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockInstanceGroups.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -6387,7 +6387,7 @@ func (m *MockInstanceGroups) Insert(ctx context.Context, key meta.Key, obj *ga.I
 	}
 
 	m.Objects[key] = &MockInstanceGroupsObj{obj}
-	glog.V(5).Infof("MockInstanceGroups.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockInstanceGroups.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -6682,7 +6682,7 @@ type MockInstances struct {
 func (m *MockInstances) Get(ctx context.Context, key meta.Key) (*ga.Instance, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockInstances.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockInstances.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -6696,7 +6696,7 @@ func (m *MockInstances) Get(ctx context.Context, key meta.Key) (*ga.Instance, er
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToGA()
-		glog.V(5).Infof("MockInstances.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockInstances.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -6712,7 +6712,7 @@ func (m *MockInstances) Get(ctx context.Context, key meta.Key) (*ga.Instance, er
 func (m *MockInstances) List(ctx context.Context, zone string, fl *filter.F) ([]*ga.Instance, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, zone, fl); intercept {
-			glog.V(5).Infof("MockInstances.List(%v, %q, %v) = %v, %v", ctx, zone, fl, objs, err)
+			glog.V(5).Infof("MockInstances.List(%v, %q, %v) = [%v items], %v", ctx, zone, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -6738,7 +6738,7 @@ func (m *MockInstances) List(ctx context.Context, zone string, fl *filter.F) ([]
 		objs = append(objs, obj.ToGA())
 	}
 
-	glog.V(5).Infof("MockInstances.List(%v, %q, %v) = %v, nil", ctx, zone, fl, objs)
+	glog.V(5).Infof("MockInstances.List(%v, %q, %v) = [%v items], nil", ctx, zone, fl, len(objs))
 	return objs, nil
 }
 
@@ -6746,7 +6746,7 @@ func (m *MockInstances) List(ctx context.Context, zone string, fl *filter.F) ([]
 func (m *MockInstances) Insert(ctx context.Context, key meta.Key, obj *ga.Instance) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockInstances.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockInstances.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -6755,7 +6755,7 @@ func (m *MockInstances) Insert(ctx context.Context, key meta.Key, obj *ga.Instan
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockInstances.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockInstances.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -6763,7 +6763,7 @@ func (m *MockInstances) Insert(ctx context.Context, key meta.Key, obj *ga.Instan
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockInstances %v exists", key),
 		}
-		glog.V(5).Infof("MockInstances.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockInstances.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -6773,7 +6773,7 @@ func (m *MockInstances) Insert(ctx context.Context, key meta.Key, obj *ga.Instan
 	}
 
 	m.Objects[key] = &MockInstancesObj{obj}
-	glog.V(5).Infof("MockInstances.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockInstances.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -7014,7 +7014,7 @@ type MockBetaInstances struct {
 func (m *MockBetaInstances) Get(ctx context.Context, key meta.Key) (*beta.Instance, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockBetaInstances.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockBetaInstances.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -7028,7 +7028,7 @@ func (m *MockBetaInstances) Get(ctx context.Context, key meta.Key) (*beta.Instan
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToBeta()
-		glog.V(5).Infof("MockBetaInstances.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockBetaInstances.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -7044,7 +7044,7 @@ func (m *MockBetaInstances) Get(ctx context.Context, key meta.Key) (*beta.Instan
 func (m *MockBetaInstances) List(ctx context.Context, zone string, fl *filter.F) ([]*beta.Instance, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, zone, fl); intercept {
-			glog.V(5).Infof("MockBetaInstances.List(%v, %q, %v) = %v, %v", ctx, zone, fl, objs, err)
+			glog.V(5).Infof("MockBetaInstances.List(%v, %q, %v) = [%v items], %v", ctx, zone, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -7070,7 +7070,7 @@ func (m *MockBetaInstances) List(ctx context.Context, zone string, fl *filter.F)
 		objs = append(objs, obj.ToBeta())
 	}
 
-	glog.V(5).Infof("MockBetaInstances.List(%v, %q, %v) = %v, nil", ctx, zone, fl, objs)
+	glog.V(5).Infof("MockBetaInstances.List(%v, %q, %v) = [%v items], nil", ctx, zone, fl, len(objs))
 	return objs, nil
 }
 
@@ -7078,7 +7078,7 @@ func (m *MockBetaInstances) List(ctx context.Context, zone string, fl *filter.F)
 func (m *MockBetaInstances) Insert(ctx context.Context, key meta.Key, obj *beta.Instance) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockBetaInstances.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockBetaInstances.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -7087,7 +7087,7 @@ func (m *MockBetaInstances) Insert(ctx context.Context, key meta.Key, obj *beta.
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockBetaInstances.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockBetaInstances.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -7095,7 +7095,7 @@ func (m *MockBetaInstances) Insert(ctx context.Context, key meta.Key, obj *beta.
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockBetaInstances %v exists", key),
 		}
-		glog.V(5).Infof("MockBetaInstances.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockBetaInstances.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -7105,7 +7105,7 @@ func (m *MockBetaInstances) Insert(ctx context.Context, key meta.Key, obj *beta.
 	}
 
 	m.Objects[key] = &MockInstancesObj{obj}
-	glog.V(5).Infof("MockBetaInstances.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockBetaInstances.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -7348,7 +7348,7 @@ type MockAlphaInstances struct {
 func (m *MockAlphaInstances) Get(ctx context.Context, key meta.Key) (*alpha.Instance, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockAlphaInstances.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockAlphaInstances.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -7362,7 +7362,7 @@ func (m *MockAlphaInstances) Get(ctx context.Context, key meta.Key) (*alpha.Inst
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToAlpha()
-		glog.V(5).Infof("MockAlphaInstances.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockAlphaInstances.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -7378,7 +7378,7 @@ func (m *MockAlphaInstances) Get(ctx context.Context, key meta.Key) (*alpha.Inst
 func (m *MockAlphaInstances) List(ctx context.Context, zone string, fl *filter.F) ([]*alpha.Instance, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, zone, fl); intercept {
-			glog.V(5).Infof("MockAlphaInstances.List(%v, %q, %v) = %v, %v", ctx, zone, fl, objs, err)
+			glog.V(5).Infof("MockAlphaInstances.List(%v, %q, %v) = [%v items], %v", ctx, zone, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -7404,7 +7404,7 @@ func (m *MockAlphaInstances) List(ctx context.Context, zone string, fl *filter.F
 		objs = append(objs, obj.ToAlpha())
 	}
 
-	glog.V(5).Infof("MockAlphaInstances.List(%v, %q, %v) = %v, nil", ctx, zone, fl, objs)
+	glog.V(5).Infof("MockAlphaInstances.List(%v, %q, %v) = [%v items], nil", ctx, zone, fl, len(objs))
 	return objs, nil
 }
 
@@ -7412,7 +7412,7 @@ func (m *MockAlphaInstances) List(ctx context.Context, zone string, fl *filter.F
 func (m *MockAlphaInstances) Insert(ctx context.Context, key meta.Key, obj *alpha.Instance) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockAlphaInstances.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockAlphaInstances.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -7421,7 +7421,7 @@ func (m *MockAlphaInstances) Insert(ctx context.Context, key meta.Key, obj *alph
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockAlphaInstances.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockAlphaInstances.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -7429,7 +7429,7 @@ func (m *MockAlphaInstances) Insert(ctx context.Context, key meta.Key, obj *alph
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockAlphaInstances %v exists", key),
 		}
-		glog.V(5).Infof("MockAlphaInstances.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockAlphaInstances.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -7439,7 +7439,7 @@ func (m *MockAlphaInstances) Insert(ctx context.Context, key meta.Key, obj *alph
 	}
 
 	m.Objects[key] = &MockInstancesObj{obj}
-	glog.V(5).Infof("MockAlphaInstances.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockAlphaInstances.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -7712,7 +7712,7 @@ type MockAlphaNetworkEndpointGroups struct {
 func (m *MockAlphaNetworkEndpointGroups) Get(ctx context.Context, key meta.Key) (*alpha.NetworkEndpointGroup, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockAlphaNetworkEndpointGroups.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockAlphaNetworkEndpointGroups.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -7726,7 +7726,7 @@ func (m *MockAlphaNetworkEndpointGroups) Get(ctx context.Context, key meta.Key) 
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToAlpha()
-		glog.V(5).Infof("MockAlphaNetworkEndpointGroups.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockAlphaNetworkEndpointGroups.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -7742,7 +7742,7 @@ func (m *MockAlphaNetworkEndpointGroups) Get(ctx context.Context, key meta.Key) 
 func (m *MockAlphaNetworkEndpointGroups) List(ctx context.Context, zone string, fl *filter.F) ([]*alpha.NetworkEndpointGroup, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, zone, fl); intercept {
-			glog.V(5).Infof("MockAlphaNetworkEndpointGroups.List(%v, %q, %v) = %v, %v", ctx, zone, fl, objs, err)
+			glog.V(5).Infof("MockAlphaNetworkEndpointGroups.List(%v, %q, %v) = [%v items], %v", ctx, zone, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -7768,7 +7768,7 @@ func (m *MockAlphaNetworkEndpointGroups) List(ctx context.Context, zone string, 
 		objs = append(objs, obj.ToAlpha())
 	}
 
-	glog.V(5).Infof("MockAlphaNetworkEndpointGroups.List(%v, %q, %v) = %v, nil", ctx, zone, fl, objs)
+	glog.V(5).Infof("MockAlphaNetworkEndpointGroups.List(%v, %q, %v) = [%v items], nil", ctx, zone, fl, len(objs))
 	return objs, nil
 }
 
@@ -7776,7 +7776,7 @@ func (m *MockAlphaNetworkEndpointGroups) List(ctx context.Context, zone string, 
 func (m *MockAlphaNetworkEndpointGroups) Insert(ctx context.Context, key meta.Key, obj *alpha.NetworkEndpointGroup) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockAlphaNetworkEndpointGroups.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockAlphaNetworkEndpointGroups.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -7785,7 +7785,7 @@ func (m *MockAlphaNetworkEndpointGroups) Insert(ctx context.Context, key meta.Ke
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockAlphaNetworkEndpointGroups.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockAlphaNetworkEndpointGroups.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -7793,7 +7793,7 @@ func (m *MockAlphaNetworkEndpointGroups) Insert(ctx context.Context, key meta.Ke
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockAlphaNetworkEndpointGroups %v exists", key),
 		}
-		glog.V(5).Infof("MockAlphaNetworkEndpointGroups.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockAlphaNetworkEndpointGroups.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -7803,7 +7803,7 @@ func (m *MockAlphaNetworkEndpointGroups) Insert(ctx context.Context, key meta.Ke
 	}
 
 	m.Objects[key] = &MockNetworkEndpointGroupsObj{obj}
-	glog.V(5).Infof("MockAlphaNetworkEndpointGroups.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockAlphaNetworkEndpointGroups.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -7841,7 +7841,7 @@ func (m *MockAlphaNetworkEndpointGroups) Delete(ctx context.Context, key meta.Ke
 func (m *MockAlphaNetworkEndpointGroups) AggregatedList(ctx context.Context, fl *filter.F) (map[string][]*alpha.NetworkEndpointGroup, error) {
 	if m.AggregatedListHook != nil {
 		if intercept, objs, err := m.AggregatedListHook(m, ctx, fl); intercept {
-			glog.V(5).Infof("MockAlphaNetworkEndpointGroups.AggregatedList(%v, %v) = %+v, %v", ctx, fl, objs, err)
+			glog.V(5).Infof("MockAlphaNetworkEndpointGroups.AggregatedList(%v, %v) = [%v items], %v", ctx, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -7868,7 +7868,7 @@ func (m *MockAlphaNetworkEndpointGroups) AggregatedList(ctx context.Context, fl 
 		}
 		objs[location] = append(objs[location], obj.ToAlpha())
 	}
-	glog.V(5).Infof("MockAlphaNetworkEndpointGroups.AggregatedList(%v, %v) = %+v, nil", ctx, fl, objs)
+	glog.V(5).Infof("MockAlphaNetworkEndpointGroups.AggregatedList(%v, %v) = [%v items], nil", ctx, fl, len(objs))
 	return objs, nil
 }
 
@@ -8139,7 +8139,7 @@ type MockRegions struct {
 func (m *MockRegions) Get(ctx context.Context, key meta.Key) (*ga.Region, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockRegions.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockRegions.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -8153,7 +8153,7 @@ func (m *MockRegions) Get(ctx context.Context, key meta.Key) (*ga.Region, error)
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToGA()
-		glog.V(5).Infof("MockRegions.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockRegions.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -8169,7 +8169,7 @@ func (m *MockRegions) Get(ctx context.Context, key meta.Key) (*ga.Region, error)
 func (m *MockRegions) List(ctx context.Context, fl *filter.F) ([]*ga.Region, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
-			glog.V(5).Infof("MockRegions.List(%v, %v) = %v, %v", ctx, fl, objs, err)
+			glog.V(5).Infof("MockRegions.List(%v, %v) = [%v items], %v", ctx, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -8192,7 +8192,7 @@ func (m *MockRegions) List(ctx context.Context, fl *filter.F) ([]*ga.Region, err
 		objs = append(objs, obj.ToGA())
 	}
 
-	glog.V(5).Infof("MockRegions.List(%v, %v) = %v, nil", ctx, fl, objs)
+	glog.V(5).Infof("MockRegions.List(%v, %v) = [%v items], nil", ctx, fl, len(objs))
 	return objs, nil
 }
 
@@ -8296,7 +8296,7 @@ type MockRoutes struct {
 func (m *MockRoutes) Get(ctx context.Context, key meta.Key) (*ga.Route, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockRoutes.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockRoutes.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -8310,7 +8310,7 @@ func (m *MockRoutes) Get(ctx context.Context, key meta.Key) (*ga.Route, error) {
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToGA()
-		glog.V(5).Infof("MockRoutes.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockRoutes.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -8326,7 +8326,7 @@ func (m *MockRoutes) Get(ctx context.Context, key meta.Key) (*ga.Route, error) {
 func (m *MockRoutes) List(ctx context.Context, fl *filter.F) ([]*ga.Route, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
-			glog.V(5).Infof("MockRoutes.List(%v, %v) = %v, %v", ctx, fl, objs, err)
+			glog.V(5).Infof("MockRoutes.List(%v, %v) = [%v items], %v", ctx, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -8349,7 +8349,7 @@ func (m *MockRoutes) List(ctx context.Context, fl *filter.F) ([]*ga.Route, error
 		objs = append(objs, obj.ToGA())
 	}
 
-	glog.V(5).Infof("MockRoutes.List(%v, %v) = %v, nil", ctx, fl, objs)
+	glog.V(5).Infof("MockRoutes.List(%v, %v) = [%v items], nil", ctx, fl, len(objs))
 	return objs, nil
 }
 
@@ -8357,7 +8357,7 @@ func (m *MockRoutes) List(ctx context.Context, fl *filter.F) ([]*ga.Route, error
 func (m *MockRoutes) Insert(ctx context.Context, key meta.Key, obj *ga.Route) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockRoutes.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockRoutes.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -8366,7 +8366,7 @@ func (m *MockRoutes) Insert(ctx context.Context, key meta.Key, obj *ga.Route) er
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockRoutes.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockRoutes.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -8374,7 +8374,7 @@ func (m *MockRoutes) Insert(ctx context.Context, key meta.Key, obj *ga.Route) er
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockRoutes %v exists", key),
 		}
-		glog.V(5).Infof("MockRoutes.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockRoutes.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -8384,7 +8384,7 @@ func (m *MockRoutes) Insert(ctx context.Context, key meta.Key, obj *ga.Route) er
 	}
 
 	m.Objects[key] = &MockRoutesObj{obj}
-	glog.V(5).Infof("MockRoutes.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockRoutes.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -8564,7 +8564,7 @@ type MockSslCertificates struct {
 func (m *MockSslCertificates) Get(ctx context.Context, key meta.Key) (*ga.SslCertificate, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockSslCertificates.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockSslCertificates.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -8578,7 +8578,7 @@ func (m *MockSslCertificates) Get(ctx context.Context, key meta.Key) (*ga.SslCer
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToGA()
-		glog.V(5).Infof("MockSslCertificates.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockSslCertificates.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -8594,7 +8594,7 @@ func (m *MockSslCertificates) Get(ctx context.Context, key meta.Key) (*ga.SslCer
 func (m *MockSslCertificates) List(ctx context.Context, fl *filter.F) ([]*ga.SslCertificate, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
-			glog.V(5).Infof("MockSslCertificates.List(%v, %v) = %v, %v", ctx, fl, objs, err)
+			glog.V(5).Infof("MockSslCertificates.List(%v, %v) = [%v items], %v", ctx, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -8617,7 +8617,7 @@ func (m *MockSslCertificates) List(ctx context.Context, fl *filter.F) ([]*ga.Ssl
 		objs = append(objs, obj.ToGA())
 	}
 
-	glog.V(5).Infof("MockSslCertificates.List(%v, %v) = %v, nil", ctx, fl, objs)
+	glog.V(5).Infof("MockSslCertificates.List(%v, %v) = [%v items], nil", ctx, fl, len(objs))
 	return objs, nil
 }
 
@@ -8625,7 +8625,7 @@ func (m *MockSslCertificates) List(ctx context.Context, fl *filter.F) ([]*ga.Ssl
 func (m *MockSslCertificates) Insert(ctx context.Context, key meta.Key, obj *ga.SslCertificate) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockSslCertificates.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockSslCertificates.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -8634,7 +8634,7 @@ func (m *MockSslCertificates) Insert(ctx context.Context, key meta.Key, obj *ga.
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockSslCertificates.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockSslCertificates.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -8642,7 +8642,7 @@ func (m *MockSslCertificates) Insert(ctx context.Context, key meta.Key, obj *ga.
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockSslCertificates %v exists", key),
 		}
-		glog.V(5).Infof("MockSslCertificates.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockSslCertificates.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -8652,7 +8652,7 @@ func (m *MockSslCertificates) Insert(ctx context.Context, key meta.Key, obj *ga.
 	}
 
 	m.Objects[key] = &MockSslCertificatesObj{obj}
-	glog.V(5).Infof("MockSslCertificates.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockSslCertificates.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -8834,7 +8834,7 @@ type MockTargetHttpProxies struct {
 func (m *MockTargetHttpProxies) Get(ctx context.Context, key meta.Key) (*ga.TargetHttpProxy, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockTargetHttpProxies.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockTargetHttpProxies.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -8848,7 +8848,7 @@ func (m *MockTargetHttpProxies) Get(ctx context.Context, key meta.Key) (*ga.Targ
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToGA()
-		glog.V(5).Infof("MockTargetHttpProxies.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockTargetHttpProxies.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -8864,7 +8864,7 @@ func (m *MockTargetHttpProxies) Get(ctx context.Context, key meta.Key) (*ga.Targ
 func (m *MockTargetHttpProxies) List(ctx context.Context, fl *filter.F) ([]*ga.TargetHttpProxy, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
-			glog.V(5).Infof("MockTargetHttpProxies.List(%v, %v) = %v, %v", ctx, fl, objs, err)
+			glog.V(5).Infof("MockTargetHttpProxies.List(%v, %v) = [%v items], %v", ctx, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -8887,7 +8887,7 @@ func (m *MockTargetHttpProxies) List(ctx context.Context, fl *filter.F) ([]*ga.T
 		objs = append(objs, obj.ToGA())
 	}
 
-	glog.V(5).Infof("MockTargetHttpProxies.List(%v, %v) = %v, nil", ctx, fl, objs)
+	glog.V(5).Infof("MockTargetHttpProxies.List(%v, %v) = [%v items], nil", ctx, fl, len(objs))
 	return objs, nil
 }
 
@@ -8895,7 +8895,7 @@ func (m *MockTargetHttpProxies) List(ctx context.Context, fl *filter.F) ([]*ga.T
 func (m *MockTargetHttpProxies) Insert(ctx context.Context, key meta.Key, obj *ga.TargetHttpProxy) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockTargetHttpProxies.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockTargetHttpProxies.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -8904,7 +8904,7 @@ func (m *MockTargetHttpProxies) Insert(ctx context.Context, key meta.Key, obj *g
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockTargetHttpProxies.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockTargetHttpProxies.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -8912,7 +8912,7 @@ func (m *MockTargetHttpProxies) Insert(ctx context.Context, key meta.Key, obj *g
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockTargetHttpProxies %v exists", key),
 		}
-		glog.V(5).Infof("MockTargetHttpProxies.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockTargetHttpProxies.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -8922,7 +8922,7 @@ func (m *MockTargetHttpProxies) Insert(ctx context.Context, key meta.Key, obj *g
 	}
 
 	m.Objects[key] = &MockTargetHttpProxiesObj{obj}
-	glog.V(5).Infof("MockTargetHttpProxies.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockTargetHttpProxies.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -9135,7 +9135,7 @@ type MockTargetHttpsProxies struct {
 func (m *MockTargetHttpsProxies) Get(ctx context.Context, key meta.Key) (*ga.TargetHttpsProxy, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockTargetHttpsProxies.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockTargetHttpsProxies.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -9149,7 +9149,7 @@ func (m *MockTargetHttpsProxies) Get(ctx context.Context, key meta.Key) (*ga.Tar
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToGA()
-		glog.V(5).Infof("MockTargetHttpsProxies.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockTargetHttpsProxies.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -9165,7 +9165,7 @@ func (m *MockTargetHttpsProxies) Get(ctx context.Context, key meta.Key) (*ga.Tar
 func (m *MockTargetHttpsProxies) List(ctx context.Context, fl *filter.F) ([]*ga.TargetHttpsProxy, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
-			glog.V(5).Infof("MockTargetHttpsProxies.List(%v, %v) = %v, %v", ctx, fl, objs, err)
+			glog.V(5).Infof("MockTargetHttpsProxies.List(%v, %v) = [%v items], %v", ctx, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -9188,7 +9188,7 @@ func (m *MockTargetHttpsProxies) List(ctx context.Context, fl *filter.F) ([]*ga.
 		objs = append(objs, obj.ToGA())
 	}
 
-	glog.V(5).Infof("MockTargetHttpsProxies.List(%v, %v) = %v, nil", ctx, fl, objs)
+	glog.V(5).Infof("MockTargetHttpsProxies.List(%v, %v) = [%v items], nil", ctx, fl, len(objs))
 	return objs, nil
 }
 
@@ -9196,7 +9196,7 @@ func (m *MockTargetHttpsProxies) List(ctx context.Context, fl *filter.F) ([]*ga.
 func (m *MockTargetHttpsProxies) Insert(ctx context.Context, key meta.Key, obj *ga.TargetHttpsProxy) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockTargetHttpsProxies.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockTargetHttpsProxies.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -9205,7 +9205,7 @@ func (m *MockTargetHttpsProxies) Insert(ctx context.Context, key meta.Key, obj *
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockTargetHttpsProxies.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockTargetHttpsProxies.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -9213,7 +9213,7 @@ func (m *MockTargetHttpsProxies) Insert(ctx context.Context, key meta.Key, obj *
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockTargetHttpsProxies %v exists", key),
 		}
-		glog.V(5).Infof("MockTargetHttpsProxies.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockTargetHttpsProxies.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -9223,7 +9223,7 @@ func (m *MockTargetHttpsProxies) Insert(ctx context.Context, key meta.Key, obj *
 	}
 
 	m.Objects[key] = &MockTargetHttpsProxiesObj{obj}
-	glog.V(5).Infof("MockTargetHttpsProxies.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockTargetHttpsProxies.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -9465,7 +9465,7 @@ type MockTargetPools struct {
 func (m *MockTargetPools) Get(ctx context.Context, key meta.Key) (*ga.TargetPool, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockTargetPools.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockTargetPools.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -9479,7 +9479,7 @@ func (m *MockTargetPools) Get(ctx context.Context, key meta.Key) (*ga.TargetPool
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToGA()
-		glog.V(5).Infof("MockTargetPools.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockTargetPools.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -9495,7 +9495,7 @@ func (m *MockTargetPools) Get(ctx context.Context, key meta.Key) (*ga.TargetPool
 func (m *MockTargetPools) List(ctx context.Context, region string, fl *filter.F) ([]*ga.TargetPool, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, region, fl); intercept {
-			glog.V(5).Infof("MockTargetPools.List(%v, %q, %v) = %v, %v", ctx, region, fl, objs, err)
+			glog.V(5).Infof("MockTargetPools.List(%v, %q, %v) = [%v items], %v", ctx, region, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -9521,7 +9521,7 @@ func (m *MockTargetPools) List(ctx context.Context, region string, fl *filter.F)
 		objs = append(objs, obj.ToGA())
 	}
 
-	glog.V(5).Infof("MockTargetPools.List(%v, %q, %v) = %v, nil", ctx, region, fl, objs)
+	glog.V(5).Infof("MockTargetPools.List(%v, %q, %v) = [%v items], nil", ctx, region, fl, len(objs))
 	return objs, nil
 }
 
@@ -9529,7 +9529,7 @@ func (m *MockTargetPools) List(ctx context.Context, region string, fl *filter.F)
 func (m *MockTargetPools) Insert(ctx context.Context, key meta.Key, obj *ga.TargetPool) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockTargetPools.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockTargetPools.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -9538,7 +9538,7 @@ func (m *MockTargetPools) Insert(ctx context.Context, key meta.Key, obj *ga.Targ
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockTargetPools.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockTargetPools.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -9546,7 +9546,7 @@ func (m *MockTargetPools) Insert(ctx context.Context, key meta.Key, obj *ga.Targ
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockTargetPools %v exists", key),
 		}
-		glog.V(5).Infof("MockTargetPools.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockTargetPools.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -9556,7 +9556,7 @@ func (m *MockTargetPools) Insert(ctx context.Context, key meta.Key, obj *ga.Targ
 	}
 
 	m.Objects[key] = &MockTargetPoolsObj{obj}
-	glog.V(5).Infof("MockTargetPools.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockTargetPools.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -9795,7 +9795,7 @@ type MockUrlMaps struct {
 func (m *MockUrlMaps) Get(ctx context.Context, key meta.Key) (*ga.UrlMap, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockUrlMaps.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockUrlMaps.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -9809,7 +9809,7 @@ func (m *MockUrlMaps) Get(ctx context.Context, key meta.Key) (*ga.UrlMap, error)
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToGA()
-		glog.V(5).Infof("MockUrlMaps.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockUrlMaps.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -9825,7 +9825,7 @@ func (m *MockUrlMaps) Get(ctx context.Context, key meta.Key) (*ga.UrlMap, error)
 func (m *MockUrlMaps) List(ctx context.Context, fl *filter.F) ([]*ga.UrlMap, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
-			glog.V(5).Infof("MockUrlMaps.List(%v, %v) = %v, %v", ctx, fl, objs, err)
+			glog.V(5).Infof("MockUrlMaps.List(%v, %v) = [%v items], %v", ctx, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -9848,7 +9848,7 @@ func (m *MockUrlMaps) List(ctx context.Context, fl *filter.F) ([]*ga.UrlMap, err
 		objs = append(objs, obj.ToGA())
 	}
 
-	glog.V(5).Infof("MockUrlMaps.List(%v, %v) = %v, nil", ctx, fl, objs)
+	glog.V(5).Infof("MockUrlMaps.List(%v, %v) = [%v items], nil", ctx, fl, len(objs))
 	return objs, nil
 }
 
@@ -9856,7 +9856,7 @@ func (m *MockUrlMaps) List(ctx context.Context, fl *filter.F) ([]*ga.UrlMap, err
 func (m *MockUrlMaps) Insert(ctx context.Context, key meta.Key, obj *ga.UrlMap) error {
 	if m.InsertHook != nil {
 		if intercept, err := m.InsertHook(m, ctx, key, obj); intercept {
-			glog.V(5).Infof("MockUrlMaps.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockUrlMaps.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 			return err
 		}
 	}
@@ -9865,7 +9865,7 @@ func (m *MockUrlMaps) Insert(ctx context.Context, key meta.Key, obj *ga.UrlMap) 
 	defer m.Lock.Unlock()
 
 	if err, ok := m.InsertError[key]; ok {
-		glog.V(5).Infof("MockUrlMaps.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockUrlMaps.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 	if _, ok := m.Objects[key]; ok {
@@ -9873,7 +9873,7 @@ func (m *MockUrlMaps) Insert(ctx context.Context, key meta.Key, obj *ga.UrlMap) 
 			Code:    http.StatusConflict,
 			Message: fmt.Sprintf("MockUrlMaps %v exists", key),
 		}
-		glog.V(5).Infof("MockUrlMaps.Insert(%v, %v, %v) = %v", ctx, key, obj, err)
+		glog.V(5).Infof("MockUrlMaps.Insert(%v, %v, %+v) = %v", ctx, key, obj, err)
 		return err
 	}
 
@@ -9883,7 +9883,7 @@ func (m *MockUrlMaps) Insert(ctx context.Context, key meta.Key, obj *ga.UrlMap) 
 	}
 
 	m.Objects[key] = &MockUrlMapsObj{obj}
-	glog.V(5).Infof("MockUrlMaps.Insert(%v, %v, %v) = nil", ctx, key, obj)
+	glog.V(5).Infof("MockUrlMaps.Insert(%v, %v, %+v) = nil", ctx, key, obj)
 	return nil
 }
 
@@ -10084,7 +10084,7 @@ type MockZones struct {
 func (m *MockZones) Get(ctx context.Context, key meta.Key) (*ga.Zone, error) {
 	if m.GetHook != nil {
 		if intercept, obj, err := m.GetHook(m, ctx, key); intercept {
-			glog.V(5).Infof("MockZones.Get(%v, %s) = %v, %v", ctx, key, obj, err)
+			glog.V(5).Infof("MockZones.Get(%v, %s) = %+v, %v", ctx, key, obj, err)
 			return obj, err
 		}
 	}
@@ -10098,7 +10098,7 @@ func (m *MockZones) Get(ctx context.Context, key meta.Key) (*ga.Zone, error) {
 	}
 	if obj, ok := m.Objects[key]; ok {
 		typedObj := obj.ToGA()
-		glog.V(5).Infof("MockZones.Get(%v, %s) = %v, nil", ctx, key, typedObj)
+		glog.V(5).Infof("MockZones.Get(%v, %s) = %+v, nil", ctx, key, typedObj)
 		return typedObj, nil
 	}
 
@@ -10114,7 +10114,7 @@ func (m *MockZones) Get(ctx context.Context, key meta.Key) (*ga.Zone, error) {
 func (m *MockZones) List(ctx context.Context, fl *filter.F) ([]*ga.Zone, error) {
 	if m.ListHook != nil {
 		if intercept, objs, err := m.ListHook(m, ctx, fl); intercept {
-			glog.V(5).Infof("MockZones.List(%v, %v) = %v, %v", ctx, fl, objs, err)
+			glog.V(5).Infof("MockZones.List(%v, %v) = [%v items], %v", ctx, fl, len(objs), err)
 			return objs, err
 		}
 	}
@@ -10137,7 +10137,7 @@ func (m *MockZones) List(ctx context.Context, fl *filter.F) ([]*ga.Zone, error) 
 		objs = append(objs, obj.ToGA())
 	}
 
-	glog.V(5).Infof("MockZones.List(%v, %v) = %v, nil", ctx, fl, objs)
+	glog.V(5).Infof("MockZones.List(%v, %v) = [%v items], nil", ctx, fl, len(objs))
 	return objs, nil
 }
 
