@@ -7044,6 +7044,7 @@ type AlphaNetworkEndpointGroups interface {
 	List(ctx context.Context, zone string, fl *filter.F) ([]*alpha.NetworkEndpointGroup, error)
 	Insert(ctx context.Context, key meta.Key, obj *alpha.NetworkEndpointGroup) error
 	Delete(ctx context.Context, key meta.Key) error
+	AggregatedList(ctx context.Context, fl *filter.F) (map[string][]*alpha.NetworkEndpointGroup, error)
 	AttachNetworkEndpoints(context.Context, meta.Key, *alpha.NetworkEndpointGroupsAttachEndpointsRequest) error
 	DetachNetworkEndpoints(context.Context, meta.Key, *alpha.NetworkEndpointGroupsDetachEndpointsRequest) error
 }
@@ -7068,10 +7069,11 @@ type MockAlphaNetworkEndpointGroups struct {
 
 	// If an entry exists for the given key and operation, then the error
 	// will be returned instead of the operation.
-	GetError    map[meta.Key]error
-	ListError   *error
-	InsertError map[meta.Key]error
-	DeleteError map[meta.Key]error
+	GetError            map[meta.Key]error
+	ListError           *error
+	InsertError         map[meta.Key]error
+	DeleteError         map[meta.Key]error
+	AggregatedListError *error
 
 	// xxxHook allow you to intercept the standard processing of the mock in
 	// order to add your own logic. Return (true, _, _) to prevent the normal
@@ -7081,6 +7083,7 @@ type MockAlphaNetworkEndpointGroups struct {
 	ListHook                   func(m *MockAlphaNetworkEndpointGroups, ctx context.Context, zone string, fl *filter.F) (bool, []*alpha.NetworkEndpointGroup, error)
 	InsertHook                 func(m *MockAlphaNetworkEndpointGroups, ctx context.Context, key meta.Key, obj *alpha.NetworkEndpointGroup) (bool, error)
 	DeleteHook                 func(m *MockAlphaNetworkEndpointGroups, ctx context.Context, key meta.Key) (bool, error)
+	AggregatedListHook         func(m *MockAlphaNetworkEndpointGroups, ctx context.Context, fl *filter.F) (bool, map[string][]*alpha.NetworkEndpointGroup, error)
 	AttachNetworkEndpointsHook func(*MockAlphaNetworkEndpointGroups, context.Context, meta.Key, *alpha.NetworkEndpointGroupsAttachEndpointsRequest) error
 	DetachNetworkEndpointsHook func(*MockAlphaNetworkEndpointGroups, context.Context, meta.Key, *alpha.NetworkEndpointGroupsDetachEndpointsRequest) error
 
@@ -7188,6 +7191,34 @@ func (m *MockAlphaNetworkEndpointGroups) Delete(ctx context.Context, key meta.Ke
 
 	delete(m.Objects, key)
 	return nil
+}
+func (m *MockAlphaNetworkEndpointGroups) AggregatedList(ctx context.Context, fl *filter.F) (map[string][]*alpha.NetworkEndpointGroup, error) {
+	if m.AggregatedListHook != nil {
+		if intercept, objs, err := m.AggregatedListHook(m, ctx, fl); intercept {
+			return objs, err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if m.AggregatedListError != nil {
+		return nil, *m.AggregatedListError
+	}
+
+	objs := map[string][]*alpha.NetworkEndpointGroup{}
+	for _, obj := range m.Objects {
+		res, err := ParseResourceURL(obj.ToAlpha().SelfLink)
+		location := res.Key.Zone
+		if err != nil {
+			return nil, err
+		}
+		if !fl.Match(obj) {
+			continue
+		}
+		objs[location] = append(objs[location], obj.ToAlpha())
+	}
+	return objs, nil
 }
 
 // AttachNetworkEndpoints is a mock for the corresponding method.
@@ -7298,6 +7329,37 @@ func (g *GCEAlphaNetworkEndpointGroups) Delete(ctx context.Context, key meta.Key
 		return err
 	}
 	return g.s.WaitForCompletion(ctx, op)
+}
+
+func (g *GCEAlphaNetworkEndpointGroups) AggregatedList(ctx context.Context, fl *filter.F) (map[string][]*alpha.NetworkEndpointGroup, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "alpha", "NetworkEndpointGroups")
+	rk := &RateLimitKey{
+		ProjectID: projectID,
+		Operation: "AggregatedList",
+		Version:   meta.Version("alpha"),
+		Service:   "NetworkEndpointGroups",
+	}
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
+
+	call := g.s.Alpha.NetworkEndpointGroups.AggregatedList(projectID)
+	call.Context(ctx)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
+
+	all := map[string][]*alpha.NetworkEndpointGroup{}
+	f := func(l *alpha.NetworkEndpointGroupAggregatedList) error {
+		for k, v := range l.Items {
+			all[k] = append(all[k], v.NetworkEndpointGroups...)
+		}
+		return nil
+	}
+	if err := call.Pages(ctx, f); err != nil {
+		return nil, err
+	}
+	return all, nil
 }
 
 // AttachNetworkEndpoints is a method on GCEAlphaNetworkEndpointGroups.

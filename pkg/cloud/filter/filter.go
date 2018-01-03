@@ -14,6 +14,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
+// Package filter encapsulates the filter argument to compute API calls.
+//
+//  // List all global addresses (no filter).
+//  c.GlobalAddresses().List(ctx, filter.None)
+//
+//  // List global addresses filtering for name matching "abc.*".
+//  c.GlobalAddresses().List(ctx, filter.Regexp("name", "abc.*"))
+//
+//  // List using multiple predicates.
+//  c.GlobalAddresses().List(ctx, filter.Regexp("name", "abc.*").NotRegexp("name", "abcdef"))
 package filter
 
 import (

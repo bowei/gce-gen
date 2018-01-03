@@ -31,8 +31,9 @@ type ServiceInfo struct {
 	keyType     KeyType
 	serviceType reflect.Type
 
-	additionalMethods []string
-	options           int
+	additionalMethods   []string
+	options             int
+	aggregatedListField string
 }
 
 // Version returns the version of the Service, defaulting to GA if APIVersion
@@ -83,6 +84,11 @@ func (i *ServiceInfo) FQObjectType() string {
 // ObjectListType is the compute List type for the object (contains Items field).
 func (i *ServiceInfo) ObjectListType() string {
 	return fmt.Sprintf("%v.%vList", i.Version(), i.Object)
+}
+
+// ObjectAggregatedListType is the compute List type for the object (contains Items field).
+func (i *ServiceInfo) ObjectAggregatedListType() string {
+	return fmt.Sprintf("%v.%vAggregatedList", i.Version(), i.Object)
 }
 
 // MockWrapType is the name of the concrete mock for this type.
@@ -172,7 +178,22 @@ func (i *ServiceInfo) GenerateCustomOps() bool {
 	return i.options&CustomOps != 0
 }
 
-// ServicesGroup is a grouping of the same service but at different API versions.
+// AggregatedList is true if the method is to be generated.
+func (i *ServiceInfo) AggregatedList() bool {
+	return i.options&AggregatedList != 0
+}
+
+// AggregatedListField is the name of the field used for the aggregated list
+// call. This is typically the same as the name of the service, but can be
+// customized by setting the aggregatedListField field.
+func (i *ServiceInfo) AggregatedListField() string {
+	if i.aggregatedListField == "" {
+		return i.Service
+	}
+	return i.aggregatedListField
+}
+
+// ServiceGroup is a grouping of the same service but at different API versions.
 type ServiceGroup struct {
 	Alpha *ServiceInfo
 	Beta  *ServiceInfo

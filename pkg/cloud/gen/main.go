@@ -284,6 +284,9 @@ type {{.WrapType}} interface {
 {{- if .GenerateDelete}}
 	Delete(ctx context.Context, key meta.Key) error
 {{- end -}}
+{{- if .AggregatedList}}
+	AggregatedList(ctx context.Context, fl *filter.F) (map[string][]*{{.FQObjectType}}, error)
+{{- end}}
 {{- with .Methods -}}
 {{- range .}}
 	{{.InterfaceFunc}}
@@ -328,6 +331,9 @@ type {{.MockWrapType}} struct {
 	{{- end -}}
 	{{- if .GenerateDelete}}
 	DeleteError map[meta.Key]error
+	{{- end -}}
+	{{- if .AggregatedList}}
+	AggregatedListError *error
 	{{- end}}
 
 	// xxxHook allow you to intercept the standard processing of the mock in
@@ -353,7 +359,11 @@ type {{.MockWrapType}} struct {
 	{{- end -}}
 	{{- if .GenerateDelete}}
 	DeleteHook func(m *{{.MockWrapType}}, ctx context.Context, key meta.Key) (bool, error)
+	{{- end -}}
+	{{- if .AggregatedList}}
+	AggregatedListHook func(m *{{.MockWrapType}}, ctx context.Context, fl *filter.F) (bool, map[string][]*{{.FQObjectType}}, error)
 	{{- end}}
+
 {{- with .Methods -}}
 {{- range .}}
 	{{.MockHook}}
@@ -501,8 +511,45 @@ func (m *{{.MockWrapType}}) Delete(ctx context.Context, key meta.Key) error {
 	delete(m.Objects, key)
 	return nil
 }
-{{end}}
-{{- with .Methods -}}
+{{- end}}
+
+{{- if .AggregatedList}}
+func (m *{{.MockWrapType}}) AggregatedList(ctx context.Context, fl *filter.F) (map[string][]*{{.FQObjectType}}, error) {
+	if m.AggregatedListHook != nil {
+		if intercept, objs, err := m.AggregatedListHook(m, ctx, fl); intercept {
+			return objs, err
+		}
+	}
+
+	m.Lock.Lock()
+	defer m.Lock.Unlock()
+
+	if m.AggregatedListError != nil {
+		return nil, *m.AggregatedListError
+	}
+
+	objs := map[string][]*{{.FQObjectType}}{}
+	for _, obj := range m.Objects {
+		res, err := ParseResourceURL(obj.To{{.VersionTitle}}().SelfLink)
+		{{- if .KeyIsRegional}}
+		location := res.Key.Region
+		{{- end -}}
+		{{- if .KeyIsZonal}}
+		location := res.Key.Zone
+		{{- end}}
+		if err != nil {
+			return nil, err
+		}
+		if ! fl.Match(obj) {
+			continue
+		}
+		objs[location] = append(objs[location], obj.To{{.VersionTitle}}())
+	}
+	return objs, nil
+}
+{{- end}}
+
+{{with .Methods -}}
 {{- range .}}
 // {{.Name}} is a mock for the corresponding method.
 func (m *{{.MockWrapType}}) {{.FcnArgs}} {
@@ -661,6 +708,39 @@ func (g *{{.GCEWrapType}}) Delete(ctx context.Context, key meta.Key) error {
 	return g.s.WaitForCompletion(ctx, op)
 }
 {{end -}}
+
+{{- if .AggregatedList}}
+func (g *{{.GCEWrapType}}) AggregatedList(ctx context.Context, fl *filter.F) (map[string][]*{{.FQObjectType}}, error) {
+	projectID := g.s.ProjectRouter.ProjectID(ctx, "{{.Version}}", "{{.Service}}")
+	rk := &RateLimitKey{
+		ProjectID: projectID,
+		Operation: "AggregatedList",
+		Version: meta.Version("{{.Version}}"),
+		Service: "{{.Service}}",
+	}
+	if err := g.s.RateLimiter.Accept(ctx, rk); err != nil {
+		return nil, err
+	}
+
+	call := g.s.{{.VersionTitle}}.{{.Service}}.AggregatedList(projectID)
+	call.Context(ctx)
+	if fl != filter.None {
+		call.Filter(fl.String())
+	}
+
+	all := map[string][]*{{.FQObjectType}}{}
+	f := func(l *{{.ObjectAggregatedListType}}) error {
+		for k, v := range l.Items {
+			all[k] = append(all[k], v.{{.AggregatedListField}}...)
+		}
+		return nil
+	}
+	if err := call.Pages(ctx, f); err != nil {
+		return nil, err
+	}
+	return all, nil
+}
+{{- end}}
 
 {{- with .Methods -}}
 {{- range .}}

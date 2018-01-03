@@ -40,6 +40,8 @@ const (
 	// enable custom method calls to be attached to the generated service
 	// interface.
 	CustomOps = 1 << iota
+	// AggregatedList will generated a method for AggregatedList().
+	AggregatedList = 1 << iota
 
 	// ReadOnly specifies that the given resource is read-only and should not
 	// have insert() or delete() methods generated for the wrapper.
@@ -261,6 +263,7 @@ var AllServices = []*ServiceInfo{
 			"AttachNetworkEndpoints",
 			"DetachNetworkEndpoints",
 		},
+		options: AggregatedList,
 	},
 	&ServiceInfo{
 		Object:  "Project",

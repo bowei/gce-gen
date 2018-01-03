@@ -27,7 +27,7 @@ limitations under the License.
 // Cloud can be used against the actual implementation "GCE" or "MockGCE".
 //
 //  func foo(cloud Cloud) {
-//    igs, err := cloud.InstanceGroups().List(ctx, "us-central1-b")
+//    igs, err := cloud.InstanceGroups().List(ctx, "us-central1-b", filter.None)
 //    ...
 //  }
 //  // Run foo against the actual cloud.
@@ -47,6 +47,10 @@ limitations under the License.
 // functionality.  Each method will also have a corresponding "xxxHook"
 // function generated in the mock structure where unit test code can hook the
 // execution of the method.
+//
+// Mocks for different versions of the same service will share the same set of
+// objects, i.e. an alpha object will be visible with beta and GA methods.
+// Note that translation is done with JSON serialization between the API versions.
 //
 // Changing service code generation
 //
