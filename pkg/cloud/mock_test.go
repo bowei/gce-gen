@@ -18,7 +18,6 @@ package cloud
 
 import (
 	"context"
-	"fmt"
 	"reflect"
 	"testing"
 
@@ -29,10 +28,6 @@ import (
 	"github.com/bowei/gce-gen/pkg/cloud/filter"
 	"github.com/bowei/gce-gen/pkg/cloud/meta"
 )
-
-func addressSelfLink(version, region, name string) string {
-	return fmt.Sprintf("https://www.googleapis.com/compute/%s/projects/my-project/regions/%s/addresses/%s", version, region, name)
-}
 
 func TestMocks(t *testing.T) {
 	t.Parallel()
@@ -61,28 +56,19 @@ func TestMocks(t *testing.T) {
 	}
 	// Insert.
 	{
-		obj := &alpha.Address{
-			Name:     "alpha",
-			SelfLink: addressSelfLink("v0.alpha", region, "alpha"),
-		}
+		obj := &alpha.Address{}
 		if err := mock.AlphaAddresses().Insert(ctx, *keyAlpha, obj); err != nil {
 			t.Errorf("AlphaAddresses().Insert(%v, %v, %v) = %v; want nil", ctx, key, obj, err)
 		}
 	}
 	{
-		obj := &beta.Address{
-			Name:     "beta",
-			SelfLink: addressSelfLink("v0.beta", region, "beta"),
-		}
+		obj := &beta.Address{}
 		if err := mock.BetaAddresses().Insert(ctx, *keyBeta, obj); err != nil {
 			t.Errorf("BetaAddresses().Insert(%v, %v, %v) = %v; want nil", ctx, key, obj, err)
 		}
 	}
 	{
-		obj := &ga.Address{
-			Name:     "ga",
-			SelfLink: addressSelfLink("v1", region, "ga"),
-		}
+		obj := &ga.Address{}
 		if err := mock.Addresses().Insert(ctx, *keyGA, &ga.Address{Name: "ga"}); err != nil {
 			t.Errorf("Addresses().Insert(%v, %v, %v) = %v; want nil", ctx, key, obj, err)
 		}
@@ -98,9 +84,7 @@ func TestMocks(t *testing.T) {
 		t.Errorf("Addresses().Get(%v, %v) = %v, %v; want nil", ctx, key, obj, err)
 	}
 	// List across versions.
-	want := map[string]bool{
-		"alpha": true, "beta": true, "ga": true,
-	}
+	want := map[string]bool{"key-alpha": true, "key-beta": true, "key-ga": true}
 	{
 		objs, err := mock.AlphaAddresses().List(ctx, region, filter.None)
 		if err != nil {
