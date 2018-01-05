@@ -1238,6 +1238,11 @@ func (m *MockAddresses) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+// Obj wraps the object for use in the mock.
+func (m *MockAddresses) Obj(o *ga.Address) *MockAddressesObj {
+	return &MockAddressesObj{o}
+}
+
 // GCEAddresses is a simplifying adapter for the GCE Addresses.
 type GCEAddresses struct {
 	s *Service
@@ -1506,6 +1511,11 @@ func (m *MockAlphaAddresses) Delete(ctx context.Context, key meta.Key) error {
 	delete(m.Objects, key)
 	glog.V(5).Infof("MockAlphaAddresses.Delete(%v, %v) = nil", ctx, key)
 	return nil
+}
+
+// Obj wraps the object for use in the mock.
+func (m *MockAlphaAddresses) Obj(o *alpha.Address) *MockAddressesObj {
+	return &MockAddressesObj{o}
 }
 
 // GCEAlphaAddresses is a simplifying adapter for the GCE Addresses.
@@ -1778,6 +1788,11 @@ func (m *MockBetaAddresses) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+// Obj wraps the object for use in the mock.
+func (m *MockBetaAddresses) Obj(o *beta.Address) *MockAddressesObj {
+	return &MockAddressesObj{o}
+}
+
 // GCEBetaAddresses is a simplifying adapter for the GCE Addresses.
 type GCEBetaAddresses struct {
 	s *Service
@@ -2043,6 +2058,11 @@ func (m *MockGlobalAddresses) Delete(ctx context.Context, key meta.Key) error {
 	delete(m.Objects, key)
 	glog.V(5).Infof("MockGlobalAddresses.Delete(%v, %v) = nil", ctx, key)
 	return nil
+}
+
+// Obj wraps the object for use in the mock.
+func (m *MockGlobalAddresses) Obj(o *ga.Address) *MockGlobalAddressesObj {
+	return &MockGlobalAddressesObj{o}
 }
 
 // GCEGlobalAddresses is a simplifying adapter for the GCE GlobalAddresses.
@@ -2315,6 +2335,11 @@ func (m *MockBackendServices) Delete(ctx context.Context, key meta.Key) error {
 	delete(m.Objects, key)
 	glog.V(5).Infof("MockBackendServices.Delete(%v, %v) = nil", ctx, key)
 	return nil
+}
+
+// Obj wraps the object for use in the mock.
+func (m *MockBackendServices) Obj(o *ga.BackendService) *MockBackendServicesObj {
+	return &MockBackendServicesObj{o}
 }
 
 // GetHealth is a mock for the corresponding method.
@@ -2641,6 +2666,11 @@ func (m *MockAlphaBackendServices) Delete(ctx context.Context, key meta.Key) err
 	return nil
 }
 
+// Obj wraps the object for use in the mock.
+func (m *MockAlphaBackendServices) Obj(o *alpha.BackendService) *MockBackendServicesObj {
+	return &MockBackendServicesObj{o}
+}
+
 // Update is a mock for the corresponding method.
 func (m *MockAlphaBackendServices) Update(ctx context.Context, key meta.Key, arg0 *alpha.BackendService) error {
 	if m.UpdateHook != nil {
@@ -2943,6 +2973,11 @@ func (m *MockAlphaRegionBackendServices) Delete(ctx context.Context, key meta.Ke
 	delete(m.Objects, key)
 	glog.V(5).Infof("MockAlphaRegionBackendServices.Delete(%v, %v) = nil", ctx, key)
 	return nil
+}
+
+// Obj wraps the object for use in the mock.
+func (m *MockAlphaRegionBackendServices) Obj(o *alpha.BackendService) *MockRegionBackendServicesObj {
+	return &MockRegionBackendServicesObj{o}
 }
 
 // GetHealth is a mock for the corresponding method.
@@ -3269,6 +3304,11 @@ func (m *MockDisks) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+// Obj wraps the object for use in the mock.
+func (m *MockDisks) Obj(o *ga.Disk) *MockDisksObj {
+	return &MockDisksObj{o}
+}
+
 // GCEDisks is a simplifying adapter for the GCE Disks.
 type GCEDisks struct {
 	s *Service
@@ -3537,6 +3577,11 @@ func (m *MockAlphaDisks) Delete(ctx context.Context, key meta.Key) error {
 	delete(m.Objects, key)
 	glog.V(5).Infof("MockAlphaDisks.Delete(%v, %v) = nil", ctx, key)
 	return nil
+}
+
+// Obj wraps the object for use in the mock.
+func (m *MockAlphaDisks) Obj(o *alpha.Disk) *MockDisksObj {
+	return &MockDisksObj{o}
 }
 
 // GCEAlphaDisks is a simplifying adapter for the GCE Disks.
@@ -3809,6 +3854,11 @@ func (m *MockAlphaRegionDisks) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+// Obj wraps the object for use in the mock.
+func (m *MockAlphaRegionDisks) Obj(o *alpha.Disk) *MockRegionDisksObj {
+	return &MockRegionDisksObj{o}
+}
+
 // GCEAlphaRegionDisks is a simplifying adapter for the GCE RegionDisks.
 type GCEAlphaRegionDisks struct {
 	s *Service
@@ -4076,6 +4126,11 @@ func (m *MockFirewalls) Delete(ctx context.Context, key meta.Key) error {
 	delete(m.Objects, key)
 	glog.V(5).Infof("MockFirewalls.Delete(%v, %v) = nil", ctx, key)
 	return nil
+}
+
+// Obj wraps the object for use in the mock.
+func (m *MockFirewalls) Obj(o *ga.Firewall) *MockFirewallsObj {
+	return &MockFirewallsObj{o}
 }
 
 // Update is a mock for the corresponding method.
@@ -4378,6 +4433,11 @@ func (m *MockForwardingRules) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+// Obj wraps the object for use in the mock.
+func (m *MockForwardingRules) Obj(o *ga.ForwardingRule) *MockForwardingRulesObj {
+	return &MockForwardingRulesObj{o}
+}
+
 // GCEForwardingRules is a simplifying adapter for the GCE ForwardingRules.
 type GCEForwardingRules struct {
 	s *Service
@@ -4648,6 +4708,11 @@ func (m *MockAlphaForwardingRules) Delete(ctx context.Context, key meta.Key) err
 	return nil
 }
 
+// Obj wraps the object for use in the mock.
+func (m *MockAlphaForwardingRules) Obj(o *alpha.ForwardingRule) *MockForwardingRulesObj {
+	return &MockForwardingRulesObj{o}
+}
+
 // GCEAlphaForwardingRules is a simplifying adapter for the GCE ForwardingRules.
 type GCEAlphaForwardingRules struct {
 	s *Service
@@ -4915,6 +4980,11 @@ func (m *MockGlobalForwardingRules) Delete(ctx context.Context, key meta.Key) er
 	delete(m.Objects, key)
 	glog.V(5).Infof("MockGlobalForwardingRules.Delete(%v, %v) = nil", ctx, key)
 	return nil
+}
+
+// Obj wraps the object for use in the mock.
+func (m *MockGlobalForwardingRules) Obj(o *ga.ForwardingRule) *MockGlobalForwardingRulesObj {
+	return &MockGlobalForwardingRulesObj{o}
 }
 
 // SetTarget is a mock for the corresponding method.
@@ -5216,6 +5286,11 @@ func (m *MockHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+// Obj wraps the object for use in the mock.
+func (m *MockHealthChecks) Obj(o *ga.HealthCheck) *MockHealthChecksObj {
+	return &MockHealthChecksObj{o}
+}
+
 // Update is a mock for the corresponding method.
 func (m *MockHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga.HealthCheck) error {
 	if m.UpdateHook != nil {
@@ -5513,6 +5588,11 @@ func (m *MockAlphaHealthChecks) Delete(ctx context.Context, key meta.Key) error 
 	delete(m.Objects, key)
 	glog.V(5).Infof("MockAlphaHealthChecks.Delete(%v, %v) = nil", ctx, key)
 	return nil
+}
+
+// Obj wraps the object for use in the mock.
+func (m *MockAlphaHealthChecks) Obj(o *alpha.HealthCheck) *MockHealthChecksObj {
+	return &MockHealthChecksObj{o}
 }
 
 // Update is a mock for the corresponding method.
@@ -5814,6 +5894,11 @@ func (m *MockHttpHealthChecks) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+// Obj wraps the object for use in the mock.
+func (m *MockHttpHealthChecks) Obj(o *ga.HttpHealthCheck) *MockHttpHealthChecksObj {
+	return &MockHttpHealthChecksObj{o}
+}
+
 // Update is a mock for the corresponding method.
 func (m *MockHttpHealthChecks) Update(ctx context.Context, key meta.Key, arg0 *ga.HttpHealthCheck) error {
 	if m.UpdateHook != nil {
@@ -6111,6 +6196,11 @@ func (m *MockHttpsHealthChecks) Delete(ctx context.Context, key meta.Key) error 
 	delete(m.Objects, key)
 	glog.V(5).Infof("MockHttpsHealthChecks.Delete(%v, %v) = nil", ctx, key)
 	return nil
+}
+
+// Obj wraps the object for use in the mock.
+func (m *MockHttpsHealthChecks) Obj(o *ga.HttpsHealthCheck) *MockHttpsHealthChecksObj {
+	return &MockHttpsHealthChecksObj{o}
 }
 
 // Update is a mock for the corresponding method.
@@ -6419,6 +6509,11 @@ func (m *MockInstanceGroups) Delete(ctx context.Context, key meta.Key) error {
 	delete(m.Objects, key)
 	glog.V(5).Infof("MockInstanceGroups.Delete(%v, %v) = nil", ctx, key)
 	return nil
+}
+
+// Obj wraps the object for use in the mock.
+func (m *MockInstanceGroups) Obj(o *ga.InstanceGroup) *MockInstanceGroupsObj {
+	return &MockInstanceGroupsObj{o}
 }
 
 // AddInstances is a mock for the corresponding method.
@@ -6807,6 +6902,11 @@ func (m *MockInstances) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+// Obj wraps the object for use in the mock.
+func (m *MockInstances) Obj(o *ga.Instance) *MockInstancesObj {
+	return &MockInstancesObj{o}
+}
+
 // AttachDisk is a mock for the corresponding method.
 func (m *MockInstances) AttachDisk(ctx context.Context, key meta.Key, arg0 *ga.AttachedDisk) error {
 	if m.AttachDiskHook != nil {
@@ -7137,6 +7237,11 @@ func (m *MockBetaInstances) Delete(ctx context.Context, key meta.Key) error {
 	delete(m.Objects, key)
 	glog.V(5).Infof("MockBetaInstances.Delete(%v, %v) = nil", ctx, key)
 	return nil
+}
+
+// Obj wraps the object for use in the mock.
+func (m *MockBetaInstances) Obj(o *beta.Instance) *MockInstancesObj {
+	return &MockInstancesObj{o}
 }
 
 // AttachDisk is a mock for the corresponding method.
@@ -7471,6 +7576,11 @@ func (m *MockAlphaInstances) Delete(ctx context.Context, key meta.Key) error {
 	delete(m.Objects, key)
 	glog.V(5).Infof("MockAlphaInstances.Delete(%v, %v) = nil", ctx, key)
 	return nil
+}
+
+// Obj wraps the object for use in the mock.
+func (m *MockAlphaInstances) Obj(o *alpha.Instance) *MockInstancesObj {
+	return &MockInstancesObj{o}
 }
 
 // AttachDisk is a mock for the corresponding method.
@@ -7872,6 +7982,11 @@ func (m *MockAlphaNetworkEndpointGroups) AggregatedList(ctx context.Context, fl 
 	return objs, nil
 }
 
+// Obj wraps the object for use in the mock.
+func (m *MockAlphaNetworkEndpointGroups) Obj(o *alpha.NetworkEndpointGroup) *MockNetworkEndpointGroupsObj {
+	return &MockNetworkEndpointGroupsObj{o}
+}
+
 // AttachNetworkEndpoints is a mock for the corresponding method.
 func (m *MockAlphaNetworkEndpointGroups) AttachNetworkEndpoints(ctx context.Context, key meta.Key, arg0 *alpha.NetworkEndpointGroupsAttachEndpointsRequest) error {
 	if m.AttachNetworkEndpointsHook != nil {
@@ -8091,6 +8206,11 @@ type MockProjects struct {
 	X interface{}
 }
 
+// Obj wraps the object for use in the mock.
+func (m *MockProjects) Obj(o *ga.Project) *MockProjectsObj {
+	return &MockProjectsObj{o}
+}
+
 // GCEProjects is a simplifying adapter for the GCE Projects.
 type GCEProjects struct {
 	s *Service
@@ -8194,6 +8314,11 @@ func (m *MockRegions) List(ctx context.Context, fl *filter.F) ([]*ga.Region, err
 
 	glog.V(5).Infof("MockRegions.List(%v, %v) = [%v items], nil", ctx, fl, len(objs))
 	return objs, nil
+}
+
+// Obj wraps the object for use in the mock.
+func (m *MockRegions) Obj(o *ga.Region) *MockRegionsObj {
+	return &MockRegionsObj{o}
 }
 
 // GCERegions is a simplifying adapter for the GCE Regions.
@@ -8416,6 +8541,11 @@ func (m *MockRoutes) Delete(ctx context.Context, key meta.Key) error {
 	delete(m.Objects, key)
 	glog.V(5).Infof("MockRoutes.Delete(%v, %v) = nil", ctx, key)
 	return nil
+}
+
+// Obj wraps the object for use in the mock.
+func (m *MockRoutes) Obj(o *ga.Route) *MockRoutesObj {
+	return &MockRoutesObj{o}
 }
 
 // GCERoutes is a simplifying adapter for the GCE Routes.
@@ -8686,6 +8816,11 @@ func (m *MockSslCertificates) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+// Obj wraps the object for use in the mock.
+func (m *MockSslCertificates) Obj(o *ga.SslCertificate) *MockSslCertificatesObj {
+	return &MockSslCertificatesObj{o}
+}
+
 // GCESslCertificates is a simplifying adapter for the GCE SslCertificates.
 type GCESslCertificates struct {
 	s *Service
@@ -8954,6 +9089,11 @@ func (m *MockTargetHttpProxies) Delete(ctx context.Context, key meta.Key) error 
 	delete(m.Objects, key)
 	glog.V(5).Infof("MockTargetHttpProxies.Delete(%v, %v) = nil", ctx, key)
 	return nil
+}
+
+// Obj wraps the object for use in the mock.
+func (m *MockTargetHttpProxies) Obj(o *ga.TargetHttpProxy) *MockTargetHttpProxiesObj {
+	return &MockTargetHttpProxiesObj{o}
 }
 
 // SetUrlMap is a mock for the corresponding method.
@@ -9255,6 +9395,11 @@ func (m *MockTargetHttpsProxies) Delete(ctx context.Context, key meta.Key) error
 	delete(m.Objects, key)
 	glog.V(5).Infof("MockTargetHttpsProxies.Delete(%v, %v) = nil", ctx, key)
 	return nil
+}
+
+// Obj wraps the object for use in the mock.
+func (m *MockTargetHttpsProxies) Obj(o *ga.TargetHttpsProxy) *MockTargetHttpsProxiesObj {
+	return &MockTargetHttpsProxiesObj{o}
 }
 
 // SetSslCertificates is a mock for the corresponding method.
@@ -9590,6 +9735,11 @@ func (m *MockTargetPools) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+// Obj wraps the object for use in the mock.
+func (m *MockTargetPools) Obj(o *ga.TargetPool) *MockTargetPoolsObj {
+	return &MockTargetPoolsObj{o}
+}
+
 // AddInstance is a mock for the corresponding method.
 func (m *MockTargetPools) AddInstance(ctx context.Context, key meta.Key, arg0 *ga.TargetPoolsAddInstanceRequest) error {
 	if m.AddInstanceHook != nil {
@@ -9917,6 +10067,11 @@ func (m *MockUrlMaps) Delete(ctx context.Context, key meta.Key) error {
 	return nil
 }
 
+// Obj wraps the object for use in the mock.
+func (m *MockUrlMaps) Obj(o *ga.UrlMap) *MockUrlMapsObj {
+	return &MockUrlMapsObj{o}
+}
+
 // Update is a mock for the corresponding method.
 func (m *MockUrlMaps) Update(ctx context.Context, key meta.Key, arg0 *ga.UrlMap) error {
 	if m.UpdateHook != nil {
@@ -10139,6 +10294,11 @@ func (m *MockZones) List(ctx context.Context, fl *filter.F) ([]*ga.Zone, error) 
 
 	glog.V(5).Infof("MockZones.List(%v, %v) = [%v items], nil", ctx, fl, len(objs))
 	return objs, nil
+}
+
+// Obj wraps the object for use in the mock.
+func (m *MockZones) Obj(o *ga.Zone) *MockZonesObj {
+	return &MockZonesObj{o}
 }
 
 // GCEZones is a simplifying adapter for the GCE Zones.

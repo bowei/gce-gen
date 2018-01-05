@@ -26,10 +26,10 @@ import (
 type ServiceInfo struct {
 	// Object is the Go name of the object type that the service deals
 	// with. Example: "ForwardingRule".
-	Object   string
+	Object string
 	// Service is the Go name of the service struct i.e. where the methods
 	// are defined. Examples: "GlobalForwardingRules".
-	Service  string
+	Service string
 	// Resource is the plural noun of the resource in the compute API URL (e.g.
 	// "forwardingRules").
 	Resource string
@@ -157,6 +157,19 @@ func (i *ServiceInfo) KeyIsRegional() bool {
 // KeyIsZonal is true if the key is zonal.
 func (i *ServiceInfo) KeyIsZonal() bool {
 	return i.keyType == Zonal
+}
+
+// MakeKey returns the call used to create the appropriate key type.
+func (i *ServiceInfo) MakeKey(name, location string) string {
+	switch i.keyType {
+	case Global:
+		return fmt.Sprintf("GlobalKey(%q)", name)
+	case Regional:
+		return fmt.Sprintf("RegionalKey(%q, %q)", name, location)
+	case Zonal:
+		return fmt.Sprintf("ZonalKey(%q, %q)", name, location)
+	}
+	return "Invalid"
 }
 
 // GenerateGet is true if the method is to be generated.

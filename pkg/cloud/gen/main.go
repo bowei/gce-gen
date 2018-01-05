@@ -71,8 +71,8 @@ func gofmtContent(r io.Reader) string {
 
 // genHeader generate the header for the file.
 func genHeader(wr io.Writer) {
-	fmt.Fprintf(wr, `/*
-Copyright %d The Kubernetes Authors.
+	const text = `/*
+Copyright {{.Year}} The Kubernetes Authors.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -101,10 +101,18 @@ import (
 	"google.golang.org/api/googleapi"
 	"github.com/golang/glog"
 
-	"%v/filter"
-	"%v/meta"
+	"{{.PackageRoot}}/filter"
+	"{{.PackageRoot}}/meta"
 
-`, time.Now().Year(), packageRoot, packageRoot)
+`
+	tmpl := template.Must(template.New("header").Parse(text))
+	values := map[string]string{
+		"Year":        fmt.Sprintf("%v", time.Now().Year()),
+		"PackageRoot": packageRoot,
+	}
+	if err := tmpl.Execute(wr, values); err != nil {
+		panic(err)
+	}
 
 	var hasGA, hasAlpha, hasBeta bool
 	for _, s := range meta.AllServices {
@@ -601,6 +609,11 @@ func (m *{{.MockWrapType}}) AggregatedList(ctx context.Context, fl *filter.F) (m
 }
 {{- end}}
 
+// Obj wraps the object for use in the mock.
+func (m *{{.MockWrapType}}) Obj(o *{{.FQObjectType}}) *Mock{{.Service}}Obj {
+	return &Mock{{.Service}}Obj{o}
+}
+
 {{with .Methods -}}
 {{- range .}}
 // {{.Name}} is a mock for the corresponding method.
@@ -845,8 +858,8 @@ func (g *{{.GCEWrapType}}) {{.FcnArgs}} {
 }
 
 func genUnitTestHeader(wr io.Writer) {
-	fmt.Fprintf(wr, `/*
-Copyright %d The Kubernetes Authors.
+	const text = `/*
+Copyright {{.Year}} The Kubernetes Authors.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -867,25 +880,235 @@ limitations under the License.
 package cloud
 
 import (
+	"context"
+	"reflect"
 	"testing"
 
-	"%v"
-	"%v/filter"
+	alpha "google.golang.org/api/compute/v0.alpha"
+	beta "google.golang.org/api/compute/v0.beta"
+	ga "google.golang.org/api/compute/v1"
+
+	"{{.PackageRoot}}/filter"
+	"{{.PackageRoot}}/meta"
 )
 
-`, time.Now().Year(), packageRoot, packageRoot)
+const location = "location"
+`
+	tmpl := template.Must(template.New("header").Parse(text))
+	values := map[string]string{
+		"Year":        fmt.Sprintf("%v", time.Now().Year()),
+		"PackageRoot": packageRoot,
+	}
+	if err := tmpl.Execute(wr, values); err != nil {
+		panic(err)
+	}
 }
 
 func genUnitTestServices(wr io.Writer) {
 	const text = `
-func Test{{.WrapType}}(t *testing.T) {
+func Test{{.Service}}Group(t *testing.T) {
+	t.Parallel()
+
+	ctx := context.Background()
 	mock := NewMockGCE()
-	svc := mock.{{.WrapType}}()
-	fmt.Println(svc)
+
+	var key *meta.Key
+{{- if .HasAlpha}}
+	keyAlpha := meta.{{.Alpha.MakeKey "key-alpha" "location"}}
+	key = keyAlpha
+{{- end}}
+{{- if .HasBeta}}
+	keyBeta := meta.{{.Beta.MakeKey "key-beta" "location"}}
+	key = keyBeta
+{{- end}}
+{{- if .HasGA}}
+	keyGA := meta.{{.GA.MakeKey "key-ga" "location"}}
+	key = keyGA
+{{- end}}
+	// Ignore unused variables.
+	_, _, _ = ctx, mock, key
+
+	// Get not found.
+{{- if .HasAlpha}}{{- if .Alpha.GenerateGet}}
+	if _, err := mock.Alpha{{.Service}}().Get(ctx, *key); err == nil {
+		t.Errorf("Alpha{{.Service}}().Get(%v, %v) = _, nil; want error", ctx, key)
+	}
+{{- end}}{{- end}}
+{{- if .HasBeta}}{{- if .Beta.GenerateGet}}
+	if _, err := mock.Beta{{.Service}}().Get(ctx, *key); err == nil {
+		t.Errorf("Beta{{.Service}}().Get(%v, %v) = _, nil; want error", ctx, key)
+	}
+{{- end}}{{- end}}
+{{- if .HasGA}}{{- if .GA.GenerateGet}}
+	if _, err := mock.{{.Service}}().Get(ctx, *key); err == nil {
+		t.Errorf("{{.Service}}().Get(%v, %v) = _, nil; want error", ctx, key)
+	}
+{{- end}}{{- end}}
+
+	// Insert.
+{{- if .HasAlpha}}{{- if .Alpha.GenerateInsert}}
+	{
+		obj := &alpha.{{.Alpha.Object}}{}
+		if err := mock.Alpha{{.Service}}().Insert(ctx, *keyAlpha, obj); err != nil {
+			t.Errorf("Alpha{{.Service}}().Insert(%v, %v, %v) = %v; want nil", ctx, key, obj, err)
+		}
+	}
+{{- end}}{{- end}}
+{{- if .HasBeta}}{{- if .Beta.GenerateInsert}}
+	{
+		obj := &beta.{{.Beta.Object}}{}
+		if err := mock.Beta{{.Service}}().Insert(ctx, *keyBeta, obj); err != nil {
+			t.Errorf("Beta{{.Service}}().Insert(%v, %v, %v) = %v; want nil", ctx, key, obj, err)
+		}
+	}
+{{- end}}{{- end}}
+{{- if .HasGA}}{{- if .GA.GenerateInsert}}
+	{
+		obj := &ga.{{.GA.Object}}{}
+		if err := mock.{{.Service}}().Insert(ctx, *keyGA, obj); err != nil {
+			t.Errorf("{{.Service}}().Insert(%v, %v, %v) = %v; want nil", ctx, key, obj, err)
+		}
+	}
+{{- end}}{{- end}}
+
+	// Get across versions.
+{{- if .HasAlpha}}{{- if .Alpha.GenerateInsert}}
+	if obj, err := mock.Alpha{{.Service}}().Get(ctx, *key); err != nil {
+		t.Errorf("Alpha{{.Service}}().Get(%v, %v) = %v, %v; want nil", ctx, key, obj, err)
+	}
+{{- end}}{{- end}}
+{{- if .HasBeta}}{{- if .Beta.GenerateInsert}}
+	if obj, err := mock.Beta{{.Service}}().Get(ctx, *key); err != nil {
+		t.Errorf("Beta{{.Service}}().Get(%v, %v) = %v, %v; want nil", ctx, key, obj, err)
+	}
+{{- end}}{{- end}}
+{{- if .HasGA}}{{- if .GA.GenerateInsert}}
+	if obj, err := mock.{{.Service}}().Get(ctx, *key); err != nil {
+		t.Errorf("{{.Service}}().Get(%v, %v) = %v, %v; want nil", ctx, key, obj, err)
+	}
+{{- end}}{{- end}}
+
+	// List.
+{{- if .HasAlpha}}
+	mock.MockAlpha{{.Service}}.Objects[*keyAlpha] =  mock.MockAlpha{{.Service}}.Obj(&alpha.{{.Alpha.Object}}{Name: keyAlpha.Name})
+{{- end}}
+{{- if .HasBeta}}
+	mock.MockBeta{{.Service}}.Objects[*keyBeta] =  mock.MockBeta{{.Service}}.Obj(&beta.{{.Beta.Object}}{Name: keyBeta.Name})
+{{- end}}
+{{- if .HasGA}}
+	mock.Mock{{.Service}}.Objects[*keyGA] =  mock.Mock{{.Service}}.Obj(&ga.{{.GA.Object}}{Name: keyGA.Name})
+{{- end}}
+	want := map[string]bool{
+{{- if .HasAlpha}}
+		"key-alpha": true,
+{{- end}}
+{{- if .HasBeta}}
+		"key-beta": true,
+{{- end}}
+{{- if .HasGA}}
+		"key-ga": true,
+{{- end}}
+	}
+	_ = want // ignore unused variables.
+
+{{- if .HasAlpha}}{{- if .Alpha.GenerateList}}
+	{
+	{{- if .Alpha.KeyIsGlobal }}
+		objs, err := mock.Alpha{{.Service}}().List(ctx, filter.None)
+	{{- else}}
+		objs, err := mock.Alpha{{.Service}}().List(ctx, location, filter.None)
+	{{- end}}
+		if err != nil {
+			t.Errorf("Alpha{{.Service}}().List(%v, %v, %v) = %v, %v; want _, nil", ctx, location, filter.None, objs, err)
+		} else {
+			got := map[string]bool{}
+			for _, obj := range objs {
+				got[obj.Name] = true
+			}
+			if !reflect.DeepEqual(got, want) {
+				t.Errorf("Alpha{{.Service}}().List(); got %+v, want %+v", got, want)
+			}
+		}
+	}
+{{- end}}{{- end}}
+{{- if .HasBeta}}{{- if .Beta.GenerateList}}
+	{
+	{{- if .Beta.KeyIsGlobal }}
+		objs, err := mock.Beta{{.Service}}().List(ctx, filter.None)
+	{{- else}}
+		objs, err := mock.Beta{{.Service}}().List(ctx, location, filter.None)
+	{{- end}}
+		if err != nil {
+			t.Errorf("Beta{{.Service}}().List(%v, %v, %v) = %v, %v; want _, nil", ctx, location, filter.None, objs, err)
+		} else {
+			got := map[string]bool{}
+			for _, obj := range objs {
+				got[obj.Name] = true
+			}
+			if !reflect.DeepEqual(got, want) {
+				t.Errorf("Alpha{{.Service}}().List(); got %+v, want %+v", got, want)
+			}
+		}
+	}
+{{- end}}{{- end}}
+{{- if .HasGA}}{{- if .GA.GenerateList}}
+	{
+	{{- if .GA.KeyIsGlobal }}
+		objs, err := mock.{{.Service}}().List(ctx, filter.None)
+	{{- else}}
+		objs, err := mock.{{.Service}}().List(ctx, location, filter.None)
+	{{- end}}
+		if err != nil {
+			t.Errorf("{{.Service}}().List(%v, %v, %v) = %v, %v; want _, nil", ctx, location, filter.None, objs, err)
+		} else {
+			got := map[string]bool{}
+			for _, obj := range objs {
+				got[obj.Name] = true
+			}
+			if !reflect.DeepEqual(got, want) {
+				t.Errorf("Alpha{{.Service}}().List(); got %+v, want %+v", got, want)
+			}
+		}
+	}
+{{- end}}{{- end}}
+
+	// Delete across versions.
+{{- if .HasAlpha}}{{- if .Alpha.GenerateDelete}}
+	if err := mock.Alpha{{.Service}}().Delete(ctx, *keyAlpha); err != nil {
+		t.Errorf("Alpha{{.Service}}().Delete(%v, %v) = %v; want nil", ctx, key, err)
+	}
+{{- end}}{{- end}}
+{{- if .HasBeta}}{{- if .Beta.GenerateDelete}}
+	if err := mock.Beta{{.Service}}().Delete(ctx, *keyBeta); err != nil {
+		t.Errorf("Beta{{.Service}}().Delete(%v, %v) = %v; want nil", ctx, key, err)
+	}
+{{- end}}{{- end}}
+{{- if .HasGA}}{{- if .GA.GenerateDelete}}
+	if err := mock.{{.Service}}().Delete(ctx, *keyGA); err != nil {
+		t.Errorf("{{.Service}}().Delete(%v, %v) = %v; want nil", ctx, key, err)
+	}
+{{- end}}{{- end}}
+
+	// Delete not found.
+{{- if .HasAlpha}}{{- if .Alpha.GenerateDelete}}
+	if err := mock.Alpha{{.Service}}().Delete(ctx, *keyAlpha); err == nil {
+		t.Errorf("Alpha{{.Service}}().Delete(%v, %v) = nil; want error", ctx, key)
+	}
+{{- end}}{{- end}}
+{{- if .HasBeta}}{{- if .Beta.GenerateDelete}}
+	if err := mock.Beta{{.Service}}().Delete(ctx, *keyBeta); err == nil {
+		t.Errorf("Beta{{.Service}}().Delete(%v, %v) = nil; want error", ctx, key)
+	}
+{{- end}}{{- end}}
+{{- if .HasGA}}{{- if .GA.GenerateDelete}}
+	if err := mock.{{.Service}}().Delete(ctx, *keyGA); err == nil {
+		t.Errorf("{{.Service}}().Delete(%v, %v) = nil; want error", ctx, key)
+	}
+{{- end}}{{- end}}
 }
 `
-	tmpl := template.Must(template.New("interface").Parse(text))
-	for _, s := range meta.AllServices {
+	tmpl := template.Must(template.New("unittest").Parse(text))
+	for _, s := range meta.AllServicesByGroup {
 		if err := tmpl.Execute(wr, s); err != nil {
 			panic(err)
 		}
